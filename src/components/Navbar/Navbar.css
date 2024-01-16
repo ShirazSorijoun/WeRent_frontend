@@ -1,0 +1,27 @@
+
+.navbar {
+  background-image: url('https://i0.wp.com/judaicandart.co.il/wp-content/uploads/2023/01/שיש-שחור.webp?fit=1900%2C400&ssl=1');
+  margin-top: 0px;
+  margin-bottom: 0px;
+  top: 0px;
+  padding: 10px 0px 10px 0px;
+  z-index: 99;
+  display: none;
+}
+
+.login-btn {
+  background-color: #007bff;
+}
+
+.login-btn:hover {
+  background-color: #0056b3;
+}
+
+.signup-btn {
+  background-color: #dc3545; 
+}
+
+.signup-btn:hover {
+  background-color: #c82333;
+}
+
