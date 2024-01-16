@@ -1,10 +1,17 @@
+import React from 'react';
+import Navbar from './components/Navbar/Navbar';
+import HomePage from './Pages/HomePage/HomePage';
+import Footer from './components/Footer/Footer';
+import './App.css';
 
-
-function App() {
- 
-  return(
-    <h1>Post</h1>
-  )
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <Navbar />
+      <HomePage />
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;
