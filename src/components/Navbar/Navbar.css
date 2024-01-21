@@ -1,4 +1,4 @@
-
+/*
 .navbar {
   background-image: url('https://i0.wp.com/judaicandart.co.il/wp-content/uploads/2023/01/שיש-שחור.webp?fit=1900%2C400&ssl=1');
   margin-top: 0px;
@@ -24,4 +24,71 @@
 .signup-btn:hover {
   background-color: #c82333;
 }
+*/
+
+
+.nav {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08),
+    0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+  display: flex;
+  gap: 20px;
+  padding: 16px 24px;
+  @media (max-width: 991px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Secondary-Main, #f2994a);
+  text-align: center;
+  font: 700 32px/40px Product Sans, sans-serif;
+}
+
+.logo-image {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 28px;
+  max-width: 100%;
+}
+
+.pages {
+  display: flex;
+  gap: 20px;
+}
+
+.page {
+  color: #000;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--Primary-Main, #4c4ddc);
+  padding: 4px;
+  font: 700 16px/150% Product Sans, sans-serif;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-button {
+  color: var(--Neutral-10, #fff);
+  white-space: nowrap;
+  border-radius: 6px;
+  border: 2px solid var(--Primary-Pressed, #21217a);
+  background-color: var(--Primary-Main, #4c4ddc);
+  padding: 6px 16px;
+  font: 400 20px/140% Product Sans, sans-serif;
+  cursor: pointer;
+}
+
 
