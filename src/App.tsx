@@ -1,15 +1,12 @@
 import React from 'react';
-import Navbar from './components/Navbar/Navbar';
-import HomePage from './pages/HomePage/HomePage';
-import Footer from './components/Footer/Footer';
+import AddApartment from './components/AddApartment/addApartment';
+//import Apartment from './components/Apartments/apartments';
 import './App.css';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Navbar />
-      <HomePage />
-      <Footer />
+      <AddApartment />
     </div>
   );
 }

@@ -1,20 +1,18 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 
 type ReviewProps = {
   description: string;
-}
+};
 
-const ReviewForm: React.FC<ReviewProps> = ({
-    description,
-  } : ReviewProps) => {
+const ReviewForm: React.FC<ReviewProps> = ({ description }: ReviewProps) => {
+  const [review, setReview] = React.useState<ReviewProps>({
+    description: description || "",
+  });
 
-    const [review, setReview] = React.useState<ReviewProps>({
-        description: description || '',
-      });
-    
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setReview({
       ...review,
       [e.target.name]: e.target.value,
@@ -25,11 +23,12 @@ const ReviewForm: React.FC<ReviewProps> = ({
     e.preventDefault();
 
     try {
-        //We need to change that it will take after logging in from the local user
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFjMWZmM2YwYTcwZWJkY2IzODViZGEiLCJpYXQiOjE3MDU3NzkxODd9.8iR0W4VORKgO0sWV68Kc-7F07VciSYTlUe2fBQ1r7mI"
+      //We need to change that it will take after logging in from the local user
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFjMWZmM2YwYTcwZWJkY2IzODViZGEiLCJpYXQiOjE3MDU3NzkxODd9.8iR0W4VORKgO0sWV68Kc-7F07VciSYTlUe2fBQ1r7mI";
 
       const response = await axios.post(
-        'http://localhost:3000/userReview/create',
+        "http://localhost:3000/userReview/create",
         { review },
         {
           headers: {
@@ -38,9 +37,9 @@ const ReviewForm: React.FC<ReviewProps> = ({
         }
       );
 
-      console.log('Review submitted successfully:', response.data);
+      console.log("Review submitted successfully:", response.data);
     } catch (error) {
-      console.error('Error submitting review:', error);
+      console.error("Error submitting review:", error);
     }
   };
 
@@ -69,7 +68,4 @@ const ReviewForm: React.FC<ReviewProps> = ({
   );
 };
 
-
 export default ReviewForm;
-
-
