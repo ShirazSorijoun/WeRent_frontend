@@ -2,58 +2,67 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import z from "zod";
 import "./addApartment.css";
-import { ApartmentProps } from "../../types/types"
+import { ApartmentProps } from "../../types/types";
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
   | ChangeEvent<HTMLTextAreaElement>;
 
-
 const schema = z.object({
   city: z.string().min(1, { message: "City is required" }),
   address: z.string().min(1, { message: "Address is required" }),
   floor: z.number().min(0),
-  sizeInSqMeters: z.number().min(10, { message: "Size should be greater than or equal to 10" }),
+  sizeInSqMeters: z
+    .number()
+    .min(10, { message: "Size should be greater than or equal to 10" }),
   rooms: z.number().min(1),
   furniture: z.enum(["full", "partial", "none"]),
-  price: z.number().min(0, { message: "Price should be greater than or equal to 0" }),
-  description: z.string().max(800, {message: "Description should be less than or equal to 800 characters",}),
+  price: z
+    .number()
+    .min(0, { message: "Price should be greater than or equal to 0" }),
+  description: z.string().max(800, {
+    message: "Description should be less than or equal to 800 characters",
+  }),
 });
 
-const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
-  const [apartmentData, setApartmentData] = useState({
-    city: initialApartment?.city || "",
-    address: initialApartment?.address || "",
-    type: initialApartment?.type || "Apartment",
-    floor: initialApartment?.floor || 0,
-    rooms: initialApartment?.rooms || 1,
-    sizeInSqMeters: initialApartment?.sizeInSqMeters || 1,
-    price: initialApartment?.price || 0,
-    entryDate: initialApartment?.entryDate ? new Date(initialApartment.entryDate): new Date(),
-    apartmentImage: initialApartment?.apartmentImage || "",
-    furniture: initialApartment?.furniture || "none",
-    features: initialApartment?.features || {
+const AddApartment: React.FC = () => {
+  const [apartmentData, setApartmentData] = useState<ApartmentProps>({
+    city: "",
+    address: "",
+    type: "Apartment",
+    floor: 0,
+    rooms: 1,
+    sizeInSqMeters: 1,
+    price: 0,
+    entryDate: new Date(),
+    apartment_image: "",
+    furniture: "none",
+    features: {
       parking: false,
       accessForDisabled: false,
-      storage: false,
+      storageRoom: false,
       dimension: false,
       terrace: false,
       garden: false,
       elevators: false,
       airConditioning: false,
     },
-    description: initialApartment?.description || "",
+    description: "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [imgSrc, setImgSrc] = useState<File>();
 
   const handleChange = (e: ChangeEventTypes) => {
     let newValue;
 
-    if (["floor", "rooms","price", "sizeInSqMeters"].includes(e.target.name)) {
+    if (["floor", "rooms", "price", "sizeInSqMeters"].includes(e.target.name)) {
       if (e.target.name === "floor" || e.target.name === "price") {
         newValue = Math.max(+e.target.value, 0);
-      } else if ( e.target.name === "rooms" || e.target.name === "sizeInSqMeters") {
+      } else if (
+        e.target.name === "rooms" ||
+        e.target.name === "sizeInSqMeters"
+      ) {
         newValue = Math.max(+e.target.value, 1);
       }
     } else {
@@ -92,6 +101,12 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
     });
   };
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImgSrc(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -99,7 +114,26 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
       schema.parse(apartmentData);
 
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIxM2UwZmU4ODVlY2YwNjU4MmY4M2IiLCJpYXQiOjE3MDYxMTQ1NzZ9.At0B9MG6wlDcl7G24bIiPY3a3A6Fl2wh5_LUF1b-RI4";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIzOWE1ZDIzYjZiZjg0MjAwYjZjMmEiLCJpYXQiOjE3MDYyNjkyNzd9.7kygS0dxbYZP9aNVYMCXJjKhSPfeSIHRRl1MWzDwt8Q";
+
+      const formData = new FormData();
+      formData.append("file", imgSrc as File);
+
+      const imageResponse = await axios.post(
+        "http://localhost:3000/file",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setApartmentData((prevApartmentData) => ({
+        ...prevApartmentData,
+        apartment_image: imageResponse.data.url.replace(/\\/g, "/"),
+      }));
 
       const response = await axios.post(
         "http://localhost:3000/apartment/create",
@@ -128,6 +162,9 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
   return (
     <div className="container mt-5">
       <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <input type="file" onChange={handleFileChange} />
+        </div>
         <div className="mb-3">
           <label htmlFor="city" className="form-label">
             City:
@@ -285,24 +322,6 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
           />
           {errors["entryDate"] && (
             <p className="text-danger">{errors["entryDate"]}</p>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="apartmentImage" className="form-label">
-            Apartment Image URL:
-          </label>
-          <input
-            type="text"
-            className={`form-control ${
-              errors["apartmentImage"] ? "is-invalid" : ""
-            }`}
-            id="apartmentImage"
-            name="apartmentImage"
-            value={apartmentData.apartmentImage}
-            onChange={handleChange}
-          />
-          {errors["apartmentImage"] && (
-            <p className="text-danger">{errors["apartmentImage"]}</p>
           )}
         </div>
         <div className="mb-3">

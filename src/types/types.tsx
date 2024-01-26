@@ -10,7 +10,6 @@ export type ApartmentType =
   | "Other";
 
 export type ApartmentProps = {
-    initialApartment?: {
       city: string;
       address: string;
       type: ApartmentType;
@@ -19,9 +18,9 @@ export type ApartmentProps = {
       sizeInSqMeters: number;
       price: number;
       entryDate: Date;
-      apartmentImage?: string;
+      apartment_image?: string;
       furniture?: string;
-      features?: {
+      features: {
         parking: boolean;
         accessForDisabled: boolean;
         storageRoom: boolean;
@@ -33,4 +32,3 @@ export type ApartmentProps = {
       };
       description?: string;
     };
-  };
