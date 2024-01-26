@@ -13,17 +13,11 @@ const schema = z.object({
   city: z.string().min(1, { message: "City is required" }),
   address: z.string().min(1, { message: "Address is required" }),
   floor: z.number().min(0),
-  sizeInSqMeters: z
-    .number()
-    .min(10, { message: "Size should be greater than or equal to 10" }),
+  sizeInSqMeters: z.number().min(10, { message: "Size should be greater than 10" }),
   rooms: z.number().min(1),
   furniture: z.enum(["full", "partial", "none"]),
-  price: z
-    .number()
-    .min(0, { message: "Price should be greater than or equal to 0" }),
-  description: z.string().max(800, {
-    message: "Description should be less than or equal to 800 characters",
-  }),
+  price: z.number().min(0, { message: "Price should be greater than 0" }),
+  description: z.string().max(800, {message: "Description should be less than 800 characters",}),
 });
 
 const AddApartment: React.FC = () => {
@@ -83,9 +77,7 @@ const AddApartment: React.FC = () => {
     });
   };
 
-  const handleFeatureChange = (
-    feature: keyof typeof apartmentData.features
-  ) => {
+  const handleFeatureChange = (feature: keyof typeof apartmentData.features) => {
     setApartmentData({
       ...apartmentData,
       features: {
@@ -131,15 +123,16 @@ const AddApartment: React.FC = () => {
         }
       );
 
-      setApartmentData((prevApartmentData) => ({
-        ...prevApartmentData,
-        apartment_image: imageResponse.data.url.replace(/\\/g, "/"),
-      }));
+      const imageUrl = imageResponse.data.url.replace(/\\/g, "/");
 
-      const { req } = apartmentService.postApartment(apartmentData, token);
+      const apartmentDataWithImage = {
+        ...apartmentData,
+        apartment_image: imageUrl,
+      };
 
-      req
-        .then((response) => {
+      const { req } = apartmentService.postApartment(apartmentDataWithImage, token);
+
+      req.then((response) => {
           console.log("Apartment added successfully", response.data);
         })
         .catch((error) => {
@@ -190,9 +183,7 @@ const AddApartment: React.FC = () => {
             value={apartmentData.address}
             onChange={handleChange}
           />
-          {errors["address"] && (
-            <p className="text-danger">{errors["address"]}</p>
-          )}
+          {errors["address"] && (<p className="text-danger">{errors["address"]}</p>)}
         </div>
         <div className="mb-3">
           <label htmlFor="apartmentType" className="form-label">
@@ -226,11 +217,7 @@ const AddApartment: React.FC = () => {
                   type="checkbox"
                   id={feature}
                   checked={value}
-                  onChange={() =>
-                    handleFeatureChange(
-                      feature as keyof typeof apartmentData.features
-                    )
-                  }
+                  onChange={() =>handleFeatureChange(feature as keyof typeof apartmentData.features)}
                 />
                 <label className="form-check-label" htmlFor={feature}>
                   {feature}
@@ -281,9 +268,7 @@ const AddApartment: React.FC = () => {
             value={apartmentData.sizeInSqMeters}
             onChange={handleChange}
           />
-          {errors["sizeInSqMeters"] && (
-            <p className="text-danger">{errors["sizeInSqMeters"]}</p>
-          )}
+          {errors["sizeInSqMeters"] && (<p className="text-danger">{errors["sizeInSqMeters"]}</p>)}
         </div>
         <div className="mb-3">
           <label htmlFor="furniture" className="form-label">
@@ -312,16 +297,10 @@ const AddApartment: React.FC = () => {
             }`}
             id="entryDate"
             name="entryDate"
-            value={
-              apartmentData.entryDate
-                ? apartmentData.entryDate.toISOString().split("T")[0]
-                : ""
-            }
+            value={apartmentData.entryDate ? apartmentData.entryDate.toISOString().split("T")[0]: ""}
             onChange={handleDateChange}
           />
-          {errors["entryDate"] && (
-            <p className="text-danger">{errors["entryDate"]}</p>
-          )}
+          {errors["entryDate"] && (<p className="text-danger">{errors["entryDate"]}</p>)}
         </div>
         <div className="mb-3">
           <label htmlFor="price" className="form-label">
@@ -353,13 +332,9 @@ const AddApartment: React.FC = () => {
               style={{ resize: "none", width: "100%" }}
             ></textarea>
           </div>
-          {errors["description"] && (
-            <p className="text-danger">{errors["description"]}</p>
-          )}
+          {errors["description"] && (<p className="text-danger">{errors["description"]}</p>)}
           <div className="assistive-text">
-            {apartmentData.description
-              ? `${apartmentData.description.length}/800`
-              : "0/800"}
+            {apartmentData.description ? `${apartmentData.description.length}/800` : "0/800"}
           </div>
         </div>
         <button type="submit" className="btn btn-primary">
