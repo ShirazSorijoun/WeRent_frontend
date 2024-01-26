@@ -3,6 +3,7 @@ import axios from "axios";
 import z from "zod";
 import "./addApartment.css";
 import { ApartmentProps } from "../../types/types";
+import apartmentService from "../../services/apartments-service";
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -135,17 +136,15 @@ const AddApartment: React.FC = () => {
         apartment_image: imageResponse.data.url.replace(/\\/g, "/"),
       }));
 
-      const response = await axios.post(
-        "http://localhost:3000/apartment/create",
-        { apartment: apartmentData },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { req } = apartmentService.postApartment(apartmentData, token);
 
-      console.log("Apartment added successfully", response.data);
+      req
+        .then((response) => {
+          console.log("Apartment added successfully", response.data);
+        })
+        .catch((error) => {
+          console.error("Error adding apartment", error);
+        });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const validationErrors: { [key: string]: string } = {};
