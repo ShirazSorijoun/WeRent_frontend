@@ -21,5 +21,14 @@ const postApartment = (apartmentData: ApartmentProps, token: string) => {
   });
   return { req, abort: () => abortController.abort() };
 };
+
+
+const getApartmentById = (id: string) => {
+  const abortController = new AbortController();
+  const req = apiClient.get<ApartmentProps>(`apartment/${id}`, {
+    signal: abortController.signal,
+  });
+  return { req, abort: () => abortController.abort() };
+};
   
-export default { getAllApartments, postApartment };
+export default { getAllApartments, postApartment ,getApartmentById};
