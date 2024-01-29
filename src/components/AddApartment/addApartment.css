@@ -1,1 +1,14 @@
+.form-label {
+    padding-top: calc(0.3125rem + var(--falcon-border-width));
+    padding-bottom: calc(0.3125rem + var(--falcon-border-width));
+    margin-bottom: 0;
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #5E6E82;
+    padding: 6px 0px;
+}
+
+
+
 

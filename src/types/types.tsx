@@ -1,19 +1,9 @@
-export type ApartmentType =
-  | "Apartment"
-  | "Garden apartment"
-  | "Private cottage"
-  | "Townhouse"
-  | "Duplex"
-  | "Penthouse"
-  | "Unit"
-  | "Vacation apartment"
-  | "Other";
-
 export type ApartmentProps = {
       city: string;
       address: string;
-      type: ApartmentType;
+      type: string;
       floor: number;
+      numberOfFloors: number;
       rooms: number;
       sizeInSqMeters: number;
       price: number;
