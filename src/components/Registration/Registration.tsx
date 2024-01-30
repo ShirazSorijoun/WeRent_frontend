@@ -4,11 +4,13 @@ import userVector from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import {uploadImg} from '../../services/file-service'
+import {registerUser, IUser} from '../../services/user-service'
 
 function Registration() {
     const [imgSrc, setImgSrc] = useState<File>();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
 
@@ -28,13 +30,25 @@ function Registration() {
         fileInputRef.current?.click()
     }
 
-
     const onRegister = async () => {
         console.log('Registering...')
+        console.log(nameInputRef.current?.value)
         console.log(emailInputRef.current?.value)
         console.log(passwordInputRef.current?.value)
         const url = await uploadImg(imgSrc!)
         console.log("upload returend:" + url)
+
+        if (nameInputRef.current?.value && emailInputRef.current?.value && passwordInputRef.current?.value) {
+            const user: IUser = {
+                name: nameInputRef.current?.value,
+                email: emailInputRef.current?.value,
+                password: passwordInputRef.current?.value,
+                roles: "admin",
+                profile_image: url
+            }
+            const res = await registerUser(user)
+            console.log(res)
+        }
     }
 
 
@@ -59,6 +73,7 @@ function Registration() {
 
             <input style={{display: "none"}} ref={fileInputRef} type="file" className="form-control" placeholder="Profile Picture" onChange={onImgSelected} />
             
+            <input ref={nameInputRef} type="text" className="form-control" placeholder="Name"/>
             <input ref={emailInputRef} type="text" className="form-control" placeholder="Email"/>
             <input ref={passwordInputRef} type="password" className="form-control" placeholder="Password"/>
             <button type="button" className="btn btn-primary" onClick={onRegister}>Register</button>
@@ -67,6 +82,5 @@ function Registration() {
         </div>
     );
 }
-
 
 export default Registration;
