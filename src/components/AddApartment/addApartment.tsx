@@ -6,9 +6,21 @@ import { ApartmentProps } from "../../types/types";
 import apartmentService from "../../services/apartments-service";
 import Uploader from "../Uploader/uploader";
 
+
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
   | ChangeEvent<HTMLTextAreaElement>;
+
+const featureConfig = [
+  { id: "parking", name: "Parking" },
+  { id: "accessForDisabled", name: "Access for Disabled" },
+  { id: "storage", name: "Storage Room" },
+  { id: "dimension", name: "Dimension" },
+  { id: "terrace", name: "Terrace" },
+  { id: "garden", name: "Garden" },
+  { id: "elevators", name: "Elevator" },
+  { id: "airConditioning", name: "Air conditioning" },
+];
 
 const schema = z.object({
   city: z.string().min(1, { message: "City is required" }),
@@ -45,7 +57,7 @@ const AddApartment: React.FC = () => {
     features: {
       parking: false,
       accessForDisabled: false,
-      storageRoom: false,
+      storage: false,
       dimension: false,
       terrace: false,
       garden: false,
@@ -187,6 +199,7 @@ const AddApartment: React.FC = () => {
     <div className="container mt-5">
       <div className="col-sm-11 col-lg-11 col-xxl-11">
         <div className="card theme-wizard mb-5">
+
           <div className="card-header bg-light pt-3 pb-2">
             <ul className="nav justify-content-between">
               <a className="nav-link fw-semi-bold">
@@ -201,6 +214,7 @@ const AddApartment: React.FC = () => {
               </a>
             </ul>
           </div>
+
           <div className="card-body py-3">
             <div className="row">
               <div className="col-md-6">
@@ -216,19 +230,17 @@ const AddApartment: React.FC = () => {
                     </div>
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="button-71"
                       onClick={handleNextStep}
                     >
                       Continue to fill in details
                     </button>
                   </div>
-                  
                 )}
-                
               </div>
-              
+
               <div className="card-body py-3">
-              {currentStep === 2 && (
+                {currentStep === 2 && (
                   <div>
                     <form onSubmit={handleSubmit}>
                       <div className="row">
@@ -451,32 +463,27 @@ const AddApartment: React.FC = () => {
                               What is in the apartment?
                             </label>
                             <div className="form-check mb-3">
-                              {Object.entries(apartmentData.features).map(
-                                ([feature, value]) => (
-                                  <div
-                                    key={feature}
-                                    className="form-check form-check-inline"
+                              {featureConfig.map((feature) => (
+                                <div key={feature.id} className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={feature.id}
+                                    checked={apartmentData.features[feature.id]}
+                                    onChange={() =>
+                                      handleFeatureChange(
+                                        feature.id as keyof typeof apartmentData.features
+                                      )
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={feature.id}
                                   >
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      id={feature}
-                                      checked={value}
-                                      onChange={() =>
-                                        handleFeatureChange(
-                                          feature as keyof typeof apartmentData.features
-                                        )
-                                      }
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor={feature}
-                                    >
-                                      {feature}
-                                    </label>
-                                  </div>
-                                )
-                              )}
+                                    {feature.name}
+                                  </label>
+                                </div>
+                              ))}
                             </div>
                           </div>
 
@@ -511,7 +518,7 @@ const AddApartment: React.FC = () => {
                       </div>
 
                       <div className="mb-3 d-flex justify-content-between">
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="button-71">
                           Submit
                         </button>
                         <button
@@ -519,7 +526,7 @@ const AddApartment: React.FC = () => {
                           className="btn btn-secondary ms-auto"
                           onClick={handlePrevStep}
                         >
-                          Previous
+                          Back
                         </button>
                       </div>
                     </form>
