@@ -1,16 +1,16 @@
 import React from 'react';
-import Navbar from './components/Navbar/Navbar';
-//import HomePage from './pages/HomePage/HomePage';
-import Footer from './components/Footer/Footer';
+import AddApartment from './components/AddApartment/addApartment';
+//import Apartment from './components/Apartments/apartments';
 import './App.css';
 import Registration from './components/Registration/Registration';
 
 const App: React.FC = () => {
+
+  //const apartmentId = '65b8c6fd1f15e9e5872ac051';
+
   return (
     <div className="App">
-      <Navbar />
-      <Registration />
-      <Footer />
+      <AddApartment />
     </div>
   );
 }
