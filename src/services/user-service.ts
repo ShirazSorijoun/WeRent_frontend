@@ -1,11 +1,18 @@
 import apiClient from "./api-client"
 
+
+export enum UserRole {
+    Admin = 'admin',
+    Owner = 'owner',
+    Tenant = 'tenant',
+}
+
 export interface IUser {
     name: string,
     email: string,
     password: string,
-    roles: "admin",
-    profile_image: string
+    roles: UserRole,
+    profile_image?: string
     _id?: string
 }
 

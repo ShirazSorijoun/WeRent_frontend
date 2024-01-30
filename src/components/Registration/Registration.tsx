@@ -1,18 +1,28 @@
 //import "./Registration.css";
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState} from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
 import userVector from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import {uploadImg} from '../../services/file-service'
-import {registerUser, IUser} from '../../services/user-service'
+import {registerUser, IUser, UserRole} from '../../services/user-service'
 
 function Registration() {
     const [imgSrc, setImgSrc] = useState<File>();
 
+    const [selectedItem, setSelectedItem] = useState<string>("User type");
+
+    const handleItemClick = (item: string) => {
+        setSelectedItem(item);
+        console.log(item)
+    };
+
+    let newSelectedItem: UserRole
     const fileInputRef = useRef<HTMLInputElement>(null);
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
+
 
 
     const onImgSelected = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,15 +45,24 @@ function Registration() {
         console.log(nameInputRef.current?.value)
         console.log(emailInputRef.current?.value)
         console.log(passwordInputRef.current?.value)
+        console.log(selectedItem)
         const url = await uploadImg(imgSrc!)
         console.log("upload returend:" + url)
 
         if (nameInputRef.current?.value && emailInputRef.current?.value && passwordInputRef.current?.value) {
+            if (selectedItem === "Admin")
+                newSelectedItem = UserRole.Admin
+            if (selectedItem === "Owner")
+                newSelectedItem = UserRole.Owner
+            if (selectedItem === "Tenant")
+                newSelectedItem = UserRole.Tenant
+
+
             const user: IUser = {
                 name: nameInputRef.current?.value,
                 email: emailInputRef.current?.value,
                 password: passwordInputRef.current?.value,
-                roles: "admin",
+                roles: newSelectedItem,
                 profile_image: url
             }
             const res = await registerUser(user)
@@ -70,14 +89,27 @@ function Registration() {
                 </div>
             </div>
 
-
+            
             <input style={{display: "none"}} ref={fileInputRef} type="file" className="form-control" placeholder="Profile Picture" onChange={onImgSelected} />
+            
+
+            <Dropdown>
+                <Dropdown.Toggle variant="danger" id="dropdown-basic">
+                    {selectedItem}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => handleItemClick("Admin")} href="#">Admin</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleItemClick("Owner")} href="#">Owner</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleItemClick("Tenant")} href="#">Tenant</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+
             
             <input ref={nameInputRef} type="text" className="form-control" placeholder="Name"/>
             <input ref={emailInputRef} type="text" className="form-control" placeholder="Email"/>
             <input ref={passwordInputRef} type="password" className="form-control" placeholder="Password"/>
             <button type="button" className="btn btn-primary" onClick={onRegister}>Register</button>
-
 
         </div>
     );
