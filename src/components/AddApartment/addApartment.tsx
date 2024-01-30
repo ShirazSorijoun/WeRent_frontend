@@ -2,37 +2,59 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import z from "zod";
 import "./addApartment.css";
-import { ApartmentProps } from "../../types/types"
+import { ApartmentProps } from "../../types/types";
+import apartmentService from "../../services/apartments-service";
+import Uploader from "../Uploader/uploader";
+
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
   | ChangeEvent<HTMLTextAreaElement>;
 
+const featureConfig = [
+  { id: "parking", name: "Parking" },
+  { id: "accessForDisabled", name: "Access for Disabled" },
+  { id: "storage", name: "Storage Room" },
+  { id: "dimension", name: "Dimension" },
+  { id: "terrace", name: "Terrace" },
+  { id: "garden", name: "Garden" },
+  { id: "elevators", name: "Elevator" },
+  { id: "airConditioning", name: "Air conditioning" },
+];
 
 const schema = z.object({
   city: z.string().min(1, { message: "City is required" }),
   address: z.string().min(1, { message: "Address is required" }),
+  type: z.string().refine((value) => value !== "Select the property type", {
+    message: "Property type is a required field",
+  }),
   floor: z.number().min(0),
-  sizeInSqMeters: z.number().min(10, { message: "Size should be greater than or equal to 10" }),
+  numberOfFloors: z.number().min(0),
+  sizeInSqMeters: z
+    .number()
+    .min(10, { message: "Size should be greater than 10" }),
   rooms: z.number().min(1),
   furniture: z.enum(["full", "partial", "none"]),
-  price: z.number().min(0, { message: "Price should be greater than or equal to 0" }),
-  description: z.string().max(800, {message: "Description should be less than or equal to 800 characters",}),
+  price: z.number().min(0, { message: "Price should be greater than 0" }),
+  description: z
+    .string()
+    .max(800, { message: "Description should be less than 800 characters" }),
 });
 
-const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
-  const [apartmentData, setApartmentData] = useState({
-    city: initialApartment?.city || "",
-    address: initialApartment?.address || "",
-    type: initialApartment?.type || "Apartment",
-    floor: initialApartment?.floor || 0,
-    rooms: initialApartment?.rooms || 1,
-    sizeInSqMeters: initialApartment?.sizeInSqMeters || 1,
-    price: initialApartment?.price || 0,
-    entryDate: initialApartment?.entryDate ? new Date(initialApartment.entryDate): new Date(),
-    apartmentImage: initialApartment?.apartmentImage || "",
-    furniture: initialApartment?.furniture || "none",
-    features: initialApartment?.features || {
+const AddApartment: React.FC = () => {
+  const [apartmentData, setApartmentData] = useState<ApartmentProps>({
+    city: "",
+    address: "",
+    type: "Select the property type",
+    floor: 0,
+    numberOfFloors: 0,
+    rooms: 1,
+    sizeInSqMeters: 1,
+    price: 0,
+    entryDate: new Date(),
+    apartment_image: "",
+    furniture: "none",
+    features: {
       parking: false,
       accessForDisabled: false,
       storage: false,
@@ -42,18 +64,39 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
       elevators: false,
       airConditioning: false,
     },
-    description: initialApartment?.description || "",
+    description: "",
   });
 
+  const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+  const handleNextStep = () => {
+    setCurrentStep((prevStep) => prevStep + 1);
+  };
+
+  const handlePrevStep = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
+  };
 
   const handleChange = (e: ChangeEventTypes) => {
     let newValue;
 
-    if (["floor", "rooms","price", "sizeInSqMeters"].includes(e.target.name)) {
-      if (e.target.name === "floor" || e.target.name === "price") {
+    if (
+      ["floor", "numberOfFloors", "rooms", "price", "sizeInSqMeters"].includes(
+        e.target.name
+      )
+    ) {
+      if (
+        e.target.name === "numberOfFloors" ||
+        e.target.name === "floor" ||
+        e.target.name === "price"
+      ) {
         newValue = Math.max(+e.target.value, 0);
-      } else if ( e.target.name === "rooms" || e.target.name === "sizeInSqMeters") {
+      } else if (
+        e.target.name === "rooms" ||
+        e.target.name === "sizeInSqMeters"
+      ) {
         newValue = Math.max(+e.target.value, 1);
       }
     } else {
@@ -92,6 +135,11 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
     });
   };
 
+  const handleFileChange = (file: File) => {
+    setUploadedFile(file);
+    // Perform any additional file-related handling if needed
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -99,19 +147,41 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
       schema.parse(apartmentData);
 
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIxM2UwZmU4ODVlY2YwNjU4MmY4M2IiLCJpYXQiOjE3MDYxMTQ1NzZ9.At0B9MG6wlDcl7G24bIiPY3a3A6Fl2wh5_LUF1b-RI4";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI3YjhiZGI4MTI2OWMyZmYzYmIxMjciLCJpYXQiOjE3MDY1MzkxOTd9.rOU7u1G9nn9G-NCr-r9Oc-bqFjJ185ZGrVCRlb8H2K8";
 
-      const response = await axios.post(
-        "http://localhost:3000/apartment/create",
-        { apartment: apartmentData },
+      const formData = new FormData();
+      formData.append("file", uploadedFile as File);
+
+      const imageResponse = await axios.post(
+        "http://localhost:3000/file",
+        formData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      console.log("Apartment added successfully", response.data);
+      const imageUrl = imageResponse.data.url.replace(/\\/g, "/");
+
+      const apartmentDataWithImage = {
+        ...apartmentData,
+        apartment_image: imageUrl,
+      };
+
+      const { req } = apartmentService.postApartment(
+        apartmentDataWithImage,
+        token
+      );
+
+      req
+        .then((response) => {
+          console.log("Apartment added successfully", response.data);
+        })
+        .catch((error) => {
+          console.error("Error adding apartment", error);
+        });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const validationErrors: { [key: string]: string } = {};
@@ -127,227 +197,346 @@ const AddApartment: React.FC<ApartmentProps> = ({ initialApartment }) => {
 
   return (
     <div className="container mt-5">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="city" className="form-label">
-            City:
-          </label>
-          <input
-            type="text"
-            className={`form-control ${errors["city"] ? "is-invalid" : ""}`}
-            id="city"
-            name="city"
-            value={apartmentData.city}
-            onChange={handleChange}
-          />
-          {errors["city"] && <p className="text-danger">{errors["city"]}</p>}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="address" className="form-label">
-            Address:
-          </label>
-          <input
-            type="text"
-            className={`form-control ${errors["address"] ? "is-invalid" : ""}`}
-            id="address"
-            name="address"
-            value={apartmentData.address}
-            onChange={handleChange}
-          />
-          {errors["address"] && (
-            <p className="text-danger">{errors["address"]}</p>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="apartmentType" className="form-label">
-            Apartment Type:
-          </label>
-          <select
-            className="form-select"
-            id="apartmentType"
-            name="type"
-            value={apartmentData.type}
-            onChange={handleChange}
-          >
-            <option value="Apartment">Apartment</option>
-            <option value="Garden apartment">Garden apartment</option>
-            <option value="Private cottage">Private cottage</option>
-            <option value="Townhouse">Townhouse</option>
-            <option value="Duplex">Duplex</option>
-            <option value="Penthouse">Penthouse</option>
-            <option value="Unit">Unit</option>
-            <option value="Vacation apartment">Vacation apartment</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div className="mb-3">
-          <label className="form-label">What is in the apartment?</label>
-          <div className="form-check">
-            {Object.entries(apartmentData.features).map(([feature, value]) => (
-              <div key={feature} className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id={feature}
-                  checked={value}
-                  onChange={() =>
-                    handleFeatureChange(
-                      feature as keyof typeof apartmentData.features
-                    )
-                  }
-                />
-                <label className="form-check-label" htmlFor={feature}>
-                  {feature}
-                </label>
+      <div className="col-sm-11 col-lg-11 col-xxl-11">
+        <div className="card theme-wizard mb-5">
+
+          <div className="card-header bg-light pt-3 pb-2">
+            <ul className="nav justify-content-between">
+              <a className="nav-link fw-semi-bold">
+                {currentStep === 1 && (
+                  <span className="d-none d-md-block mt-1 fs--1">Photos</span>
+                )}
+                {currentStep === 2 && (
+                  <span className="d-none d-md-block mt-1 fs--1">
+                    Apartment details
+                  </span>
+                )}
+              </a>
+            </ul>
+          </div>
+
+          <div className="card-body py-3">
+            <div className="row">
+              <div className="col-md-6">
+                {currentStep === 1 && (
+                  <div className="px-sm-3 px-md-5">
+                    <h2 className="mb-2">Select a picture</h2>
+                    <p>
+                      The process of adding the image is the most important part
+                      of creating the details of the apartment
+                    </p>
+                    <div className="mb-3">
+                      <Uploader onFileChange={handleFileChange} />
+                    </div>
+                    <button
+                      type="button"
+                      className="button-71"
+                      onClick={handleNextStep}
+                    >
+                      Continue to fill in details
+                    </button>
+                  </div>
+                )}
               </div>
-            ))}
+
+              <div className="card-body py-3">
+                {currentStep === 2 && (
+                  <div>
+                    <form onSubmit={handleSubmit}>
+                      <div className="row">
+                        {/* (Left Side) */}
+                        <div className="col-md-6">
+                          <div className="mb-3">
+                            <label className="form-label">
+                              Apartment Type:
+                            </label>
+                            <select
+                              className="form-select"
+                              id="apartmentType"
+                              name="type"
+                              value={apartmentData.type}
+                              onChange={handleChange}
+                            >
+                              <option value="">Select the property type</option>
+                              <option>Apartment</option>
+                              <option>Garden apartment</option>
+                              <option>Private/Cottage</option>
+                              <option>Townhouse</option>
+                              <option>Duplex</option>
+                              <option>Roof/Penthouse</option>
+                              <option>Unit</option>
+                              <option>Vacation apartment</option>
+                              <option>Other</option>
+                            </select>
+                            {errors["type"] && (
+                              <p className="text-danger">{errors["type"]}</p>
+                            )}
+                          </div>
+                          <div className="mb-3">
+                            <label htmlFor="city" className="form-label">
+                              City:
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control ${
+                                errors["city"] ? "is-invalid" : ""
+                              }`}
+                              id="city"
+                              name="city"
+                              placeholder="Type a city or town name"
+                              value={apartmentData.city}
+                              onChange={handleChange}
+                            />
+                            {errors["city"] && (
+                              <p className="text-danger">{errors["city"]}</p>
+                            )}
+                          </div>
+                          <div className="mb-3">
+                            <label htmlFor="address" className="form-label">
+                              Address:
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control ${
+                                errors["address"] ? "is-invalid" : ""
+                              }`}
+                              id="address"
+                              name="address"
+                              placeholder="Type a street name"
+                              value={apartmentData.address}
+                              onChange={handleChange}
+                            />
+                            {errors["address"] && (
+                              <p className="text-danger">{errors["address"]}</p>
+                            )}
+                          </div>
+                          <div className="mb-3 row">
+                            <div className="col">
+                              <label htmlFor="floor" className="form-label">
+                                Floor:
+                              </label>
+                              <input
+                                type="number"
+                                className={`form-control ${
+                                  errors["floor"] ? "is-invalid" : ""
+                                }`}
+                                id="floor"
+                                name="floor"
+                                value={apartmentData.floor}
+                                onChange={handleChange}
+                              />
+                              {errors["floor"] && (
+                                <p className="text-danger">{errors["floor"]}</p>
+                              )}
+                            </div>
+
+                            <div className="col">
+                              <label
+                                htmlFor="numberOfFloors"
+                                className="form-label"
+                              >
+                                From a floor:
+                              </label>
+                              <input
+                                type="number"
+                                className={`form-control ${
+                                  errors["numberOfFloors"] ? "is-invalid" : ""
+                                }`}
+                                id="numberOfFloors"
+                                name="numberOfFloors"
+                                value={apartmentData.numberOfFloors}
+                                onChange={handleChange}
+                              />
+                              {errors["numberOfFloors"] && (
+                                <p className="text-danger">
+                                  {errors["numberOfFloors"]}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="mb-3">
+                            <label htmlFor="rooms" className="form-label">
+                              Number of rooms:
+                            </label>
+                            <input
+                              type="number"
+                              className={`form-control ${
+                                errors["rooms"] ? "is-invalid" : ""
+                              }`}
+                              id="rooms"
+                              name="rooms"
+                              value={apartmentData.rooms}
+                              onChange={handleChange}
+                            />
+                            {errors["rooms"] && (
+                              <p className="text-danger">{errors["rooms"]}</p>
+                            )}
+                          </div>
+                          <div className="mb-3">
+                            <label
+                              htmlFor="sizeInSqMeters"
+                              className="form-label"
+                            >
+                              The size of the apartment:
+                            </label>
+                            <input
+                              type="number"
+                              className={`form-control ${
+                                errors["sizeInSqMeters"] ? "is-invalid" : ""
+                              }`}
+                              id="sizeInSqMeters"
+                              name="sizeInSqMeters"
+                              value={apartmentData.sizeInSqMeters}
+                              onChange={handleChange}
+                            />
+                            {errors["sizeInSqMeters"] && (
+                              <p className="text-danger">
+                                {errors["sizeInSqMeters"]}
+                              </p>
+                            )}
+                          </div>
+                          <div className="mb-3">
+                            <label htmlFor="furniture" className="form-label">
+                              Furniture:
+                            </label>
+                            <select
+                              className="form-select"
+                              id="furniture"
+                              name="furniture"
+                              value={apartmentData.furniture}
+                              onChange={handleChange}
+                            >
+                              <option value="full">Full</option>
+                              <option value="partial">Partial</option>
+                              <option value="none">None</option>
+                            </select>
+                          </div>
+                          <div className="mb-3">
+                            <label htmlFor="entryDate" className="form-label">
+                              Entry Date:
+                            </label>
+                            <input
+                              type="date"
+                              className={`form-control ${
+                                errors["entryDate"] ? "is-invalid" : ""
+                              }`}
+                              id="entryDate"
+                              name="entryDate"
+                              value={
+                                apartmentData.entryDate
+                                  ? apartmentData.entryDate
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
+                              onChange={handleDateChange}
+                            />
+                            {errors["entryDate"] && (
+                              <p className="text-danger">
+                                {errors["entryDate"]}
+                              </p>
+                            )}
+                          </div>
+                          <div className="mb-3">
+                            <label htmlFor="price" className="form-label">
+                              Price:
+                            </label>
+                            <input
+                              type="number"
+                              className={`form-control ${
+                                errors["price"] ? "is-invalid" : ""
+                              }`}
+                              id="price"
+                              name="price"
+                              value={apartmentData.price}
+                              onChange={handleChange}
+                            />
+                            {errors["price"] && (
+                              <p className="text-danger">{errors["price"]}</p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="col-md-6">
+                          <div className="mb-3">
+                            <label className="form-label">
+                              What is in the apartment?
+                            </label>
+                            <div className="form-check mb-3">
+                              {featureConfig.map((feature) => (
+                                <div key={feature.id} className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={feature.id}
+                                    checked={apartmentData.features[feature.id]}
+                                    onChange={() =>
+                                      handleFeatureChange(
+                                        feature.id as keyof typeof apartmentData.features
+                                      )
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={feature.id}
+                                  >
+                                    {feature.name}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="mb-3">
+                            <label htmlFor="description" className="form-label">
+                              Additional Details:
+                            </label>
+                            <div className="textarea-container">
+                              <textarea
+                                placeholder="Additional details that will help market your property in the best way"
+                                rows={4}
+                                data-auto="textfield-text-area"
+                                className="form-control"
+                                name="description"
+                                value={apartmentData.description || ""}
+                                onChange={handleChange}
+                                style={{ resize: "none", width: "100%" }}
+                              ></textarea>
+                            </div>
+                            {errors["description"] && (
+                              <p className="text-danger">
+                                {errors["description"]}
+                              </p>
+                            )}
+                            <div className="assistive-text">
+                              {apartmentData.description
+                                ? `${apartmentData.description.length}/800`
+                                : "0/800"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mb-3 d-flex justify-content-between">
+                        <button type="submit" className="button-71">
+                          Submit
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary ms-auto"
+                          onClick={handlePrevStep}
+                        >
+                          Back
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mb-3">
-          <label htmlFor="floor" className="form-label">
-            Floor:
-          </label>
-          <input
-            type="number"
-            className={`form-control ${errors["floor"] ? "is-invalid" : ""}`}
-            id="floor"
-            name="floor"
-            value={apartmentData.floor}
-            onChange={handleChange}
-          />
-          {errors["floor"] && <p className="text-danger">{errors["floor"]}</p>}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="rooms" className="form-label">
-            Rooms:
-          </label>
-          <input
-            type="number"
-            className={`form-control ${errors["rooms"] ? "is-invalid" : ""}`}
-            id="rooms"
-            name="rooms"
-            value={apartmentData.rooms}
-            onChange={handleChange}
-          />
-          {errors["rooms"] && <p className="text-danger">{errors["rooms"]}</p>}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="sizeInSqMeters" className="form-label">
-            Size in Sq Meters:
-          </label>
-          <input
-            type="number"
-            className={`form-control ${
-              errors["sizeInSqMeters"] ? "is-invalid" : ""
-            }`}
-            id="sizeInSqMeters"
-            name="sizeInSqMeters"
-            value={apartmentData.sizeInSqMeters}
-            onChange={handleChange}
-          />
-          {errors["sizeInSqMeters"] && (
-            <p className="text-danger">{errors["sizeInSqMeters"]}</p>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="furniture" className="form-label">
-            Furniture:
-          </label>
-          <select
-            className="form-select"
-            id="furniture"
-            name="furniture"
-            value={apartmentData.furniture}
-            onChange={handleChange}
-          >
-            <option value="full">Full</option>
-            <option value="partial">Partial</option>
-            <option value="none">None</option>
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="entryDate" className="form-label">
-            Entry Date:
-          </label>
-          <input
-            type="date"
-            className={`form-control ${
-              errors["entryDate"] ? "is-invalid" : ""
-            }`}
-            id="entryDate"
-            name="entryDate"
-            value={
-              apartmentData.entryDate
-                ? apartmentData.entryDate.toISOString().split("T")[0]
-                : ""
-            }
-            onChange={handleDateChange}
-          />
-          {errors["entryDate"] && (
-            <p className="text-danger">{errors["entryDate"]}</p>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="apartmentImage" className="form-label">
-            Apartment Image URL:
-          </label>
-          <input
-            type="text"
-            className={`form-control ${
-              errors["apartmentImage"] ? "is-invalid" : ""
-            }`}
-            id="apartmentImage"
-            name="apartmentImage"
-            value={apartmentData.apartmentImage}
-            onChange={handleChange}
-          />
-          {errors["apartmentImage"] && (
-            <p className="text-danger">{errors["apartmentImage"]}</p>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="price" className="form-label">
-            Price:
-          </label>
-          <input
-            type="number"
-            className={`form-control ${errors["price"] ? "is-invalid" : ""}`}
-            id="price"
-            name="price"
-            value={apartmentData.price}
-            onChange={handleChange}
-          />
-          {errors["price"] && <p className="text-danger">{errors["price"]}</p>}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="description" className="form-label">
-            Additional Details:
-          </label>
-          <div className="textarea-container">
-            <textarea
-              placeholder="Additional details that will help market your property in the best way"
-              rows={4}
-              data-auto="textfield-text-area"
-              className="form-control"
-              name="description"
-              value={apartmentData.description || ""}
-              onChange={handleChange}
-              style={{ resize: "none", width: "100%" }}
-            ></textarea>
-          </div>
-          {errors["description"] && (
-            <p className="text-danger">{errors["description"]}</p>
-          )}
-          <div className="assistive-text">
-            {apartmentData.description
-              ? `${apartmentData.description.length}/800`
-              : "0/800"}
-          </div>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
