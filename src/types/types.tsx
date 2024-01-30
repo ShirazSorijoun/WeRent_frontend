@@ -13,12 +13,13 @@ export type ApartmentProps = {
       features: {
         parking: boolean;
         accessForDisabled: boolean;
-        storageRoom: boolean;
+        storage: boolean;
         dimension: boolean;
         terrace: boolean;
         garden: boolean;
         elevators: boolean;
         airConditioning: boolean;
+        [key: string]: boolean;
       };
       description?: string;
     };
