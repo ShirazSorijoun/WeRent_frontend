@@ -1,6 +1,7 @@
 
 .css-1752boj {
-    width: 100%;
+    max-width: 100%;
+    height: auto;
 }
 
 .css-1v7m7jq {
@@ -62,7 +63,6 @@
 }
 
 .css-lpl311 {
-    margin-left: 32px;
     -webkit-box-flex: 1;
     flex-grow: 1;
     text-transform: capitalize;
@@ -278,3 +278,12 @@
     text-align: right;
     margin-left: 8px; 
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto 0;
+    max-width: 95%;
+  }
