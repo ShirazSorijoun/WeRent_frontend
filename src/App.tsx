@@ -1,13 +1,8 @@
 import React from 'react';
-//import AddApartment from './components/AddApartment/addApartment';
+import AddApartment from './components/AddApartment/addApartment';
 //import Apartment from './components/Apartments/apartments';
-//import Apartment from './components/Apartments/apartmentDetails.tsx';
-//import addReview from"./components/AddReview/addReview"
-import Reviews from"./components/Reviews/reviews"
-
-
-
 import './App.css';
+import Registration from './components/Registration/Registration';
 
 const App: React.FC = () => {
 
@@ -15,7 +10,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Reviews />
+      <AddApartment />
     </div>
   );
 }

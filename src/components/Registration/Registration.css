@@ -1,0 +1,15 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    min-height: 982px;
+    width: 100%;
+    align-items: center;
+    /*padding: 32px 60px 50px;*/
+  }
+
+.img-fluid {
+    height: "200px";
+    width: "200px";
+}
