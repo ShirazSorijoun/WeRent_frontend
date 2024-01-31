@@ -11,9 +11,16 @@ export interface IUser {
     name: string,
     email: string,
     password: string,
-    roles: UserRole,
+    roles?: UserRole,
     profile_image?: string
     _id?: string
+    tokens?:string[];
+}
+
+export interface ILogin{
+    name: string,
+    email: string,
+    password: string,
 }
 
 export const registerUser = (user: IUser) => {
@@ -21,6 +28,22 @@ export const registerUser = (user: IUser) => {
         console.log('Registering user...')
         console.log(user)
         apiClient.post('/auth/register', user).then((response) => {
+            console.log(response)
+            resolve(response.data)
+        }).catch((error) => {
+            console.log(error)
+            reject(error)
+        })
+    });
+}
+
+
+export const loginUser = (user: ILogin) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return new Promise<any>((resolve, reject) => {
+        console.log('Login user...')
+        console.log(user)
+        apiClient.post('/auth/login', user).then((response) => {
             console.log(response)
             resolve(response.data)
         }).catch((error) => {
