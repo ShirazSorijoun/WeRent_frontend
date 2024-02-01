@@ -12,11 +12,20 @@ import {
   ILogin,
   loginUser,
 } from "../../services/user-service";
+import { z } from "zod";
+
+const schema = z.object({
+  name: z.string().min(3, { message: "Name must contain at least 3 letters" }),
+  email: z.string().email({ message: "Invalid email format" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
 
 function Registration() {
   const [imgSrc, setImgSrc] = useState<File>();
   const [selectedItem, setSelectedItem] = useState<string>("User type");
-  //const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<ILogin>({
     name: "",
     email: "",
@@ -36,15 +45,14 @@ function Registration() {
 
   const handleChange =
     (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormErrors({ ...formErrors, [prop]: "" });
       setFormData({ ...formData, [prop]: event.target.value });
     };
 
   const onImgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     if (e.target.files && e.target.files.length > 0) {
       const newUrl = e.target.files[0];
       setImgSrc(newUrl);
-      console.log(newUrl);
     }
   };
 
@@ -55,8 +63,29 @@ function Registration() {
 
   const onRegister = async () => {
     console.log("Registering...");
-    const url = await uploadImg(imgSrc!);
-    console.log("upload returend:" + url);
+
+    try {
+        schema.parse(formData);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          const errors: { [key: string]: string } = {};
+          error.errors.forEach((err) => {
+            errors[err.path[0]] = err.message;
+          });
+          setFormErrors(errors);
+          return;
+        }
+      }
+    
+    let url: string | undefined;
+      if (imgSrc) {
+        try {
+          url = await uploadImg(imgSrc);
+        } catch (error) {
+          setFormErrors({ image: "Failed to upload the image. Please try again." });
+          return;
+        }
+      }
 
     if (
       nameInputRef.current?.value &&
@@ -78,11 +107,11 @@ function Registration() {
       try {
         const registrationResponse = await registerUser(user);
         console.log("User registered:", registrationResponse);
-  
+
         // Log in the user immediately after successful registration
         const loginResponse = await loginUser(formData);
         console.log("User logged in");
-  
+
         localStorage.setItem("accessToken", loginResponse?.accessToken);
         localStorage.setItem("refreshToken", loginResponse?.refreshToken);
         localStorage.setItem("userId", loginResponse?.userId);
@@ -90,6 +119,8 @@ function Registration() {
         console.error("Login failed:", error);
       }
     }
+
+    setFormErrors({});
   };
 
   return (
@@ -155,6 +186,7 @@ function Registration() {
         placeholder="Name"
         onChange={handleChange("name")}
       />
+      {formErrors["name"] && (<p className="text-danger">{formErrors["name"]}</p>)}
       <input
         ref={emailInputRef}
         type="text"
@@ -162,6 +194,7 @@ function Registration() {
         placeholder="Email"
         onChange={handleChange("email")}
       />
+      {formErrors["email"] && (<p className="text-danger">{formErrors["email"]}</p>)}
       <input
         ref={passwordInputRef}
         type="password"
@@ -169,6 +202,7 @@ function Registration() {
         placeholder="Password"
         onChange={handleChange("password")}
       />
+      {formErrors["password"] && (<p className="text-danger">{formErrors["password"]}</p>)}
       <button type="button" className="btn btn-primary" onClick={onRegister}>
         Register
       </button>

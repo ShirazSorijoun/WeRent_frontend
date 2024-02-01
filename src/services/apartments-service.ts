@@ -10,17 +10,31 @@ const getAllApartments = () => {
 }
 
 const postApartment = (apartmentData: ApartmentProps, token: string) => {
-  const abortController = new AbortController();
-  const req = apiClient.post("apartment/create", {
-    apartment: apartmentData,
-  }, {
-    signal: abortController.signal,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  console.log("Request Headers:", {
+    Authorization: `Bearer ${token}`,
   });
+
+  const abortController = new AbortController();
+  const req = apiClient.post(
+    "/apartment/create",
+    { apartment: apartmentData },
+    {
+      signal: abortController.signal,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  req.then((response) => {
+    console.log("Apartment creation successful:", response.data);
+  }).catch((error) => {
+    console.error("Error creating apartment:", error);
+  });
+
   return { req, abort: () => abortController.abort() };
 };
+
 
 
 const getApartmentById = (id: string) => {

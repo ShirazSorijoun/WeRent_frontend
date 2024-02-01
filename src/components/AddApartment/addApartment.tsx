@@ -146,8 +146,15 @@ const AddApartment: React.FC = () => {
     try {
       schema.parse(apartmentData);
 
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI3YjhiZGI4MTI2OWMyZmYzYmIxMjciLCJpYXQiOjE3MDY1MzkxOTd9.rOU7u1G9nn9G-NCr-r9Oc-bqFjJ185ZGrVCRlb8H2K8";
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        console.error("Access token not found in local storage");
+        // Handle the case where the token is null (not present in local storage)
+        return;
+      }
+
+      console.log(token)
 
       const formData = new FormData();
       formData.append("file", uploadedFile as File);
@@ -162,6 +169,8 @@ const AddApartment: React.FC = () => {
           },
         }
       );
+
+      console.log("Image Response:", imageResponse);
 
       const imageUrl = imageResponse.data.url.replace(/\\/g, "/");
 
