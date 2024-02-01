@@ -24,11 +24,9 @@ const featureConfig = [
 const schema = z.object({
   city: z.string().min(1, { message: "City is required" }),
   address: z.string().min(1, { message: "Address is required" }),
-  type: z
-    .string()
-    .refine((value) => value !== "Select the property type", {
-      message: "Property type is a required field",
-    }),
+  type: z.string().refine((value) => value !== "Select the property type", {
+    message: "Property type is a required field",
+  }),
   floor: z.number().min(0),
   numberOfFloors: z.number().min(0),
   sizeInSqMeters: z
@@ -667,15 +665,15 @@ const AddApartment: React.FC = () => {
                         )}
                       </div>
                       <div className="mb-3 d-flex justify-content-between">
+                        <button type="submit" className="button-71">
+                          Submit
+                        </button>
                         <button
                           type="button"
-                          className="btn btn-secondary ms-auto"
+                          className="btn btn-secondary"
                           onClick={handlePrevStep}
                         >
                           Back
-                        </button>
-                        <button type="submit" className="button-71">
-                          Submit
                         </button>
                       </div>
                     </form>
