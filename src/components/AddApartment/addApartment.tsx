@@ -25,20 +25,14 @@ const featureConfig = [
 const schema = z.object({
   city: z.string().min(1, { message: "City is required" }),
   address: z.string().min(1, { message: "Address is required" }),
-  type: z.string().refine((value) => value !== "Select the property type", {
-    message: "Property type is a required field",
-  }),
+  type: z.string().refine((value) => value !== "Select the property type", {message: "Property type is a required field",}),
   floor: z.number().min(0),
   numberOfFloors: z.number().min(0),
-  sizeInSqMeters: z
-    .number()
-    .min(10, { message: "Size should be greater than 10" }),
+  sizeInSqMeters: z.number().min(10, { message: "Size should be greater than 10" }),
   rooms: z.number().min(1),
   furniture: z.enum(["full", "partial", "none"]),
   price: z.number().min(0, { message: "Price should be greater than 0" }),
-  description: z
-    .string()
-    .max(800, { message: "Description should be less than 800 characters" }),
+  description: z.string().max(800, { message: "Description should be less than 800 characters" }),
 });
 
 const AddApartment: React.FC = () => {
@@ -82,21 +76,10 @@ const AddApartment: React.FC = () => {
   const handleChange = (e: ChangeEventTypes) => {
     let newValue;
 
-    if (
-      ["floor", "numberOfFloors", "rooms", "price", "sizeInSqMeters"].includes(
-        e.target.name
-      )
-    ) {
-      if (
-        e.target.name === "numberOfFloors" ||
-        e.target.name === "floor" ||
-        e.target.name === "price"
-      ) {
+    if (["floor", "numberOfFloors", "rooms", "price", "sizeInSqMeters"].includes(e.target.name)) {
+      if (e.target.name === "numberOfFloors" || e.target.name === "floor" ||e.target.name === "price") {
         newValue = Math.max(+e.target.value, 0);
-      } else if (
-        e.target.name === "rooms" ||
-        e.target.name === "sizeInSqMeters"
-      ) {
+      } else if (e.target.name === "rooms" || e.target.name === "sizeInSqMeters") {
         newValue = Math.max(+e.target.value, 1);
       }
     } else {
@@ -137,7 +120,6 @@ const AddApartment: React.FC = () => {
 
   const handleFileChange = (file: File) => {
     setUploadedFile(file);
-    // Perform any additional file-related handling if needed
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -150,47 +132,44 @@ const AddApartment: React.FC = () => {
 
       if (!token) {
         console.error("Access token not found in local storage");
-        // Handle the case where the token is null (not present in local storage)
         return;
       }
 
-      console.log(token)
+      //console.log(token)
 
-      const formData = new FormData();
-      formData.append("file", uploadedFile as File);
+      let imageUrl: string | undefined = undefined;
 
-      const imageResponse = await axios.post(
-        "http://localhost:3000/file",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Image Response:", imageResponse);
-
-      const imageUrl = imageResponse.data.url.replace(/\\/g, "/");
+      if (uploadedFile) {
+        const formData = new FormData();
+        formData.append("file", uploadedFile);
+  
+        const imageResponse = await axios.post(
+          "http://localhost:3000/file",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        imageUrl = imageResponse.data.url.replace(/\\/g, "/");
+        
+      }
 
       const apartmentDataWithImage = {
         ...apartmentData,
-        apartment_image: imageUrl,
+        apartment_image: imageUrl || undefined,
       };
 
-      const { req } = apartmentService.postApartment(
-        apartmentDataWithImage,
-        token
-      );
+      const { req } = apartmentService.postApartment(apartmentDataWithImage,token);
 
-      req
-        .then((response) => {
+      req.then((response) => {
           console.log("Apartment added successfully", response.data);
         })
-        .catch((error) => {
-          console.error("Error adding apartment", error);
-        });
+        .catch((error) => {console.error("Error adding apartment", error);});
+
     } catch (error) {
       if (error instanceof z.ZodError) {
         const validationErrors: { [key: string]: string } = {};
@@ -277,9 +256,7 @@ const AddApartment: React.FC = () => {
                               <option>Vacation apartment</option>
                               <option>Other</option>
                             </select>
-                            {errors["type"] && (
-                              <p className="text-danger">{errors["type"]}</p>
-                            )}
+                            {errors["type"] && (<p className="text-danger">{errors["type"]}</p>)}
                           </div>
                           <div className="mb-3">
                             <label htmlFor="city" className="form-label">
@@ -287,18 +264,14 @@ const AddApartment: React.FC = () => {
                             </label>
                             <input
                               type="text"
-                              className={`form-control ${
-                                errors["city"] ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${errors["city"] ? "is-invalid" : ""}`}
                               id="city"
                               name="city"
                               placeholder="Type a city or town name"
                               value={apartmentData.city}
                               onChange={handleChange}
                             />
-                            {errors["city"] && (
-                              <p className="text-danger">{errors["city"]}</p>
-                            )}
+                            {errors["city"] && (<p className="text-danger">{errors["city"]}</p>)}
                           </div>
                           <div className="mb-3">
                             <label htmlFor="address" className="form-label">
@@ -306,18 +279,14 @@ const AddApartment: React.FC = () => {
                             </label>
                             <input
                               type="text"
-                              className={`form-control ${
-                                errors["address"] ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${errors["address"] ? "is-invalid" : ""}`}
                               id="address"
                               name="address"
                               placeholder="Type a street name"
                               value={apartmentData.address}
                               onChange={handleChange}
                             />
-                            {errors["address"] && (
-                              <p className="text-danger">{errors["address"]}</p>
-                            )}
+                            {errors["address"] && (<p className="text-danger">{errors["address"]}</p>)}
                           </div>
                           <div className="mb-3 row">
                             <div className="col">
@@ -326,17 +295,13 @@ const AddApartment: React.FC = () => {
                               </label>
                               <input
                                 type="number"
-                                className={`form-control ${
-                                  errors["floor"] ? "is-invalid" : ""
-                                }`}
+                                className={`form-control ${errors["floor"] ? "is-invalid" : ""}`}
                                 id="floor"
                                 name="floor"
                                 value={apartmentData.floor}
                                 onChange={handleChange}
                               />
-                              {errors["floor"] && (
-                                <p className="text-danger">{errors["floor"]}</p>
-                              )}
+                              {errors["floor"] && (<p className="text-danger">{errors["floor"]}</p>)}
                             </div>
 
                             <div className="col">
@@ -348,19 +313,13 @@ const AddApartment: React.FC = () => {
                               </label>
                               <input
                                 type="number"
-                                className={`form-control ${
-                                  errors["numberOfFloors"] ? "is-invalid" : ""
-                                }`}
+                                className={`form-control ${errors["numberOfFloors"] ? "is-invalid" : ""}`}
                                 id="numberOfFloors"
                                 name="numberOfFloors"
                                 value={apartmentData.numberOfFloors}
                                 onChange={handleChange}
                               />
-                              {errors["numberOfFloors"] && (
-                                <p className="text-danger">
-                                  {errors["numberOfFloors"]}
-                                </p>
-                              )}
+                              {errors["numberOfFloors"] && (<p className="text-danger">{errors["numberOfFloors"]}</p>)}
                             </div>
                           </div>
                           <div className="mb-3">
@@ -369,17 +328,13 @@ const AddApartment: React.FC = () => {
                             </label>
                             <input
                               type="number"
-                              className={`form-control ${
-                                errors["rooms"] ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${errors["rooms"] ? "is-invalid" : ""}`}
                               id="rooms"
                               name="rooms"
                               value={apartmentData.rooms}
                               onChange={handleChange}
                             />
-                            {errors["rooms"] && (
-                              <p className="text-danger">{errors["rooms"]}</p>
-                            )}
+                            {errors["rooms"] && (<p className="text-danger">{errors["rooms"]}</p>)}
                           </div>
                           <div className="mb-3">
                             <label
@@ -390,19 +345,14 @@ const AddApartment: React.FC = () => {
                             </label>
                             <input
                               type="number"
-                              className={`form-control ${
-                                errors["sizeInSqMeters"] ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${errors["sizeInSqMeters"] ? "is-invalid" : ""}`}
                               id="sizeInSqMeters"
                               name="sizeInSqMeters"
                               value={apartmentData.sizeInSqMeters}
                               onChange={handleChange}
                             />
                             {errors["sizeInSqMeters"] && (
-                              <p className="text-danger">
-                                {errors["sizeInSqMeters"]}
-                              </p>
-                            )}
+                              <p className="text-danger">{errors["sizeInSqMeters"]}</p> )}
                           </div>
                           <div className="mb-3">
                             <label htmlFor="furniture" className="form-label">
@@ -426,25 +376,13 @@ const AddApartment: React.FC = () => {
                             </label>
                             <input
                               type="date"
-                              className={`form-control ${
-                                errors["entryDate"] ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${errors["entryDate"] ? "is-invalid" : ""}`}
                               id="entryDate"
                               name="entryDate"
-                              value={
-                                apartmentData.entryDate
-                                  ? apartmentData.entryDate
-                                      .toISOString()
-                                      .split("T")[0]
-                                  : ""
-                              }
+                              value={apartmentData.entryDate? apartmentData.entryDate.toISOString().split("T")[0]: ""}
                               onChange={handleDateChange}
                             />
-                            {errors["entryDate"] && (
-                              <p className="text-danger">
-                                {errors["entryDate"]}
-                              </p>
-                            )}
+                            {errors["entryDate"] &&(<p className="text-danger">{errors["entryDate"]}</p>)}
                           </div>
                           <div className="mb-3">
                             <label htmlFor="price" className="form-label">
@@ -452,17 +390,13 @@ const AddApartment: React.FC = () => {
                             </label>
                             <input
                               type="number"
-                              className={`form-control ${
-                                errors["price"] ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${errors["price"] ? "is-invalid" : ""}`}
                               id="price"
                               name="price"
                               value={apartmentData.price}
                               onChange={handleChange}
                             />
-                            {errors["price"] && (
-                              <p className="text-danger">{errors["price"]}</p>
-                            )}
+                            {errors["price"] && (<p className="text-danger">{errors["price"]}</p>)}
                           </div>
                         </div>
 
@@ -479,11 +413,7 @@ const AddApartment: React.FC = () => {
                                     type="checkbox"
                                     id={feature.id}
                                     checked={apartmentData.features[feature.id]}
-                                    onChange={() =>
-                                      handleFeatureChange(
-                                        feature.id as keyof typeof apartmentData.features
-                                      )
-                                    }
+                                    onChange={() =>handleFeatureChange(feature.id as keyof typeof apartmentData.features)}
                                   />
                                   <label
                                     className="form-check-label"
@@ -513,14 +443,9 @@ const AddApartment: React.FC = () => {
                               ></textarea>
                             </div>
                             {errors["description"] && (
-                              <p className="text-danger">
-                                {errors["description"]}
-                              </p>
-                            )}
+                              <p className="text-danger">{errors["description"]}</p>)}
                             <div className="assistive-text">
-                              {apartmentData.description
-                                ? `${apartmentData.description.length}/800`
-                                : "0/800"}
+                              {apartmentData.description? `${apartmentData.description.length}/800`: "0/800"}
                             </div>
                           </div>
                         </div>

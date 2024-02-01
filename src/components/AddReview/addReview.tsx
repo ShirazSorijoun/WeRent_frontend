@@ -23,8 +23,12 @@ const AddReview: React.FC = () => {
     e.preventDefault();
 
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI3YjhiY2I4MTI2OWMyZmYzYmIxMWQiLCJpYXQiOjE3MDY1MzkxOTZ9.Vo6ADUGvbJ6CbRjh0jPMHX_ZK5F409QJB4RHAQ1VKuQ";
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        console.error("Access token not found in local storage");
+        return;
+      }
 
         const { req } = reviewService.postReview(review, token);
 
