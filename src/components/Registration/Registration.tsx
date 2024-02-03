@@ -5,7 +5,9 @@ import userVector from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import {uploadImg} from '../../services/file-service'
-import {registerUser, IUser, UserRole} from '../../services/user-service'
+import {registerUser, IUser, UserRole, googleSignin} from '../../services/user-service'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+
 
 function Registration() {
     const [imgSrc, setImgSrc] = useState<File>();
@@ -71,6 +73,21 @@ function Registration() {
     }
 
 
+    const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+        console.log(credentialResponse)
+        try{
+            const res = await googleSignin(credentialResponse)
+            console.log(res)
+        }catch(e){  
+            console.log(e)
+        }
+    }
+
+    const onGoogleLoginFailure = () => {
+        console.log('Google login failed')
+    }
+
+
     return (
         <div className="vstack gap-3 col-md-7 mx-auto">
             <h1 className="d-flex justify-content-center position-relative">Registration</h1>
@@ -93,7 +110,7 @@ function Registration() {
             <input style={{display: "none"}} ref={fileInputRef} type="file" className="form-control" placeholder="Profile Picture" onChange={onImgSelected} />
             
 
-            <Dropdown>
+            <Dropdown >
                 <Dropdown.Toggle variant="danger" id="dropdown-basic">
                     {selectedItem}
                 </Dropdown.Toggle>
@@ -110,6 +127,8 @@ function Registration() {
             <input ref={emailInputRef} type="text" className="form-control" placeholder="Email"/>
             <input ref={passwordInputRef} type="password" className="form-control" placeholder="Password"/>
             <button type="button" className="btn btn-primary" onClick={onRegister}>Register</button>
+
+            <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
 
         </div>
     );
