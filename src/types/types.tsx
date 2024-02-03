@@ -22,6 +22,7 @@ export type ApartmentProps = {
     [key: string]: boolean;
   };
   description?: string;
+  phone?: string;
 };
 
 export type ReviewProps = {

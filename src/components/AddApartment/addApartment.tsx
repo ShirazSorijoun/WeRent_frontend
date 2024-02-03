@@ -1,11 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import z from "zod";
 import "./addApartment.css";
 import { ApartmentProps } from "../../types/types";
 import apartmentService from "../../services/apartments-service";
 import Uploader from "../Uploader/uploader";
-
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -65,14 +64,72 @@ const AddApartment: React.FC = () => {
       airConditioning: false,
     },
     description: "",
+    phone: "",
   });
 
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [userData, setUserData] = useState<{
+    name: string;
+    email: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem("userId");
+
+      if (userId) {
+        try {
+          const token = localStorage.getItem("accessToken");
+
+          if (!token) {
+            console.error("Access token not found in local storage");
+            return;
+          }
+
+          const response = await axios.get(
+            `http://localhost:3000/user/id/${userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          const { name, email } = response.data;
+          setUserData({ name, email });
+        } catch (error) {
+          console.error("Error fetching user data", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleNextStep = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
+    if (currentStep === 2) {
+      try {
+        schema.parse(apartmentData);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          const validationErrors: { [key: string]: string } = {};
+          error.errors.forEach((err) => {
+            if (err.path) {
+              validationErrors[err.path.join(".")] = err.message;
+            }
+          });
+          setErrors(validationErrors);
+          return;
+        }
+      }
+    }
+
+    if (Object.keys(errors).length === 0) {
+      setCurrentStep((prevStep) => prevStep + 1);
+    }
   };
 
   const handlePrevStep = () => {
@@ -128,6 +185,24 @@ const AddApartment: React.FC = () => {
     });
   };
 
+  const handlePhoneChange = (e: ChangeEventTypes) => {
+    const phoneNumber = e.target.value;
+
+    // Regular expression for a valid phone number
+    const phoneRegex = /^\d{10}$/;
+
+    if (!phoneRegex.test(phoneNumber)) {
+      setPhoneError("Enter a valid 10-digit phone number");
+    } else {
+      setPhoneError(null);
+    }
+
+    setApartmentData({
+      ...apartmentData,
+      phone: phoneNumber,
+    });
+  };
+
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setApartmentData({
       ...apartmentData,
@@ -137,20 +212,28 @@ const AddApartment: React.FC = () => {
 
   const handleFileChange = (file: File) => {
     setUploadedFile(file);
-    // Perform any additional file-related handling if needed
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      schema.parse(apartmentData);
+    const token = localStorage.getItem("accessToken");
 
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI3YjhiZGI4MTI2OWMyZmYzYmIxMjciLCJpYXQiOjE3MDY1MzkxOTd9.rOU7u1G9nn9G-NCr-r9Oc-bqFjJ185ZGrVCRlb8H2K8";
+    if (!token) {
+      console.error("Access token not found in local storage");
+      return;
+    }
 
+    if (phoneError) {
+      // Don't submit the form if there is a phone number error
+      return;
+    }
+
+    let imageUrl: string | undefined = undefined;
+
+    if (uploadedFile) {
       const formData = new FormData();
-      formData.append("file", uploadedFile as File);
+      formData.append("file", uploadedFile);
 
       const imageResponse = await axios.post(
         "http://localhost:3000/file",
@@ -163,43 +246,32 @@ const AddApartment: React.FC = () => {
         }
       );
 
-      const imageUrl = imageResponse.data.url.replace(/\\/g, "/");
-
-      const apartmentDataWithImage = {
-        ...apartmentData,
-        apartment_image: imageUrl,
-      };
-
-      const { req } = apartmentService.postApartment(
-        apartmentDataWithImage,
-        token
-      );
-
-      req
-        .then((response) => {
-          console.log("Apartment added successfully", response.data);
-        })
-        .catch((error) => {
-          console.error("Error adding apartment", error);
-        });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const validationErrors: { [key: string]: string } = {};
-        error.errors.forEach((err) => {
-          if (err.path) {
-            validationErrors[err.path.join(".")] = err.message;
-          }
-        });
-        setErrors(validationErrors);
-      }
+      imageUrl = imageResponse.data.url.replace(/\\/g, "/");
     }
+
+    const apartmentDataWithImage = {
+      ...apartmentData,
+      apartment_image: imageUrl || undefined,
+    };
+
+    const { req } = apartmentService.postApartment(
+      apartmentDataWithImage,
+      token
+    );
+
+    req
+      .then((response) => {
+        console.log("Apartment added successfully", response.data);
+      })
+      .catch((error) => {
+        console.error("Error adding apartment", error);
+      });
   };
 
   return (
     <div className="container mt-5">
       <div className="col-sm-11 col-lg-11 col-xxl-11">
         <div className="card theme-wizard mb-5">
-
           <div className="card-header bg-light pt-3 pb-2">
             <ul className="nav justify-content-between">
               <a className="nav-link fw-semi-bold">
@@ -209,6 +281,11 @@ const AddApartment: React.FC = () => {
                 {currentStep === 2 && (
                   <span className="d-none d-md-block mt-1 fs--1">
                     Apartment details
+                  </span>
+                )}
+                {currentStep === 3 && (
+                  <span className="d-none d-md-block mt-1 fs--1">
+                    Contact information
                   </span>
                 )}
               </a>
@@ -518,12 +595,82 @@ const AddApartment: React.FC = () => {
                       </div>
 
                       <div className="mb-3 d-flex justify-content-between">
+                        <button
+                          type="button"
+                          className="button-71"
+                          onClick={handleNextStep}
+                        >
+                          Continue to Contact Details
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary ms-auto"
+                          onClick={handlePrevStep}
+                        >
+                          Back
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+
+                {currentStep === 3 && (
+                  <div>
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label htmlFor="name" className="form-label">
+                          Contact name:
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="name"
+                          name="name"
+                          value={userData?.name || ""}
+                          readOnly
+                          style={{ color: "gray" }}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="email" className="form-label">
+                          Email:
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="email"
+                          name="email"
+                          value={userData?.email || ""}
+                          readOnly
+                          style={{ color: "gray" }}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="phone" className="form-label">
+                          Phone Number:
+                        </label>
+                        <input
+                          type="text"
+                          className={`form-control ${
+                            phoneError ? "is-invalid" : ""
+                          }`}
+                          id="phone"
+                          name="phone"
+                          placeholder="Enter your phone number"
+                          value={apartmentData.phone || ""}
+                          onChange={handlePhoneChange}
+                        />
+                        {phoneError && (
+                          <p className="text-danger">{phoneError}</p>
+                        )}
+                      </div>
+                      <div className="mb-3 d-flex justify-content-between">
                         <button type="submit" className="button-71">
                           Submit
                         </button>
                         <button
                           type="button"
-                          className="btn btn-secondary ms-auto"
+                          className="btn btn-secondary"
                           onClick={handlePrevStep}
                         >
                           Back

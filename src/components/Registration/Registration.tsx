@@ -5,60 +5,80 @@ import userVector from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import {uploadImg} from '../../services/file-service'
-import {registerUser, IUser, UserRole, googleSignin} from '../../services/user-service'
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
-
+import {registerUser, IUser, UserRole} from '../../services/user-service'
 
 function Registration() {
-    const [imgSrc, setImgSrc] = useState<File>();
+  const [imgSrc, setImgSrc] = useState<File>();
+  const [selectedItem, setSelectedItem] = useState<string>("User type");
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [formData, setFormData] = useState<ILogin>({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-    const [selectedItem, setSelectedItem] = useState<string>("User type");
+  const handleItemClick = (item: string) => {
+    setSelectedItem(item);
+    console.log(item);
+  };
 
-    const handleItemClick = (item: string) => {
-        setSelectedItem(item);
-        console.log(item)
+  let newSelectedItem: UserRole;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  const handleChange =
+    (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormErrors({ ...formErrors, [prop]: "" });
+      setFormData({ ...formData, [prop]: event.target.value });
     };
 
-    let newSelectedItem: UserRole
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const nameInputRef = useRef<HTMLInputElement>(null);
-    const emailInputRef = useRef<HTMLInputElement>(null);
-    const passwordInputRef = useRef<HTMLInputElement>(null);
+  const onImgSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newUrl = e.target.files[0];
+      setImgSrc(newUrl);
+    }
+  };
 
+  const selectImg = () => {
+    console.log("Selecting image...");
+    fileInputRef.current?.click();
+  };
 
+  const onRegister = async () => {
+    console.log("Registering...");
 
-    const onImgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
-        if (e.target.files && e.target.files.length > 0) {
-            const newUrl = (e.target.files[0]);
-            setImgSrc(newUrl);
-            console.log(newUrl);
-
+    try {
+        schema.parse(formData);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          const errors: { [key: string]: string } = {};
+          error.errors.forEach((err) => {
+            errors[err.path[0]] = err.message;
+          });
+          setFormErrors(errors);
+          return;
         }
-    }
+      }
+    
+    let url: string | undefined;
+      if (imgSrc) {
+        try {
+          url = await uploadImg(imgSrc);
+        } catch (error) {
+          setFormErrors({ image: "Failed to upload the image. Please try again." });
+          return;
+        }
+      }
 
-    const selectImg = () => {
-        console.log('Selecting image...')
-        fileInputRef.current?.click()
-    }
-
-    const onRegister = async () => {
-        console.log('Registering...')
-        console.log(nameInputRef.current?.value)
-        console.log(emailInputRef.current?.value)
-        console.log(passwordInputRef.current?.value)
-        console.log(selectedItem)
-        const url = await uploadImg(imgSrc!)
-        console.log("upload returend:" + url)
-
-        if (nameInputRef.current?.value && emailInputRef.current?.value && passwordInputRef.current?.value) {
-            if (selectedItem === "Admin")
-                newSelectedItem = UserRole.Admin
-            if (selectedItem === "Owner")
-                newSelectedItem = UserRole.Owner
-            if (selectedItem === "Tenant")
-                newSelectedItem = UserRole.Tenant
-
+    if (
+      nameInputRef.current?.value &&
+      emailInputRef.current?.value &&
+      passwordInputRef.current?.value
+    ) {
+      if (selectedItem === "Owner") newSelectedItem = UserRole.Owner;
+      if (selectedItem === "Tenant") newSelectedItem = UserRole.Tenant;
 
             const user: IUser = {
                 name: nameInputRef.current?.value,
@@ -73,62 +93,67 @@ function Registration() {
     }
 
 
-    const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-        console.log(credentialResponse)
-        try{
-            const res = await googleSignin(credentialResponse)
-            console.log(res)
-        }catch(e){  
-            console.log(e)
-        }
-    }
+  return (
+    <div className="vstack gap-3 col-md-7 mx-auto">
+      <h1 className="d-flex justify-content-center position-relative">
+        Registration
+      </h1>
+      <p className="d-flex justify-content-center position-relative">
+        Fill in the from below to create an account.
+      </p>
 
-    const onGoogleLoginFailure = () => {
-        console.log('Google login failed')
-    }
+      <div className="d-flex justify-content-center position-relative">
+        <div style={{ height: "230px", width: "230px" }}>
+          {imgSrc ? (
+            <img
+              src={imgSrc ? URL.createObjectURL(imgSrc) : userVector}
+              className="img-fluid"
+              alt="Preview"
+              style={{ height: "230px", width: "230px" }}
+            />
+          ) : (
+            <img src={userVector} className="img-fluid" alt="Preview" />
+          )}
 
+          <button
+            type="button"
+            className="btn position-absolute bottom-0 end-0"
+            onClick={selectImg}
+          >
+            <FontAwesomeIcon icon={faImage} className="fa-xl" />
+          </button>
+        </div>
+      </div>
 
-    return (
-        <div className="vstack gap-3 col-md-7 mx-auto">
-            <h1 className="d-flex justify-content-center position-relative">Registration</h1>
-                <p className="d-flex justify-content-center position-relative">Fill in the from below to create an account.</p>
+      <input
+        style={{ display: "none" }}
+        ref={fileInputRef}
+        type="file"
+        className="form-control"
+        placeholder="Profile Picture"
+        onChange={onImgSelected}
+      />
 
-            <div className="d-flex justify-content-center position-relative">
-                <div style={{height: "230px", width: "230px"}}>
-                    {imgSrc ?
-                        <img src={imgSrc ? URL.createObjectURL(imgSrc): userVector } className='img-fluid' alt="Preview"
-                            style={{height: "230px", width: "230px"}}/>
-                        : <img src={userVector} className='img-fluid' alt="Preview"/>}
-
-                    <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
-                    <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                    </button>    
-                </div>
-            </div>
-
-            
-            <input style={{display: "none"}} ref={fileInputRef} type="file" className="form-control" placeholder="Profile Picture" onChange={onImgSelected} />
-            
-
-            <Dropdown >
+            <Dropdown>
                 <Dropdown.Toggle variant="danger" id="dropdown-basic">
                     {selectedItem}
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleItemClick("Admin")} href="#">Admin</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleItemClick("Owner")} href="#">Owner</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleItemClick("Tenant")} href="#">Tenant</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => handleItemClick("Owner")} href="#">
+            Owner
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemClick("Tenant")} href="#">
+            Tenant
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
 
             
             <input ref={nameInputRef} type="text" className="form-control" placeholder="Name"/>
             <input ref={emailInputRef} type="text" className="form-control" placeholder="Email"/>
             <input ref={passwordInputRef} type="password" className="form-control" placeholder="Password"/>
             <button type="button" className="btn btn-primary" onClick={onRegister}>Register</button>
-
-            <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
 
         </div>
     );
