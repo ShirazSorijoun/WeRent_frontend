@@ -45,6 +45,7 @@ const AddApartment: React.FC = () => {
     city: "",
     address: "",
     type: "Select the property type",
+    owner:"",
     floor: 0,
     numberOfFloors: 0,
     rooms: 1,
@@ -64,7 +65,7 @@ const AddApartment: React.FC = () => {
       airConditioning: false,
     },
     description: "",
-    phone: "",
+    phone: " ",
   });
 
   const [currentStep, setCurrentStep] = useState(1);

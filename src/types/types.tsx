@@ -2,6 +2,7 @@ export type ApartmentProps = {
   city: string;
   address: string;
   type: string;
+  owner: string;
   floor: number;
   numberOfFloors: number;
   rooms: number;
