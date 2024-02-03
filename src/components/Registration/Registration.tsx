@@ -1,11 +1,23 @@
 //import "./Registration.css";
-import { ChangeEvent, useRef, useState} from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import userVector from '../../assets/user_vector.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
-import {uploadImg} from '../../services/file-service'
-import {registerUser, IUser, UserRole} from '../../services/user-service'
+import { ChangeEvent, useRef, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+import userVector from "../../assets/user_vector.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { uploadImg } from "../../services/file-service";
+import {registerUser, UserRole, ILogin, loginUser, googleSignin, IUser,} from "../../services/user-service";
+import { z } from "zod";
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+
+
+
+const schema = z.object({
+  name: z.string().min(3, { message: "Name must contain at least 3 letters" }),
+  email: z.string().email({ message: "Invalid email format" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
 
 function Registration() {
   const [imgSrc, setImgSrc] = useState<File>();
@@ -80,17 +92,48 @@ function Registration() {
       if (selectedItem === "Owner") newSelectedItem = UserRole.Owner;
       if (selectedItem === "Tenant") newSelectedItem = UserRole.Tenant;
 
-            const user: IUser = {
-                name: nameInputRef.current?.value,
-                email: emailInputRef.current?.value,
-                password: passwordInputRef.current?.value,
-                roles: newSelectedItem,
-                profile_image: url
-            }
-            const res = await registerUser(user)
-            console.log(res)
-        }
+      const user: IUser = {
+        name: nameInputRef.current?.value,
+        email: emailInputRef.current?.value,
+        password: passwordInputRef.current?.value,
+        roles: newSelectedItem,
+        profile_image: url,
+        tokens: [],
+      };
+
+      try {
+        const registrationResponse = await registerUser(user);
+        console.log("User registered:", registrationResponse);
+
+        // Log in the user immediately after successful registration
+        const loginResponse = await loginUser(formData);
+        console.log("User logged in");
+
+        localStorage.setItem("accessToken", loginResponse?.accessToken);
+        localStorage.setItem("refreshToken", loginResponse?.refreshToken);
+        localStorage.setItem("userId", loginResponse?.userId);
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
     }
+
+    setFormErrors({});
+  };
+
+
+  const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse)
+    try {
+        const res = await googleSignin(credentialResponse)
+        console.log(res)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const onGoogleLoginFailure = () => {
+    console.log("Google login failed")
+}
 
 
   return (
@@ -134,10 +177,10 @@ function Registration() {
         onChange={onImgSelected}
       />
 
-            <Dropdown>
-                <Dropdown.Toggle variant="danger" id="dropdown-basic">
-                    {selectedItem}
-                </Dropdown.Toggle>
+      <Dropdown>
+        <Dropdown.Toggle variant="danger" id="dropdown-basic">
+          {selectedItem}
+        </Dropdown.Toggle>
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => handleItemClick("Owner")} href="#">
@@ -149,14 +192,38 @@ function Registration() {
         </Dropdown.Menu>
       </Dropdown>
 
-            
-            <input ref={nameInputRef} type="text" className="form-control" placeholder="Name"/>
-            <input ref={emailInputRef} type="text" className="form-control" placeholder="Email"/>
-            <input ref={passwordInputRef} type="password" className="form-control" placeholder="Password"/>
-            <button type="button" className="btn btn-primary" onClick={onRegister}>Register</button>
+      <input
+        ref={nameInputRef}
+        type="text"
+        className="form-control"
+        placeholder="Name"
+        onChange={handleChange("name")}
+      />
+      {formErrors["name"] && (<p className="text-danger">{formErrors["name"]}</p>)}
+      <input
+        ref={emailInputRef}
+        type="text"
+        className="form-control"
+        placeholder="Email"
+        onChange={handleChange("email")}
+      />
+      {formErrors["email"] && (<p className="text-danger">{formErrors["email"]}</p>)}
+      <input
+        ref={passwordInputRef}
+        type="password"
+        className="form-control"
+        placeholder="Password"
+        onChange={handleChange("password")}
+      />
+      {formErrors["password"] && (<p className="text-danger">{formErrors["password"]}</p>)}
+      <button type="button" className="btn btn-primary" onClick={onRegister}>
+        Register
+      </button>
 
-        </div>
-    );
+      <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
+
+    </div>
+  );
 }
 
 export default Registration;
