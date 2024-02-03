@@ -58,7 +58,8 @@ export const loginUser = (user: ILogin) => {
 
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
-    return new Promise<IUser>((resolve, reject) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return new Promise<any>((resolve, reject) => {
         console.log("googleSignin ...")
         apiClient.post("/auth/google", credentialResponse).then((response) => {
             console.log(response)
