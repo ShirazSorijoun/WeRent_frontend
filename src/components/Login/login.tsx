@@ -27,8 +27,8 @@ const Login: React.FC = () => {
 
       console.log("User logged in");
 
-      localStorage.setItem("accessToken", loginResponse?.accessToken);
-      localStorage.setItem("refreshToken", loginResponse?.refreshToken);
+      localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
+      localStorage.setItem("refreshToken", loginResponse?.tokens.refreshToken);
       localStorage.setItem("userId", loginResponse?.userId);
 
       setError(null);

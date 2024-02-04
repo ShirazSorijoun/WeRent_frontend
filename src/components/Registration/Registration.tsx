@@ -108,10 +108,12 @@ function Registration() {
         // Log in the user immediately after successful registration
         const loginResponse = await loginUser(formData);
         console.log("User logged in");
+        //console.log(loginResponse)
 
-        localStorage.setItem("accessToken", loginResponse?.accessToken);
-        localStorage.setItem("refreshToken", loginResponse?.refreshToken);
+        localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
+        localStorage.setItem("refreshToken", loginResponse?.tokens.refreshToken);
         localStorage.setItem("userId", loginResponse?.userId);
+
       } catch (error) {
         console.error("Login failed:", error);
       }
@@ -126,8 +128,8 @@ function Registration() {
     try {
         const res = await googleSignin(credentialResponse)
         console.log(res)
-        localStorage.setItem("accessToken", res?.accessToken);
-        localStorage.setItem("refreshToken", res?.refreshToken);
+        localStorage.setItem("accessToken", res?.tokens.accessToken);
+        localStorage.setItem("refreshToken", res?.tokens.refreshToken);
         localStorage.setItem("userId", res?._id);
     } catch (e) {
         console.log(e)
