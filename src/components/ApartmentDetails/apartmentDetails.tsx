@@ -3,7 +3,8 @@ import apartmentService from "../../services/apartments-service";
 import { useEffect, useState } from "react";
 import { ApartmentProps } from "../../types/types";
 import "./apartmentDetails.css";
-import axios from "axios";
+import { handleRequestWithToken } from "../../services/handleRequestWithToken";
+import { getUserById } from "../../services/user-service";
 
 const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
   apartmentId,
@@ -17,33 +18,6 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
   } | null>(null);
 
   useEffect(() => {
-    const fetchUserData = async (userId: string | undefined) => {
-      if (userId) {
-        try {
-          const token = localStorage.getItem("accessToken");
-
-          if (!token) {
-            console.error("Access token not found in local storage");
-            return;
-          }
-
-          const response = await axios.get(
-            `http://localhost:3000/user/id/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          const { name, email } = response.data;
-          setUserData({ name, email });
-        } catch (error) {
-          console.error("Error fetching user data", error);
-        }
-      }
-    };
-
     const { req } = apartmentService.getApartmentById(apartmentId);
     req
       .then((response) => {
@@ -59,6 +33,28 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
 
     return () => {};
   }, [apartment?.owner, apartmentId]);
+
+  const fetchUserData = async (userId: string | undefined) => {
+    if (userId) {
+      const tokenRefreshed = await handleRequestWithToken();
+
+      if (!tokenRefreshed) {
+        console.log("Token refresh failed");
+        return;
+      }
+
+      const token = localStorage.getItem("accessToken");
+
+      try {
+        const response = await getUserById(userId, token || "");
+        const name = response.name;
+        const email = response.email;
+        setUserData({ name, email });
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
+    }
+  };
 
   if (loading) {
     return <p className="text-center mt-5">Loading...</p>;

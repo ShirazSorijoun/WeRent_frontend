@@ -3,7 +3,8 @@ import React from "react";
 import { ReviewProps } from "../../types/types";
 import reviewService from "../../services/review-service";
 import "./addReview.css";
-import { refreshAccessToken } from "../../services/user-service";
+//import { refreshAccessToken } from "../../services/user-service";
+import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 
 const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
@@ -23,44 +24,22 @@ const AddReview: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const tokenRefreshed = await handleRequestWithToken();
+
+    if (!tokenRefreshed) {
+      console.log("Token refresh failed");
+      return;
+    }
+
+    const token = localStorage.getItem("accessToken");
+
     try {
-      const storedToken = localStorage.getItem("accessToken");
+      const { req } = reviewService.postReview(review, token || "");
+      const response = await req;
 
-      if (storedToken === null) {
-        console.error("Access token not found in local storage");
-        return;
-      }
-
-      const token: string = storedToken;
-      try {
-        const { req } = reviewService.postReview(review, token);
-        const response = await req;
-
-        console.log("Review submitted successfully:", response.data);
-      } catch (error: any) {
-        if (error.response && error.response.status === 401) {
-          try {
-            const { accessToken, refreshToken } = await refreshAccessToken(
-              localStorage.getItem("refreshToken") || ""
-            );
-
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("refreshToken", refreshToken);
-
-            const { req } = reviewService.postReview(review, accessToken);
-            const retryResponse = await req;
-
-            console.log("Review submitted successfully after token refresh:",retryResponse);
-          } catch (refreshError) {
-            console.error("Error refreshing access token:", refreshError);
-            throw refreshError;
-          }
-        } else {
-          console.error("Error submitting review:", error);
-        }
-      }
+      console.log("Review submitted successfully:", response.data);
     } catch (error) {
-      console.error("General error:", error);
+      console.error("Error submitting review:", error);
     }
   };
 

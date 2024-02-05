@@ -106,3 +106,22 @@ export const refreshAccessToken = async (token: string) => {
     }
   };
   
+  export const getUserById = async (userId: string, token: string) => {
+    const abortController = new AbortController();
+    try {
+      const response = await apiClient.get(`/user/id/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { name, email } = response.data;
+      return {name , email}
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      throw error;
+    } finally {
+      abortController.abort();
+    }
+  };

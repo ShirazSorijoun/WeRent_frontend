@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import axios from "axios";
 import z from "zod";
 import "./addApartment.css";
 import { ApartmentProps } from "../../types/types";
 import apartmentService from "../../services/apartments-service";
 import Uploader from "../Uploader/uploader";
-import { refreshAccessToken } from "../../services/user-service";
+import { handleRequestWithToken } from "../../services/handleRequestWithToken";
+import { getUserById } from "../../services/user-service";
+import { uploadImg } from "../../services/file-service";
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -90,56 +91,22 @@ const AddApartment: React.FC = () => {
       return;
     }
 
-    const accessToken = localStorage.getItem("accessToken");
+    const tokenRefreshed = await handleRequestWithToken();
 
-    if (!accessToken) {
-      console.error("Access token not found in local storage");
+    if (!tokenRefreshed) {
+      console.log("Token refresh failed");
       return;
     }
 
+    const token = localStorage.getItem("accessToken");
+
     try {
-      const response = await axios.get(
-        `http://localhost:3000/user/id/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const { name, email } = response.data;
+      const response = await getUserById(userId,token || "")
+      const name = response.name;
+      const email= response.email;
       setUserData({ name, email });
-    } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        try {
-          const { accessToken: newAccessToken, refreshToken } =
-            await refreshAccessToken(
-              localStorage.getItem("refreshToken") || ""
-            );
-
-          // Update the local storage with the new tokens
-          localStorage.setItem("accessToken", newAccessToken);
-          localStorage.setItem("refreshToken", refreshToken);
-
-          // Retry the fetch with the new access token
-          const retryResponse = await axios.get(
-            `http://localhost:3000/user/id/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${newAccessToken}`,
-              },
-            }
-          );
-
-          // Process the response after successful retry
-          const { name, email } = retryResponse.data;
-          setUserData({ name, email });
-        } catch (refreshError) {
-          console.error("Error refreshing access token:", refreshError);
-        }
-      } else {
-        console.error("Error fetching user data:", error);
-      }
+    } catch (error) {
+      console.error("Error submitting aparment:", error);
     }
   };
 
@@ -270,18 +237,9 @@ const AddApartment: React.FC = () => {
       const formData = new FormData();
       formData.append("file", uploadedFile);
 
-      const imageResponse = await axios.post(
-        "http://localhost:3000/file",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const imageResponse = await uploadImg(uploadedFile)
 
-      imageUrl = imageResponse.data.url.replace(/\\/g, "/");
+      imageUrl = imageResponse.replace(/\\/g, "/");
     }
 
     const apartmentDataWithImage = {
