@@ -128,8 +128,8 @@ function Registration() {
     try {
         const res = await googleSignin(credentialResponse)
         console.log(res)
-        localStorage.setItem("accessToken", res?.tokens.accessToken);
-        localStorage.setItem("refreshToken", res?.tokens.refreshToken);
+        localStorage.setItem("accessToken", res?.accessToken);
+        localStorage.setItem("refreshToken", res?.refreshToken);
         localStorage.setItem("userId", res?._id);
     } catch (e) {
         console.log(e)

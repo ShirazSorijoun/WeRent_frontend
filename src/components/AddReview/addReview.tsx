@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { ReviewProps } from "../../types/types";
 import reviewService from "../../services/review-service";
 import "./addReview.css";
-
+import { refreshAccessToken } from "../../services/user-service";
 
 const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
-    ownerName:"",
+    ownerName: "",
     description: "",
   });
 
@@ -23,22 +24,45 @@ const AddReview: React.FC = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("accessToken");
+      const storedToken = localStorage.getItem("accessToken");
 
-      if (!token) {
+      if (storedToken === null) {
         console.error("Access token not found in local storage");
         return;
       }
 
+      const token: string = storedToken;
+      try {
         const { req } = reviewService.postReview(review, token);
-
         const response = await req;
-  
+
         console.log("Review submitted successfully:", response.data);
-      } catch (error) {
-        console.error("Error submitting review:", error);
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          try {
+            const { accessToken, refreshToken } = await refreshAccessToken(
+              localStorage.getItem("refreshToken") || ""
+            );
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+
+            const { req } = reviewService.postReview(review, accessToken);
+            const retryResponse = await req;
+
+            console.log("Review submitted successfully after token refresh:",retryResponse);
+          } catch (refreshError) {
+            console.error("Error refreshing access token:", refreshError);
+            throw refreshError;
+          }
+        } else {
+          console.error("Error submitting review:", error);
+        }
       }
-    };
+    } catch (error) {
+      console.error("General error:", error);
+    }
+  };
 
   return (
     <div className="container mt-4">

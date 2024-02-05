@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import z from "zod";
@@ -5,6 +6,7 @@ import "./addApartment.css";
 import { ApartmentProps } from "../../types/types";
 import apartmentService from "../../services/apartments-service";
 import Uploader from "../Uploader/uploader";
+import { refreshAccessToken } from "../../services/user-service";
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -45,7 +47,7 @@ const AddApartment: React.FC = () => {
     city: "",
     address: "",
     type: "Select the property type",
-    owner:"",
+    owner: "",
     floor: 0,
     numberOfFloors: 0,
     rooms: 1,
@@ -78,39 +80,70 @@ const AddApartment: React.FC = () => {
   } | null>(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const userId = localStorage.getItem("userId");
+    fetchUserData();
+  }, []);
+  const fetchUserData = async () => {
+    const userId = localStorage.getItem("userId");
 
-      if (userId) {
+    if (!userId) {
+      console.error("User ID not found in local storage");
+      return;
+    }
+
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      console.error("Access token not found in local storage");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/user/id/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      const { name, email } = response.data;
+      setUserData({ name, email });
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
         try {
-          const token = localStorage.getItem("accessToken");
+          const { accessToken: newAccessToken, refreshToken } =
+            await refreshAccessToken(
+              localStorage.getItem("refreshToken") || ""
+            );
 
-          if (!token) {
-            console.error("Access token not found in local storage");
-            return;
-          }
+          // Update the local storage with the new tokens
+          localStorage.setItem("accessToken", newAccessToken);
+          localStorage.setItem("refreshToken", refreshToken);
 
-          const response = await axios.get(
+          // Retry the fetch with the new access token
+          const retryResponse = await axios.get(
             `http://localhost:3000/user/id/${userId}`,
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${newAccessToken}`,
               },
             }
           );
 
-          const { name, email } = response.data;
+          // Process the response after successful retry
+          const { name, email } = retryResponse.data;
           setUserData({ name, email });
-        } catch (error) {
-          console.error("Error fetching user data", error);
+        } catch (refreshError) {
+          console.error("Error refreshing access token:", refreshError);
         }
+      } else {
+        console.error("Error fetching user data:", error);
       }
-    };
+    }
+  };
 
-    fetchUserData();
-  }, []);
-
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (currentStep === 2) {
       try {
         schema.parse(apartmentData);
@@ -218,6 +251,7 @@ const AddApartment: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    await fetchUserData();
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
