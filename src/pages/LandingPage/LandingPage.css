@@ -1,0 +1,227 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  min-height: 982px;
+  width: 100%;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .main-container {
+      max-width: 100%;
+  }
+}
+
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 56px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.header-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
+}
+
+.header-title {
+  color: #fff;
+  letter-spacing: -2.01px;
+  margin-top: 127px;
+  font: 700 80px/80px DMSans, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.header-description {
+  color: #fff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  -webkit-text-stroke-width: 1;
+  -webkit-text-stroke-color: #000;
+  letter-spacing: -0.5px;
+  margin-top: 17px;
+  font: 400 20px/28px DMSans, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.listings-container {
+  margin-top: 140px;
+  padding: 10px;
+}
+
+@media (max-width: 991px) {
+  .listings-container {
+      max-width: 100%;
+      margin-top: 40px;
+  }
+}
+
+.listing {
+  display: flex;
+  gap: 20px;
+}
+
+.listing-button {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 84%;
+}
+
+.listing-button-text {
+  color: #fff;
+  background-color: #000;
+  border: 2px solid #000;
+  border-radius: 18px; /* Adjust border radius for rounded corners */
+  padding: 12px 24px; /* Adjust padding for button size */
+  font-size: 17px; /* Adjust font size */
+  font-weight: 700; /* Adjust font weight */
+  letter-spacing: -0.43px; /* Adjust letter spacing */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.listing-button-text:hover {
+  background-color: #fff; /* Change background color on hover */
+  color: #000; /* Change text color on hover */
+}
+
+
+
+.listing-image-container {
+  display: flex; /* Ensure image container is also a flex container */
+  align-items: center; /* Align items vertically */
+  margin-left: 10px; /* Adjust margin to create space between caption and image */
+}
+
+.listing-image {
+  aspect-ratio: 2;
+  object-fit: contain;
+  object-position: center;
+  width: 24px;
+  overflow: hidden;
+  max-width: 100%;
+  margin-top: 40px;
+}
+
+.Secondary-container {
+  margin-top: 90px;
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .Secondary-container {
+      max-width: 100%;
+  }
+}
+
+.image-wrapper {
+  gap: 20px;
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 51%;
+}
+
+.column-2 {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 49%;
+  margin-left: 20px;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: auto 0;
+  padding: 0 20px;
+}
+
+.img-2 {
+  aspect-ratio: 42.25;
+  object-fit: contain;
+  object-position: center;
+  width: 169px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.description {
+  color: #000;
+  letter-spacing: -1.26px;
+  align-self: stretch;
+  margin-top: 31px;
+  font: 700 50px DMSans, sans-serif;
+}
+
+.text {
+  color: #000;
+  letter-spacing: -0.5px;
+  align-self: stretch;
+  margin-top: 30px;
+  font: 400 20px/28px DMSans, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.link {
+  border-radius: 18px;
+  background-color: #000;
+  display: flex;
+  align-items: center; /* Align items vertically */
+  margin-top: 33px;
+  padding: 10px 20px; /* Adjust padding for button size */
+}
+
+.button {
+  color: #fff;
+  letter-spacing: -0.43px;
+  font: 700 17px DMSans, sans-serif;
+  flex: 1; /* Allow button to take up available space */
+}
+
+.img-container {
+  display: flex; /* Ensure image container is also a flex container */
+  align-items: center; /* Align items vertically */
+  margin-left: 10px; /* Adjust margin to create space between caption and image */
+}
+
+.img-3 {
+  width: 20px;
+  max-width: 100%;
+}
+
+
+
+.Box {
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffac12 0%, #000 94.96%);
+  align-self: center;
+  display: flex;
+  margin-top: 185px;
+  width: 336px;
+  max-width: 100%;
+  height: 4px;
+  flex-direction: column;
+}
+
+.Quote {
+  color: #000000;
+  letter-spacing: -0.6px;
+  align-self: center;
+  margin-top: 47px;
+  width: 336px;
+  max-width: 100%;
+  font: 700 24px DMSans, sans-serif;
+}
