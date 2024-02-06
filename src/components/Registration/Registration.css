@@ -78,7 +78,6 @@
   vertical-align: middle;
   white-space: nowrap;
   width: 100%;
-
 }
 
 .gsi-material-button .gsi-material-button-icon {
@@ -143,4 +142,7 @@
   opacity: 16%;
 }
 
-
+.googleLogin {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
