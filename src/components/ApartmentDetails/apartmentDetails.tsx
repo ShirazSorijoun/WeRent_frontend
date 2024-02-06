@@ -381,7 +381,7 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
                   <div className="css-1wpv10e e125ttrt3">
                     <div
                       className={
-                        apartment.features.storageRoom
+                        apartment.features.storage
                           ? "css-1p1vgp0 elkstcv0"
                           : "css-tc23vv elkstcv0"
                       }
@@ -402,7 +402,7 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
                         </svg>
                       </div>
                       <div className="css-stb5t9 elkstcv2">
-                        {apartment.features.storageRoom
+                        {apartment.features.storage
                           ? "יש מחסן"
                           : "אין מחסן"}
                       </div>
