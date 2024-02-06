@@ -5,9 +5,9 @@ import AddApartment from "./components/AddApartment/addApartment";
 import ApartmentDetails from "./components/ApartmentDetails/apartmentDetails";
 import AddReview from "./components/AddReview/addReview";
 import Login from "./components/Login/login"
-import { BrowserRouter as Router } from "react-router-dom";
+//import { BrowserRouter as Router } from "react-router-dom";
 import Registration from "./components/Registration/Registration";
-import LandingPage from "./pages/LandingPage/LandingPage";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App: React.FC = () => {
   const apartmentId = '65c254369bfa1933808ec5e1';
@@ -15,7 +15,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <LandingPage />
+        <Registration />
       </div>
     </Router>
   );
