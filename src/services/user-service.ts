@@ -25,6 +25,13 @@ export interface ILogin {
   password: string;
 }
 
+export interface UpdateOwnProfileData {
+  name?: string;
+  email?: string;
+  password?: string;
+  profile_image?: string;
+}
+
 export const registerUser = (user: IUser) => {
   return new Promise<IUser>((resolve, reject) => {
     console.log("Registering user...");
@@ -78,50 +85,95 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
 };
 
 export const refreshAccessToken = async (token: string) => {
-    const abortController = new AbortController();
+  const abortController = new AbortController();
 
-    try {
-      const response = await apiClient.get("/auth/refresh", {
-        signal: abortController.signal,
+  try {
+    const response = await apiClient.get("/auth/refresh", {
+      signal: abortController.signal,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(response.data);
+    const { accessToken, refreshToken } = response.data;
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  } catch (error) {
+    console.error("Token refresh failed:", error);
+    throw error;
+  } finally {
+    abortController.abort();
+  }
+};
+
+export const getUserById = async (userId: string, token: string) => {
+  const abortController = new AbortController();
+  try {
+    const response = await apiClient.get(`/user/id/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const { name, email, password, profile_image } = response.data;
+    return { name, email, password, profile_image };
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw error;
+  } finally {
+    abortController.abort();
+  }
+};
+
+export const updateOwnProfile = async (
+  data: UpdateOwnProfileData,
+  token: string
+): Promise<void> => {
+  try {
+    const response = await apiClient.patch("/user/updateOwnProfile", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      console.log("Profile updated successfully");
+    } else {
+      console.error("Failed to update profile:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error;
+  }
+};
+
+export const checkOldPassword = async (
+  oldPassword: string,
+  token: string
+): Promise<boolean> => {
+  try {
+    const response = await apiClient.post(
+      "/user/checkOldPassword",
+      { oldPassword },
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-  
-      console.log(response.data)
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-
-  
-      return {
-        accessToken,
-        refreshToken,
-      };
-    } catch (error) {
-      console.error('Token refresh failed:', error);
-      throw error;
-    } finally {
-      abortController.abort();
+      }
+    );
+    const isValid = response.data.isValid
+    if (isValid) {
+      return true;
+    } else {
+      return false;
     }
-  };
-  
-  export const getUserById = async (userId: string, token: string) => {
-    const abortController = new AbortController();
-    try {
-      const response = await apiClient.get(`/user/id/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { name, email } = response.data;
-      return {name , email}
-    } catch (error) {
-      console.error("Error fetching user by ID:", error);
-      throw error;
-    } finally {
-      abortController.abort();
-    }
-  };
+  } catch (error) {
+    console.error("Error checking old password:", error);
+    throw new Error("Internal Server Error");
+  }
+};
