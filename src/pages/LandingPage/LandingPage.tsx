@@ -58,7 +58,19 @@ const LandingPage: React.FC = () => {
                             />
                             <div className="description">You're in good hands</div>
                             <div className="text">
-                              Added text about us
+                            <p>Welcome to our real estate platform, where dreams find their perfect home.</p>
+                            <p>At WeRent, we understand that finding the ideal property is more than just a transaction;</p>
+                            it's about finding the place where memories are made,
+                            where families grow,
+                            and where individuals thrive.
+                            <p>
+                            With a commitment to excellence and personalized service,
+                            we strive to connect buyers and sellers to their ideal properties seamlessly.
+                            </p>
+                            Our team of experienced professionals is dedicated to guiding you through every step of the real estate journey,
+                            ensuring that each transaction is smooth, transparent, and tailored to your unique needs.
+                            Whether you're searching for your dream home or looking to list your property,
+                            trust us to be your partner in realizing your real estate aspirations.
                             </div>
                             <span className="link">
                               <div className="button">Learn more</div>
