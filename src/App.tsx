@@ -7,6 +7,7 @@ import AddReview from "./components/AddReview/addReview";
 import Login from "./components/Login/login"
 import { BrowserRouter as Router } from "react-router-dom";
 import Registration from "./components/Registration/Registration";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App: React.FC = () => {
   const apartmentId = '65c254369bfa1933808ec5e1';
@@ -14,7 +15,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <ApartmentDetails apartmentId={apartmentId} />
+        <Registration />
       </div>
     </Router>
   );
