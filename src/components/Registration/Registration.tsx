@@ -164,7 +164,7 @@ function Registration() {
           ></img>
         </div>
 
-        <div className="col-md-7 d-flex align-items-center justify-content-center">
+        <div className="col-md-7 d-flex">
           <div className="vstack gap-3 col-md-7 mx-auto">
             <h1 className="register-title d-flex justify-content-center position-relative">
               Registration
@@ -258,7 +258,7 @@ function Registration() {
             )}
             <button
               type="button"
-              className="btn btn-primary"
+              className="button-71"
               onClick={onRegister}
             >
               Register
