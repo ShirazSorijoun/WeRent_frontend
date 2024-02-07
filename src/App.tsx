@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Reviews from "./components/Reviews/reviews";
 import Login from "./components/Login/login";
@@ -10,8 +11,9 @@ import SignUpPage from "./components/Registration/Registration";
 //import UserPage from "./pages/UserPage/UserPage";
 //import AddApartmentPage from "./pages/AddApartmentPage/AddApartmentPage";
 
-
 const App: React.FC = () => {
+  //const apartmentId = '65c254369bfa1933808ec5e1';
+
   return (
     <Router>
       <div>
@@ -29,3 +31,5 @@ const App: React.FC = () => {
     </Router>
   );
 };
+
+export default App;
