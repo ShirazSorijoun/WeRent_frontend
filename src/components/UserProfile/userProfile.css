@@ -1,0 +1,8 @@
+.form-label{
+  color: #5E6E82;
+  margin: 0px 0px 8px;
+}
+
+.g-3, .gy-3 {
+  --falcon-gutter-y: 1rem;
+}
