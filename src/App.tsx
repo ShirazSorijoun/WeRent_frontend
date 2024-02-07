@@ -1,23 +1,21 @@
 import React from "react";
 import "./App.css";
 
-import UserPage from "./pages/UserPage/userPage";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
-import LandingPage from "./pages/LandingPage/LandingPage";
-import AddApartmentPage from "./pages/AddApartmentPage/addApartmentPage";
+//import AddApartment from "./components/AddApartment/addApartment";
+//import ApartmentDetails from "./components/ApartmentDetails/apartmentDetails";
+//import AddReview from "./components/AddReview/addReview";
+//import Login from "./components/Login/login"
+import UserProfile from "./components/UserProfile/userProfile"
+import { BrowserRouter as Router } from "react-router-dom";
+//import Registration from "./components/Registration/Registration";
+
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/profile" element={<UserPage />} />
-        <Route path="/addapartment" element={<AddApartmentPage />} />
-      </Routes>
+      <div className="App">
+        <UserProfile/>
+      </div>
     </Router>
   );
 };

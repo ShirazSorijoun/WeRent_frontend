@@ -1,5 +1,6 @@
 import React from 'react';
 import './Footer.css';
+//import "./pages/LandingPage";
 
 const Footer: React.FC = () => {
     return (
@@ -7,21 +8,12 @@ const Footer: React.FC = () => {
             <div className="footer-content">
                 <div className="footer-section about">
                     <h2>About Us</h2>
-                    <p>We are a fictional company providing examples for demonstration.</p>
+                    <p>Discover your dream home with WeRent, where excellence meets personalized service in every real estate transaction.</p>
                 </div>
                 <div className="footer-section contact">
                     <h2>Contact Us</h2>
-                    <p>Email: example@example.com</p>
+                    <p>Email: WeRent@gmail.com</p>
                     <p>Phone: 123-456-7890</p>
-                </div>
-                <div className="footer-section links">
-                    <h2>Quick Links</h2>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
                 </div>
             </div>
             <div className="footer-bottom">
