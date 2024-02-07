@@ -1,30 +1,5 @@
-/*
-import React from 'react';
-import Button from '@mui/material/Button';
-import './Navbar.css';
-
-
-const Navbar: React.FC = () => {
-  return (
-    <nav className="navbar">
-    <div className="auth-buttons">
-      <Button variant="contained" color="primary" className="login-btn">
-        Login
-      </Button>
-      <Button variant="contained" color="secondary" className="signup-btn">
-        Sign Up
-      </Button>
-    </div>
-  </nav>
-  );
-};
-
-export default Navbar;
-*/
-
-
-
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
@@ -42,10 +17,18 @@ function Navbar() {
         Fix<span style={{ color: "rgba(242,153,74,1)" }}>N</span>Drive.
       </div>
       <div className="pages">
-        <div className="page">Home</div>
-        <div className="page">Rent</div>
-        <div className="page">Profile</div>
-        <div className="page">Contact Us</div>
+        <Link to="/" className="page">
+          Home
+        </Link>
+        <Link to="/rent" className="page">
+          Rent
+        </Link>
+        <Link to="/profile" className="page">
+          Profile
+        </Link>
+        <Link to="/contact" className="page">
+          Contact Us
+        </Link>
       </div>
       <div className="auth-buttons">
         {isLoggedIn ? (
@@ -54,8 +37,12 @@ function Navbar() {
           </div>
         ) : (
           <>
-            <div className="auth-button">Login</div>
-            <div className="auth-button">Sign up</div>
+            <Link to="/login" className="auth-button">
+              Login
+            </Link>
+            <Link to="/signup" className="auth-button">
+              Sign up
+            </Link>
           </>
         )}
       </div>
@@ -64,6 +51,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-
-

@@ -1,94 +1,57 @@
-/*
-.navbar {
-  background-image: url('https://i0.wp.com/judaicandart.co.il/wp-content/uploads/2023/01/שיש-שחור.webp?fit=1900%2C400&ssl=1');
-  margin-top: 0px;
-  margin-bottom: 0px;
-  top: 0px;
-  padding: 10px 0px 10px 0px;
-  z-index: 99;
-  display: none;
-}
-
-.login-btn {
-  background-color: #007bff;
-}
-
-.login-btn:hover {
-  background-color: #0056b3;
-}
-
-.signup-btn {
-  background-color: #dc3545; 
-}
-
-.signup-btn:hover {
-  background-color: #c82333;
-}
-*/
-
-
 .nav {
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08),
-    0px 0px 4px 0px rgba(0, 0, 0, 0.04);
-  display: flex;
-  gap: 20px;
-  padding: 16px 24px;
-  @media (max-width: 991px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+  padding: 10px 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--Secondary-Main, #f2994a);
-  text-align: center;
-  font: 700 32px/40px Product Sans, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333;
 }
 
 .logo-image {
-  aspect-ratio: 1;
-  object-fit: contain;
-  object-position: center;
-  width: 28px;
-  max-width: 100%;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
 }
 
 .pages {
   display: flex;
-  gap: 20px;
+  align-items: center;
 }
 
 .page {
-  color: #000;
-  white-space: nowrap;
-  border-bottom: 2px solid var(--Primary-Main, #4c4ddc);
-  padding: 4px;
-  font: 700 16px/150% Product Sans, sans-serif;
+  margin-right: 20px;
+  color: #333333;
+  text-decoration: none;
+}
+
+.page:hover {
+  color: #f2994a;
+  cursor: pointer;
 }
 
 .auth-buttons {
   display: flex;
-  gap: 12px;
+  align-items: center;
 }
 
 .auth-button {
-  color: var(--Neutral-10, #fff);
-  white-space: nowrap;
-  border-radius: 6px;
-  border: 2px solid var(--Primary-Pressed, #21217a);
-  background-color: var(--Primary-Main, #4c4ddc);
-  padding: 6px 16px;
-  font: 400 20px/140% Product Sans, sans-serif;
+  margin-right: 10px;
+  padding: 8px 15px;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  color: #333333;
   cursor: pointer;
 }
 
-
+.auth-button:hover {
+  background-color: #f2994a;
+  color: #ffffff;
+}
