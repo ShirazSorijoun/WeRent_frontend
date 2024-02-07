@@ -2,8 +2,27 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-function Navbar() {
+function Navbar(){
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    if (localStorage.getItem("accessToken") !== null
+      && localStorage.getItem("refreshToken") !== null
+      && localStorage.getItem("userId") !== null)
+    setIsLoggedIn(true);
+
+    console.log("User logged in (Navbar)");
+  };
+
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userId");
+    console.log("User logged out");
+    setIsLoggedIn(false);
+  };
+
 
   return (
     <div className="nav">
@@ -30,14 +49,18 @@ function Navbar() {
           Contact Us
         </Link>
       </div>
+
+
+
       <div className="auth-buttons">
         {isLoggedIn ? (
-          <div className="auth-button" onClick={() => setIsLoggedIn(false)}>
+          <div className="auth-button" onClick={handleLogout}>
             Logout
           </div>
         ) : (
+          // If user is not logged in, show login and signup buttons
           <>
-            <Link to="/login" className="auth-button">
+            <Link to="/login" className="auth-button" onClick={handleLogin}>
               Login
             </Link>
             <Link to="/signup" className="auth-button">
