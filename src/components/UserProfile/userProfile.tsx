@@ -158,7 +158,7 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "space-between"}}>
       <Card
         style={{
           width: "500px",
@@ -315,6 +315,7 @@ const UserProfile: React.FC = () => {
               onChange={(e) => setNewPassword(e.target.value)}
             ></input>
           </div>
+          <div style={{marginTop: "20px"}}></div>
           <Button variant="primary" onClick={handleChangePassword}>
             {loading ? <Spinner animation="border" size="sm" /> : "Save"}
           </Button>
