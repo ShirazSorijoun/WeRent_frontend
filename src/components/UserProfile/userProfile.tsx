@@ -47,7 +47,6 @@ const UserProfile: React.FC = () => {
       setLoading(true);
       const response = await getUserById(userId, token || "");
       const { name, email, password, profile_image } = response;
-      console.log(password);
       setUserProfile((prev) => ({
         ...prev,
         name,
@@ -141,7 +140,7 @@ const UserProfile: React.FC = () => {
     const token = localStorage.getItem("accessToken");
     try {
       const isValid = await checkOldPassword(oldPassword, token || "");
-      console.log(isValid)
+      //console.log(isValid)
       if (isValid) {
         await updateOwnProfile(
           { ...tempUserProfile, password: newPassword },
