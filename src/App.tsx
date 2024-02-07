@@ -10,9 +10,9 @@ import Navbar from "./components/Navbar/Navbar";
 import SignUpPage from "./components/Registration/Registration";
 import UserPage from "./pages/UserPage/userPage";
 import AddApartmentPage from "./pages/AddApartmentPage/addApartmentPage";
+import Footer from "./components/Footer/Footer";
 
 const App: React.FC = () => {
-  //const apartmentId = '65c254369bfa1933808ec5e1';
 
   return (
     <Router>
@@ -27,6 +27,7 @@ const App: React.FC = () => {
           <Route path="/addApartment" element={<AddApartmentPage/>} />
 
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
