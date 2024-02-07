@@ -1,6 +1,30 @@
 import apiClient, { CanceledError } from "./api-client"
 import { ApartmentProps } from "../types/types";
 
+interface UpdatedApartment {
+  city: string;
+  address: string;
+  type: string;
+  floor: number;
+  numberOfFloors: number;
+  rooms: number;
+  sizeInSqMeters: number;
+  price: number;
+  entryDate: string;
+  furniture: boolean;
+  features: {
+    parking: boolean;
+    accessForDisabled: boolean;
+    storage: boolean;
+    dimension: boolean;
+    terrace: boolean;
+    garden: boolean;
+    elevators: boolean;
+    airConditioning: boolean;
+  };
+  description: string;
+  phone: string;
+}
 
 export { CanceledError }
 const getAllApartments = () => {
@@ -39,5 +63,28 @@ const getApartmentById = (id: string) => {
   });
   return { req, abort: () => abortController.abort() };
 };
+
+const updateApartment = async (id : string, updatedApartment :UpdatedApartment,token : string) => {
+  try {
+    const response = await apiClient.patch(`/apartment/update`, {
+      id,
+      updatedApartment,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error('Failed to update apartment:', response.statusText);
+      throw new Error('Failed to update apartment');
+    }
+  } catch (error) {
+    console.error('Error updating apartment');
+    throw error;
+  }
+};
   
-export default { getAllApartments, postApartment ,getApartmentById};
+export default { getAllApartments, postApartment ,getApartmentById ,updateApartment };
