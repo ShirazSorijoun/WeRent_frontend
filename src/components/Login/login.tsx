@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { ILogin, loginUser } from "../../services/user-service";
+import { useAuth } from "../Navbar/authContext";
+import { useNavigate } from "react-router";
 
 const Login: React.FC = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState<ILogin>({
     name: "",
     email: "",
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -30,9 +34,10 @@ const Login: React.FC = () => {
       localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
       localStorage.setItem("refreshToken", loginResponse?.tokens.refreshToken);
       localStorage.setItem("userId", loginResponse?.userId);
-      
-      setError(null);
 
+      setError(null);
+      login();
+      navigate("/");
     } catch (error) {
       console.error("Login failed", error);
       setError("Invalid username or password");
@@ -40,7 +45,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{marginBottom: "130px"}}>
       <div className="col-sm-6 offset-sm-3">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
@@ -84,7 +89,7 @@ const Login: React.FC = () => {
             />
           </div>
           {error && <p className="text-danger">{error}</p>}
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" onClick={login}>
             Login
           </button>
         </form>

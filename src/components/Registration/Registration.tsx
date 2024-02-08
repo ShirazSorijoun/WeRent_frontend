@@ -2,7 +2,7 @@ import "./Registration.css";
 import { ChangeEvent, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import img from "../../assets/img.jpg";
-import loginIcon from "../../assets/icon.webp";
+import UserVactor from "../../assets/user_vector.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { uploadImg } from "../../services/file-service";
@@ -17,6 +17,8 @@ import {
 import { z } from "zod";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import "./Registration.css";
+import { useAuth } from "../Navbar/authContext";
+import { useNavigate } from "react-router";
 
 const schema = z.object({
   name: z.string().min(3, { message: "Name must contain at least 3 letters" }),
@@ -27,6 +29,8 @@ const schema = z.object({
 });
 
 function Registration() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [imgSrc, setImgSrc] = useState<File>();
   const [selectedItem, setSelectedItem] = useState<string>("User type");
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
@@ -100,6 +104,7 @@ function Registration() {
     ) {
       if (selectedItem === "Owner") newSelectedItem = UserRole.Owner;
       if (selectedItem === "Tenant") newSelectedItem = UserRole.Tenant;
+      console.log(url)
 
       const user: IUser = {
         name: nameInputRef.current?.value,
@@ -125,6 +130,8 @@ function Registration() {
           loginResponse?.tokens.refreshToken
         );
         localStorage.setItem("userId", loginResponse?.userId);
+        login();
+        navigate("/");
       } catch (error) {
         console.error("Login failed:", error);
       }
@@ -143,6 +150,8 @@ function Registration() {
       localStorage.setItem("accessToken", res?.accessToken);
       localStorage.setItem("refreshToken", res?.refreshToken);
       localStorage.setItem("userId", res?._id);
+      login();
+      navigate("/");
     } catch (e) {
       console.log(e);
     }
@@ -153,8 +162,8 @@ function Registration() {
   };
 
   return (
-    <div className="container mt-5 mb-5">
-      <div className="row">
+    <div className="container">
+      <div className="row" style={{marginBottom:"120px" , marginTop:"50px"}}>
         <div className="col-md-5 d-flex align-items-center justify-content-center">
           <img
             src={img}
@@ -177,13 +186,13 @@ function Registration() {
               <div style={{ height: "230px", width: "230px" }}>
                 {imgSrc ? (
                   <img
-                    src={imgSrc ? URL.createObjectURL(imgSrc) : loginIcon}
+                    src={imgSrc ? URL.createObjectURL(imgSrc) : UserVactor}
                     className="img-fluid"
                     alt="Preview"
                     style={{ height: "230px", width: "230px" }}
                   />
                 ) : (
-                  <img src={loginIcon} className="img-fluid" alt="Preview" />
+                  <img src={UserVactor} className="img-fluid" alt="Preview" />
                 )}
 
                 <button

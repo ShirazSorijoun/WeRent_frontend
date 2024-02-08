@@ -1,28 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import { useAuth } from "./authContext";
 
-function Navbar(){
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    if (localStorage.getItem("accessToken") !== null
-      && localStorage.getItem("refreshToken") !== null
-      && localStorage.getItem("userId") !== null)
-    setIsLoggedIn(true);
-
-    console.log("User logged in (Navbar)");
-  };
-
+function Navbar() {
+  const { isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userId");
-    console.log("User logged out");
-    setIsLoggedIn(false);
+    logout();
+    navigate("/");
   };
-
 
   return (
     <div className="nav">
@@ -39,18 +26,17 @@ function Navbar(){
         <Link to="/" className="page">
           Home
         </Link>
+        {isLoggedIn && (
         <Link to="/rent" className="page">
           Rent
         </Link>
-        <Link to="/profile" className="page">
-          Profile
-        </Link>
-        <Link to="/contact" className="page">
-          Contact Us
-        </Link>
+        )}
+        {isLoggedIn && (
+          <Link to="/profile" className="page">
+            Profile
+          </Link>
+        )}
       </div>
-
-
 
       <div className="auth-buttons">
         {isLoggedIn ? (
@@ -60,7 +46,7 @@ function Navbar(){
         ) : (
           // If user is not logged in, show login and signup buttons
           <>
-            <Link to="/login" className="auth-button" onClick={handleLogin}>
+            <Link to="/login" className="auth-button">
               Login
             </Link>
             <Link to="/signup" className="auth-button">
