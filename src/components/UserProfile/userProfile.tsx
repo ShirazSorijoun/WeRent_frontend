@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { Card, Button, Modal, Form, Spinner } from "react-bootstrap";
+import { Card, Button, Modal, Form, Spinner, Alert } from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
 import {
   checkOldPassword,
@@ -25,6 +25,9 @@ const UserProfile: React.FC = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordError2, setPasswordError2] = useState<string | null>(null);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const fetchUserProfile = async () => {
     const userId = localStorage.getItem("userId");
@@ -139,6 +142,13 @@ const UserProfile: React.FC = () => {
 
     const token = localStorage.getItem("accessToken");
     try {
+      // Check if the new password has at least 6 characters
+      if (newPassword.length < 6) {
+        setPasswordError("Password must be at least 6 characters");
+        return;
+      } else {
+        setPasswordError(null);
+      }
       const isValid = await checkOldPassword(oldPassword, token || "");
       //console.log(isValid)
       if (isValid) {
@@ -148,8 +158,12 @@ const UserProfile: React.FC = () => {
         );
         setUserProfile({ ...tempUserProfile });
         fetchUserProfile();
+        setPasswordError2(null);
+        setShowSuccessAlert(true);
+        setTimeout(() => setShowSuccessAlert(false), 3000);
         console.log("Password updated successfully!");
       } else {
+        setPasswordError2("Not valid password");
         console.log("not valid password");
       }
     } catch (error) {
@@ -158,7 +172,7 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between"}}>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       <Card
         style={{
           width: "500px",
@@ -300,27 +314,42 @@ const UserProfile: React.FC = () => {
               Old password
             </label>
             <input
+              type="password"
               className="form-control"
               id="OldPassword"
               onChange={(e) => setOldPassword(e.target.value)}
             ></input>
+            {passwordError2 && <p className="text-danger">{passwordError2}</p>}
           </div>
           <div className="col-lg-6">
             <label className="form-label" htmlFor="NewPassword">
               New Password
             </label>
             <input
+              type="password"
               className="form-control"
               id="NewPassword"
               onChange={(e) => setNewPassword(e.target.value)}
             ></input>
+            {passwordError && <p className="text-danger">{passwordError}</p>}
           </div>
-          <div style={{marginTop: "20px"}}></div>
+          <div style={{ marginTop: "20px" }}></div>
           <Button variant="primary" onClick={handleChangePassword}>
             {loading ? <Spinner animation="border" size="sm" /> : "Save"}
           </Button>
         </Card.Body>
       </Card>
+
+      {/* Alert for success */}
+      <Alert
+        variant="success"
+        show={showSuccessAlert}
+        onClose={() => setShowSuccessAlert(false)}
+        dismissible
+        style={{ position: "fixed", top: 0, right: 0, left: 0, zIndex: 9999 }}
+      >
+        Password changed successfully!
+      </Alert>
     </div>
   );
 };
