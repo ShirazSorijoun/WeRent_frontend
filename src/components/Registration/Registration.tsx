@@ -125,11 +125,10 @@ function Registration() {
         //console.log(loginResponse)
 
         localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
-        localStorage.setItem(
-          "refreshToken",
-          loginResponse?.tokens.refreshToken
-        );
+        localStorage.setItem("refreshToken",loginResponse?.tokens.refreshToken);
         localStorage.setItem("userId", loginResponse?.userId);
+        localStorage.setItem("roles", loginResponse?.userRole);
+
         login();
         navigate("/");
       } catch (error) {
