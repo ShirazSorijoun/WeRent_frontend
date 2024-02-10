@@ -15,8 +15,8 @@ const Login: React.FC = () => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "name" | "email" | "password"
-  ) => {
+    field: "name" | "email" | "password",
+    ) => {
     setFormData({
       ...formData,
       [field]: e.target.value,
@@ -34,6 +34,8 @@ const Login: React.FC = () => {
       localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
       localStorage.setItem("refreshToken", loginResponse?.tokens.refreshToken);
       localStorage.setItem("userId", loginResponse?.userId);
+      localStorage.setItem("roles", loginResponse?.userRole);
+      console.log("roles", localStorage.getItem("roles"));
 
       setError(null);
       login();

@@ -1,6 +1,7 @@
 import { CredentialResponse } from "@react-oauth/google";
 import apiClient from "./api-client";
 
+
 export enum UserRole {
   Admin = "admin",
   Owner = "owner",
@@ -23,6 +24,7 @@ export interface ILogin {
   name: string;
   email: string;
   password: string;
+  rolse?: UserRole;
 }
 
 export interface UpdateOwnProfileData {
@@ -120,8 +122,8 @@ export const getUserById = async (userId: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const { name, email, password, profile_image } = response.data;
-    return { name, email, password, profile_image };
+    const { name, email, password, profile_image, roles } = response.data;
+    return { name, email, password, profile_image, roles };
   } catch (error) {
     console.error("Error fetching user by ID:", error);
     throw error;
@@ -129,6 +131,8 @@ export const getUserById = async (userId: string, token: string) => {
     abortController.abort();
   }
 };
+
+
 
 export const updateOwnProfile = async (
   data: UpdateOwnProfileData,

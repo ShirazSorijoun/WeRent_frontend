@@ -1,15 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "./authContext";
+import { UserRole } from "../../services/user-service";
+
 
 function Navbar() {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, roles } = useAuth();
   const navigate = useNavigate();
+
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
+
 
   return (
     <div className="nav">
@@ -30,6 +34,11 @@ function Navbar() {
         <Link to="/rent" className="page">
           Rent
         </Link>
+        )}
+        {isLoggedIn && roles === UserRole.Owner &&(
+          <Link to="/addApartment" className="page">
+            Add apartment
+          </Link>
         )}
         {isLoggedIn && (
           <Link to="/profile" className="page">
