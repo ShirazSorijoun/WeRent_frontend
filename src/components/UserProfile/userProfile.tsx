@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Card, Button, Modal, Form, Spinner, Alert } from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
@@ -9,6 +10,7 @@ import {
 import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 import { uploadImg } from "../../services/file-service";
 import "./userProfile.css";
+import { ApartmentProps } from "../../types/types";
 //import { faAlignRight } from "@fortawesome/free-solid-svg-icons";
 
 const UserProfile: React.FC = () => {
@@ -19,6 +21,8 @@ const UserProfile: React.FC = () => {
     profile_image: "",
   });
 
+  
+  const [apartments, setApartments] = useState<any[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [tempUserProfile, setTempUserProfile] = useState({ ...userProfile });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -64,6 +68,7 @@ const UserProfile: React.FC = () => {
         password,
         profile_image,
       }));
+      setApartments(response.advertisedApartments.map((apartment: ApartmentProps) => ({ ...apartment })));
     } catch (error) {
       console.error("Error fetching user profile:", error);
     } finally {
@@ -210,14 +215,15 @@ const UserProfile: React.FC = () => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
+              padding: "50px",
             }}
           >
             <img
               src={userProfile.profile_image}
               alt="Profile"
               style={{
-                maxWidth: "200px",
-                maxHeight: "200px",
+                maxWidth: "300px",
+                maxHeight: "300px",
                 alignItems: "center",
               }}
             />
@@ -288,58 +294,112 @@ const UserProfile: React.FC = () => {
         </Modal>
       </Card>
 
-      <Card
-        style={{
-          width: "500px",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          margin: "auto",
-          marginTop: "30px",
-        }}
-      >
-        <Card.Header
+      <div style={{ marginTop: "30px" }}>
+        <Card
           style={{
+            width: "700px",
+            height: "50%",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: "column",
+            margin: "auto",
           }}
         >
-          <h5 style={{ fontWeight: "bold" }}>change Password</h5>
-        </Card.Header>
+          <Card.Header
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h5 style={{ fontWeight: "bold" }}>Change Password</h5>
+          </Card.Header>
 
-        <Card.Body style={{ overflow: "auto" }}>
-          <div className="col-lg-6">
-            <label className="form-label" htmlFor="OldPassword">
-              Old password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="OldPassword"
-              onChange={(e) => setOldPassword(e.target.value)}
-            ></input>
-            {passwordError2 && <p className="text-danger">{passwordError2}</p>}
-          </div>
-          <div className="col-lg-6">
-            <label className="form-label" htmlFor="NewPassword">
-              New Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="NewPassword"
-              onChange={(e) => setNewPassword(e.target.value)}
-            ></input>
-            {passwordError && <p className="text-danger">{passwordError}</p>}
-          </div>
-          <div style={{ marginTop: "20px" }}></div>
-          <Button variant="primary" onClick={handleChangePassword}>
-            {loading ? <Spinner animation="border" size="sm" /> : "Save"}
-          </Button>
-        </Card.Body>
-      </Card>
+          <Card.Body style={{ overflow: "auto" }}>
+            <div className="col-lg-6">
+              <label className="form-label" htmlFor="OldPassword">
+                Old password
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="OldPassword"
+                onChange={(e) => setOldPassword(e.target.value)}
+              ></input>
+              {passwordError2 && (
+                <p className="text-danger">{passwordError2}</p>
+              )}
+            </div>
+            <div className="col-lg-6">
+              <label className="form-label" htmlFor="NewPassword">
+                New password
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="NewPassword"
+                onChange={(e) => setNewPassword(e.target.value)}
+              ></input>
+              {passwordError && <p className="text-danger">{passwordError}</p>}
+            </div>
+            <div style={{ marginTop: "20px" }}></div>
+            <Button variant="primary" onClick={handleChangePassword}>
+              {loading ? <Spinner animation="border" size="sm" /> : "Save"}
+            </Button>
+          </Card.Body>
+        </Card>
 
+        <Card
+          style={{
+            width: "700px",
+            height: "45%",
+            display: "flex",
+            flexDirection: "column",
+            margin: "auto",
+            marginTop: "30px",
+          }}
+        >
+          <Card.Header
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
+          </Card.Header>
+
+          <Card.Body style={{ overflow: "auto" }}>
+            <div className="card-body">
+              {apartments ? (
+               apartments.length > 0 ? (
+                  <>
+                    {apartments.map((apartment) => (
+                      <Card
+                        key={apartment._id}
+                        style={{ marginBottom: "10px",  height: '160px', width: '200px'}}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={apartment.apartment_image}
+                          style={{ height: '100px', width: '100px',display: "flex",}}
+                        />
+                        <Card.Body>
+                          <Card.Title>{apartment.address}</Card.Title>
+                          <Card.Text>{apartment.description}</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    ))}
+                  </>
+                ) : (
+                  <h3>No ads found</h3>
+                )
+              ) : (
+                <h3>Loading...</h3>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
+      </div>
       {/* Alert for success */}
       <Alert
         variant="success"

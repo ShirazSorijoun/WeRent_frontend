@@ -17,6 +17,7 @@ export interface IUser {
   accessToken?: string;
   refreshToken?: string;
   tokens?: string[];
+  advertisedApartments?: string[];
 }
 
 export interface ILogin {
@@ -120,8 +121,10 @@ export const getUserById = async (userId: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const { name, email, password, profile_image } = response.data;
-    return { name, email, password, profile_image };
+    console.log(response.data)
+    const { name, email, password , roles , profile_image } = response.data;
+    const advertisedApartments = response.data.advertisedApartments
+    return { name, email, password , roles, advertisedApartments,profile_image };
   } catch (error) {
     console.error("Error fetching user by ID:", error);
     throw error;
