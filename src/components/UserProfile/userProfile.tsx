@@ -18,10 +18,10 @@ const UserProfile: React.FC = () => {
     name: "",
     email: "",
     password: "",
+    roles: "",
     profile_image: "",
   });
 
-  
   const [apartments, setApartments] = useState<any[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [tempUserProfile, setTempUserProfile] = useState({ ...userProfile });
@@ -53,12 +53,13 @@ const UserProfile: React.FC = () => {
     try {
       setLoading(true);
       const response = await getUserById(userId, token || "");
-      const { name, email, password, profile_image } = response;
+      const { name, email, password, roles, profile_image } = response;
       setUserProfile((prev) => ({
         ...prev,
         name,
         email,
         password,
+        roles,
         profile_image,
       }));
       setTempUserProfile((prev) => ({
@@ -66,9 +67,14 @@ const UserProfile: React.FC = () => {
         name,
         email,
         password,
+        roles,
         profile_image,
       }));
-      setApartments(response.advertisedApartments.map((apartment: ApartmentProps) => ({ ...apartment })));
+      setApartments(
+        response.advertisedApartments.map((apartment: ApartmentProps) => ({
+          ...apartment,
+        }))
+      );
     } catch (error) {
       console.error("Error fetching user profile:", error);
     } finally {
@@ -347,58 +353,67 @@ const UserProfile: React.FC = () => {
             </Button>
           </Card.Body>
         </Card>
-
-        <Card
-          style={{
-            width: "700px",
-            height: "45%",
-            display: "flex",
-            flexDirection: "column",
-            margin: "auto",
-            marginTop: "30px",
-          }}
-        >
-          <Card.Header
+        {userProfile.roles === "owner" && (
+          <Card
             style={{
+              width: "700px",
+              height: "45%",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              flexDirection: "column",
+              margin: "auto",
+              marginTop: "30px",
             }}
           >
-            <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
-          </Card.Header>
+            <Card.Header
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
+            </Card.Header>
 
-          <Card.Body style={{ overflow: "auto" }}>
-            <div className="card-body">
-              {apartments ? (
-               apartments.length > 0 ? (
-                  <>
-                    {apartments.map((apartment) => (
-                      <Card
-                        key={apartment._id}
-                        style={{ marginBottom: "10px",  height: '160px', width: '200px'}}
-                      >
-                        <Card.Img
-                          variant="top"
-                          src={apartment.apartment_image}
-                          style={{ height: '100px', width: '100px',display: "flex",}}
-                        />
-                        <Card.Body>
-                          <Card.Title>{apartment.address}</Card.Title>
-                          <Card.Text>{apartment.description}</Card.Text>
-                        </Card.Body>
-                      </Card>
-                    ))}
-                  </>
+            <Card.Body style={{ overflow: "auto" }}>
+              <div className="card-body">
+                {apartments ? (
+                  apartments.length > 0 ? (
+                    <>
+                      {apartments.map((apartment) => (
+                        <Card
+                          key={apartment._id}
+                          style={{
+                            marginBottom: "10px",
+                            height: "160px",
+                            width: "200px",
+                          }}
+                        >
+                          <Card.Img
+                            variant="top"
+                            src={apartment.apartment_image}
+                            style={{
+                              height: "100px",
+                              width: "100px",
+                              display: "flex",
+                            }}
+                          />
+                          <Card.Body>
+                            <Card.Title>{apartment.address}</Card.Title>
+                            <Card.Text>{apartment.description}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      ))}
+                    </>
+                  ) : (
+                    <h3>No ads found</h3>
+                  )
                 ) : (
-                  <h3>No ads found</h3>
-                )
-              ) : (
-                <h3>Loading...</h3>
-              )}
-            </div>
-          </Card.Body>
-        </Card>
+                  <h3>Loading...</h3>
+                )}
+              </div>
+            </Card.Body>
+          </Card>
+        )}
       </div>
       {/* Alert for success */}
       <Alert
