@@ -287,8 +287,8 @@
 .css-rlze51 {
   border-radius: 8px;
   border: 1px solid rgb(236, 236, 236);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px 5px;
-  margin-bottom: 56px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px;
+  margin-bottom: 20px;
   overflow: hidden;
 }
 
