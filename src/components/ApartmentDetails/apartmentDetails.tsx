@@ -42,6 +42,7 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
 
   const navigate = useNavigate();
   const [ownerId, setOwnerId] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
   const localStorageUserId = localStorage.getItem("userId");
   const [editableApartment, setEditableApartment] = useState<ApartmentProps>({
     ...apartment,
@@ -91,6 +92,9 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
         const name = response.name;
         const email = response.email;
         setUserData({ name, email });
+
+        const response2 = await getUserById(localStorageUserId || "", token || "")
+        setRole(response2.roles)
       } catch (error) {
         console.error("Error fetching user data", error);
       }
@@ -195,15 +199,15 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
             <Button
               onClick={handleEditApartment}
               variant="light"
-              style={{ marginRight: "15px" }}
+              style={{ marginRight: "auto" }}
             >
               <EditIcon />
             </Button>
           ) : (
-            <h1 style={{ height: "40px" }}></h1>
+            <h1 style={{ height: "40px", marginRight: "15px" }}></h1>
           )}
-          {localStorageUserId === ownerId ? (
-            <Button onClick={handleDelete} variant="light" style={{ marginRight: "15px" }}>
+          {localStorageUserId === ownerId || role ==="admin" ? (
+            <Button onClick={handleDelete} variant="light" style={{ }}>
               <DeleteIcon />
             </Button>
           ) : (
