@@ -142,7 +142,9 @@ export const updateOwnProfile = async (
   token: string
 ): Promise<void> => {
   try {
-    const response = await apiClient.patch("/user/updateOwnProfile", data, {
+    const response = await apiClient.patch("/user/updateOwnProfile",  {
+      user: data,
+    }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
