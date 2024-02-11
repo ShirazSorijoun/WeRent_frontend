@@ -11,6 +11,7 @@ import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 import { uploadImg } from "../../services/file-service";
 import "./userProfile.css";
 import { ApartmentProps } from "../../types/types";
+import { Link } from "react-router-dom";
 //import { faAlignRight } from "@fortawesome/free-solid-svg-icons";
 
 const UserProfile: React.FC = () => {
@@ -381,6 +382,8 @@ const UserProfile: React.FC = () => {
                     <>
                       {apartments.map((apartment) => (
                         <Card
+                          as={Link}
+                          to={`/apartment-details/${apartment._id}`}
                           key={apartment._id}
                           style={{
                             marginBottom: "10px",
@@ -391,15 +394,10 @@ const UserProfile: React.FC = () => {
                           <Card.Img
                             variant="top"
                             src={apartment.apartment_image}
-                            style={{
-                              height: "100px",
-                              width: "100px",
-                              display: "flex",
-                            }}
+                            style={{ width: "100px", height: "100px" }}
                           />
                           <Card.Body>
                             <Card.Title>{apartment.address}</Card.Title>
-                            <Card.Text>{apartment.description}</Card.Text>
                           </Card.Body>
                         </Card>
                       ))}

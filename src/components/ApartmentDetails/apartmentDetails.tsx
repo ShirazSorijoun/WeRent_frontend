@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import apartmentService from "../../services/apartments-service";
 import { useEffect, useState } from "react";
@@ -8,11 +9,11 @@ import { getUserById } from "../../services/user-service";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
-  apartmentId,
-}) => {
+const ApartmentDetails: React.FC = () => {
+  const { apartmentId } = useParams();
+  //console.log(apartmentId);
   const [apartment, setApartment] = useState<ApartmentProps>({
     city: "",
     address: "",
@@ -73,7 +74,10 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
       }
     };
 
-    fetchApartmentData(apartmentId);
+    if (apartmentId) {
+      fetchApartmentData(apartmentId);
+    }
+
   }, [apartmentId, localStorageUserId, ownerId]);
 
   const fetchUserData = async (userId: string | undefined) => {
@@ -93,8 +97,11 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
         const email = response.email;
         setUserData({ name, email });
 
-        const response2 = await getUserById(localStorageUserId || "", token || "")
-        setRole(response2.roles)
+        const response2 = await getUserById(
+          localStorageUserId || "",
+          token || ""
+        );
+        setRole(response2.roles);
       } catch (error) {
         console.error("Error fetching user data", error);
       }
@@ -127,12 +134,14 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
     }
 
     const token = localStorage.getItem("accessToken");
-  
+
     try {
-      await apartmentService.deleteApartment(apartmentId, token || "");
-      navigate("/");
+      if (apartmentId) {
+        await apartmentService.deleteApartment(apartmentId, token || "");
+        navigate("/");
+      }
     } catch (error) {
-      console.error('Error deleting apartment:', error);
+      console.error("Error deleting apartment:", error);
     }
   };
 
@@ -148,12 +157,13 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
 
     try {
       setLoading(true);
-
-      await apartmentService.updateApartment(
-        apartmentId,
-        editableApartment,
-        token || ""
-      );
+      if (apartmentId) {
+        await apartmentService.updateApartment(
+          apartmentId,
+          editableApartment,
+          token || ""
+        );
+      }
       setApartment({ ...editableApartment });
       handleCloseEditModal();
       //fetchApartmentData(apartmentId);
@@ -206,8 +216,8 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
           ) : (
             <h1 style={{ height: "40px", marginRight: "15px" }}></h1>
           )}
-          {localStorageUserId === ownerId || role ==="admin" ? (
-            <Button onClick={handleDelete} variant="light" style={{ }}>
+          {localStorageUserId === ownerId || role === "admin" ? (
+            <Button onClick={handleDelete} variant="light" style={{}}>
               <DeleteIcon />
             </Button>
           ) : (

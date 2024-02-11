@@ -123,7 +123,6 @@ export const getUserById = async (userId: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data)
     const { name, email, password , roles , profile_image } = response.data;
     const advertisedApartments = response.data.advertisedApartments
     return { name, email, password , roles, advertisedApartments,profile_image };
