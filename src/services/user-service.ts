@@ -185,3 +185,15 @@ export const checkOldPassword = async (
     throw new Error("Internal Server Error");
   }
 };
+
+
+export const getAllUsers =  (token:string) => {
+  const abortController = new AbortController();
+  const req = apiClient.get<IUser[]>("user", {
+    signal: abortController.signal,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return { req, abort: () => abortController.abort() };
+};

@@ -19,6 +19,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.15.9",
     "@mui/material": "^5.15.9",
+    "@mui/x-data-grid": "^6.19.4",
     "@react-google-maps/api": "^2.19.2",
     "@react-oauth/google": "^0.12.1",
     "antd": "^5.13.1",

@@ -9,9 +9,11 @@ import { getUserById } from "../../services/user-service";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useNavigate, useParams } from "react-router";
+import { uploadImg } from "../../services/file-service";
 
-const ApartmentDetails: React.FC = () => {
+const ApartmentDetails = () => {
   const { apartmentId } = useParams();
   //console.log(apartmentId);
   const [apartment, setApartment] = useState<ApartmentProps>({
@@ -48,6 +50,7 @@ const ApartmentDetails: React.FC = () => {
   const [editableApartment, setEditableApartment] = useState<ApartmentProps>({
     ...apartment,
   });
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -77,7 +80,6 @@ const ApartmentDetails: React.FC = () => {
     if (apartmentId) {
       fetchApartmentData(apartmentId);
     }
-
   }, [apartmentId, localStorageUserId, ownerId]);
 
   const fetchUserData = async (userId: string | undefined) => {
@@ -123,6 +125,55 @@ const ApartmentDetails: React.FC = () => {
 
   const handleCloseEditModal = () => {
     setShowEditModal(false);
+  };
+
+  const handleImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setSelectedImage(files[0]);
+    }
+
+    let photoUrl = apartment.apartment_image;
+
+    if (selectedImage) {
+      const imageResponse = await uploadImg(selectedImage);
+      photoUrl = imageResponse.replace(/\\/g, "/");
+      console.log("photoUrl:", photoUrl);
+    }
+
+    setEditableApartment((prev) => ({
+      ...prev,
+      apartment_image: photoUrl,
+    }));
+
+    const tokenRefreshed = await handleRequestWithToken();
+
+    if (!tokenRefreshed) {
+      console.log("Token refresh failed");
+      return;
+    }
+
+    const token = localStorage.getItem("accessToken");
+    try {
+      if (apartmentId) {
+        await apartmentService.updateApartment(
+          apartmentId,
+          { ...editableApartment, apartment_image: photoUrl },
+          token || ""
+        );
+      }
+
+      setApartment((prev) => ({ ...prev, apartment_image: photoUrl }));
+    } catch {
+      console.log("error to change img");
+    }
+  };
+
+  const handleEditImg = () => {
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) {
+      fileInput.click();
+    }
   };
 
   const handleDelete = async () => {
@@ -241,6 +292,24 @@ const ApartmentDetails: React.FC = () => {
                   alt="Apartment"
                   className="img-fluid mb-4"
                 />
+                {localStorageUserId === ownerId && (
+                  <>
+                    <Button
+                      onClick={handleEditImg}
+                      variant="light"
+                      style={{ marginRight: "auto" }}
+                    >
+                      <AddPhotoAlternateIcon />
+                    </Button>
+                    <input
+                      id="fileInput"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImgChange}
+                      style={{ display: "none" }}
+                    />
+                  </>
+                )}
               </div>
               <div className="css-19n8dai e142rc1o9">
                 <div className="css-1p8obn8 e142rc1o14">
