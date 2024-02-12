@@ -103,6 +103,7 @@ const AllUsersAdmin: React.FC = () => {
             const userIdString = row.id.toString();
             console.log(`Deleting user with ID: ${userIdString}`);
             await deleteUser(userIdString, token || "");
+            setUsers(prevUsers => prevUsers.filter(user => user._id !== row.id));
           }
         }
       }
