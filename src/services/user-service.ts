@@ -197,3 +197,22 @@ export const getAllUsers =  (token:string) => {
   });
   return { req, abort: () => abortController.abort() };
 };
+
+export const deleteUser = async (userId: string, token: string): Promise<void> => {
+  try {
+    const response = await apiClient.delete(`/user/delete/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`Failed to delete user. Status: ${response.status}`);
+    }
+
+    console.log('User deleted successfully');
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw new Error('Failed to delete user');
+  }
+};
