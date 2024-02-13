@@ -17,6 +17,7 @@ const ApartmentDetails = () => {
   const { apartmentId } = useParams();
   //console.log(apartmentId);
   const [apartment, setApartment] = useState<ApartmentProps>({
+    _id: "",
     city: "",
     address: "",
     type: "",
