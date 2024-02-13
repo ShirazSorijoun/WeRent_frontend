@@ -13,6 +13,8 @@ import Footer from "./components/Footer/Footer";
 import { AuthProvider } from "./components/Navbar/authContext";
 import ApartmentDetails from "./components/ApartmentDetails/apartmentDetails";
 import AllUsersAdmin from "./components/AdminPrivate/users";
+import ApartmentCard from "./components/ApartmentCard/ApartmentCard";
+
 
 const App: React.FC = () => {
   return (
@@ -28,7 +30,8 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserPage />} />
             <Route path="/addApartment" element={<AddApartmentPage />} /> 
-            <Route path="/users" element={<AllUsersAdmin />} />     
+            <Route path="/users" element={<AllUsersAdmin />} />
+            <Route path="/ApartmentCard" element={<ApartmentCard />} />
           </Routes>
           <Footer />
         </div>
