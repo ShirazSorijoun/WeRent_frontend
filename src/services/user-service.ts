@@ -123,7 +123,6 @@ export const getUserById = async (userId: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data)
     const { name, email, password , roles , profile_image } = response.data;
     const advertisedApartments = response.data.advertisedApartments
     return { name, email, password , roles, advertisedApartments,profile_image };
@@ -142,7 +141,9 @@ export const updateOwnProfile = async (
   token: string
 ): Promise<void> => {
   try {
-    const response = await apiClient.patch("/user/updateOwnProfile", data, {
+    const response = await apiClient.patch("/user/updateOwnProfile",  {
+      user: data,
+    }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -182,5 +183,36 @@ export const checkOldPassword = async (
   } catch (error) {
     console.error("Error checking old password:", error);
     throw new Error("Internal Server Error");
+  }
+};
+
+
+export const getAllUsers =  (token:string) => {
+  const abortController = new AbortController();
+  const req = apiClient.get<IUser[]>("user", {
+    signal: abortController.signal,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return { req, abort: () => abortController.abort() };
+};
+
+export const deleteUser = async (userId: string, token: string): Promise<void> => {
+  try {
+    const response = await apiClient.delete(`/user/delete/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`Failed to delete user. Status: ${response.status}`);
+    }
+
+    console.log('User deleted successfully');
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw new Error('Failed to delete user');
   }
 };

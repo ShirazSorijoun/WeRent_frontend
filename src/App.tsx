@@ -11,6 +11,8 @@ import UserPage from "./pages/UserPage/userPage";
 import AddApartmentPage from "./pages/AddApartmentPage/addApartmentPage";
 import Footer from "./components/Footer/Footer";
 import { AuthProvider } from "./components/Navbar/authContext";
+import ApartmentDetails from "./components/ApartmentDetails/apartmentDetails";
+import AllUsersAdmin from "./components/AdminPrivate/users";
 
 const App: React.FC = () => {
   return (
@@ -20,11 +22,13 @@ const App: React.FC = () => {
           <Navbar />
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/apartment-details/:apartmentId" element={<ApartmentDetails />} />
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserPage />} />
-            <Route path="/addApartment" element={<AddApartmentPage />} />
+            <Route path="/addApartment" element={<AddApartmentPage />} /> 
+            <Route path="/users" element={<AllUsersAdmin />} />     
           </Routes>
           <Footer />
         </div>

@@ -11,6 +11,7 @@ import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 import { uploadImg } from "../../services/file-service";
 import "./userProfile.css";
 import { ApartmentProps } from "../../types/types";
+import { Link } from "react-router-dom";
 //import { faAlignRight } from "@fortawesome/free-solid-svg-icons";
 
 const UserProfile: React.FC = () => {
@@ -359,7 +360,6 @@ const UserProfile: React.FC = () => {
               width: "700px",
               height: "45%",
               display: "flex",
-              flexDirection: "column",
               margin: "auto",
               marginTop: "30px",
             }}
@@ -374,38 +374,37 @@ const UserProfile: React.FC = () => {
               <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
             </Card.Header>
 
-            <Card.Body style={{ overflow: "auto" }}>
-              <div className="card-body">
+            <Card.Body style={{  overflowX: "auto",display: "flex"}}>
+              <div className="card-body" style={{ overflow: "auto",display: "flex",marginRight: "10px", }}>
                 {apartments ? (
                   apartments.length > 0 ? (
                     <>
                       {apartments.map((apartment) => (
                         <Card
+                          as={Link}
+                          to={`/apartment-details/${apartment._id}`}
                           key={apartment._id}
                           style={{
-                            marginBottom: "10px",
-                            height: "160px",
+                            marginRight: "10px",
+                            height: "180px",
                             width: "200px",
+                            position: "relative",
+                            flexShrink: 0,
                           }}
                         >
                           <Card.Img
                             variant="top"
                             src={apartment.apartment_image}
-                            style={{
-                              height: "100px",
-                              width: "100px",
-                              display: "flex",
-                            }}
+                            style={{ width: "100%", height: "80%" }}
                           />
-                          <Card.Body>
-                            <Card.Title>{apartment.address}</Card.Title>
-                            <Card.Text>{apartment.description}</Card.Text>
+                          <Card.Body style={{padding:"4px"}}>
+                            <Card.Text style={{color:"#344050"}}>{apartment.city}</Card.Text>
                           </Card.Body>
                         </Card>
                       ))}
                     </>
                   ) : (
-                    <h3>No ads found</h3>
+                    <h3>No posts found</h3>
                   )
                 ) : (
                   <h3>Loading...</h3>

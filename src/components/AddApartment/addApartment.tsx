@@ -265,8 +265,8 @@ const AddApartment: React.FC = () => {
     <div className="container mt-5">
       <div className="col-sm-11 col-lg-11 col-xxl-11">
         <div className="card theme-wizard mb-5">
-          <div className="card-header bg-light pt-3 pb-2">
-            <ul className="nav justify-content-between">
+          <div className="card-header theme-wizard pt-3 pb-2 custom-header">
+            <ul className="nav justify-content-between" style={{backgroundColor: "#F8F9FA" }}>
               <a className="nav-link fw-semi-bold">
                 {currentStep === 1 && (
                   <span className="d-none d-md-block mt-1 fs--1">Photos</span>

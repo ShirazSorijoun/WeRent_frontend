@@ -275,20 +275,11 @@
   margin-left: 8px;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 50px auto 0;
-  max-width: 95%;
-}
-
 .css-rlze51 {
   border-radius: 8px;
   border: 1px solid rgb(236, 236, 236);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   overflow: hidden;
 }
 
@@ -335,4 +326,8 @@
 
 .margin-between-sections {
     margin-top: 40px;
+  }
+
+  .custom-header {
+    background-color: #F8F9FA; 
   }

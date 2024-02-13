@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import apartmentService from "../../services/apartments-service";
 import { useEffect, useState } from "react";
@@ -8,11 +9,13 @@ import { getUserById } from "../../services/user-service";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { useNavigate, useParams } from "react-router";
+import { uploadImg } from "../../services/file-service";
 
-const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
-  apartmentId,
-}) => {
+const ApartmentDetails = () => {
+  const { apartmentId } = useParams();
+  //console.log(apartmentId);
   const [apartment, setApartment] = useState<ApartmentProps>({
     city: "",
     address: "",
@@ -47,6 +50,7 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
   const [editableApartment, setEditableApartment] = useState<ApartmentProps>({
     ...apartment,
   });
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +77,9 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
       }
     };
 
-    fetchApartmentData(apartmentId);
+    if (apartmentId) {
+      fetchApartmentData(apartmentId);
+    }
   }, [apartmentId, localStorageUserId, ownerId]);
 
   const fetchUserData = async (userId: string | undefined) => {
@@ -93,8 +99,11 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
         const email = response.email;
         setUserData({ name, email });
 
-        const response2 = await getUserById(localStorageUserId || "", token || "")
-        setRole(response2.roles)
+        const response2 = await getUserById(
+          localStorageUserId || "",
+          token || ""
+        );
+        setRole(response2.roles);
       } catch (error) {
         console.error("Error fetching user data", error);
       }
@@ -118,6 +127,55 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
     setShowEditModal(false);
   };
 
+  const handleImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setSelectedImage(files[0]);
+    }
+
+    let photoUrl = apartment.apartment_image;
+
+    if (selectedImage) {
+      const imageResponse = await uploadImg(selectedImage);
+      photoUrl = imageResponse.replace(/\\/g, "/");
+      console.log("photoUrl:", photoUrl);
+    }
+
+    setEditableApartment((prev) => ({
+      ...prev,
+      apartment_image: photoUrl,
+    }));
+
+    const tokenRefreshed = await handleRequestWithToken();
+
+    if (!tokenRefreshed) {
+      console.log("Token refresh failed");
+      return;
+    }
+
+    const token = localStorage.getItem("accessToken");
+    try {
+      if (apartmentId) {
+        await apartmentService.updateApartment(
+          apartmentId,
+          { ...editableApartment, apartment_image: photoUrl },
+          token || ""
+        );
+      }
+
+      setApartment((prev) => ({ ...prev, apartment_image: photoUrl }));
+    } catch {
+      console.log("error to change img");
+    }
+  };
+
+  const handleEditImg = () => {
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   const handleDelete = async () => {
     const tokenRefreshed = await handleRequestWithToken();
 
@@ -127,12 +185,14 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
     }
 
     const token = localStorage.getItem("accessToken");
-  
+
     try {
-      await apartmentService.deleteApartment(apartmentId, token || "");
-      navigate("/");
+      if (apartmentId) {
+        await apartmentService.deleteApartment(apartmentId, token || "");
+        navigate("/");
+      }
     } catch (error) {
-      console.error('Error deleting apartment:', error);
+      console.error("Error deleting apartment:", error);
     }
   };
 
@@ -148,12 +208,13 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
 
     try {
       setLoading(true);
-
-      await apartmentService.updateApartment(
-        apartmentId,
-        editableApartment,
-        token || ""
-      );
+      if (apartmentId) {
+        await apartmentService.updateApartment(
+          apartmentId,
+          editableApartment,
+          token || ""
+        );
+      }
       setApartment({ ...editableApartment });
       handleCloseEditModal();
       //fetchApartmentData(apartmentId);
@@ -206,8 +267,8 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
           ) : (
             <h1 style={{ height: "40px", marginRight: "15px" }}></h1>
           )}
-          {localStorageUserId === ownerId || role ==="admin" ? (
-            <Button onClick={handleDelete} variant="light" style={{ }}>
+          {localStorageUserId === ownerId || role === "admin" ? (
+            <Button onClick={handleDelete} variant="light" style={{}}>
               <DeleteIcon />
             </Button>
           ) : (
@@ -231,6 +292,24 @@ const ApartmentDetails: React.FC<{ apartmentId: string }> = ({
                   alt="Apartment"
                   className="img-fluid mb-4"
                 />
+                {localStorageUserId === ownerId && (
+                  <>
+                    <Button
+                      onClick={handleEditImg}
+                      variant="light"
+                      style={{ marginRight: "auto" }}
+                    >
+                      <AddPhotoAlternateIcon />
+                    </Button>
+                    <input
+                      id="fileInput"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImgChange}
+                      style={{ display: "none" }}
+                    />
+                  </>
+                )}
               </div>
               <div className="css-19n8dai e142rc1o9">
                 <div className="css-1p8obn8 e142rc1o14">

@@ -7,6 +7,7 @@ export interface UpdatedApartment {
   floor: number;
   numberOfFloors: number;
   rooms: number;
+  apartment_image: string;
   sizeInSqMeters: number;
   price: number;
   entryDate: string;
@@ -71,7 +72,6 @@ const updateApartment = async (
   updatedApartment: ApartmentProps,
   token: string
 ) => {
-  console.log(updatedApartment);
   try {
     const response = await apiClient.patch(
       `/apartment/update`,
