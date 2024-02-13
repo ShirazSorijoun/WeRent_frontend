@@ -1,0 +1,58 @@
+
+.main-container {
+    display: flex;
+    max-width: 382px;
+    flex-direction: column;
+    font-size: 18px;
+    color: #9a9a9a;
+    padding: 0 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    width: 30px;
+  }
+  
+  .listing-container {
+    border-radius: 12px;
+    background-color: #e0e2e6;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    padding: 22px;
+  }
+  
+  .price {
+    font-family: Montserrat, sans-serif;
+  }
+  
+  .image {
+    aspect ratio: 5.56;
+    object-fit: auto;
+    object-position: center;
+    width: 55px;
+    margin-top: 5px;
+  }
+  
+  .apartment-details {
+    color: #484848;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    margin-top: 33px;
+  }
+  
+  .title {
+    font-weight: bold;
+  }
+  
+  .address {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  

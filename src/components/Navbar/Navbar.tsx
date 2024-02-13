@@ -32,7 +32,7 @@ function Navbar() {
         </Link>
         {isLoggedIn && (
         <Link to="/rent" className="page">
-          Rent
+          Rent properties
         </Link>
         )}
         {isLoggedIn && roles === UserRole.Owner &&(
