@@ -1,8 +1,8 @@
 import "./ApartmentCard.css";
 
-function ApartmentListing() {
+function ApartmentCard() {
   return (
-    <div className="main-container">
+    <div className="main">
       <header className="header">
         <img
           loading="lazy"
@@ -30,4 +30,4 @@ function ApartmentListing() {
   );
 }
 
-export default ApartmentListing;
+export default ApartmentCard;
