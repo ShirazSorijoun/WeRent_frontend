@@ -31,12 +31,17 @@ const RentPropertiesPage = () => {
 
 
     const handleSearch = (city: string, types: string[]) => {
+        console.log('Search performed types:',types);
+        console.log('Search performed city:',city);
+        console.log('Search performed apartments:',apartments);
         setIsSearchPerformed(true);
+
         const filtered = apartments.filter(apartment =>
-            apartment.city.toLowerCase() === city.toLowerCase() &&
-            (types.length === 0 || types.includes(apartment.type.toLowerCase()))
+            (city === '' || apartment.city.toLowerCase() === city.toLowerCase())
+            && ((types.length === 0 || types.includes(apartment.type)))
         );
         setFilteredApartments(filtered);
+        console.log('Filtered apartments:', filtered);
     };
 
 

@@ -12,11 +12,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
     const [typeSearchQuery, setTypeSearchQuery] = useState<string[]>([]);
     const [showApartmentTypes, setShowApartmentTypes] = useState<boolean>(false);
 
-
-
     const handleCitySearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        setCitySearchQuery(value);
+        setCitySearchQuery(e.target.value);
     };
 
     const handleTypeSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +23,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
         } else {
             setTypeSearchQuery(prevState => prevState.filter(type => type !== value));
         }
+        //setShowApartmentTypes(false);
     };
 
     const toggleApartmentTypesDropdown = () => {
@@ -43,7 +41,31 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
         onClear();
         apartmentService.getAllApartments();
     };
-    
+
+    const handleSelectAllClick = () => {
+        // Select all apartment types
+        setTypeSearchQuery([
+            'Apartment',
+            'Garden apartment',
+            'Private/Cottage',
+            'Townhouse',
+            'Duplex',
+            'Roof/Penthouse',
+            'Unit',
+            'Vacation apartment',
+            'Other',
+        ]);
+    };
+
+    const handleClearAllClick = () => {
+        // Clear all selected apartment types
+        setTypeSearchQuery([]);
+    };
+
+
+    const handleSubmitClick = () => {
+        setShowApartmentTypes(false); // Close the dropdown
+    };
 
     return (
         <div className="search-container">
@@ -57,6 +79,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
                 <input
                     type="text"
                     placeholder="Select apartment types..."
+                    value={typeSearchQuery.join(', ')}
                     readOnly
                     onClick={toggleApartmentTypesDropdown}
                 />
@@ -83,13 +106,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
                                 {type}
                             </label>
                         ))}
+                        <button onClick={handleSelectAllClick}>Select All</button>
+                        <button onClick={handleClearAllClick}>Clear All</button>
+                        <button onClick={handleSubmitClick}>Submit</button>
                     </div>
                 )}
             </div>
             <button onClick={handleSearchClick}>Search</button>
-            <div className="search-container">
-                <button onClick={handleClearClick}>Clear Results</button>
-            </div>
+            <button onClick={handleClearClick}>Clear Results</button>
         </div>
     );
 };
