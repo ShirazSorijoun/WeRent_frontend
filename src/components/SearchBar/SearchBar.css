@@ -1,0 +1,42 @@
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+.type-container {
+    position: relative;
+    margin-left: 10px;
+}
+
+.type-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 100%;
+    z-index: 1000;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.type-dropdown label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.apartment-column {
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    margin-left: 5px; /* Adjust as needed */
+}
