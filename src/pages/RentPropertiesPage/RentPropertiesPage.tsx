@@ -56,6 +56,7 @@ const RentPropertiesPage = () => {
             <Row>
                 <Col>
                     <SearchBar
+                    apartments={apartments}
                     onSearch={handleSearch}
                     onClear={handleClearSearch} />
                 </Col>

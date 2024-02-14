@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SearchBar.css';
 import apartmentService from '../../services/apartments-service';
+import { ApartmentProps } from '../../types/types';
 
 interface SearchBarProps {
+    apartments: ApartmentProps[];
     onSearch: (city: string, types: string[]) => void;
     onClear: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
+const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) => {
     const [citySearchQuery, setCitySearchQuery] = useState<string>('');
     const [typeSearchQuery, setTypeSearchQuery] = useState<string[]>([]);
     const [showApartmentTypes, setShowApartmentTypes] = useState<boolean>(false);
+    const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+    const [showCitySuggestions, setShowCitySuggestions] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        const cities = [...new Set(apartments.map(apartment => apartment.city))];
+        setCitySuggestions(cities);
+    }, [apartments]);
+
 
     const handleCitySearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCitySearchQuery(e.target.value);
+        const { value } = e.target;
+        setCitySearchQuery(value);
     };
 
     const handleTypeSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +53,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
         onClear();
         apartmentService.getAllApartments();
     };
+
+
+    const handleCitySuggestionClick = (city: string) => {
+        setCitySearchQuery(city);
+    };
+
+
+    const handleCitySearchBoxClick = () => {
+        setShowCitySuggestions(true);
+    };
+
 
     const handleSelectAllClick = () => {
         // Select all apartment types
@@ -73,8 +96,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
                 type="text"
                 placeholder="Search by city..."
                 value={citySearchQuery}
+                onClick={handleCitySearchBoxClick}
                 onChange={handleCitySearchChange}
             />
+            {showCitySuggestions && (
+                <div className="city-suggestions">
+                    {citySuggestions.map(city => (
+                        <div key={city} onClick={() => handleCitySuggestionClick(city)}>{city}</div>
+                    ))}
+                </div>
+            )}
             <div className="type-container">
                 <input
                     type="text"
@@ -113,7 +144,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
                 )}
             </div>
             <button onClick={handleSearchClick}>Search</button>
-            <button onClick={handleClearClick}>Clear Results</button>
+            <div className="search-container">
+                <button onClick={handleClearClick}>Clear Results</button>
+            </div>
         </div>
     );
 };
