@@ -74,6 +74,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align="center"
             padding={headCell.disablePadding ? 'none' : 'normal'}
+            sx={{ fontWeight: 'bold', fontSize: '0.99rem' }}
           >
              {headCell.label}
           </TableCell>
