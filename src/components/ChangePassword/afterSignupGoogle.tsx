@@ -113,7 +113,7 @@ function ChangePassword() {
               </Dropdown>
             </div>
             <div style={{ marginTop: "20px" }}></div>
-            <Button variant="primary" onClick={handleChangePassword}>
+            <Button style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' , color:"#FFFFFF" }} variant="primary1" onClick={handleChangePassword}>
               Save
             </Button>
           </Card.Body>
