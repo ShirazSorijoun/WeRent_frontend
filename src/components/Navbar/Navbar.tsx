@@ -3,17 +3,14 @@ import "./Navbar.css";
 import { useAuth } from "./authContext";
 import { UserRole } from "../../services/user-service";
 
-
 function Navbar() {
   const { isLoggedIn, logout, roles } = useAuth();
   const navigate = useNavigate();
-
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
-
 
   return (
     <div className="nav">
@@ -31,18 +28,23 @@ function Navbar() {
           Home
         </Link>
         {isLoggedIn && (
-        <Link to="/rent" className="page">
-          Rent properties
-        </Link>
+          <Link to="/rent" className="page">
+            Rent properties
+          </Link>
         )}
-        {isLoggedIn && roles === UserRole.Owner &&(
+        {isLoggedIn && roles === UserRole.Owner && (
           <Link to="/addApartment" className="page">
             Add apartment
           </Link>
         )}
-        {isLoggedIn && (
+        {isLoggedIn && roles !== UserRole.Admin && (
           <Link to="/profile" className="page">
             Profile
+          </Link>
+        )}
+        {isLoggedIn && roles == UserRole.Admin && (
+          <Link to="/users" className="page">
+            Private Area
           </Link>
         )}
       </div>
