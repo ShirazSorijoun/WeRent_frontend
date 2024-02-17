@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ILogin, loginUser } from "../../services/user-service";
 import { useAuth } from "../Navbar/authContext";
 import { useNavigate } from "react-router";
+import "./login.css";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
@@ -91,7 +92,7 @@ const Login: React.FC = () => {
             />
           </div>
           {error && <p className="text-danger">{error}</p>}
-          <button type="submit" className="btn btn-primary" onClick={login}>
+          <button type="button" className="button-71" onClick={login}>
             Login
           </button>
         </form>
