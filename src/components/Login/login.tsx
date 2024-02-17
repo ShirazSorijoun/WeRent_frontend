@@ -92,7 +92,7 @@ const Login: React.FC = () => {
             />
           </div>
           {error && <p className="text-danger">{error}</p>}
-          <button type="button" className="button-71" onClick={login}>
+          <button type="submit" className="button-71" onClick={login}>
             Login
           </button>
         </form>
