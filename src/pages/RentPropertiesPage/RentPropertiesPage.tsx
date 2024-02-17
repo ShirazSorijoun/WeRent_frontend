@@ -32,7 +32,7 @@ const RentPropertiesPage = () => {
     }, []);
 
 
-    const handleSearch = (city: string, types: string[], minPrice: string, maxPrice: string) => {
+    const handleSearch = (city: string, types: string[], minPrice: string, maxPrice: string, minRooms: string, maxRooms: string) => {
         console.log('Search performed types:',types);
         console.log('Search performed city:',city);
         console.log('Search performed apartments:',apartments);
@@ -41,7 +41,9 @@ const RentPropertiesPage = () => {
             (city === '' || apartment.city.toLowerCase() === city.toLowerCase()) &&
             ((types.length === 0 || types.includes(apartment.type))) &&
             (minPrice === '' || (apartment.price) >= parseInt(minPrice)) &&
-            (maxPrice === '' || (apartment.price) <= parseInt(maxPrice))
+            (maxPrice === '' || (apartment.price) <= parseInt(maxPrice)) &&
+            (minRooms === '' || (apartment.rooms) >= parseInt(minRooms)) &&
+            (maxRooms === '' || (apartment.rooms) <= parseInt(maxRooms))
 
         );
         setIsSearchPerformed(true);

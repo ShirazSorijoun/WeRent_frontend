@@ -5,7 +5,14 @@ import { ApartmentProps } from '../../types/types';
 
 interface SearchBarProps {
     apartments: ApartmentProps[];
-    onSearch: (city: string, types: string[], minPrice: string, maxPrice: string) => void;
+    onSearch: (
+                city: string,
+                types: string[],
+                minPrice: string,
+                maxPrice: string,
+                minRooms: string,
+                maxRooms: string
+            ) => void;
     onClear: () => void;
 }
 
@@ -18,6 +25,8 @@ const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) =
     const [showCitySuggestions, setShowCitySuggestions] = useState<boolean>(false);
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
+    const [minRooms, setMinRooms] = useState<string>('');
+    const [maxRooms, setMaxRooms] = useState<string>('');
     
 
 
@@ -50,6 +59,13 @@ const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) =
     }, []);
 
 
+    const handleMinRoomsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMinRooms(e.target.value);
+    };
+
+    const handleMaxRoomsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMaxRooms(e.target.value);
+    };
 
     const handleCitySearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
@@ -72,7 +88,13 @@ const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) =
     };
 
     const handleSearchClick = () => {
-        onSearch(citySearchQuery, typeSearchQuery, minPrice, maxPrice);
+        onSearch(citySearchQuery, typeSearchQuery, minPrice, maxPrice, minRooms, maxRooms);
+        if (parseFloat(minPrice) > parseFloat(maxPrice)) {
+            alert('Minimum price cannot be greater than maximum price');
+        }
+        if (parseFloat(minRooms) > parseFloat(maxRooms)) {
+            alert('Minimum rooms cannot be greater than maximum rooms');
+        }
         setShowCitySuggestions(false); // Close the city suggestions dropdown
         setShowApartmentTypes(false); // Close the apartment types dropdown
     };
@@ -84,6 +106,8 @@ const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) =
         setShowCitySuggestions(false);
         setMinPrice('');
         setMaxPrice('');
+        setMinRooms('');
+        setMaxRooms('');
         onClear();
         apartmentService.getAllApartments();
     };
@@ -135,29 +159,39 @@ const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) =
         setMaxPrice(e.target.value);
     };
 
+
+
+
     return (
         <div className="search-container">
+
             <div className="city-search-container">
+                <label htmlFor="city-search">Search by City:</label>
                 <input
                     type="text"
-                    placeholder="Search by city..."
+                    placeholder="city..."
                     value={citySearchQuery}
                     onClick={handleCitySearchBoxClick}
                     onChange={handleCitySearchChange}
                 />
-            {showCitySuggestions && (
-                <div className="city-suggestions">
-                    {citySuggestions.map(city => (
-                        <div key={city} onClick={() => handleCitySuggestionClick(city)}>{city}</div>
-                    ))}
-                </div>
-            )}
+                {showCitySuggestions && (
+                    <div className="city-suggestions">
+                        {citySuggestions.map(city => (
+                            <div key={city} onClick={() => handleCitySuggestionClick(city)}>{city}</div>
+                        ))}
+                    </div>
+                )}
             </div>
+
+
             <div className="type-container">
+                <label htmlFor="type-containe">Type:</label>
                 <input
                     type="text"
-                    placeholder="Select apartment types..."
-                    value={typeSearchQuery.join(', ')}
+                    placeholder={typeSearchQuery.length > 1 ? `${typeSearchQuery.length}
+                        selected` : (typeSearchQuery.length === 1 ? typeSearchQuery[0] : "select apartment types...")}
+                    value={typeSearchQuery.length > 1 ? `${typeSearchQuery.length}
+                        selected` : (typeSearchQuery.length === 1 ? typeSearchQuery[0] : "")}
                     readOnly
                     onClick={toggleApartmentTypesDropdown}
                 />
@@ -184,33 +218,68 @@ const SearchBar: React.FC<SearchBarProps> = ({apartments, onSearch, onClear }) =
                                 {type}
                             </label>
                         ))}
-                        <button onClick={handleSelectAllClick}>Select All</button>
-                        <button onClick={handleClearAllClick}>Clear All</button>
-                        <button onClick={handleSubmitClick}>Submit</button>
+
+
+                        <button type="button" className="btn btn-primary button-space"
+                            onClick={handleSelectAllClick}>Select All</button>
+                        <button type="button" className="btn btn-primary button-space"
+                            onClick={handleClearAllClick}>Clear All</button>
+                        <button type="button" className="btn btn-primary button-space"
+                            onClick={handleSubmitClick}>Submit</button>
+
+                        
                     </div>
                 )}
             </div>
 
+
+
             <div className="price-container">
-                <input
-                    type="number"
-                    placeholder="Min price..."
-                    value={minPrice}
-                    onChange={handleMinPriceChange}
-                />
-                <input
-                    type="number"
-                    placeholder="Max price..."
-                    value={maxPrice}
-                    onChange={handleMaxPriceChange}
-                />
+                <label htmlFor="price-container">Price:</label>
+                <div className="price-inputs">
+                    <input
+                        type="number"
+                        placeholder="from..."
+                        value={minPrice}
+                        onChange={handleMinPriceChange}
+                        className="min-price-input"
+                    />
+                    <input
+                        type="number"
+                        placeholder="to..."
+                        value={maxPrice}
+                        onChange={handleMaxPriceChange}
+                        className="max-price-input"
+                    />
+                </div>
             </div>
 
 
-            <button onClick={handleSearchClick}>Search</button>
-            <div className="search-container">
-                <button onClick={handleClearClick}>Clear Results</button>
+            <div className="rooms-container">
+                <label htmlFor="min-rooms">Rooms:</label>
+                <div className="room-inputs">
+                    <input
+                        type="number"
+                        placeholder="from..."
+                        value={minRooms}
+                        onChange={handleMinRoomsChange}
+                        className="min-room-input"
+                    />
+                    <input
+                        type="number"
+                        placeholder="to..."
+                        value={maxRooms}
+                        onChange={handleMaxRoomsChange}
+                        className="max-room-input"
+                    />
+                </div>
             </div>
+
+
+
+
+            <button type="button" className="btn btn-primary" onClick={handleSearchClick}>Search</button>
+            <button type="button" className="btn btn-primary" onClick={handleClearClick}>Clear Results</button>
         </div>
     );
 };
