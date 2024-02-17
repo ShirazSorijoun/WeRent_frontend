@@ -216,3 +216,24 @@ export const deleteUser = async (userId: string, token: string): Promise<void> =
     throw new Error('Failed to delete user');
   }
 };
+
+export const changeRole = async (role: string, token: string): Promise<void> => {
+  try {
+    const response = await apiClient.patch("/user/changeRole",  {
+      role,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      console.log("Profile updated successfully");
+    } else {
+      console.error("Failed to update profile:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error;
+  }
+}

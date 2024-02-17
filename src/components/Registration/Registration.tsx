@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "./Registration.css";
 import { ChangeEvent, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -19,6 +20,7 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import "./Registration.css";
 import { useAuth } from "../Navbar/authContext";
 import { useNavigate } from "react-router";
+import { Alert } from "react-bootstrap";
 
 const schema = z.object({
   name: z.string().min(3, { message: "Name must contain at least 3 letters" }),
@@ -34,6 +36,7 @@ function Registration() {
   const [imgSrc, setImgSrc] = useState<File>();
   const [selectedItem, setSelectedItem] = useState<string>("User type");
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState<ILogin>({
     name: "",
     email: "",
@@ -104,7 +107,7 @@ function Registration() {
     ) {
       if (selectedItem === "Owner") newSelectedItem = UserRole.Owner;
       if (selectedItem === "Tenant") newSelectedItem = UserRole.Tenant;
-      console.log(url)
+      console.log(url);
 
       const user: IUser = {
         name: nameInputRef.current?.value,
@@ -125,14 +128,22 @@ function Registration() {
         //console.log(loginResponse)
 
         localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
-        localStorage.setItem("refreshToken",loginResponse?.tokens.refreshToken);
+        localStorage.setItem(
+          "refreshToken",
+          loginResponse?.tokens.refreshToken
+        );
         localStorage.setItem("userId", loginResponse?.userId);
         localStorage.setItem("roles", loginResponse?.userRole);
 
         login();
         navigate("/");
-      } catch (error) {
+      } catch (error: any) {
         console.error("Login failed:", error);
+        //console.log(error.response.status);
+        if (error.response.status === 406) {
+          setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
+        }
       }
     }
 
@@ -149,8 +160,7 @@ function Registration() {
       localStorage.setItem("accessToken", res?.accessToken);
       localStorage.setItem("refreshToken", res?.refreshToken);
       localStorage.setItem("userId", res?._id);
-      login();
-      navigate("/");
+      navigate("/changePassword");
     } catch (e) {
       console.log(e);
     }
@@ -162,7 +172,7 @@ function Registration() {
 
   return (
     <div className="container">
-      <div className="row" style={{marginBottom:"120px" , marginTop:"50px"}}>
+      <div className="row" style={{ marginBottom: "120px", marginTop: "50px" }}>
         <div className="col-md-5 d-flex align-items-center justify-content-center">
           <img
             src={img}
@@ -264,11 +274,7 @@ function Registration() {
             {formErrors["password"] && (
               <p className="text-danger">{formErrors["password"]}</p>
             )}
-            <button
-              type="button"
-              className="button-71"
-              onClick={onRegister}
-            >
+            <button type="button" className="button-71" onClick={onRegister}>
               Register
             </button>
 
@@ -288,12 +294,28 @@ function Registration() {
                 width="100px"
                 text="signup_with"
                 logo_alignment="center"
-                locale= "en_CN"
+                locale="en_CN"
               />
             </div>
           </div>
         </div>
       </div>
+      <Alert
+        show={showAlert}
+        onClose={() => setShowAlert(false)}
+        dismissible
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          left: 0,
+          zIndex: 9999,
+          backgroundColor: "red",
+          color: "white",
+        }}
+      >
+        User already exists!
+      </Alert>
     </div>
   );
 }

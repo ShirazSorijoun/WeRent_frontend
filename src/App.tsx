@@ -13,8 +13,8 @@ import Footer from "./components/Footer/Footer";
 import { AuthProvider } from "./components/Navbar/authContext";
 import ApartmentDetails from "./components/ApartmentDetails/apartmentDetails";
 import AllUsersAdmin from "./components/AdminPrivate/users";
-import ApartmentCard from "./components/ApartmentCard/ApartmentCard";
 import RentPropertiesPage from "./pages/RentPropertiesPage/RentPropertiesPage";
+import ChangePassword from "./components/ChangePassword/afterSignupGoogle";
 
 
 const App: React.FC = () => {
@@ -33,6 +33,7 @@ const App: React.FC = () => {
             <Route path="/addApartment" element={<AddApartmentPage />} /> 
             <Route path="/users" element={<AllUsersAdmin />} />
             <Route path="/rent" element={<RentPropertiesPage />} />
+            <Route path="/changePassword" element={<ChangePassword />} />
           </Routes>
           <Footer />
         </div>

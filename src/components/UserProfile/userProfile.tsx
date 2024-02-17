@@ -294,7 +294,7 @@ const UserProfile: React.FC = () => {
             <Button variant="secondary" onClick={handleCloseEditModal}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' , color:"#FFFFFF" }} variant="primary1" onClick={handleSubmit}>
               Save
             </Button>
           </Modal.Footer>
@@ -349,7 +349,7 @@ const UserProfile: React.FC = () => {
               {passwordError && <p className="text-danger">{passwordError}</p>}
             </div>
             <div style={{ marginTop: "20px" }}></div>
-            <Button variant="primary" onClick={handleChangePassword}>
+            <Button style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' }} variant="primary" onClick={handleChangePassword}>
               {loading ? <Spinner animation="border" size="sm" /> : "Save"}
             </Button>
           </Card.Body>
