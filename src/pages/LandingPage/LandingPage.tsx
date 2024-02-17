@@ -1,7 +1,8 @@
-import React from "react";
 import "./LandingPage.css";
+import Reviews from '../../components/Reviews/reviews';
 
 const LandingPage: React.FC = () => {
+
     return (
         <div className="main-container">
             <header className="header">
@@ -98,7 +99,11 @@ const LandingPage: React.FC = () => {
             </div>
 
             <div className="Quote">
-            "The secret to succeeding at something is to just start doing it."            </div>
+            "The secret to succeeding at something is to just start doing it."
+            </div>
+
+            <Reviews />
+
         </div>
     );
 };
