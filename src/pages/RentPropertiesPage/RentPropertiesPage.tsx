@@ -13,6 +13,8 @@ const RentPropertiesPage = () => {
     const [apartments, setApartments] = useState<ApartmentProps[]>([]);
     const [isSearchPerformed, setIsSearchPerformed] = useState<boolean>(false);
     const [filteredApartments, setFilteredApartments] = useState<ApartmentProps[]>([]);
+    const [noApartmentsFound, setNoApartmentsFound] = useState<boolean>(false);
+
 
     useEffect(() => {
         const { req, abort } = apartmentService.getAllApartments();
@@ -30,17 +32,21 @@ const RentPropertiesPage = () => {
     }, []);
 
 
-    const handleSearch = (city: string, types: string[]) => {
+    const handleSearch = (city: string, types: string[], minPrice: string, maxPrice: string) => {
         console.log('Search performed types:',types);
         console.log('Search performed city:',city);
         console.log('Search performed apartments:',apartments);
-        setIsSearchPerformed(true);
 
         const filtered = apartments.filter(apartment =>
-            (city === '' || apartment.city.toLowerCase() === city.toLowerCase())
-            && ((types.length === 0 || types.includes(apartment.type)))
+            (city === '' || apartment.city.toLowerCase() === city.toLowerCase()) &&
+            ((types.length === 0 || types.includes(apartment.type))) &&
+            (minPrice === '' || (apartment.price) >= parseInt(minPrice)) &&
+            (maxPrice === '' || (apartment.price) <= parseInt(maxPrice))
+
         );
+        setIsSearchPerformed(true);
         setFilteredApartments(filtered);
+        setNoApartmentsFound(filtered.length === 0); // Check if there are no apartments found
         console.log('Filtered apartments:', filtered);
     };
 
@@ -48,6 +54,7 @@ const RentPropertiesPage = () => {
     const handleClearSearch = () => {
         setIsSearchPerformed(false);
         setFilteredApartments([]);
+        setNoApartmentsFound(false);
     };
 
 
@@ -62,13 +69,22 @@ const RentPropertiesPage = () => {
                 </Col>
             </Row>
 
-            <Row>
-                {(isSearchPerformed ? filteredApartments : apartments).map(apartment => (
-                    <Col key={apartment._id} className="apartment-column">
-                        <ApartmentCard apartment={apartment} />
+            {noApartmentsFound ? (
+                <Row>
+                    <Col>
+                        <div className="no-apartments-message"> No apartments found matching the search criteria.</div>
                     </Col>
-                ))}
-            </Row>
+                </Row>
+            ) : (
+
+                <Row>
+                    {(isSearchPerformed ? filteredApartments : apartments).map(apartment => (
+                        <Col key={apartment._id} className="apartment-column">
+                            <ApartmentCard apartment={apartment} />
+                        </Col>
+                    ))}
+                </Row>
+            )}
         </Container>
     );
 };

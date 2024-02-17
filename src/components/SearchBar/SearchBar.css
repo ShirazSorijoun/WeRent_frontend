@@ -40,3 +40,30 @@
 .checkbox-label {
     margin-left: 5px; /* Adjust as needed */
 }
+
+
+.city-search-container {
+  position: relative;
+}
+
+.city-suggestions {
+  position: absolute;
+  top: 100%; /* Position below the search input */
+  left: 0;
+  z-index: 999; /* Ensure it overlays other content */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none; /* Remove top border */
+  width: 100%; /* Occupy full width */
+  max-height: 200px; /* Limit height to avoid excessive scrolling */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.city-suggestions > div {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.city-suggestions > div:hover {
+  background-color: #f0f0f0;
+}
