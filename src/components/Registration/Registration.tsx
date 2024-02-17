@@ -74,6 +74,13 @@ function Registration() {
 
   const onRegister = async () => {
     console.log("Registering...");
+    // Check if the user selected a role
+    if (selectedItem === "User type") {
+      setFormErrors({
+        role: "Please choose a role (Owner or Tenant)",
+      });
+      return;
+    }
 
     try {
       schema.parse(formData);
@@ -149,6 +156,7 @@ function Registration() {
 
     setFormErrors({});
   };
+
 
   const onGoogleLoginSuccess = async (
     credentialResponse: CredentialResponse
@@ -243,6 +251,10 @@ function Registration() {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+
+            {formErrors["role"] && (
+              <p className="text-danger">{formErrors["role"]}</p>
+            )}
 
             <input
               ref={nameInputRef}
