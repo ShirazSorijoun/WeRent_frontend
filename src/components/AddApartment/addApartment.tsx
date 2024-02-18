@@ -8,6 +8,7 @@ import Uploader from "../Uploader/uploader";
 import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 import { getUserById } from "../../services/user-service";
 import { uploadImg } from "../../services/file-service";
+import { useNavigate } from "react-router";
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -56,7 +57,7 @@ const AddApartment: React.FC = () => {
     price: 0,
     entryDate: new Date(),
     apartment_image: "",
-    furniture: "none",
+    furniture: "",
     features: {
       parking: false,
       accessForDisabled: false,
@@ -71,6 +72,7 @@ const AddApartment: React.FC = () => {
     phone: " ",
   });
 
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [phoneError, setPhoneError] = useState<string | null>(null);
@@ -255,6 +257,7 @@ const AddApartment: React.FC = () => {
     req
       .then((response) => {
         console.log("Apartment added successfully", response.data);
+        navigate("/apartment-details/" + response.data._id);
       })
       .catch((error) => {
         console.error("Error adding apartment", error);

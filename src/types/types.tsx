@@ -1,5 +1,5 @@
 export type ApartmentProps = {
-  _id: string;
+  _id?: string;
   city: string;
   address: string;
   type: string;
