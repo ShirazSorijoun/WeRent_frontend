@@ -47,6 +47,11 @@ function Navbar() {
             Private Area
           </Link>
         )}
+        {isLoggedIn && (
+          <Link to="/allReviews" className="page">
+            Reviews
+          </Link>
+        )}
       </div>
 
       <div className="auth-buttons">
