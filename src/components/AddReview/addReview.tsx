@@ -9,6 +9,8 @@ import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
     ownerName: "",
+    ownerImage: "",
+    date: "",
     description: "",
   });
 

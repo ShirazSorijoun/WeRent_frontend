@@ -1,0 +1,36 @@
+/* ReviewCard.css */
+
+.card-container {
+  margin-bottom: 20px;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  padding: 12px;
+  background-color: #f0f0f0;
+}
+
+.card-header .MuiTypography-root {
+  font-weight: bold;
+  font-size: 18px; /* Adjust the font size here */
+}
+
+.card-content {
+  padding: 12px;
+}
+
+.card-content .MuiTypography-root {
+  font-size: 16px; /* Adjust the font size here */
+  line-height: 1.5;
+  color: #333;
+}
+

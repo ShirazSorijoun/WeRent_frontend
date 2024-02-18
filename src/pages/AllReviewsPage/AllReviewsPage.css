@@ -1,0 +1,26 @@
+.all-reviews-container {
+    margin-top: 20px; /* Adjust top margin for the all reviews container */ 
+}
+  
+.all-reviews-title {
+  text-align: center; /* Center the text */
+  margin-top: 40px; /* Add space above the heading */
+  margin-bottom: 40px; /* Add space below the heading */
+  font-family: 'Arial', sans-serif; /* Apply a beautiful font */
+  font-size: 24px; /* Adjust the font size */
+  font-weight: bold; /* Make the font bold */
+  color: #333; /* Apply a dark color */
+  text-transform: uppercase; /* Apply uppercase */
+  line-height: 1.5; /* Adjust line height */
+}
+
+.review-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Adjust as needed */
+}
+
+.review-card {
+  flex-basis: calc(33.33% - 20px); /* Adjust based on the number of cards per row */
+  margin-bottom: 20px;
+}

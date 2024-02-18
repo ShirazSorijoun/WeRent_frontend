@@ -1,5 +1,5 @@
 import "./LandingPage.css";
-import Reviews from '../../components/Reviews/reviews';
+import Reviews from '../../components/ReviewCard/ReviewCard';
 
 const LandingPage: React.FC = () => {
 
@@ -102,8 +102,8 @@ const LandingPage: React.FC = () => {
             "The secret to succeeding at something is to just start doing it."
             </div>
 
-            <Reviews />
-
+            <Reviews ownerName={""} ownerImage={""} date={""} description={""}/>
+            
         </div>
     );
 };
