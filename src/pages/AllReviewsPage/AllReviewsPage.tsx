@@ -37,14 +37,11 @@ const RentPropertiesPage: React.FC = () => {
 
       <div className="review-cards-container">
         <Row>
-            {reviews.map((review, index) => (
+            {reviews.map((review) => (
               <Col>
                 <ReviewCard
-                  key={index}
-                  ownerName={review.ownerName}
-                  ownerImage={review.ownerImage}
-                  date={review.date}
-                  description={review.description}
+                  key={review._id}
+                  review={review}
                 />
               </Col>
             ))}

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 
 interface Apartment {
-    _id: string;
+    _id?: string;
     apartment_image?: string;
     price: number;
     type: string;

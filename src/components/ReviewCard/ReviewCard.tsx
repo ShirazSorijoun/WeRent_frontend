@@ -8,13 +8,19 @@ import Typography from '@mui/material/Typography';
 
 
 interface ReviewProps {
+  _id: string;
   ownerName: string;
   ownerImage: string;
   date: string;
   description: string;
 }
 
-const ReviewCard: React.FC<ReviewProps> = ({ ownerName, ownerImage, date, description}) => {
+interface ReviewCardProps {
+  review: ReviewProps;
+}
+
+
+const ReviewCard: React.FC<ReviewCardProps> = ({review}) => {
 
   return (
     <div className="card-container">
@@ -23,19 +29,19 @@ const ReviewCard: React.FC<ReviewProps> = ({ ownerName, ownerImage, date, descri
           <CardHeader
             avatar={
               <Avatar sx={{ width: 56, height: 56 }}>
-              <img src={ownerImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={review.ownerImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Avatar>
             }
             title={
               <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: 'bold' }}>
-                {ownerName}
+                {review.ownerName}
               </Typography>
             }
-            subheader={date}
+            subheader={review.date}
           />
           <CardContent>
             <Typography variant="body1" color="text.secondary" style={{ fontSize: '18px' }}>
-              "{description}"
+              "{review.description}"
             </Typography>
           </CardContent>
         </Card>

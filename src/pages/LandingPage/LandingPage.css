@@ -225,3 +225,14 @@
   max-width: 100%;
   font: 700 24px DMSans, sans-serif;
 }
+
+.Reviews {
+  width: 100%;
+  padding: 20px; /* Adjust as needed */
+  box-sizing: border-box;
+}
+
+.review-cards-container {
+  display: flex;
+  gap: 20px; /* Spacing between cards */
+}

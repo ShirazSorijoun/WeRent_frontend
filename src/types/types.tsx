@@ -28,6 +28,7 @@ export type ApartmentProps = {
 };
 
 export type ReviewProps = {
+  _id: string;
   ownerName: string;
   ownerImage: string;
   date: string;

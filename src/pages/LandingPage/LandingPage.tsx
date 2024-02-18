@@ -1,7 +1,31 @@
 import "./LandingPage.css";
 import Reviews from '../../components/ReviewCard/ReviewCard';
+import { useEffect, useState } from 'react';
+import { ReviewProps } from '../../types/types';
+import reviewService from "../../services/review-service";
+
 
 const LandingPage: React.FC = () => {
+
+    const [lastThreeReviews, setLastThreeReviews] = useState<ReviewProps[]>([]);
+
+
+    useEffect(() => {
+        const { req, abort } = reviewService.getAllReviews();
+
+        req.then(response => {
+            const reviewsData = response.data.slice(-3); // Get the last 3 reviews
+            console.log(reviewsData);
+            setLastThreeReviews(reviewsData);
+        }).catch(error => {
+            if (error && error.code === 'ERR_CANCELED')
+                console.log('Fetch request was cancelled');
+            else
+                console.error('Error fetching apartments:', error);
+        });
+        return () => abort();
+    }, []);
+
 
     return (
         <div className="main-container">
@@ -102,7 +126,19 @@ const LandingPage: React.FC = () => {
             "The secret to succeeding at something is to just start doing it."
             </div>
 
-            <Reviews ownerName={""} ownerImage={""} date={""} description={""}/>
+            <div className="Reviews">
+                {lastThreeReviews.length > 0 && (
+                    <div className="review-cards-container">
+                        {lastThreeReviews.map((review) => (
+                            <Reviews
+                                key={review._id}
+                                review={review}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+
             
         </div>
     );
