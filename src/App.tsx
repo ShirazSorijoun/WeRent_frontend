@@ -15,6 +15,7 @@ import ApartmentDetails from "./components/ApartmentDetails/apartmentDetails";
 import AllUsersAdmin from "./components/AdminPrivate/users";
 import RentPropertiesPage from "./pages/RentPropertiesPage/RentPropertiesPage";
 import ChangePassword from "./components/ChangePassword/afterSignupGoogle";
+import AddReview from "./components/AddReview/addReview";
 
 
 const App: React.FC = () => {
@@ -27,6 +28,7 @@ const App: React.FC = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/apartment-details/:apartmentId" element={<ApartmentDetails />} />
             <Route path="/reviews" element={<Reviews />} />
+            <Route path="/addreview" element={<AddReview />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserPage />} />
