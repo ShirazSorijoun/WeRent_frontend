@@ -9,6 +9,8 @@ import './AllReviewsPage.css';
 
 const RentPropertiesPage: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
 
 
   useEffect(() => {
@@ -17,10 +19,12 @@ const RentPropertiesPage: React.FC = () => {
     req.then(response => {
       setReviews(response.data.reverse());
     }).catch(error => {
-        if (error && error.code === 'ERR_CANCELED')
+        if (error && error.code === 'ERR_CANCELED'){
             console.log('Fetch request was cancelled');
-        else
+        } else {
             console.error('Error fetching apartments:', error);
+        }
+        setIsLoading(false);
     });
 
     return () => abort();
@@ -33,20 +37,27 @@ const RentPropertiesPage: React.FC = () => {
     <div className="all-reviews-container">
       <div className="all-reviews-title"> What Our Clients Say About Us </div>
 
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : reviews.length === 0 ? (
+        <div className="no-reviews-message">
+          <p>No reviews available.</p>
+        </div>
+      ) : (
+        <div className="review-cards-container">
+          <Row>
+              {reviews.map((review) => (
+                <Col>
+                  <ReviewCard
+                    key={review._id}
+                    review={review}
+                  />
+                </Col>
+              ))}
+          </Row>
+        </div>
+      )}
 
-
-      <div className="review-cards-container">
-        <Row>
-            {reviews.map((review) => (
-              <Col>
-                <ReviewCard
-                  key={review._id}
-                  review={review}
-                />
-              </Col>
-            ))}
-        </Row>
-      </div>
     </div>
   );
 };

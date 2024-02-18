@@ -18,9 +18,16 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; /* Adjust as needed */
+  justify-content: center;
 }
 
 .review-card {
   flex-basis: calc(33.33% - 20px); /* Adjust based on the number of cards per row */
   margin-bottom: 20px;
+}
+
+.no-reviews-message {
+  text-align: center; /* Center the text horizontally */
+  margin-top: 20px; /* Add margin to separate from other content */
+  font-size: 20px; /* Enlarge the font size */
 }
