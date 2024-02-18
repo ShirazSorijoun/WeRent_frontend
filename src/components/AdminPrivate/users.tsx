@@ -40,7 +40,8 @@ const AllUsersAdmin: React.FC = () => {
       try {
         const { req } = getAllUsers(token || "");
         const response = await req;
-        setUsers(response.data);
+        const filteredUsers = response.data.filter(user => user.roles !== "admin");
+        setUsers(filteredUsers);
       } catch (error) {
         console.log("Error fetching users");
       }
