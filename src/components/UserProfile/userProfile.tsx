@@ -184,184 +184,161 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <Card
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
         style={{
-          width: "500px",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          margin: "auto",
-          marginTop: "30px",
+          position: "relative",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          alignSelf: "flex-end",
         }}
       >
-        <Card.Header
+        <Button
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
+            backgroundColor: "#6C757D",
+            borderColor: "#6C757D",
+            padding: "5px 30px",
+            fontSize: "18px",
           }}
+          onClick={() => (window.location.href = "/addreview")}
         >
-          <Button
-            onClick={handleEditProfile}
-            variant="light"
-            style={{ marginRight: "15px" }}
-          >
-            <EditIcon />
-          </Button>
-          <h5 style={{ fontWeight: "bold", marginLeft: "90px" }}>
-            Account details
-          </h5>
-        </Card.Header>
-
-        <Card.Body style={{ overflow: "auto" }}>
-          <div
-            className="row g-3"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "50px",
-            }}
-          >
-            <img
-              src={userProfile.profile_image}
-              alt="Profile"
-              style={{
-                maxWidth: "300px",
-                maxHeight: "300px",
-                alignItems: "center",
-              }}
-            />
-          </div>
-          <div className="col-lg-6">
-            <label className="form-label" htmlFor="AccountInput_Name">
-              Name
-            </label>
-            <input
-              className="form-control"
-              id="AccountInput_Name"
-              value={userProfile.name}
-              readOnly
-            ></input>
-          </div>
-          <div className="col-lg-6">
-            <label className="form-label" htmlFor="AccountInput_Email">
-              Email
-            </label>
-            <input
-              className="form-control"
-              id="AccountInput_Email"
-              value={userProfile.email}
-              readOnly
-            ></input>
-          </div>
-        </Card.Body>
-        <Modal show={showEditModal} onHide={handleCloseEditModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Profile</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="profile_image">
-                <Form.Label>Profile Photo</Form.Label>
-                <Form.Control
-                  type="file"
-                  accept="image/*"
-                  onChange={imageSelected}
-                />
-              </Form.Group>
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={tempUserProfile.name}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={tempUserProfile.email}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseEditModal}>
-              Cancel
-            </Button>
-            <Button style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' , color:"#FFFFFF" }} variant="primary1" onClick={handleSubmit}>
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </Card>
-
-      <div style={{ marginTop: "30px" }}>
+          Add Review
+        </Button>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Card
           style={{
-            width: "700px",
-            height: "50%",
+            width: "500px",
+            height: "100%",
             display: "flex",
             flexDirection: "column",
             margin: "auto",
+            marginTop: "30px",
+            marginBottom: "20px",
           }}
         >
           <Card.Header
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-start",
             }}
           >
-            <h5 style={{ fontWeight: "bold" }}>Change Password</h5>
+            <Button
+              onClick={handleEditProfile}
+              variant="light"
+              style={{ marginRight: "15px" }}
+            >
+              <EditIcon />
+            </Button>
+            <h5 style={{ fontWeight: "bold", marginLeft: "90px" }}>
+              Account details
+            </h5>
           </Card.Header>
 
           <Card.Body style={{ overflow: "auto" }}>
-            <div className="col-lg-6">
-              <label className="form-label" htmlFor="OldPassword">
-                Old password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="OldPassword"
-                onChange={(e) => setOldPassword(e.target.value)}
-              ></input>
-              {passwordError2 && (
-                <p className="text-danger">{passwordError2}</p>
-              )}
+            <div
+              className="row g-3"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "50px",
+              }}
+            >
+              <img
+                src={userProfile.profile_image}
+                alt="Profile"
+                style={{
+                  maxWidth: "300px",
+                  maxHeight: "300px",
+                  alignItems: "center",
+                }}
+              />
             </div>
             <div className="col-lg-6">
-              <label className="form-label" htmlFor="NewPassword">
-                New password
+              <label className="form-label" htmlFor="AccountInput_Name">
+                Name
               </label>
               <input
-                type="password"
                 className="form-control"
-                id="NewPassword"
-                onChange={(e) => setNewPassword(e.target.value)}
+                id="AccountInput_Name"
+                value={userProfile.name}
+                readOnly
               ></input>
-              {passwordError && <p className="text-danger">{passwordError}</p>}
             </div>
-            <div style={{ marginTop: "20px" }}></div>
-            <Button style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' }} variant="primary" onClick={handleChangePassword}>
-              {loading ? <Spinner animation="border" size="sm" /> : "Save"}
-            </Button>
+            <div className="col-lg-6">
+              <label className="form-label" htmlFor="AccountInput_Email">
+                Email
+              </label>
+              <input
+                className="form-control"
+                id="AccountInput_Email"
+                value={userProfile.email}
+                readOnly
+              ></input>
+            </div>
           </Card.Body>
+          <Modal show={showEditModal} onHide={handleCloseEditModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Profile</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group controlId="profile_image">
+                  <Form.Label>Profile Photo</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={imageSelected}
+                  />
+                </Form.Group>
+                <Form.Group controlId="name">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={tempUserProfile.name}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <Form.Group controlId="email">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={tempUserProfile.email}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEditModal}>
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: "#6C757D",
+                  borderColor: "#6C757D",
+                  color: "#FFFFFF",
+                }}
+                variant="primary1"
+                onClick={handleSubmit}
+              >
+                Save
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Card>
-        {userProfile.roles === "owner" && (
+
+        <div style={{ marginTop: "30px", marginBottom: "20px" }}>
           <Card
             style={{
               width: "700px",
-              height: "45%",
+              height: "50%",
               display: "flex",
+              flexDirection: "column",
               margin: "auto",
-              marginTop: "30px",
             }}
           >
             <Card.Header
@@ -371,48 +348,117 @@ const UserProfile: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
+              <h5 style={{ fontWeight: "bold" }}>Change Password</h5>
             </Card.Header>
 
-            <Card.Body style={{  overflowX: "auto",display: "flex"}}>
-              <div className="card-body" style={{ overflow: "auto",display: "flex",marginRight: "10px", }}>
-                {apartments ? (
-                  apartments.length > 0 ? (
-                    <>
-                      {apartments.map((apartment) => (
-                        <Card
-                          as={Link}
-                          to={`/apartment-details/${apartment._id}`}
-                          key={apartment._id}
-                          style={{
-                            marginRight: "10px",
-                            height: "180px",
-                            width: "200px",
-                            position: "relative",
-                            flexShrink: 0,
-                          }}
-                        >
-                          <Card.Img
-                            variant="top"
-                            src={apartment.apartment_image}
-                            style={{ width: "100%", height: "80%" }}
-                          />
-                          <Card.Body style={{padding:"4px"}}>
-                            <Card.Text style={{color:"#344050"}}>{apartment.city}</Card.Text>
-                          </Card.Body>
-                        </Card>
-                      ))}
-                    </>
-                  ) : (
-                    <h3>No posts found</h3>
-                  )
-                ) : (
-                  <h3>Loading...</h3>
+            <Card.Body style={{ overflow: "auto" }}>
+              <div className="col-lg-6">
+                <label className="form-label" htmlFor="OldPassword">
+                  Old password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="OldPassword"
+                  onChange={(e) => setOldPassword(e.target.value)}
+                ></input>
+                {passwordError2 && (
+                  <p className="text-danger">{passwordError2}</p>
                 )}
               </div>
+              <div className="col-lg-6">
+                <label className="form-label" htmlFor="NewPassword">
+                  New password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="NewPassword"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                ></input>
+                {passwordError && (
+                  <p className="text-danger">{passwordError}</p>
+                )}
+              </div>
+              <div style={{ marginTop: "20px" }}></div>
+              <Button
+                style={{ backgroundColor: "#6C757D", borderColor: "#6C757D" }}
+                variant="primary"
+                onClick={handleChangePassword}
+              >
+                {loading ? <Spinner animation="border" size="sm" /> : "Save"}
+              </Button>
             </Card.Body>
           </Card>
-        )}
+          {userProfile.roles === "owner" && (
+            <Card
+              style={{
+                width: "700px",
+                height: "45%",
+                display: "flex",
+                margin: "auto",
+                marginTop: "30px",
+              }}
+            >
+              <Card.Header
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
+              </Card.Header>
+
+              <Card.Body style={{ overflowX: "auto", display: "flex" }}>
+                <div
+                  className="card-body"
+                  style={{
+                    overflow: "auto",
+                    display: "flex",
+                    marginRight: "10px",
+                  }}
+                >
+                  {apartments ? (
+                    apartments.length > 0 ? (
+                      <>
+                        {apartments.map((apartment) => (
+                          <Card
+                            as={Link}
+                            to={`/apartment-details/${apartment._id}`}
+                            key={apartment._id}
+                            style={{
+                              marginRight: "10px",
+                              height: "180px",
+                              width: "200px",
+                              position: "relative",
+                              flexShrink: 0,
+                            }}
+                          >
+                            <Card.Img
+                              variant="top"
+                              src={apartment.apartment_image}
+                              style={{ width: "100%", height: "80%" }}
+                            />
+                            <Card.Body style={{ padding: "4px" }}>
+                              <Card.Text style={{ color: "#344050" }}>
+                                {apartment.city}
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        ))}
+                      </>
+                    ) : (
+                      <h3>No posts found</h3>
+                    )
+                  ) : (
+                    <h3>Loading...</h3>
+                  )}
+                </div>
+              </Card.Body>
+            </Card>
+          )}
+        </div>
       </div>
       {/* Alert for success */}
       <Alert

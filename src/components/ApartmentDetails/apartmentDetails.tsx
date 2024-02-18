@@ -817,10 +817,20 @@ const ApartmentDetails = () => {
               <Form.Group controlId="type">
                 <Form.Label>Type</Form.Label>
                 <Form.Control
-                  type="text"
+                  as="select"
                   value={editableApartment.type}
                   onChange={handleInputChange}
-                />
+                >
+                  <option>Apartment</option>
+                  <option>Garden apartment</option>
+                  <option>Private/Cottage</option>
+                  <option>Townhouse</option>
+                  <option>Duplex</option>
+                  <option>Roof/Penthouse</option>
+                  <option>Unit</option>
+                  <option>Vacation apartment</option>
+                  <option>Other</option>
+                </Form.Control>
               </Form.Group>
               <Form.Group controlId="floor">
                 <Form.Label>Floor</Form.Label>
@@ -872,11 +882,10 @@ const ApartmentDetails = () => {
                   as="select"
                   value={editableApartment.furniture}
                   onChange={handleInputChange}
-                  name="furniture"
                 >
-                  <option>Full</option>
-                  <option>Partial</option>
-                  <option>None</option>
+                  <option value="full">Full</option>
+                  <option value="partial">Partial</option>
+                  <option value="none">None</option>
                 </Form.Control>
               </Form.Group>
               <Form.Group controlId="description">
@@ -901,7 +910,15 @@ const ApartmentDetails = () => {
             <Button variant="secondary" onClick={handleCloseEditModal}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button
+              style={{
+                backgroundColor: "#6C757D",
+                borderColor: "#6C757D",
+                color: "#FFFFFF",
+              }}
+              variant="primary1"
+              onClick={handleSubmit}
+            >
               Save
             </Button>
           </Modal.Footer>

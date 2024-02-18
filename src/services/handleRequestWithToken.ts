@@ -19,10 +19,15 @@ const handleRequestWithToken = async () => {
       return true;
     } catch (refreshError) {
       console.error("Error refreshing token:", refreshError);
+      await axios.get(`http://localhost:3000/auth/logout`);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("roles");
+      console.log("User logged out");
       return false;
     }
   }
 };
 
 export { handleRequestWithToken };
-
