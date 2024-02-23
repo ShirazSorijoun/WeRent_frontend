@@ -17,6 +17,7 @@ import RentPropertiesPage from "./pages/RentPropertiesPage/RentPropertiesPage";
 import ChangePassword from "./components/ChangePassword/afterSignupGoogle";
 import AddReview from "./components/AddReview/addReview";
 import AllReviews from "./pages/AllReviewsPage/AllReviewsPage";
+import RestAPI from "./components/RestAPI/api";
 
 
 const App: React.FC = () => {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
             <Route path="/users" element={<AllUsersAdmin />} />
             <Route path="/rent" element={<RentPropertiesPage />} />
             <Route path="/changePassword" element={<ChangePassword />} />
+            <Route path="/googlemap" element={<RestAPI />} />
           </Routes>
           <Footer />
         </div>
