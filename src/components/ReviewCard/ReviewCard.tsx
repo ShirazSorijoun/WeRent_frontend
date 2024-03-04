@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 
 
 interface ReviewProps {
-  _id: string;
+  _id?: string;
   ownerName: string;
   ownerImage: string;
   date: string;
