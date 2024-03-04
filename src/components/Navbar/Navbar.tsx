@@ -18,10 +18,9 @@ function Navbar() {
         <img
           className="logo-image"
           loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/558c225b22f6ca9794d5a1e7ed80500bb2f1567d453a4a0817759fd3263cff87?apiKey=0a183be08c194c808182f759b68acaaf&"
+          src="src/assets/LOGO WeRent.jpg"
           alt="Logo"
         />
-        Fix<span style={{ color: "rgba(242,153,74,1)" }}>N</span>Drive.
       </div>
       <div className="pages">
         <Link to="/" className="page">
