@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React ,{useState} from "react";
 import { ReviewProps } from "../../types/types";
 import reviewService from "../../services/review-service";
 import "./addReview.css";
 //import { refreshAccessToken } from "../../services/user-service";
 import { handleRequestWithToken } from "../../services/handleRequestWithToken";
+import {Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
@@ -14,6 +16,8 @@ const AddReview: React.FC = () => {
     description: "",
   });
 
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -38,6 +42,10 @@ const AddReview: React.FC = () => {
     try {
       const { req } = reviewService.postReview(review, token || "");
       const response = await req;
+
+      setShowSuccessAlert(true);
+      setTimeout(() => setShowSuccessAlert(false), 3000);
+      navigate("/allReviews");
 
       console.log("Review submitted successfully:", response.data);
     } catch (error) {
@@ -86,6 +94,15 @@ const AddReview: React.FC = () => {
           </div>
         </form>
       </div>
+        <Alert
+          variant="success"
+          show={showSuccessAlert}
+          onClose={() => setShowSuccessAlert(false)}
+          dismissible
+          style={{ position: "fixed", top: 0, right: 0, left: 0, zIndex: 9999 }}
+        >
+          Review added successfully!
+        </Alert>
     </div>
   );
 };

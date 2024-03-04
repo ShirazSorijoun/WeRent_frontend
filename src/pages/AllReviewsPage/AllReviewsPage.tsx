@@ -46,8 +46,8 @@ const RentPropertiesPage: React.FC = () => {
       ) : (
         <div className="review-cards-container">
           <Row>
-              {reviews.map((review) => (
-                <Col>
+              {reviews.map((review,index) => (
+                <Col key={index}>
                   <ReviewCard
                     key={review._id}
                     review={review}
