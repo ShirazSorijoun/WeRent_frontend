@@ -3,6 +3,7 @@ import Reviews from '../../components/ReviewCard/ReviewCard';
 import { useEffect, useState } from 'react';
 import { ReviewProps } from '../../types/types';
 import reviewService from "../../services/review-service";
+import { Link } from 'react-router-dom';
 
 
 const LandingPage: React.FC = () => {
@@ -51,8 +52,8 @@ const LandingPage: React.FC = () => {
             </header>
 
             <div className="listings-container">
-                    <span className="link">
-                      <div className="button">Look where there is a National Outline Plan</div>
+                    <span className="link1">
+                      <Link to ="/googlemap" className="button">Look where there is a National Outline Plan</Link>
                         <div className="img-container">
                             <img
                               loading="lazy"
@@ -97,7 +98,7 @@ const LandingPage: React.FC = () => {
                             Whether you're searching for your dream home or looking to list your property,
                             trust us to be your partner in realizing your real estate aspirations.
                             </div>
-                            <span className="link">
+                            <span className="link2">
                               <div className="button">Learn more</div>
                               <div className="img-container">
                                   <img
