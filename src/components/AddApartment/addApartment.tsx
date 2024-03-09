@@ -57,7 +57,7 @@ const AddApartment: React.FC = () => {
     price: 0,
     entryDate: new Date(),
     apartment_image: "",
-    furniture: "",
+    furniture: "none",
     features: {
       parking: false,
       accessForDisabled: false,
@@ -118,6 +118,7 @@ const AddApartment: React.FC = () => {
         schema.parse(apartmentData);
       } catch (error) {
         if (error instanceof z.ZodError) {
+          console.log("Validation errors:", error.errors);
           const validationErrors: { [key: string]: string } = {};
           error.errors.forEach((err) => {
             if (err.path) {
@@ -479,9 +480,9 @@ const AddApartment: React.FC = () => {
                               value={apartmentData.furniture}
                               onChange={handleChange}
                             >
+                              <option value="none">None</option>
                               <option value="full">Full</option>
                               <option value="partial">Partial</option>
-                              <option value="none">None</option>
                             </select>
                           </div>
                           <div className="mb-3">
