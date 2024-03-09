@@ -18,7 +18,7 @@ function Navbar() {
         <img
           className="logo-image"
           loading="lazy"
-          src="src/assets/LOGO WeRent.jpg"
+          src="src/assets/LOGO WeRent2.jpeg"
           alt="Logo"
         />
       </div>

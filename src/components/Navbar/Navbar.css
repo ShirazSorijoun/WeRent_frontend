@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #ffffff;
+  background-color: #000000ea;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -13,11 +13,12 @@
   font-size: 20px;
   font-weight: bold;
   color: #333333;
+  margin-left: 20px;
 }
 
 .logo-image {
-  width: 30px;
-  height: 30px;
+  width: 80px;
+  height: 60px;
   margin-right: 5px;
 }
 
@@ -28,7 +29,7 @@
 
 .page {
   margin-right: 20px;
-  color: #333333;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -45,9 +46,9 @@
 .auth-button {
   margin-right: 10px;
   padding: 8px 15px;
-  border: 1px solid #333333;
+  border: 1px solid #ffffff;
   border-radius: 5px;
-  color: #333333;
+  color: #ffffff;
   cursor: pointer;
 }
 
