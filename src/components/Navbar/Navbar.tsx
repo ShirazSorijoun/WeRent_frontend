@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "./authContext";
 import { UserRole } from "../../services/user-service";
+import icon from "../../assets/LOGO WeRent2.jpeg";
 
 function Navbar() {
   const { isLoggedIn, logout, roles } = useAuth();
@@ -18,7 +19,7 @@ function Navbar() {
         <img
           className="logo-image"
           loading="lazy"
-          src="src/assets/LOGO WeRent2.jpeg"
+          src={icon}
           alt="Logo"
         />
       </div>
