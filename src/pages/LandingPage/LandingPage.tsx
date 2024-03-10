@@ -5,7 +5,10 @@ import { ReviewProps } from '../../types/types';
 import reviewService from "../../services/review-service";
 import { Link } from 'react-router-dom';
 import landingPageImg from "../../assets/landing page image.png";
-
+import unsplash from "../../assets/landing page image - unsplash.png";
+import tellow from "../../assets/Arrow Tellow.svg";
+import goodHands from "../../assets/landing page - in good hands.png";
+import rectangle from "../../assets/Rectangle.png";
 
 const LandingPage: React.FC = () => {
 
@@ -40,7 +43,7 @@ const LandingPage: React.FC = () => {
                 />
                 <img
                     loading="lazy"
-                    src="src/assets/landing page image - unsplash.png"
+                    src={unsplash}
                     className="header-img"
                     alt="Unsplash Home listing image"
                 />
@@ -58,7 +61,7 @@ const LandingPage: React.FC = () => {
                         <div className="img-container">
                             <img
                               loading="lazy"
-                              src="src/assets/Arrow Tellow.svg"
+                              src={tellow}
                               className="img-3"
                               alt="Listing image"
                             />
@@ -71,7 +74,7 @@ const LandingPage: React.FC = () => {
                     <div className="column">
                         <img
                             loading="lazy"
-                            src="src/assets/landing page - in good hands.png"
+                            src={goodHands}
                             alt="In Good Hands"
                         />
                     </div>
@@ -79,7 +82,7 @@ const LandingPage: React.FC = () => {
                         <span className="caption">
                             <img
                                 loading="lazy"
-                                src="src/assets/Rectangle.png"
+                                src={rectangle}
                                 className="img-2"
                                 alt="Rectangle"
                             />
@@ -104,7 +107,7 @@ const LandingPage: React.FC = () => {
                               <div className="img-container">
                                   <img
                                       loading="lazy"
-                                      src="src/assets/Arrow Tellow.svg"
+                                      src={tellow}
                                       className="img-3"
                                       alt="Listing image"
                                   />
@@ -118,7 +121,7 @@ const LandingPage: React.FC = () => {
             <div className="Box">
                 <img
                     loading="lazy"
-                    src="src/assets/Rectangle.png"
+                    src={rectangle}
                     className="img-2"
                     alt="Rectangle"
                 />
