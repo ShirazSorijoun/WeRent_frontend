@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ReviewProps } from '../../types/types';
 import reviewService from "../../services/review-service";
 import { Link } from 'react-router-dom';
-import landingPageImg from "../assets/landing page image.png";
+import landingPageImg from "../../assets/landing page image.png";
 
 
 const LandingPage: React.FC = () => {
