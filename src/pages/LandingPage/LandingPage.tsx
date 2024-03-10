@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ReviewProps } from '../../types/types';
 import reviewService from "../../services/review-service";
 import { Link } from 'react-router-dom';
+import landingPageImg from "../assets/landing page image.png";
 
 
 const LandingPage: React.FC = () => {
@@ -33,7 +34,7 @@ const LandingPage: React.FC = () => {
             <header className="header">
                 <img
                     loading="lazy"
-                    src="src/assets/landing page image.png"
+                    src={landingPageImg}
                     className="header-img"
                     alt="Home listing image"
                 />
