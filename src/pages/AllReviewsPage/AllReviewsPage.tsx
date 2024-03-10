@@ -18,13 +18,13 @@ const RentPropertiesPage: React.FC = () => {
 
     req.then(response => {
       setReviews(response.data.reverse());
+      setIsLoading(false)
     }).catch(error => {
         if (error && error.code === 'ERR_CANCELED'){
             console.log('Fetch request was cancelled');
         } else {
             console.error('Error fetching apartments:', error);
         }
-        setIsLoading(false);
     });
 
     return () => abort();
