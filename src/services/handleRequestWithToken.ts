@@ -7,7 +7,7 @@ const handleRequestWithToken = async () => {
   if (!token || !refreshToken) return false;
 
   try {
-    await axios.post(`https://10.10.248.166:443/auth/checkToken`, {
+    await axios.post(`https://193.106.55.166/auth/checkToken`, {
       token: token,
     });
     return true;
@@ -19,7 +19,7 @@ const handleRequestWithToken = async () => {
       return true;
     } catch (refreshError) {
       console.error("Error refreshing token:", refreshError);
-      await axios.get(`https://10.10.248.166:443/auth/logout`);
+      await axios.get(`https://193.106.55.166/auth/logout`);
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("userId");
