@@ -4,7 +4,7 @@ export {CanceledError};
 
 
 const apiClient = axios.create({
-  baseURL: "https://10.10.248.166:443",
+  baseURL: "https://193.106.55.166",
 });
 
 export default apiClient;
