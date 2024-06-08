@@ -26,9 +26,7 @@
   },
   "include": [
     "src",
-    "src/pages/LandingPage",
-    "src/pages/ApartmentPage",
-    "src/pages/SignUpPage"
+    "App.tsx", ".eslintrc.js",
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,4 +1,3 @@
-import { api } from "@/api";
 
 export const uploadImage = async (imageFile: File) => {
   const image = new FormData();
