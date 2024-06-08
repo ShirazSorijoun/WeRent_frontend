@@ -1,2 +1,2 @@
-export { TextFieldFormInput } from "./textFieldFormInput";
-export { ImageFormInput } from "./imageFormInput";
+export { TextFieldFormInput } from './textFieldFormInput';
+export { ImageFormInput } from './imageFormInput';

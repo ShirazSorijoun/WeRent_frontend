@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
-import { FC } from "react";
-import { Controller } from "react-hook-form";
-import { IFormFieldInput } from "@/models/form";
+import { TextField } from '@mui/material';
+import { FC } from 'react';
+import { Controller } from 'react-hook-form';
+import { IFormFieldInput } from '@/models/form';
 
 interface ITextFieldFormInputProps extends IFormFieldInput {
   isMultiline?: boolean;
@@ -14,7 +14,7 @@ export const TextFieldFormInput: FC<ITextFieldFormInputProps> = ({
   control,
   formData,
   isMultiline = false,
-  type = "text",
+  type = 'text',
   isDisabled = false,
   labelOverride,
 }) => {
@@ -31,11 +31,11 @@ export const TextFieldFormInput: FC<ITextFieldFormInputProps> = ({
           maxRows={4}
           multiline={isMultiline}
           sx={formData.sxStyle}
-          placeholder={formData.placeholder ?? ""}
+          placeholder={formData.placeholder ?? ''}
           label={labelOverride || formData.label}
           name={name}
           disabled={isDisabled}
-          value={value ?? ""}
+          value={value ?? ''}
           onChange={onChange}
           error={!!error}
           helperText={error?.message}

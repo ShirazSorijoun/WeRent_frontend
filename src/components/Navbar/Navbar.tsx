@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import "./Navbar.css";
-import { useAuth } from "./authContext";
-import { UserRole } from "../../services/user-service";
-import icon from "../../assets/LOGO WeRent2.jpeg";
+import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';
+import { useAuth } from './authContext';
+import { UserRole } from '../../services/user-service';
+import icon from '../../assets/LOGO WeRent2.jpeg';
 
 function Navbar() {
   const { isLoggedIn, logout, roles } = useAuth();
@@ -10,18 +10,13 @@ function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    navigate('/');
   };
 
   return (
     <div className="nav">
       <div className="logo">
-        <img
-          className="logo-image"
-          loading="lazy"
-          src={icon}
-          alt="Logo"
-        />
+        <img className="logo-image" loading="lazy" src={icon} alt="Logo" />
       </div>
       <div className="pages">
         <Link to="/" className="page">

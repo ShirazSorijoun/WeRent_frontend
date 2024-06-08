@@ -1,2 +1,2 @@
-export * from './form'
-export * from './styleType'
+export * from './form';
+export * from './styleType';

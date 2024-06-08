@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { imageURL } from "@/api";
-import { Box, CardMedia, TextField } from "@mui/material";
-import { FC, useCallback, useMemo, useState } from "react";
-import { Controller } from "react-hook-form";
-import { style } from "./style";
-import { IFormFieldInput } from "@/models";
+import { imageURL } from '@/api';
+import { Box, CardMedia, TextField } from '@mui/material';
+import { FC, useCallback, useMemo, useState } from 'react';
+import { Controller } from 'react-hook-form';
+import { style } from './style';
+import { IFormFieldInput } from '@/models';
 
 interface IImageFormInputProps extends IFormFieldInput {
   defaultImageName?: string;
@@ -20,7 +20,7 @@ export const ImageFormInput: FC<IImageFormInputProps> = ({
 
   const defaultImagePath = useMemo(
     () => `${imageURL}/${defaultImageName}`,
-    [defaultImageName]
+    [defaultImageName],
   );
 
   const handleImageChange = useCallback(
@@ -34,10 +34,10 @@ export const ImageFormInput: FC<IImageFormInputProps> = ({
         };
         reader.readAsDataURL(file);
       } else {
-        setSelectedImageToDisplay("");
+        setSelectedImageToDisplay('');
       }
     },
-    []
+    [],
   );
 
   return (
@@ -55,10 +55,10 @@ export const ImageFormInput: FC<IImageFormInputProps> = ({
             fullWidth
             type="file"
             sx={formData.sxStyle}
-            label={formData.label ?? ""}
+            label={formData.label ?? ''}
             name={name}
             disabled={disabled}
-            InputProps={{ componentsProps: { input: { accept: "image/*" } } }}
+            InputProps={{ componentsProps: { input: { accept: 'image/*' } } }}
             onChange={(event) => {
               const file = (event.target as HTMLInputElement).files?.[0];
               handleImageChange(onChange, file);

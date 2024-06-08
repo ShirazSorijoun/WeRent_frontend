@@ -1,3 +1,4 @@
-import { SxProps, Theme } from "@mui/material";
+import { SxProps, Theme } from '@mui/material';
 
-export type styleType = Record<string, SxProps<Theme>>
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export type styleType = Record<string, SxProps<Theme>>;

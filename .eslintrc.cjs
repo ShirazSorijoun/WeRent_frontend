@@ -1,16 +1,16 @@
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   env: { browser: true, es2020: true },
   extends: [
-    "eslint:recommended",
-    "plugin:react-hooks/recommended",
+    'eslint:recommended',
+    'plugin:react-hooks/recommended',
     'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: {
     project: './tsconfig.json',
     ecmaFeatures: {
@@ -25,7 +25,7 @@ module.exports = {
       typescript: {},
     },
   },
-  plugins: ['unused-imports', 'import',"react-refresh"],
+  plugins: ['unused-imports', 'import', 'react-refresh'],
   rules: {
     'prettier/prettier': 1,
     'unused-imports/no-unused-imports': 'error',
@@ -38,8 +38,8 @@ module.exports = {
     'import/extensions': ['error', 'never'],
     'import/no-extraneous-dependencies': ['error'],
     '@typescript-eslint/no-explicit-any': 1,
-    "react-refresh/only-export-components": [
-      "warn",
+    'react-refresh/only-export-components': [
+      'warn',
       { allowConstantExport: true },
     ],
   },
