@@ -5,7 +5,11 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
+    "paths": {
+      "@@/*": ["./src/components/*"],
+      "@/*": ["./src/*"],
+      "#root/*": ["."]
+    },
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -20,6 +24,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/pages/LandingPage", "src/pages/ApartmentPage", "src/pages/SignUpPage"],
+  "include": [
+    "src",
+    "src/pages/LandingPage",
+    "src/pages/ApartmentPage",
+    "src/pages/SignUpPage"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

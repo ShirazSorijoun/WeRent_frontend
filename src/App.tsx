@@ -1,8 +1,5 @@
 import React from "react";
-import "./App.css";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-//import Reviews from "./components/ReviewCard/reviewCard";
 import Login from "./components/Login/login";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Navbar from "./components/Navbar/Navbar";
@@ -34,7 +31,7 @@ const App: React.FC = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserPage />} />
-            <Route path="/addApartment" element={<AddApartmentPage />} /> 
+            <Route path="/addApartment" element={<AddApartmentPage />} />
             <Route path="/users" element={<AllUsersAdmin />} />
             <Route path="/rent" element={<RentPropertiesPage />} />
             <Route path="/changePassword" element={<ChangePassword />} />

@@ -7,7 +7,7 @@ import "./apartmentDetails.css";
 import { handleRequestWithToken } from "../../services/handleRequestWithToken";
 import { getUserById } from "../../services/user-service";
 import { Button, Card, Form, Modal } from "react-bootstrap";
-import EditIcon from "@material-ui/icons/Edit";
+import { ModeEditOutline } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useNavigate, useParams } from "react-router";
@@ -263,7 +263,7 @@ const ApartmentDetails = () => {
               variant="light"
               style={{ marginRight: "auto" }}
             >
-              <EditIcon />
+              <ModeEditOutline />
             </Button>
           ) : (
             <h1 style={{ height: "40px", marginRight: "15px" }}></h1>

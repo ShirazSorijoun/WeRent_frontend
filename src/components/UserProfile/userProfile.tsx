@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Card, Button, Modal, Form, Spinner, Alert } from "react-bootstrap";
-import EditIcon from "@material-ui/icons/Edit";
+import { ModeEditOutline } from "@mui/icons-material";
 import {
   checkOldPassword,
   getUserById,
@@ -229,7 +229,7 @@ const UserProfile: React.FC = () => {
               variant="light"
               style={{ marginRight: "15px" }}
             >
-              <EditIcon />
+              <ModeEditOutline />
             </Button>
             <h5 style={{ fontWeight: "bold", marginLeft: "90px" }}>
               Account details
