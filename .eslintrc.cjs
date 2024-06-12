@@ -10,7 +10,7 @@ module.exports = {
     'prettier',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parserOptions: {
     project: './tsconfig.json',
     ecmaFeatures: {
@@ -42,5 +42,6 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    '@typescript-eslint/naming-convention': 0,
   },
 };
