@@ -1,49 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
-import { deleteUser, getAllUsers } from "../../services/user-service";
-import { IUser } from "../../services/user-service";
-import { handleRequestWithToken } from "../../services/handleRequestWithToken";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import EnhancedTableToolbar from "./EnhancedTableToolbar";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import Checkbox from "@mui/material/Checkbox";
-import EnhancedTableHead from "./EnhancedTableHead";
-
+import React, { useEffect, useState } from 'react';
+import { deleteUser, getAllUsers } from '../../services/user-service';
+import { IUser } from '../../services/user-service';
+import { handleRequestWithToken } from '../../services/handleRequestWithToken';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import EnhancedTableToolbar from './EnhancedTableToolbar';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
+import EnhancedTableHead from './EnhancedTableHead';
 
 const AllUsersAdmin: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
 
-
   useEffect(() => {
     const fetchUsers = async () => {
-      const userId = localStorage.getItem("userId");
+      const userId = localStorage.getItem('userId');
 
       if (!userId) {
-        console.error("User ID not found in local storage");
+        console.error('User ID not found in local storage');
         return;
       }
 
       const tokenRefreshed = await handleRequestWithToken();
 
       if (!tokenRefreshed) {
-        console.log("Token refresh failed");
+        console.log('Token refresh failed');
         return;
       }
 
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem('accessToken');
       try {
-        const { req } = getAllUsers(token || "");
+        const { req } = getAllUsers(token || '');
         const response = await req;
-        const filteredUsers = response.data.filter(user => user.roles !== "admin");
+        const filteredUsers = response.data.filter(
+          (user) => user.roles !== 'admin',
+        );
         setUsers(filteredUsers);
       } catch (error) {
-        console.log("Error fetching users");
+        console.log('Error fetching users');
       }
     };
 
@@ -80,7 +80,7 @@ const AllUsersAdmin: React.FC = () => {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1),
       );
     }
     setSelected(newSelected);
@@ -92,41 +92,43 @@ const AllUsersAdmin: React.FC = () => {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
     try {
       for (const row of rows) {
         if (selected.includes(row._id)) {
           if (row.id) {
             const userIdString = row.id.toString();
             console.log(`Deleting user with ID: ${userIdString}`);
-            await deleteUser(userIdString, token || "");
-            setUsers(prevUsers => prevUsers.filter(user => user._id !== row.id));
+            await deleteUser(userIdString, token || '');
+            setUsers((prevUsers) =>
+              prevUsers.filter((user) => user._id !== row.id),
+            );
           }
         }
       }
       setSelected([]);
-      console.log("Selected users deleted successfully");
+      console.log('Selected users deleted successfully');
     } catch (error) {
-      console.error("Error deleting users:", error);
+      console.error('Error deleting users:', error);
     }
   };
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginBottom: "400px",
-        marginTop: "100px",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginBottom: '400px',
+        marginTop: '100px',
       }}
     >
-      <Box sx={{ width: "80%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
+      <Box sx={{ width: '80%' }}>
+        <Paper sx={{ width: '100%', mb: 2 }}>
           <EnhancedTableToolbar
             numSelected={selected.length}
             onDeleteClick={handleDeleteClick}
@@ -152,14 +154,14 @@ const AllUsersAdmin: React.FC = () => {
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
-                      sx={{ cursor: "pointer" }}
+                      sx={{ cursor: 'pointer' }}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            "aria-labelledby": labelId,
+                            'aria-labelledby': labelId,
                           }}
                         />
                       </TableCell>

@@ -1,50 +1,48 @@
-import Checkbox from "@mui/material/Checkbox";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import Checkbox from '@mui/material/Checkbox';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 interface Data {
-    id: string;
-    email: string;
-    role: string;
-    name: string;
+  id: string;
+  email: string;
+  role: string;
+  name: string;
 }
 
 interface HeadCell {
-    disablePadding: boolean;
-    id: keyof Data;
-    label: string;
-    numeric: boolean;
-  }
-  
-  const headCells: readonly HeadCell[] = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'User Name',
-    },
-    {
-      id: 'id',
-      numeric: true,
-      disablePadding: false,
-      label: 'ID',
-    },
-    {
-      id: 'email',
-      numeric: true,
-      disablePadding: false,
-      label: 'Email',
-    },
-    {
-      id: 'role',
-      numeric: true,
-      disablePadding: false,
-      label: 'Role',
-    },
+  disablePadding: boolean;
+  id: keyof Data;
+  label: string;
+  numeric: boolean;
+}
 
-  ];
-  
+const headCells: readonly HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: true,
+    label: 'User Name',
+  },
+  {
+    id: 'id',
+    numeric: true,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'email',
+    numeric: true,
+    disablePadding: false,
+    label: 'Email',
+  },
+  {
+    id: 'role',
+    numeric: true,
+    disablePadding: false,
+    label: 'Role',
+  },
+];
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -65,7 +63,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              'aria-label': 'select all desserts',
             }}
           />
         </TableCell>
@@ -76,7 +74,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sx={{ fontWeight: 'bold', fontSize: '0.99rem' }}
           >
-             {headCell.label}
+            {headCell.label}
           </TableCell>
         ))}
       </TableRow>

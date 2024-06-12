@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { UserRole } from "../../services/user-service";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { UserRole } from '../../services/user-service';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -10,46 +10,45 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(() => {
-        return localStorage.getItem("isLoggedIn") === "true";
-      });
-      const [roles, setRoles] = useState<UserRole | undefined>(undefined); // Initialize roles as undefined
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
+  const [roles, setRoles] = useState<UserRole | undefined>(undefined); // Initialize roles as undefined
 
+  useEffect(() => {
+    if (localStorage.getItem('roles') !== null)
+      // If roles are in local storage
+      setRoles(localStorage.getItem('roles') as UserRole); // Set roles from local storage
 
-    useEffect(() => {
-
-      if (localStorage.getItem("roles") !== null) // If roles are in local storage
-        setRoles(localStorage.getItem("roles") as UserRole); // Set roles from local storage
-
-        localStorage.setItem("isLoggedIn", String(isLoggedIn));
-      }, [isLoggedIn]);
-
-
+    localStorage.setItem('isLoggedIn', String(isLoggedIn));
+  }, [isLoggedIn]);
 
   const login = () => {
     if (
-      localStorage.getItem("accessToken") !== null &&
-      localStorage.getItem("refreshToken") !== null &&
-      localStorage.getItem("userId") !== null
-    ){
-        setIsLoggedIn(true);
+      localStorage.getItem('accessToken') !== null &&
+      localStorage.getItem('refreshToken') !== null &&
+      localStorage.getItem('userId') !== null
+    ) {
+      setIsLoggedIn(true);
     }
-    
-    console.log("User logged in (Navbar)");
+
+    console.log('User logged in (Navbar)');
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("roles");
-    console.log("User logged out");
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('roles');
+    console.log('User logged out');
     setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, roles}}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, roles }}>
       {children}
     </AuthContext.Provider>
   );
@@ -58,7 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

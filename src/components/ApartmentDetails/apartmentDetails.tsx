@@ -1,35 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import apartmentService from "../../services/apartments-service";
-import { useEffect, useState } from "react";
-import { ApartmentProps } from "../../types/types";
-import "./apartmentDetails.css";
-import { handleRequestWithToken } from "../../services/handleRequestWithToken";
-import { getUserById } from "../../services/user-service";
-import { Button, Card, Form, Modal } from "react-bootstrap";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { useNavigate, useParams } from "react-router";
-import { uploadImg } from "../../services/file-service";
+import React from 'react';
+import apartmentService from '../../services/apartments-service';
+import { useEffect, useState } from 'react';
+import { ApartmentProps } from '../../types/types';
+import './apartmentDetails.css';
+import { handleRequestWithToken } from '../../services/handleRequestWithToken';
+import { getUserById } from '../../services/user-service';
+import { Button, Card, Form, Modal } from 'react-bootstrap';
+import { ModeEditOutline } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { useNavigate, useParams } from 'react-router';
+import { uploadImg } from '../../services/file-service';
 
 const ApartmentDetails = () => {
   const { apartmentId } = useParams();
   //console.log(apartmentId);
   const [apartment, setApartment] = useState<ApartmentProps>({
-    _id: "",
-    city: "",
-    address: "",
-    type: "",
-    owner: "",
+    _id: '',
+    city: '',
+    address: '',
+    type: '',
+    owner: '',
     floor: 0,
     numberOfFloors: 0,
     rooms: 0,
     sizeInSqMeters: 0,
     price: 0,
     entryDate: new Date(),
-    apartment_image: "",
-    furniture: "",
+    apartment_image: '',
+    furniture: '',
     features: {
       parking: false,
       accessForDisabled: false,
@@ -40,14 +40,14 @@ const ApartmentDetails = () => {
       elevators: false,
       airConditioning: false,
     },
-    description: "",
-    phone: " ",
+    description: '',
+    phone: ' ',
   });
 
   const navigate = useNavigate();
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  const localStorageUserId = localStorage.getItem("userId");
+  const localStorageUserId = localStorage.getItem('userId');
   const [editableApartment, setEditableApartment] = useState<ApartmentProps>({
     ...apartment,
   });
@@ -72,8 +72,8 @@ const ApartmentDetails = () => {
         setOwnerId(response.data?.owner);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching apartment details", error);
-        setError("Error fetching apartment details");
+        console.error('Error fetching apartment details', error);
+        setError('Error fetching apartment details');
         setLoading(false);
       }
     };
@@ -88,31 +88,31 @@ const ApartmentDetails = () => {
       const tokenRefreshed = await handleRequestWithToken();
 
       if (!tokenRefreshed) {
-        console.log("Token refresh failed");
+        console.log('Token refresh failed');
         return;
       }
 
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem('accessToken');
 
       try {
-        const response = await getUserById(userId, token || "");
+        const response = await getUserById(userId, token || '');
         const name = response.name;
         const email = response.email;
         setUserData({ name, email });
 
         const response2 = await getUserById(
-          localStorageUserId || "",
-          token || ""
+          localStorageUserId || '',
+          token || '',
         );
         setRole(response2.roles);
       } catch (error) {
-        console.error("Error fetching user data", error);
+        console.error('Error fetching user data', error);
       }
     }
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setEditableApartment({
       ...editableApartment,
@@ -138,8 +138,8 @@ const ApartmentDetails = () => {
 
     if (selectedImage) {
       const imageResponse = await uploadImg(selectedImage);
-      photoUrl = imageResponse.replace(/\\/g, "/");
-      console.log("photoUrl:", photoUrl);
+      photoUrl = imageResponse.replace(/\\/g, '/');
+      console.log('photoUrl:', photoUrl);
     }
 
     setEditableApartment((prev) => ({
@@ -150,28 +150,28 @@ const ApartmentDetails = () => {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
     try {
       if (apartmentId) {
         await apartmentService.updateApartment(
           apartmentId,
           { ...editableApartment, apartment_image: photoUrl },
-          token || ""
+          token || '',
         );
       }
 
       setApartment((prev) => ({ ...prev, apartment_image: photoUrl }));
     } catch {
-      console.log("error to change img");
+      console.log('error to change img');
     }
   };
 
   const handleEditImg = () => {
-    const fileInput = document.getElementById("fileInput");
+    const fileInput = document.getElementById('fileInput');
     if (fileInput) {
       fileInput.click();
     }
@@ -181,19 +181,19 @@ const ApartmentDetails = () => {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
 
     try {
       if (apartmentId) {
-        await apartmentService.deleteApartment(apartmentId, token || "");
-        navigate("/");
+        await apartmentService.deleteApartment(apartmentId, token || '');
+        navigate('/');
       }
     } catch (error) {
-      console.error("Error deleting apartment:", error);
+      console.error('Error deleting apartment:', error);
     }
   };
 
@@ -201,11 +201,11 @@ const ApartmentDetails = () => {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
 
     try {
       setLoading(true);
@@ -213,14 +213,14 @@ const ApartmentDetails = () => {
         await apartmentService.updateApartment(
           apartmentId,
           editableApartment,
-          token || ""
+          token || '',
         );
       }
       setApartment({ ...editableApartment });
       handleCloseEditModal();
       //fetchApartmentData(apartmentId);
     } catch (error) {
-      console.error("Error updating apartment:", error);
+      console.error('Error updating apartment:', error);
     } finally {
       setLoading(false);
     }
@@ -242,48 +242,48 @@ const ApartmentDetails = () => {
     <div className="container">
       <Card
         style={{
-          width: "100%",
-          height: "90%",
-          flexDirection: "column",
-          margin: "auto",
-          marginTop: "30px",
-          marginBottom: "100px",
+          width: '100%',
+          height: '90%',
+          flexDirection: 'column',
+          margin: 'auto',
+          marginTop: '30px',
+          marginBottom: '100px',
         }}
       >
         <Card.Header
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
           }}
         >
           {localStorageUserId === ownerId ? (
             <Button
               onClick={handleEditApartment}
               variant="light"
-              style={{ marginRight: "auto" }}
+              style={{ marginRight: 'auto' }}
             >
-              <EditIcon />
+              <ModeEditOutline />
             </Button>
           ) : (
-            <h1 style={{ height: "40px", marginRight: "15px" }}></h1>
+            <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
           )}
-          {localStorageUserId === ownerId || role === "admin" ? (
+          {localStorageUserId === ownerId || role === 'admin' ? (
             <Button onClick={handleDelete} variant="light" style={{}}>
               <DeleteIcon />
             </Button>
           ) : (
-            <h1 style={{ height: "40px" }}></h1>
+            <h1 style={{ height: '40px' }}></h1>
           )}
         </Card.Header>
-        <Card.Body style={{ overflow: "auto" }}>
+        <Card.Body style={{ overflow: 'auto' }}>
           <div
             className="row g-3"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <div className="css-1752boj e142rc1o2">
@@ -298,7 +298,7 @@ const ApartmentDetails = () => {
                     <Button
                       onClick={handleEditImg}
                       variant="light"
-                      style={{ marginRight: "auto" }}
+                      style={{ marginRight: 'auto' }}
                     >
                       <AddPhotoAlternateIcon />
                     </Button>
@@ -307,7 +307,7 @@ const ApartmentDetails = () => {
                       type="file"
                       accept="image/*"
                       onChange={handleImgChange}
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     />
                   </>
                 )}
@@ -346,7 +346,7 @@ const ApartmentDetails = () => {
                           className="css-nfbknm e10pmpfq9"
                         >
                           <div className="css-1x3r91k e10pmpfq10">
-                            {" "}
+                            {' '}
                             {apartment.price} ₪
                           </div>
                         </div>
@@ -375,7 +375,7 @@ const ApartmentDetails = () => {
                         ></path>
                       </svg>
                       <div className="css-ixartp e3vrfmg5">
-                        {" "}
+                        {' '}
                         {apartment.type}
                       </div>
                     </div>
@@ -416,7 +416,7 @@ const ApartmentDetails = () => {
                       </svg>
                       <div className="css-ixartp e3vrfmg5">
                         <div>
-                          floor {apartment.floor} from{" "}
+                          floor {apartment.floor} from{' '}
                           {apartment.numberOfFloors} floors
                         </div>
                       </div>
@@ -460,8 +460,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.elevators
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -480,10 +480,10 @@ const ApartmentDetails = () => {
                               </svg>
                             </div>
                             <div className="css-stb5t9 elkstcv2">
-                              {" "}
+                              {' '}
                               {apartment.features.elevators
-                                ? "There is an elevator"
-                                : "No elevator"}
+                                ? 'There is an elevator'
+                                : 'No elevator'}
                             </div>
                           </div>
                         </div>
@@ -491,8 +491,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.airConditioning
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -512,8 +512,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.airConditioning
-                                ? "There is air conditioning"
-                                : "No air conditioning"}
+                                ? 'There is air conditioning'
+                                : 'No air conditioning'}
                             </div>
                           </div>
                         </div>
@@ -521,8 +521,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.parking
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -542,8 +542,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.parking
-                                ? "There is parking"
-                                : "No parking"}
+                                ? 'There is parking'
+                                : 'No parking'}
                             </div>
                           </div>
                         </div>
@@ -551,8 +551,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.terrace
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -572,8 +572,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.terrace
-                                ? "There is a terrace"
-                                : "No terrace"}
+                                ? 'There is a terrace'
+                                : 'No terrace'}
                             </div>
                           </div>
                         </div>
@@ -581,8 +581,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.garden
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -602,8 +602,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.garden
-                                ? "There is a garden"
-                                : "No garden"}
+                                ? 'There is a garden'
+                                : 'No garden'}
                             </div>
                           </div>
                         </div>
@@ -611,8 +611,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.dimension
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -631,8 +631,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.dimension
-                                ? "There is a dimension"
-                                : "No dimension"}
+                                ? 'There is a dimension'
+                                : 'No dimension'}
                             </div>
                           </div>
                         </div>
@@ -640,8 +640,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.storage
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -661,8 +661,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.storage
-                                ? "There is a storage"
-                                : "No storage"}
+                                ? 'There is a storage'
+                                : 'No storage'}
                             </div>
                           </div>
                         </div>
@@ -670,8 +670,8 @@ const ApartmentDetails = () => {
                           <div
                             className={
                               apartment.features.accessForDisabled
-                                ? "css-1p1vgp0 elkstcv0"
-                                : "css-tc23vv elkstcv0"
+                                ? 'css-1p1vgp0 elkstcv0'
+                                : 'css-tc23vv elkstcv0'
                             }
                           >
                             <div className="css-1acq1dr elkstcv1">
@@ -691,8 +691,8 @@ const ApartmentDetails = () => {
                             </div>
                             <div className="css-stb5t9 elkstcv2">
                               {apartment.features.accessForDisabled
-                                ? "There is access for the disabled"
-                                : "There is no access for the disabled"}
+                                ? 'There is access for the disabled'
+                                : 'There is no access for the disabled'}
                             </div>
                           </div>
                         </div>
@@ -712,7 +712,7 @@ const ApartmentDetails = () => {
                         data-auto="unit-availability-value"
                         className="css-ee94a4 e178eu6k3"
                       >
-                        {apartment.entryDate.toString().split("T")[0]}
+                        {apartment.entryDate.toString().split('T')[0]}
                       </div>
                     </div>
 
@@ -763,7 +763,7 @@ const ApartmentDetails = () => {
                       <div
                         data-auto="poc-name"
                         className="css-ixpw6d e1siqbpd3"
-                        style={{ marginLeft: "10px" }}
+                        style={{ marginLeft: '10px' }}
                       >
                         {userData?.name}
                       </div>
@@ -871,7 +871,7 @@ const ApartmentDetails = () => {
                   value={
                     new Date(editableApartment.entryDate)
                       .toISOString()
-                      .split("T")[0]
+                      .split('T')[0]
                   }
                   onChange={handleInputChange}
                 />
@@ -912,9 +912,9 @@ const ApartmentDetails = () => {
             </Button>
             <Button
               style={{
-                backgroundColor: "#6C757D",
-                borderColor: "#6C757D",
-                color: "#FFFFFF",
+                backgroundColor: '#6C757D',
+                borderColor: '#6C757D',
+                color: '#FFFFFF',
               }}
               variant="primary1"
               onClick={handleSubmit}

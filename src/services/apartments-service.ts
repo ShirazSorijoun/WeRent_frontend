@@ -1,5 +1,5 @@
-import apiClient, { CanceledError } from "./api-client";
-import { ApartmentProps } from "../types/types";
+import apiClient, { CanceledError } from './api-client';
+import { ApartmentProps } from '../types/types';
 export interface UpdatedApartment {
   city: string;
   address: string;
@@ -29,7 +29,7 @@ export interface UpdatedApartment {
 export { CanceledError };
 const getAllApartments = () => {
   const abortController = new AbortController();
-  const req = apiClient.get<ApartmentProps[]>("apartment", {
+  const req = apiClient.get<ApartmentProps[]>('apartment', {
     signal: abortController.signal,
   });
   return { req, abort: () => abortController.abort() };
@@ -38,22 +38,22 @@ const getAllApartments = () => {
 const postApartment = (apartmentData: ApartmentProps, token: string) => {
   const abortController = new AbortController();
   const req = apiClient.post(
-    "/apartment/create",
+    '/apartment/create',
     { apartment: apartmentData },
     {
       signal: abortController.signal,
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   req
     .then((response) => {
-      console.log("Apartment creation successful:", response.data);
+      console.log('Apartment creation successful:', response.data);
     })
     .catch((error) => {
-      console.error("Error creating apartment:", error);
+      console.error('Error creating apartment:', error);
     });
 
   return { req, abort: () => abortController.abort() };
@@ -70,7 +70,7 @@ const getApartmentById = (id: string) => {
 const updateApartment = async (
   id: string,
   updatedApartment: ApartmentProps,
-  token: string
+  token: string,
 ) => {
   try {
     const response = await apiClient.patch(
@@ -83,17 +83,17 @@ const updateApartment = async (
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (response.status === 200) {
       return response.data;
     } else {
-      console.error("Failed to update apartment:", response.statusText);
-      throw new Error("Failed to update apartment");
+      console.error('Failed to update apartment:', response.statusText);
+      throw new Error('Failed to update apartment');
     }
   } catch (error) {
-    console.error("Error updating apartment");
+    console.error('Error updating apartment');
     throw error;
   }
 };
@@ -106,17 +106,17 @@ const deleteApartment = async (apartmentId: string, token: string) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (response.status === 200) {
       return response.data;
     } else {
-      console.error("Failed to delete apartment:", response.statusText);
-      throw new Error("Failed to delete apartment");
+      console.error('Failed to delete apartment:', response.statusText);
+      throw new Error('Failed to delete apartment');
     }
   } catch (error) {
-    console.error("Error deleting apartment:", error);
+    console.error('Error deleting apartment:', error);
     throw error;
   }
 };

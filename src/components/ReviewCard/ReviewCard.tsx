@@ -1,11 +1,10 @@
-import React from "react";
-import "./ReviewCard.css";
+import React from 'react';
+import './ReviewCard.css';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-
 
 interface ReviewProps {
   _id?: string;
@@ -19,9 +18,7 @@ interface ReviewCardProps {
   review: ReviewProps;
 }
 
-
-const ReviewCard: React.FC<ReviewCardProps> = ({review}) => {
-
+const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
   return (
     <div className="card-container">
       <div>
@@ -29,18 +26,28 @@ const ReviewCard: React.FC<ReviewCardProps> = ({review}) => {
           <CardHeader
             avatar={
               <Avatar sx={{ width: 56, height: 56 }}>
-              <img src={review.ownerImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </Avatar>
+                <img
+                  src={review.ownerImage}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </Avatar>
             }
             title={
-              <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: 'bold' }}>
+              <Typography
+                variant="h6"
+                sx={{ fontSize: '18px', fontWeight: 'bold' }}
+              >
                 {review.ownerName}
               </Typography>
             }
             subheader={review.date}
           />
           <CardContent>
-            <Typography variant="body1" color="text.secondary" style={{ fontSize: '18px' }}>
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              style={{ fontSize: '18px' }}
+            >
               "{review.description}"
             </Typography>
           </CardContent>

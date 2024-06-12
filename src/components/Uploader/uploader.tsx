@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MdCloudUpload, MdDelete } from 'react-icons/md';
 import { AiFillFileImage } from 'react-icons/ai';
-import "./uploader.css"
+import './uploader.css';
 
 interface UploaderProps {
   onFileChange: (file: File) => void;
@@ -9,11 +9,16 @@ interface UploaderProps {
 
 const Uploader: React.FC<UploaderProps> = ({ onFileChange }) => {
   const [image, setImage] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string>("No selected file");
+  const [fileName, setFileName] = useState<string>('No selected file');
 
   return (
     <main>
-     <form className= "uploader-form" onClick={() => (document.querySelector(".input-field") as HTMLElement)?.click()}>
+      <form
+        className="uploader-form"
+        onClick={() =>
+          (document.querySelector('.input-field') as HTMLElement)?.click()
+        }
+      >
         <input
           type="file"
           accept="image/*"
@@ -44,7 +49,7 @@ const Uploader: React.FC<UploaderProps> = ({ onFileChange }) => {
           {fileName} -
           <MdDelete
             onClick={() => {
-              setFileName("No selected File");
+              setFileName('No selected File');
               setImage(null);
             }}
           />

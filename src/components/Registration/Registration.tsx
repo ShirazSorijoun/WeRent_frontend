@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import "./Registration.css";
-import { ChangeEvent, useRef, useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import img from "../../assets/img.jpg";
-import UserVactor from "../../assets/user_vector.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
-import { uploadImg } from "../../services/file-service";
+import './Registration.css';
+import { ChangeEvent, useRef, useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import img from '../../assets/img.jpg';
+import UserVactor from '../../assets/user_vector.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { uploadImg } from '../../services/file-service';
 import {
   registerUser,
   UserRole,
@@ -14,33 +14,33 @@ import {
   loginUser,
   googleSignin,
   IUser,
-} from "../../services/user-service";
-import { z } from "zod";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import "./Registration.css";
-import { useAuth } from "../Navbar/authContext";
-import { useNavigate } from "react-router";
-import { Alert } from "react-bootstrap";
+} from '../../services/user-service';
+import { z } from 'zod';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import './Registration.css';
+import { useAuth } from '../Navbar/authContext';
+import { useNavigate } from 'react-router';
+import { Alert } from 'react-bootstrap';
 
 const schema = z.object({
-  name: z.string().min(3, { message: "Name must contain at least 3 letters" }),
-  email: z.string().email({ message: "Invalid email format" }),
+  name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
+  email: z.string().email({ message: 'Invalid email format' }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
+    .min(6, { message: 'Password must be at least 6 characters' }),
 });
 
 function Registration() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [imgSrc, setImgSrc] = useState<File>();
-  const [selectedItem, setSelectedItem] = useState<string>("User type");
+  const [selectedItem, setSelectedItem] = useState<string>('User type');
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState<ILogin>({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   });
 
   const handleItemClick = (item: string) => {
@@ -56,7 +56,7 @@ function Registration() {
 
   const handleChange =
     (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFormErrors({ ...formErrors, [prop]: "" });
+      setFormErrors({ ...formErrors, [prop]: '' });
       setFormData({ ...formData, [prop]: event.target.value });
     };
 
@@ -68,16 +68,16 @@ function Registration() {
   };
 
   const selectImg = () => {
-    console.log("Selecting image...");
+    console.log('Selecting image...');
     fileInputRef.current?.click();
   };
 
   const onRegister = async () => {
-    console.log("Registering...");
+    console.log('Registering...');
     // Check if the user selected a role
-    if (selectedItem === "User type") {
+    if (selectedItem === 'User type') {
       setFormErrors({
-        role: "Please choose a role (Owner or Tenant)",
+        role: 'Please choose a role (Owner or Tenant)',
       });
       return;
     }
@@ -101,7 +101,7 @@ function Registration() {
         url = await uploadImg(imgSrc);
       } catch (error) {
         setFormErrors({
-          image: "Failed to upload the image. Please try again.",
+          image: 'Failed to upload the image. Please try again.',
         });
         return;
       }
@@ -112,8 +112,8 @@ function Registration() {
       emailInputRef.current?.value &&
       passwordInputRef.current?.value
     ) {
-      if (selectedItem === "Owner") newSelectedItem = UserRole.Owner;
-      if (selectedItem === "Tenant") newSelectedItem = UserRole.Tenant;
+      if (selectedItem === 'Owner') newSelectedItem = UserRole.Owner;
+      if (selectedItem === 'Tenant') newSelectedItem = UserRole.Tenant;
       console.log(url);
 
       const user: IUser = {
@@ -127,25 +127,25 @@ function Registration() {
 
       try {
         const registrationResponse = await registerUser(user);
-        console.log("User registered:", registrationResponse);
+        console.log('User registered:', registrationResponse);
 
         // Log in the user immediately after successful registration
         const loginResponse = await loginUser(formData);
-        console.log("User logged in");
+        console.log('User logged in');
         //console.log(loginResponse)
 
-        localStorage.setItem("accessToken", loginResponse?.tokens.accessToken);
+        localStorage.setItem('accessToken', loginResponse?.tokens.accessToken);
         localStorage.setItem(
-          "refreshToken",
-          loginResponse?.tokens.refreshToken
+          'refreshToken',
+          loginResponse?.tokens.refreshToken,
         );
-        localStorage.setItem("userId", loginResponse?.userId);
-        localStorage.setItem("roles", loginResponse?.userRole);
+        localStorage.setItem('userId', loginResponse?.userId);
+        localStorage.setItem('roles', loginResponse?.userRole);
 
         login();
-        navigate("/");
+        navigate('/');
       } catch (error: any) {
-        console.error("Login failed:", error);
+        console.error('Login failed:', error);
         //console.log(error.response.status);
         if (error.response.status === 406) {
           setShowAlert(true);
@@ -157,36 +157,35 @@ function Registration() {
     setFormErrors({});
   };
 
-
   const onGoogleLoginSuccess = async (
-    credentialResponse: CredentialResponse
+    credentialResponse: CredentialResponse,
   ) => {
     console.log(credentialResponse);
     try {
       const res = await googleSignin(credentialResponse);
       console.log(res);
-      localStorage.setItem("accessToken", res?.accessToken);
-      localStorage.setItem("refreshToken", res?.refreshToken);
-      localStorage.setItem("userId", res?._id);
-      navigate("/changePassword");
+      localStorage.setItem('accessToken', res?.accessToken);
+      localStorage.setItem('refreshToken', res?.refreshToken);
+      localStorage.setItem('userId', res?._id);
+      navigate('/changePassword');
     } catch (e) {
       console.log(e);
     }
   };
 
   const onGoogleLoginFailure = () => {
-    console.log("Google login failed");
+    console.log('Google login failed');
   };
 
   return (
     <div className="container">
-      <div className="row" style={{ marginBottom: "120px", marginTop: "50px" }}>
+      <div className="row" style={{ marginBottom: '120px', marginTop: '50px' }}>
         <div className="col-md-5 d-flex align-items-center justify-content-center">
           <img
             src={img}
             className="img-fluid"
             alt="Preview"
-            style={{ height: "730px", width: "700px" }}
+            style={{ height: '730px', width: '700px' }}
           ></img>
         </div>
 
@@ -200,13 +199,13 @@ function Registration() {
             </p>
 
             <div className="d-flex justify-content-center position-relative">
-              <div style={{ height: "230px", width: "230px" }}>
+              <div style={{ height: '230px', width: '230px' }}>
                 {imgSrc ? (
                   <img
                     src={imgSrc ? URL.createObjectURL(imgSrc) : UserVactor}
                     className="img-fluid"
                     alt="Preview"
-                    style={{ height: "230px", width: "230px" }}
+                    style={{ height: '230px', width: '230px' }}
                   />
                 ) : (
                   <img src={UserVactor} className="img-fluid" alt="Preview" />
@@ -223,7 +222,7 @@ function Registration() {
             </div>
 
             <input
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={fileInputRef}
               type="file"
               className="form-control"
@@ -238,13 +237,13 @@ function Registration() {
 
               <Dropdown.Menu>
                 <Dropdown.Item
-                  onClick={() => handleItemClick("Owner")}
+                  onClick={() => handleItemClick('Owner')}
                   href="#"
                 >
                   Owner
                 </Dropdown.Item>
                 <Dropdown.Item
-                  onClick={() => handleItemClick("Tenant")}
+                  onClick={() => handleItemClick('Tenant')}
                   href="#"
                 >
                   Tenant
@@ -252,8 +251,8 @@ function Registration() {
               </Dropdown.Menu>
             </Dropdown>
 
-            {formErrors["role"] && (
-              <p className="text-danger">{formErrors["role"]}</p>
+            {formErrors.role && (
+              <p className="text-danger">{formErrors.role}</p>
             )}
 
             <input
@@ -261,30 +260,30 @@ function Registration() {
               type="text"
               className="form-control"
               placeholder="Name"
-              onChange={handleChange("name")}
+              onChange={handleChange('name')}
             />
-            {formErrors["name"] && (
-              <p className="text-danger">{formErrors["name"]}</p>
+            {formErrors.name && (
+              <p className="text-danger">{formErrors.name}</p>
             )}
             <input
               ref={emailInputRef}
               type="text"
               className="form-control"
               placeholder="Email"
-              onChange={handleChange("email")}
+              onChange={handleChange('email')}
             />
-            {formErrors["email"] && (
-              <p className="text-danger">{formErrors["email"]}</p>
+            {formErrors.email && (
+              <p className="text-danger">{formErrors.email}</p>
             )}
             <input
               ref={passwordInputRef}
               type="password"
               className="form-control"
               placeholder="Password"
-              onChange={handleChange("password")}
+              onChange={handleChange('password')}
             />
-            {formErrors["password"] && (
-              <p className="text-danger">{formErrors["password"]}</p>
+            {formErrors.password && (
+              <p className="text-danger">{formErrors.password}</p>
             )}
             <button type="button" className="button-71" onClick={onRegister}>
               Register
@@ -317,13 +316,13 @@ function Registration() {
         onClose={() => setShowAlert(false)}
         dismissible
         style={{
-          position: "fixed",
+          position: 'fixed',
           top: 0,
           right: 0,
           left: 0,
           zIndex: 9999,
-          backgroundColor: "red",
-          color: "white",
+          backgroundColor: 'red',
+          color: 'white',
         }}
       >
         User already exists!

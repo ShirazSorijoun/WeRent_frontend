@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import ReviewCard from "../../components/ReviewCard/ReviewCard";
-import reviewService from "../../services/review-service";
+import React, { useEffect, useState } from 'react';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
+import reviewService from '../../services/review-service';
 import { ReviewProps } from '../../types/types';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './AllReviewsPage.css';
 
-
 const RentPropertiesPage: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-
-
   useEffect(() => {
     const { req, abort } = reviewService.getAllReviews();
 
-    req.then(response => {
-      setReviews(response.data.reverse());
-      setIsLoading(false)
-    }).catch(error => {
-        if (error && error.code === 'ERR_CANCELED'){
-            console.log('Fetch request was cancelled');
+    req
+      .then((response) => {
+        setReviews(response.data.reverse());
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        if (error && error.code === 'ERR_CANCELED') {
+          console.log('Fetch request was cancelled');
         } else {
-            console.error('Error fetching apartments:', error);
+          console.error('Error fetching apartments:', error);
         }
-    });
+      });
 
     return () => abort();
   }, []);
-
-
-
 
   return (
     <div className="all-reviews-container">
@@ -46,18 +42,14 @@ const RentPropertiesPage: React.FC = () => {
       ) : (
         <div className="review-cards-container">
           <Row>
-              {reviews.map((review,index) => (
-                <Col key={index}>
-                  <ReviewCard
-                    key={review._id}
-                    review={review}
-                  />
-                </Col>
-              ))}
+            {reviews.map((review, index) => (
+              <Col key={index}>
+                <ReviewCard key={review._id} review={review} />
+              </Col>
+            ))}
           </Row>
         </div>
       )}
-
     </div>
   );
 };

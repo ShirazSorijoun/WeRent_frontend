@@ -1,16 +1,13 @@
-import { useState } from "react";
-import { handleRequestWithToken } from "../../services/handleRequestWithToken";
-import {
-  changeRole,
-  updateOwnProfile,
-} from "../../services/user-service";
-import { Alert, Button, Card, Dropdown } from "react-bootstrap";
-import { useNavigate } from "react-router";
-import { useAuth } from "../Navbar/authContext";
+import { useState } from 'react';
+import { handleRequestWithToken } from '../../services/handleRequestWithToken';
+import { changeRole, updateOwnProfile } from '../../services/user-service';
+import { Alert, Button, Card, Dropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
+import { useAuth } from '../Navbar/authContext';
 
 function ChangePassword() {
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -20,31 +17,31 @@ function ChangePassword() {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
     try {
       // Check if the new password has at least 6 characters
       if (password.length < 6) {
-        setPasswordError("Password must be at least 6 characters");
+        setPasswordError('Password must be at least 6 characters');
         return;
       } else {
         setPasswordError(null);
       }
 
-      await updateOwnProfile({ password: password }, token || "");
-      await changeRole(role, token || "");
-      localStorage.setItem("roles", role);
+      await updateOwnProfile({ password: password }, token || '');
+      await changeRole(role, token || '');
+      localStorage.setItem('roles', role);
 
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
-      console.log("Password updated successfully!");
+      console.log('Password updated successfully!');
       login();
-      navigate("/");
+      navigate('/');
     } catch (error) {
-      console.log("fail chnge password");
+      console.log('fail chnge password');
     }
   };
 
@@ -54,29 +51,29 @@ function ChangePassword() {
   };
 
   return (
-    <div style={{ marginTop: "30px", marginBottom: "200px" }}>
-      <div style={{ marginTop: "30px" }}>
+    <div style={{ marginTop: '30px', marginBottom: '200px' }}>
+      <div style={{ marginTop: '30px' }}>
         <Card
           style={{
-            width: "700px",
-            height: "50%",
-            display: "flex",
-            flexDirection: "column",
-            margin: "auto",
+            width: '700px',
+            height: '50%',
+            display: 'flex',
+            flexDirection: 'column',
+            margin: 'auto',
           }}
         >
           <Card.Header
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <h5 style={{ fontWeight: "bold" }}>Choose Password and Role</h5>
+            <h5 style={{ fontWeight: 'bold' }}>Choose Password and Role</h5>
           </Card.Header>
 
-          <Card.Body style={{ overflow: "auto" }}>
-            <div className="col-lg-6" style={{ marginBottom: "20px" }}>
+          <Card.Body style={{ overflow: 'auto' }}>
+            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
               <label className="form-label" htmlFor="NewPassword">
                 Please choose a new password
               </label>
@@ -90,21 +87,21 @@ function ChangePassword() {
             </div>
 
             {/* Dropdown for selecting role */}
-            <div className="col-lg-6" style={{ marginBottom: "20px" }}>
+            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
               <Dropdown>
                 <Dropdown.Toggle variant="light" id="dropdown-basic">
-                  {role || "Select Role"}
+                  {role || 'Select Role'}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    onClick={() => handleRoleChange("owner")}
+                    onClick={() => handleRoleChange('owner')}
                     href="#"
                   >
                     Owner
                   </Dropdown.Item>
                   <Dropdown.Item
-                    onClick={() => handleRoleChange("tenant")}
+                    onClick={() => handleRoleChange('tenant')}
                     href="#"
                   >
                     Tenant
@@ -112,8 +109,16 @@ function ChangePassword() {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <div style={{ marginTop: "20px" }}></div>
-            <Button style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' , color:"#FFFFFF" }} variant="primary1" onClick={handleChangePassword}>
+            <div style={{ marginTop: '20px' }}></div>
+            <Button
+              style={{
+                backgroundColor: '#6C757D',
+                borderColor: '#6C757D',
+                color: '#FFFFFF',
+              }}
+              variant="primary1"
+              onClick={handleChangePassword}
+            >
               Save
             </Button>
           </Card.Body>
@@ -126,7 +131,7 @@ function ChangePassword() {
         show={showSuccessAlert}
         onClose={() => setShowSuccessAlert(false)}
         dismissible
-        style={{ position: "fixed", top: 0, right: 0, left: 0, zIndex: 9999 }}
+        style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 9999 }}
       >
         Password changed successfully!
       </Alert>

@@ -1,59 +1,59 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { Card, Button, Modal, Form, Spinner, Alert } from "react-bootstrap";
-import EditIcon from "@material-ui/icons/Edit";
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { Card, Button, Modal, Form, Spinner, Alert } from 'react-bootstrap';
+import { ModeEditOutline } from '@mui/icons-material';
 import {
   checkOldPassword,
   getUserById,
   updateOwnProfile,
-} from "../../services/user-service";
-import { handleRequestWithToken } from "../../services/handleRequestWithToken";
-import { uploadImg } from "../../services/file-service";
-import "./userProfile.css";
-import { ApartmentProps } from "../../types/types";
-import { Link } from "react-router-dom";
+} from '../../services/user-service';
+import { handleRequestWithToken } from '../../services/handleRequestWithToken';
+import { uploadImg } from '../../services/file-service';
+import './userProfile.css';
+import { ApartmentProps } from '../../types/types';
+import { Link } from 'react-router-dom';
 //import { faAlignRight } from "@fortawesome/free-solid-svg-icons";
 
 const UserProfile: React.FC = () => {
   const [userProfile, setUserProfile] = useState({
-    name: "",
-    email: "",
-    password: "",
-    roles: "",
-    profile_image: "",
+    name: '',
+    email: '',
+    password: '',
+    roles: '',
+    profile_image: '',
   });
 
   const [apartments, setApartments] = useState<any[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [tempUserProfile, setTempUserProfile] = useState({ ...userProfile });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordError2, setPasswordError2] = useState<string | null>(null);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const fetchUserProfile = async () => {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
 
     if (!userId) {
-      console.error("User ID not found in local storage");
+      console.error('User ID not found in local storage');
       return;
     }
 
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
 
     try {
       setLoading(true);
-      const response = await getUserById(userId, token || "");
+      const response = await getUserById(userId, token || '');
       const { name, email, password, roles, profile_image } = response;
       setUserProfile((prev) => ({
         ...prev,
@@ -74,10 +74,10 @@ const UserProfile: React.FC = () => {
       setApartments(
         response.advertisedApartments.map((apartment: ApartmentProps) => ({
           ...apartment,
-        }))
+        })),
       );
     } catch (error) {
-      console.error("Error fetching user profile:", error);
+      console.error('Error fetching user profile:', error);
     } finally {
       setLoading(false);
     }
@@ -99,11 +99,11 @@ const UserProfile: React.FC = () => {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
 
     try {
       setLoading(true);
@@ -111,26 +111,26 @@ const UserProfile: React.FC = () => {
 
       if (selectedFile) {
         const imageResponse = await uploadImg(selectedFile);
-        photoUrl = imageResponse.replace(/\\/g, "/");
+        photoUrl = imageResponse.replace(/\\/g, '/');
         console.log(photoUrl);
       }
 
       await updateOwnProfile(
         { ...tempUserProfile, profile_image: photoUrl },
-        token || ""
+        token || '',
       );
       setUserProfile({ ...tempUserProfile });
       handleCloseEditModal();
       fetchUserProfile();
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error('Error updating profile:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setTempUserProfile({ ...tempUserProfile, [e.target.id]: e.target.value });
   };
@@ -148,112 +148,112 @@ const UserProfile: React.FC = () => {
     const tokenRefreshed = await handleRequestWithToken();
 
     if (!tokenRefreshed) {
-      console.log("Token refresh failed");
+      console.log('Token refresh failed');
       return;
     }
 
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
     try {
       // Check if the new password has at least 6 characters
       if (newPassword.length < 6) {
-        setPasswordError("Password must be at least 6 characters");
+        setPasswordError('Password must be at least 6 characters');
         return;
       } else {
         setPasswordError(null);
       }
-      const isValid = await checkOldPassword(oldPassword, token || "");
+      const isValid = await checkOldPassword(oldPassword, token || '');
       //console.log(isValid)
       if (isValid) {
         await updateOwnProfile(
           { ...tempUserProfile, password: newPassword },
-          token || ""
+          token || '',
         );
         setUserProfile({ ...tempUserProfile });
         fetchUserProfile();
         setPasswordError2(null);
         setShowSuccessAlert(true);
         setTimeout(() => setShowSuccessAlert(false), 3000);
-        console.log("Password updated successfully!");
+        console.log('Password updated successfully!');
       } else {
-        setPasswordError2("Not valid password");
-        console.log("not valid password");
+        setPasswordError2('Not valid password');
+        console.log('not valid password');
       }
     } catch (error) {
-      console.log("fail chnge password");
+      console.log('fail chnge password');
     }
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div
         style={{
-          position: "relative",
-          marginLeft: "10px",
-          marginBottom: "20px",
-          alignSelf: "flex-end",
+          position: 'relative',
+          marginLeft: '10px',
+          marginBottom: '20px',
+          alignSelf: 'flex-end',
         }}
       >
         <Button
           style={{
-            backgroundColor: "#6C757D",
-            borderColor: "#6C757D",
-            padding: "5px 30px",
-            fontSize: "18px",
+            backgroundColor: '#6C757D',
+            borderColor: '#6C757D',
+            padding: '5px 30px',
+            fontSize: '18px',
           }}
-          onClick={() => (window.location.href = "/addreview")}
+          onClick={() => (window.location.href = '/addreview')}
         >
           Add Review
         </Button>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Card
           style={{
-            width: "500px",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            margin: "auto",
-            marginTop: "30px",
-            marginBottom: "20px",
+            width: '500px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            margin: 'auto',
+            marginTop: '30px',
+            marginBottom: '20px',
           }}
         >
           <Card.Header
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
             }}
           >
             <Button
               onClick={handleEditProfile}
               variant="light"
-              style={{ marginRight: "15px" }}
+              style={{ marginRight: '15px' }}
             >
-              <EditIcon />
+              <ModeEditOutline />
             </Button>
-            <h5 style={{ fontWeight: "bold", marginLeft: "90px" }}>
+            <h5 style={{ fontWeight: 'bold', marginLeft: '90px' }}>
               Account details
             </h5>
           </Card.Header>
 
-          <Card.Body style={{ overflow: "auto" }}>
+          <Card.Body style={{ overflow: 'auto' }}>
             <div
               className="row g-3"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "50px",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '50px',
               }}
             >
               <img
                 src={userProfile.profile_image}
                 alt="Profile"
                 style={{
-                  maxWidth: "300px",
-                  maxHeight: "300px",
-                  alignItems: "center",
+                  maxWidth: '300px',
+                  maxHeight: '300px',
+                  alignItems: 'center',
                 }}
               />
             </div>
@@ -318,9 +318,9 @@ const UserProfile: React.FC = () => {
               </Button>
               <Button
                 style={{
-                  backgroundColor: "#6C757D",
-                  borderColor: "#6C757D",
-                  color: "#FFFFFF",
+                  backgroundColor: '#6C757D',
+                  borderColor: '#6C757D',
+                  color: '#FFFFFF',
                 }}
                 variant="primary1"
                 onClick={handleSubmit}
@@ -331,27 +331,27 @@ const UserProfile: React.FC = () => {
           </Modal>
         </Card>
 
-        <div style={{ marginTop: "30px", marginBottom: "20px" }}>
+        <div style={{ marginTop: '30px', marginBottom: '20px' }}>
           <Card
             style={{
-              width: "700px",
-              height: "50%",
-              display: "flex",
-              flexDirection: "column",
-              margin: "auto",
+              width: '700px',
+              height: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              margin: 'auto',
             }}
           >
             <Card.Header
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              <h5 style={{ fontWeight: "bold" }}>Change Password</h5>
+              <h5 style={{ fontWeight: 'bold' }}>Change Password</h5>
             </Card.Header>
 
-            <Card.Body style={{ overflow: "auto" }}>
+            <Card.Body style={{ overflow: 'auto' }}>
               <div className="col-lg-6">
                 <label className="form-label" htmlFor="OldPassword">
                   Old password
@@ -380,43 +380,43 @@ const UserProfile: React.FC = () => {
                   <p className="text-danger">{passwordError}</p>
                 )}
               </div>
-              <div style={{ marginTop: "20px" }}></div>
+              <div style={{ marginTop: '20px' }}></div>
               <Button
-                style={{ backgroundColor: "#6C757D", borderColor: "#6C757D" }}
+                style={{ backgroundColor: '#6C757D', borderColor: '#6C757D' }}
                 variant="primary"
                 onClick={handleChangePassword}
               >
-                {loading ? <Spinner animation="border" size="sm" /> : "Save"}
+                {loading ? <Spinner animation="border" size="sm" /> : 'Save'}
               </Button>
             </Card.Body>
           </Card>
-          {userProfile.roles === "owner" && (
+          {userProfile.roles === 'owner' && (
             <Card
               style={{
-                width: "700px",
-                height: "45%",
-                display: "flex",
-                margin: "auto",
-                marginTop: "30px",
+                width: '700px',
+                height: '45%',
+                display: 'flex',
+                margin: 'auto',
+                marginTop: '30px',
               }}
             >
               <Card.Header
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <h5 style={{ fontWeight: "bold" }}>My apartments</h5>
+                <h5 style={{ fontWeight: 'bold' }}>My apartments</h5>
               </Card.Header>
 
-              <Card.Body style={{ overflowX: "auto", display: "flex" }}>
+              <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
                 <div
                   className="card-body"
                   style={{
-                    overflow: "auto",
-                    display: "flex",
-                    marginRight: "10px",
+                    overflow: 'auto',
+                    display: 'flex',
+                    marginRight: '10px',
                   }}
                 >
                   {apartments ? (
@@ -428,20 +428,20 @@ const UserProfile: React.FC = () => {
                             to={`/apartment-details/${apartment._id}`}
                             key={apartment._id}
                             style={{
-                              marginRight: "10px",
-                              height: "180px",
-                              width: "200px",
-                              position: "relative",
+                              marginRight: '10px',
+                              height: '180px',
+                              width: '200px',
+                              position: 'relative',
                               flexShrink: 0,
                             }}
                           >
                             <Card.Img
                               variant="top"
                               src={apartment.apartment_image}
-                              style={{ width: "100%", height: "80%" }}
+                              style={{ width: '100%', height: '80%' }}
                             />
-                            <Card.Body style={{ padding: "4px" }}>
-                              <Card.Text style={{ color: "#344050" }}>
+                            <Card.Body style={{ padding: '4px' }}>
+                              <Card.Text style={{ color: '#344050' }}>
                                 {apartment.city}
                               </Card.Text>
                             </Card.Body>
@@ -466,7 +466,7 @@ const UserProfile: React.FC = () => {
         show={showSuccessAlert}
         onClose={() => setShowSuccessAlert(false)}
         dismissible
-        style={{ position: "fixed", top: 0, right: 0, left: 0, zIndex: 9999 }}
+        style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 9999 }}
       >
         Password changed successfully!
       </Alert>
