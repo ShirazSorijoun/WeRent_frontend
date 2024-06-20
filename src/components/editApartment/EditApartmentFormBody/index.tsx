@@ -8,6 +8,7 @@ import {
   furnitureFieldValues,
   typeFieldValues,
 } from '../formUtils';
+import { style } from './style';
 
 interface IEditApartmentFormBodyProps {
   control: Control<any>;
@@ -19,13 +20,11 @@ export const EditApartmentFormBody: React.FC<IEditApartmentFormBodyProps> = ({
   return (
     <>
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.text}
         fieldData={editFormDataObject[EEditApartmentFields.CITY]}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.text}
         fieldData={editFormDataObject[EEditApartmentFields.ADDRESS]}
@@ -34,33 +33,29 @@ export const EditApartmentFormBody: React.FC<IEditApartmentFormBodyProps> = ({
         valuesArray={typeFieldValues}
         control={control}
         fieldData={editFormDataObject[EEditApartmentFields.TYPE]}
+        formControlSX={style.selectFormInput}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.int}
         fieldData={editFormDataObject[EEditApartmentFields.FLOOR]}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.int}
         fieldData={editFormDataObject[EEditApartmentFields.NUM_OF_FLOORS]}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.int}
         fieldData={editFormDataObject[EEditApartmentFields.SIZE_IN_SQ_METER]}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.int}
         fieldData={editFormDataObject[EEditApartmentFields.PRICE]}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.date}
         fieldData={editFormDataObject[EEditApartmentFields.ENTRY_DATE]}
@@ -69,15 +64,14 @@ export const EditApartmentFormBody: React.FC<IEditApartmentFormBodyProps> = ({
         valuesArray={furnitureFieldValues}
         control={control}
         fieldData={editFormDataObject[EEditApartmentFields.FURNITURE]}
+        formControlSX={style.selectFormInput}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
-        type={EBasicFieldType.text}
+        type={EBasicFieldType.multiLineText}
         fieldData={editFormDataObject[EEditApartmentFields.DESCRIPTION]}
       />
       <BasicFieldController
-        isWithLabel
         control={control}
         type={EBasicFieldType.text}
         fieldData={editFormDataObject[EEditApartmentFields.PHONE]}

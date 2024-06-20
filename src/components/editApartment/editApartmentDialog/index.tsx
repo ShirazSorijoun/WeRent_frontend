@@ -4,10 +4,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Button,
 } from '@mui/material';
 import React, { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'react-bootstrap';
 import { FieldValues, useForm } from 'react-hook-form';
 import { EditApartmentFormData, schema, defaultFormValues } from '../formUtils';
 import { EditApartmentFormBody } from '../EditApartmentFormBody';
@@ -65,7 +65,7 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
           onClick={handleClose}
           // disabled={isButtonLoading}
         >
-          בטל
+          cancel
         </Button>
         <LoadingButton
           // loading={isButtonLoading}

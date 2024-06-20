@@ -34,7 +34,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
   menuSX,
 }) => {
   const placeholderText = useMemo(
-    () => <div style={{ color: '#ababab' }}>בחר {fieldData.label}</div>,
+    () => <div style={{ color: '#ababab' }}>select {fieldData.label}</div>,
     [fieldData],
   );
 
@@ -64,6 +64,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
           value={value ?? ''}
           onChange={onChange}
           displayEmpty
+          fullWidth
           renderValue={(selected) => {
             return selected
               ? valuesArray.find((item) => item.value === selected)?.display
@@ -74,7 +75,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
             style: { direction: 'rtl' },
             anchorOrigin: {
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'center',
             },
           }}
         >

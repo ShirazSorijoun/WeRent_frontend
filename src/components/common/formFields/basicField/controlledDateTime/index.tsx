@@ -17,6 +17,7 @@ export const ControlledDateTime: React.FC<IControlledBasicFieldTypeProps> = ({
       render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DateTimeField
+            fullWidth
             inputRef={ref}
             label={isWithLabel ? fieldData.label : ''}
             style={{ direction: 'ltr' }}

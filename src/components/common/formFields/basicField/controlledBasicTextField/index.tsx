@@ -30,7 +30,7 @@ export const ControlledBasicTextField: React.FC<
           sx={sxStyle}
           error={!!error}
           FormHelperTextProps={{ style: { textAlign: 'right' } }}
-          placeholder={`הכנס ${fieldData.label}`}
+          placeholder={`enter ${fieldData.label}`}
           label={isWithLabel ? fieldData.label : ''}
           helperText={error?.message ?? ''}
           value={value ?? ''}
@@ -40,6 +40,7 @@ export const ControlledBasicTextField: React.FC<
           InputProps={{ inputProps }}
           onChange={onChange}
           variant="outlined"
+          fullWidth
         />
       )}
     />

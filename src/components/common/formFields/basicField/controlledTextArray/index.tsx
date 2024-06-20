@@ -80,7 +80,7 @@ export const ControlledTextArray: React.FC<IControlledBasicFieldTypeProps> = ({
               {...params}
               inputRef={ref}
               label={isWithLabel ? fieldData.label : ''}
-              placeholder={`הכנס ${fieldData.label}`}
+              placeholder={`enter ${fieldData.label}`}
               error={!!error}
               variant="outlined"
               helperText={error?.message ?? ''}
