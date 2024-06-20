@@ -6,6 +6,8 @@ import {
   FormHelperText,
   Grid,
   Typography,
+  SxProps,
+  Theme,
 } from '@mui/material';
 import {
   FieldValues,
@@ -20,16 +22,16 @@ interface ControlledSelectProps {
   fieldData: IFormField;
   control: Control<FieldValues, any>;
   valuesArray: IControlledSelectArray;
-  formControlClass?: string;
-  menuClass?: string;
+  formControlSX?: SxProps<Theme>;
+  menuSX?: SxProps<Theme>;
 }
 
 export const ControlledSelect: React.FC<ControlledSelectProps> = ({
   fieldData,
   control,
   valuesArray,
-  formControlClass = '',
-  menuClass = '',
+  formControlSX,
+  menuSX,
 }) => {
   const placeholderText = useMemo(
     () => <div style={{ color: '#ababab' }}>בחר {fieldData.label}</div>,
@@ -55,11 +57,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
     const isError = !!error;
     const errorText = error?.message;
     return (
-      <FormControl
-        className={formControlClass}
-        margin="none"
-        variant="outlined"
-      >
+      <FormControl sx={formControlSX} margin="none" variant="outlined">
         <Select
           inputRef={ref}
           error={isError}
@@ -72,7 +70,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
               : placeholderText;
           }}
           MenuProps={{
-            className: menuClass,
+            sx: menuSX,
             style: { direction: 'rtl' },
             anchorOrigin: {
               vertical: 'bottom',
