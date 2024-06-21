@@ -5,17 +5,20 @@ import { ModeEditOutline } from '@mui/icons-material';
 import {
   IUserData,
   checkOldPassword,
+  getUserApartments,
   getUserById,
   updateOwnProfile,
 } from '../../services/user-service';
 import { uploadImg } from '../../services/file-service';
-import './userProfile?.css';
+import './userProfile.css';
 import { Link } from 'react-router-dom';
 import { getToken } from '@/api';
+import { ApartmentProps } from '@/types/types';
 
 const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
 const UserProfile: React.FC = () => {
   const [userProfile, setUserProfile] = useState<IUserData>(defaultUserProfile);
+  const [userApartments, setUserApartments] = useState<ApartmentProps[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [tempUserProfile, setTempUserProfile] =
     useState<IUserData>(defaultUserProfile);
@@ -42,6 +45,8 @@ const UserProfile: React.FC = () => {
       const userData: IUserData = await getUserById(userId, token || '');
       setUserProfile(userData);
       setTempUserProfile(userData);
+      const userApartmentsData = await getUserApartments(token);
+      setUserApartments(userApartmentsData);
     } catch (error) {
       console.error('Error fetching user profile:', error);
     } finally {
@@ -372,14 +377,14 @@ const UserProfile: React.FC = () => {
                     marginRight: '10px',
                   }}
                 >
-                  {userProfile?.advertisedApartments ? (
-                    userProfile.advertisedApartments.length > 0 ? (
+                  {userProfile ? (
+                    userApartments?.length > 0 ? (
                       <>
-                        {userProfile.advertisedApartments.map((apartmentId) => (
+                        {userApartments.map((apartment) => (
                           <Card
                             as={Link}
-                            to={`/apartment-details/${apartmentId}`}
-                            key={apartmentId}
+                            to={`/apartment-details/${apartment._id}`}
+                            key={apartment._id}
                             style={{
                               marginRight: '10px',
                               height: '180px',
@@ -390,12 +395,12 @@ const UserProfile: React.FC = () => {
                           >
                             <Card.Img
                               variant="top"
-                              src={apartmentId}
+                              src={apartment.apartment_image}
                               style={{ width: '100%', height: '80%' }}
                             />
                             <Card.Body style={{ padding: '4px' }}>
                               <Card.Text style={{ color: '#344050' }}>
-                                {apartmentId}
+                                {apartment.city}
                               </Card.Text>
                             </Card.Body>
                           </Card>

@@ -1,5 +1,6 @@
 import { CredentialResponse } from '@react-oauth/google';
 import apiClient from './api-client';
+import { ApartmentProps } from '@/types/types';
 
 export enum UserRole {
   Admin = 'admin',
@@ -125,6 +126,24 @@ export const getUserById = async (
   }
 };
 
+export const getUserApartments = async (
+  token: string,
+): Promise<ApartmentProps[]> => {
+  const abortController = new AbortController();
+  try {
+    const response = await apiClient.get(`/user/apartments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user apartments:', error);
+    throw error;
+  } finally {
+    abortController.abort();
+  }
+};
 export const updateOwnProfile = async (
   data: UpdateOwnProfileData,
   token: string,
