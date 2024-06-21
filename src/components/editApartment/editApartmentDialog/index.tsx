@@ -51,10 +51,16 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
     func();
   }, [getApartmentForForm, isOpen, reset]);
 
-  const handleClose = useCallback(() => {
+  const closeLogic = useCallback(() => {
     reset();
     handleCancel();
   }, [handleCancel, reset]);
+
+  const handleCloseDialog = (event: any, reason: string) => {
+    if (reason && reason === 'backdropClick') {
+      return;
+    }
+  };
 
   const onSubmit = useCallback(
     async (form: EditApartmentFormData): Promise<void> => {
@@ -67,7 +73,7 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={handleClose}
+      onClose={handleCloseDialog}
       fullWidth
       PaperProps={{
         component: 'form',
@@ -82,7 +88,7 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
         <Button
           variant="contained"
           color="error"
-          onClick={handleClose}
+          onClick={closeLogic}
           disabled={isButtonLoading}
         >
           cancel
