@@ -69,7 +69,7 @@ export const getApartmentById = (id: string) => {
 
 export const updateApartment = async (
   id: string,
-  updatedApartment: ApartmentProps,
+  updatedApartment: Partial<ApartmentProps>,
   token: string,
 ) => {
   try {
