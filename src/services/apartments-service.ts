@@ -27,7 +27,7 @@ export interface UpdatedApartment {
 }
 
 export { CanceledError };
-const getAllApartments = () => {
+export const getAllApartments = () => {
   const abortController = new AbortController();
   const req = apiClient.get<ApartmentProps[]>('apartment', {
     signal: abortController.signal,
@@ -35,7 +35,7 @@ const getAllApartments = () => {
   return { req, abort: () => abortController.abort() };
 };
 
-const postApartment = (apartmentData: ApartmentProps, token: string) => {
+export const postApartment = (apartmentData: ApartmentProps, token: string) => {
   const abortController = new AbortController();
   const req = apiClient.post(
     '/apartment/create',
@@ -59,7 +59,7 @@ const postApartment = (apartmentData: ApartmentProps, token: string) => {
   return { req, abort: () => abortController.abort() };
 };
 
-const getApartmentById = (id: string) => {
+export const getApartmentById = (id: string) => {
   const abortController = new AbortController();
   const req = apiClient.get<ApartmentProps>(`apartment/${id}`, {
     signal: abortController.signal,
@@ -67,7 +67,7 @@ const getApartmentById = (id: string) => {
   return { req, abort: () => abortController.abort() };
 };
 
-const updateApartment = async (
+export const updateApartment = async (
   id: string,
   updatedApartment: ApartmentProps,
   token: string,
@@ -98,7 +98,7 @@ const updateApartment = async (
   }
 };
 
-const deleteApartment = async (apartmentId: string, token: string) => {
+export const deleteApartment = async (apartmentId: string, token: string) => {
   try {
     const response = await apiClient.delete(
       `/apartment/delete/${apartmentId}`,

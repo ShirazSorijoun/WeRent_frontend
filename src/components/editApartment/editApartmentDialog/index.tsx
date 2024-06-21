@@ -6,24 +6,32 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { EditApartmentFormData, schema, defaultFormValues } from '../formUtils';
-import { EditApartmentFormBody } from '../EditApartmentFormBody';
+import { EditApartmentFormBody } from '../editApartmentFormBody';
 import { LoadingButton } from '@mui/lab';
+import { useEditApartment } from './hooks/useEditApartmentDialog';
 
 interface IEditApartmentDialogProps {
   isOpen: boolean;
-  handleSave: Function;
   handleCancel: () => void;
+  completeSave: () => Promise<void>;
 }
 
 export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
   handleCancel,
-  handleSave,
+  completeSave,
   isOpen,
 }) => {
+  const {
+    getApartmentForForm,
+    handleSave,
+    handleWrongFormData,
+    isButtonLoading,
+  } = useEditApartment();
+
   const { handleSubmit, control, reset } = useForm<EditApartmentFormData>({
     resolver: zodResolver(schema),
     defaultValues: defaultFormValues,
@@ -32,16 +40,28 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
     },
   });
 
+  useEffect(() => {
+    const func = async () => {
+      if (isOpen) {
+        const apartmentForForm = await getApartmentForForm();
+        reset(apartmentForForm);
+      }
+    };
+
+    func();
+  }, [getApartmentForForm, isOpen, reset]);
+
   const handleClose = useCallback(() => {
     reset();
     handleCancel();
-  }, [isOpen, reset]);
+  }, [handleCancel, reset]);
 
   const onSubmit = useCallback(
-    async (form: FieldValues): Promise<void> => {
-      handleClose();
+    async (form: EditApartmentFormData): Promise<void> => {
+      const isSaved = await handleSave(form);
+      if (isSaved) completeSave();
     },
-    [handleClose],
+    [completeSave, handleSave],
   );
 
   return (
@@ -51,7 +71,7 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
       fullWidth
       PaperProps={{
         component: 'form',
-        onSubmit: handleSubmit(onSubmit),
+        onSubmit: handleSubmit(onSubmit, handleWrongFormData),
       }}
     >
       <DialogTitle>Edit Apartment</DialogTitle>
@@ -63,12 +83,12 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
           variant="contained"
           color="error"
           onClick={handleClose}
-          // disabled={isButtonLoading}
+          disabled={isButtonLoading}
         >
           cancel
         </Button>
         <LoadingButton
-          // loading={isButtonLoading}
+          loading={isButtonLoading}
           role="progressbar"
           variant="contained"
           color="success"

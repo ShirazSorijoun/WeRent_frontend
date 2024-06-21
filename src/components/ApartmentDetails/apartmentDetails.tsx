@@ -1,132 +1,100 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import apartmentService from '../../services/apartments-service';
 import { useEffect, useState } from 'react';
 import { ApartmentProps } from '../../types/types';
 import './apartmentDetails.css';
-import { handleRequestWithToken } from '../../services/handleRequestWithToken';
 import { getUserById } from '../../services/user-service';
-import { Button, Card, Form, Modal } from 'react-bootstrap';
-import { ModeEditOutline } from '@mui/icons-material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Card } from 'react-bootstrap';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { uploadImg } from '../../services/file-service';
+import { getToken } from '@/api';
+import { ApartmentDeleteButton, ApartmentEditButton } from './components';
+
+const defaultApartment: ApartmentProps = {
+  _id: '',
+  city: '',
+  address: '',
+  type: '',
+  owner: '',
+  floor: 0,
+  numberOfFloors: 0,
+  rooms: 0,
+  sizeInSqMeters: 0,
+  price: 0,
+  entryDate: new Date(),
+  apartment_image: '',
+  furniture: '',
+  features: {
+    parking: false,
+    accessForDisabled: false,
+    storage: false,
+    dimension: false,
+    terrace: false,
+    garden: false,
+    elevators: false,
+    airConditioning: false,
+  },
+  description: '',
+  phone: ' ',
+};
 
 const ApartmentDetails = () => {
   const { apartmentId } = useParams();
-  //console.log(apartmentId);
-  const [apartment, setApartment] = useState<ApartmentProps>({
-    _id: '',
-    city: '',
-    address: '',
-    type: '',
-    owner: '',
-    floor: 0,
-    numberOfFloors: 0,
-    rooms: 0,
-    sizeInSqMeters: 0,
-    price: 0,
-    entryDate: new Date(),
-    apartment_image: '',
-    furniture: '',
-    features: {
-      parking: false,
-      accessForDisabled: false,
-      storage: false,
-      dimension: false,
-      terrace: false,
-      garden: false,
-      elevators: false,
-      airConditioning: false,
-    },
-    description: '',
-    phone: ' ',
-  });
+  const [apartment, setApartment] = useState<ApartmentProps>(defaultApartment);
 
-  const navigate = useNavigate();
-  const [ownerId, setOwnerId] = useState<string | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string>('');
   const localStorageUserId = localStorage.getItem('userId');
-  const [editableApartment, setEditableApartment] = useState<ApartmentProps>({
-    ...apartment,
-  });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [userData, setUserData] = useState<{
-    name: string;
-    email: string;
-  } | null>(null);
+  const [ownerName, setOwnerName] = useState<string>('');
 
-  useEffect(() => {
-    const fetchApartmentData = async (apartmentId: string) => {
-      try {
-        const { req } = apartmentService.getApartmentById(apartmentId);
-        const response = await req;
-        setOwnerId(response.data?.owner);
-        setApartment(response.data);
-        setEditableApartment(response.data);
-        fetchUserData(response.data?.owner);
-        setOwnerId(response.data?.owner);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching apartment details', error);
-        setError('Error fetching apartment details');
-        setLoading(false);
-      }
-    };
+  const isCreatedByUser = useMemo(
+    () => apartment.owner === localStorageUserId,
+    [apartment?.owner, localStorageUserId],
+  );
 
-    if (apartmentId) {
-      fetchApartmentData(apartmentId);
-    }
-  }, [apartmentId, localStorageUserId, ownerId]);
-
-  const fetchUserData = async (userId: string | undefined) => {
-    if (userId) {
-      const tokenRefreshed = await handleRequestWithToken();
-
-      if (!tokenRefreshed) {
-        console.log('Token refresh failed');
-        return;
-      }
-
-      const token = localStorage.getItem('accessToken');
+  const fetchUserData = async (ownerId?: string) => {
+    if (ownerId) {
+      const token: string | null = await getToken();
+      if (!token) return;
 
       try {
-        const response = await getUserById(userId, token || '');
-        const name = response.name;
-        const email = response.email;
-        setUserData({ name, email });
+        const ownerData = await getUserById(ownerId, token || '');
+        setOwnerName(ownerData.name);
 
-        const response2 = await getUserById(
+        const userData = await getUserById(
           localStorageUserId || '',
           token || '',
         );
-        setRole(response2.roles);
+        setUserRole(userData?.roles ?? '');
       } catch (error) {
         console.error('Error fetching user data', error);
       }
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setEditableApartment({
-      ...editableApartment,
-      [e.target.id]: e.target.value,
-    });
-  };
+  const fetchApartmentData = useCallback(async (): Promise<void> => {
+    if (!apartmentId) return;
 
-  const handleEditApartment = () => {
-    setShowEditModal(true);
-  };
+    try {
+      const { req } = apartmentService.getApartmentById(apartmentId);
+      const apartmentData = (await req).data;
+      setApartment(apartmentData);
+      fetchUserData(apartmentData?.owner);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching apartment details', error);
+      setError('Error fetching apartment details');
+      setLoading(false);
+    }
+  }, [apartmentId]);
 
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-  };
+  useEffect(() => {
+    fetchApartmentData();
+  }, [apartmentId, localStorageUserId]);
 
   const handleImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -142,24 +110,14 @@ const ApartmentDetails = () => {
       console.log('photoUrl:', photoUrl);
     }
 
-    setEditableApartment((prev) => ({
-      ...prev,
-      apartment_image: photoUrl,
-    }));
+    const token: string | null = await getToken();
+    if (!token) return;
 
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
     try {
       if (apartmentId) {
         await apartmentService.updateApartment(
           apartmentId,
-          { ...editableApartment, apartment_image: photoUrl },
+          { ...apartment, apartment_image: photoUrl },
           token || '',
         );
       }
@@ -174,55 +132,6 @@ const ApartmentDetails = () => {
     const fileInput = document.getElementById('fileInput');
     if (fileInput) {
       fileInput.click();
-    }
-  };
-
-  const handleDelete = async () => {
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
-
-    try {
-      if (apartmentId) {
-        await apartmentService.deleteApartment(apartmentId, token || '');
-        navigate('/');
-      }
-    } catch (error) {
-      console.error('Error deleting apartment:', error);
-    }
-  };
-
-  const handleSubmit = async () => {
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
-
-    try {
-      setLoading(true);
-      if (apartmentId) {
-        await apartmentService.updateApartment(
-          apartmentId,
-          editableApartment,
-          token || '',
-        );
-      }
-      setApartment({ ...editableApartment });
-      handleCloseEditModal();
-      //fetchApartmentData(apartmentId);
-    } catch (error) {
-      console.error('Error updating apartment:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -257,21 +166,13 @@ const ApartmentDetails = () => {
             justifyContent: 'flex-start',
           }}
         >
-          {localStorageUserId === ownerId ? (
-            <Button
-              onClick={handleEditApartment}
-              variant="light"
-              style={{ marginRight: 'auto' }}
-            >
-              <ModeEditOutline />
-            </Button>
+          {isCreatedByUser ? (
+            <ApartmentEditButton refreshApartmentDisplay={fetchApartmentData} />
           ) : (
             <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
           )}
-          {localStorageUserId === ownerId || role === 'admin' ? (
-            <Button onClick={handleDelete} variant="light" style={{}}>
-              <DeleteIcon />
-            </Button>
+          {apartmentId && (isCreatedByUser || userRole === 'admin') ? (
+            <ApartmentDeleteButton apartmentId={apartmentId} />
           ) : (
             <h1 style={{ height: '40px' }}></h1>
           )}
@@ -293,7 +194,7 @@ const ApartmentDetails = () => {
                   alt="Apartment"
                   className="img-fluid mb-4"
                 />
-                {localStorageUserId === ownerId && (
+                {isCreatedByUser && (
                   <>
                     <Button
                       onClick={handleEditImg}
@@ -765,7 +666,7 @@ const ApartmentDetails = () => {
                         className="css-ixpw6d e1siqbpd3"
                         style={{ marginLeft: '10px' }}
                       >
-                        {userData?.name}
+                        {ownerName}
                       </div>
                     </div>
                   </div>
@@ -792,137 +693,6 @@ const ApartmentDetails = () => {
             </div>
           </div>
         </Card.Body>
-        <Modal show={showEditModal} onHide={handleCloseEditModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Apartment</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="city">
-                <Form.Label>City</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.city}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="address">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.address}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="type">
-                <Form.Label>Type</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={editableApartment.type}
-                  onChange={handleInputChange}
-                >
-                  <option>Apartment</option>
-                  <option>Garden apartment</option>
-                  <option>Private/Cottage</option>
-                  <option>Townhouse</option>
-                  <option>Duplex</option>
-                  <option>Roof/Penthouse</option>
-                  <option>Unit</option>
-                  <option>Vacation apartment</option>
-                  <option>Other</option>
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="floor">
-                <Form.Label>Floor</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.floor}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="numberOfFloors">
-                <Form.Label>Number Of Floors</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.numberOfFloors}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="sizeInSqMeters">
-                <Form.Label>sizeInSqMeters</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.sizeInSqMeters}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="price">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.price}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="entryDate">
-                <Form.Label>entryDate</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={
-                    new Date(editableApartment.entryDate)
-                      .toISOString()
-                      .split('T')[0]
-                  }
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="furniture">
-                <Form.Label>Furniture</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={editableApartment.furniture}
-                  onChange={handleInputChange}
-                >
-                  <option value="full">Full</option>
-                  <option value="partial">Partial</option>
-                  <option value="none">None</option>
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="description">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.description}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="phone">
-                <Form.Label>Phone</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editableApartment.phone}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseEditModal}>
-              Cancel
-            </Button>
-            <Button
-              style={{
-                backgroundColor: '#6C757D',
-                borderColor: '#6C757D',
-                color: '#FFFFFF',
-              }}
-              variant="primary1"
-              onClick={handleSubmit}
-            >
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </Card>
     </div>
   );

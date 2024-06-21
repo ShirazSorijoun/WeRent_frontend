@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { deleteUser, getAllUsers } from '../../services/user-service';
 import { IUser } from '../../services/user-service';
-import { handleRequestWithToken } from '../../services/handleRequestWithToken';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
@@ -13,6 +12,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import EnhancedTableHead from './EnhancedTableHead';
+import { getToken } from '@/api';
 
 const AllUsersAdmin: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -27,14 +27,9 @@ const AllUsersAdmin: React.FC = () => {
         return;
       }
 
-      const tokenRefreshed = await handleRequestWithToken();
+      const token: string | null = await getToken();
+      if (!token) return;
 
-      if (!tokenRefreshed) {
-        console.log('Token refresh failed');
-        return;
-      }
-
-      const token = localStorage.getItem('accessToken');
       try {
         const { req } = getAllUsers(token || '');
         const response = await req;
@@ -89,14 +84,9 @@ const AllUsersAdmin: React.FC = () => {
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   const handleDeleteClick = async () => {
-    const tokenRefreshed = await handleRequestWithToken();
+    const token: string | null = await getToken();
+    if (!token) return;
 
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
     try {
       for (const row of rows) {
         if (selected.includes(row._id)) {

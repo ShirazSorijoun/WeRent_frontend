@@ -7,17 +7,20 @@ export enum UserRole {
   Tenant = 'tenant',
 }
 
-export interface IUser {
+export interface IUserData {
   name: string;
   email: string;
   password: string;
   roles?: UserRole;
   profile_image?: string;
+  advertisedApartments?: string[];
+}
+
+export interface IUser extends IUserData {
   _id?: string;
   accessToken?: string;
   refreshToken?: string;
   tokens?: string[];
-  advertisedApartments?: string[];
 }
 
 export interface ILogin {
@@ -86,35 +89,10 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
   });
 };
 
-export const refreshAccessToken = async (token: string) => {
-  const abortController = new AbortController();
-
-  try {
-    const response = await apiClient.get('/auth/refresh', {
-      signal: abortController.signal,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log(response.data);
-    const { accessToken, refreshToken } = response.data;
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-
-    return {
-      accessToken,
-      refreshToken,
-    };
-  } catch (error) {
-    console.error('Token refresh failed:', error);
-    throw error;
-  } finally {
-    abortController.abort();
-  }
-};
-
-export const getUserById = async (userId: string, token: string) => {
+export const getUserById = async (
+  userId: string,
+  token: string,
+): Promise<IUserData> => {
   const abortController = new AbortController();
   try {
     const response = await apiClient.get(`/user/id/${userId}`, {
@@ -122,8 +100,15 @@ export const getUserById = async (userId: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const { name, email, password, roles, profile_image } = response.data;
-    const advertisedApartments = response.data.advertisedApartments;
+    const {
+      name,
+      email,
+      password,
+      roles,
+      profile_image,
+      advertisedApartments,
+    } = response.data;
+
     return {
       name,
       email,

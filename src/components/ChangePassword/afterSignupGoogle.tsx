@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { handleRequestWithToken } from '../../services/handleRequestWithToken';
 import { changeRole, updateOwnProfile } from '../../services/user-service';
 import { Alert, Button, Card, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../Navbar/authContext';
+import { getToken } from '@/api';
 
 function ChangePassword() {
   const [password, setPassword] = useState('');
@@ -14,14 +14,9 @@ function ChangePassword() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const handleChangePassword = async () => {
-    const tokenRefreshed = await handleRequestWithToken();
+    const token: string | null = await getToken();
+    if (!token) return;
 
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
     try {
       // Check if the new password has at least 6 characters
       if (password.length < 6) {

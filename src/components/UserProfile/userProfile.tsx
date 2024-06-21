@@ -3,29 +3,22 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Card, Button, Modal, Form, Spinner, Alert } from 'react-bootstrap';
 import { ModeEditOutline } from '@mui/icons-material';
 import {
+  IUserData,
   checkOldPassword,
   getUserById,
   updateOwnProfile,
 } from '../../services/user-service';
-import { handleRequestWithToken } from '../../services/handleRequestWithToken';
 import { uploadImg } from '../../services/file-service';
-import './userProfile.css';
-import { ApartmentProps } from '../../types/types';
+import './userProfile?.css';
 import { Link } from 'react-router-dom';
-//import { faAlignRight } from "@fortawesome/free-solid-svg-icons";
+import { getToken } from '@/api';
 
+const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
 const UserProfile: React.FC = () => {
-  const [userProfile, setUserProfile] = useState({
-    name: '',
-    email: '',
-    password: '',
-    roles: '',
-    profile_image: '',
-  });
-
-  const [apartments, setApartments] = useState<any[]>([]);
+  const [userProfile, setUserProfile] = useState<IUserData>(defaultUserProfile);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [tempUserProfile, setTempUserProfile] = useState({ ...userProfile });
+  const [tempUserProfile, setTempUserProfile] =
+    useState<IUserData>(defaultUserProfile);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -42,40 +35,13 @@ const UserProfile: React.FC = () => {
       return;
     }
 
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
-
+    const token: string | null = await getToken();
+    if (!token) return;
     try {
       setLoading(true);
-      const response = await getUserById(userId, token || '');
-      const { name, email, password, roles, profile_image } = response;
-      setUserProfile((prev) => ({
-        ...prev,
-        name,
-        email,
-        password,
-        roles,
-        profile_image,
-      }));
-      setTempUserProfile((prev) => ({
-        ...prev,
-        name,
-        email,
-        password,
-        roles,
-        profile_image,
-      }));
-      setApartments(
-        response.advertisedApartments.map((apartment: ApartmentProps) => ({
-          ...apartment,
-        })),
-      );
+      const userData: IUserData = await getUserById(userId, token || '');
+      setUserProfile(userData);
+      setTempUserProfile(userData);
     } catch (error) {
       console.error('Error fetching user profile:', error);
     } finally {
@@ -96,18 +62,11 @@ const UserProfile: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
-
+    const token: string | null = await getToken();
+    if (!token) return;
     try {
       setLoading(true);
-      let photoUrl = userProfile.profile_image;
+      let photoUrl = userProfile?.profile_image;
 
       if (selectedFile) {
         const imageResponse = await uploadImg(selectedFile);
@@ -145,14 +104,8 @@ const UserProfile: React.FC = () => {
   };
 
   const handleChangePassword = async () => {
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
+    const token: string | null = await getToken();
+    if (!token) return;
     try {
       // Check if the new password has at least 6 characters
       if (newPassword.length < 6) {
@@ -248,7 +201,7 @@ const UserProfile: React.FC = () => {
               }}
             >
               <img
-                src={userProfile.profile_image}
+                src={userProfile?.profile_image}
                 alt="Profile"
                 style={{
                   maxWidth: '300px',
@@ -264,7 +217,7 @@ const UserProfile: React.FC = () => {
               <input
                 className="form-control"
                 id="AccountInput_Name"
-                value={userProfile.name}
+                value={userProfile?.name}
                 readOnly
               ></input>
             </div>
@@ -275,7 +228,7 @@ const UserProfile: React.FC = () => {
               <input
                 className="form-control"
                 id="AccountInput_Email"
-                value={userProfile.email}
+                value={userProfile?.email}
                 readOnly
               ></input>
             </div>
@@ -298,7 +251,7 @@ const UserProfile: React.FC = () => {
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={tempUserProfile.name}
+                    value={tempUserProfile?.name}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -306,7 +259,7 @@ const UserProfile: React.FC = () => {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="text"
-                    value={tempUserProfile.email}
+                    value={tempUserProfile?.email}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -390,7 +343,7 @@ const UserProfile: React.FC = () => {
               </Button>
             </Card.Body>
           </Card>
-          {userProfile.roles === 'owner' && (
+          {userProfile?.roles === 'owner' && (
             <Card
               style={{
                 width: '700px',
@@ -419,14 +372,14 @@ const UserProfile: React.FC = () => {
                     marginRight: '10px',
                   }}
                 >
-                  {apartments ? (
-                    apartments.length > 0 ? (
+                  {userProfile?.advertisedApartments ? (
+                    userProfile.advertisedApartments.length > 0 ? (
                       <>
-                        {apartments.map((apartment) => (
+                        {userProfile.advertisedApartments.map((apartmentId) => (
                           <Card
                             as={Link}
-                            to={`/apartment-details/${apartment._id}`}
-                            key={apartment._id}
+                            to={`/apartment-details/${apartmentId}`}
+                            key={apartmentId}
                             style={{
                               marginRight: '10px',
                               height: '180px',
@@ -437,12 +390,12 @@ const UserProfile: React.FC = () => {
                           >
                             <Card.Img
                               variant="top"
-                              src={apartment.apartment_image}
+                              src={apartmentId}
                               style={{ width: '100%', height: '80%' }}
                             />
                             <Card.Body style={{ padding: '4px' }}>
                               <Card.Text style={{ color: '#344050' }}>
-                                {apartment.city}
+                                {apartmentId}
                               </Card.Text>
                             </Card.Body>
                           </Card>
