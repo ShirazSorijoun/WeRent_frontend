@@ -1,6 +1,10 @@
 import { Controller } from 'react-hook-form';
 import { IControlledBasicFieldTypeProps } from '../utils';
-import { LocalizationProvider, DateTimeField } from '@mui/x-date-pickers';
+import {
+  LocalizationProvider,
+  DateTimePicker,
+  renderTimeViewClock,
+} from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DATE_TEXT_FORMAT } from '@/utils/date';
 
@@ -16,22 +20,20 @@ export const ControlledDateTime: React.FC<IControlledBasicFieldTypeProps> = ({
       name={fieldData.fieldName}
       render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DateTimeField
-            fullWidth
+          <DateTimePicker
             inputRef={ref}
             label={isWithLabel ? fieldData.label : ''}
-            style={{ direction: 'ltr' }}
-            sx={sxStyle}
-            FormHelperTextProps={{
-              error: !error,
-              style: { textAlign: 'right' },
-            }}
+            sx={{ width: '100%', ...sxStyle }}
             slotProps={{ textField: { error: !!error } }}
-            helperText={error?.message ?? ''}
             ampm={false}
             onChange={onChange}
             value={value}
             format={DATE_TEXT_FORMAT}
+            viewRenderers={{
+              hours: renderTimeViewClock,
+              minutes: renderTimeViewClock,
+              seconds: renderTimeViewClock,
+            }}
           />
         </LocalizationProvider>
       )}
