@@ -5,10 +5,10 @@ import './addApartment.css';
 import { ApartmentProps } from '../../types/types';
 import apartmentService from '../../services/apartments-service';
 import Uploader from '../Uploader/uploader';
-import { handleRequestWithToken } from '../../services/handleRequestWithToken';
 import { getUserById } from '../../services/user-service';
 import { uploadImg } from '../../services/file-service';
 import { useNavigate } from 'react-router';
+import { getToken } from '@/api';
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -93,14 +93,8 @@ const AddApartment: React.FC = () => {
       return;
     }
 
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
+    const token: string | null = await getToken();
+    if (!token) return;
 
     try {
       const response = await getUserById(userId, token || '');

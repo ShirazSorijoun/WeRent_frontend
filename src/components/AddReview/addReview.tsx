@@ -4,9 +4,9 @@ import { ReviewProps } from '../../types/types';
 import reviewService from '../../services/review-service';
 import './addReview.css';
 //import { refreshAccessToken } from "../../services/user-service";
-import { handleRequestWithToken } from '../../services/handleRequestWithToken';
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '@/api';
 
 const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
@@ -30,14 +30,8 @@ const AddReview: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const tokenRefreshed = await handleRequestWithToken();
-
-    if (!tokenRefreshed) {
-      console.log('Token refresh failed');
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
+    const token: string | null = await getToken();
+    if (!token) return;
 
     try {
       const { req } = reviewService.postReview(review, token || '');
