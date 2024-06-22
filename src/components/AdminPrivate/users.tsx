@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
-import { deleteUser, getAllUsers } from '../../services/user-service';
-import { IUser } from '../../services/user-service';
+import React, { useEffect, useMemo, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
@@ -12,7 +10,8 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import EnhancedTableHead from './EnhancedTableHead';
-import { getToken } from '@/api';
+import { api } from '@/api';
+import { IUser } from '@/models';
 
 const AllUsersAdmin: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -27,15 +26,9 @@ const AllUsersAdmin: React.FC = () => {
         return;
       }
 
-      const token: string | null = await getToken();
-      if (!token) return;
-
       try {
-        const { req } = getAllUsers(token || '');
-        const response = await req;
-        const filteredUsers = response.data.filter(
-          (user) => user.roles !== 'admin',
-        );
+        const allUsers = await api.user.getAllUsers();
+        const filteredUsers = allUsers.filter((user) => user.roles !== 'admin');
         setUsers(filteredUsers);
       } catch (error) {
         console.log('Error fetching users');
@@ -45,13 +38,17 @@ const AllUsersAdmin: React.FC = () => {
     fetchUsers();
   }, []);
 
-  const rows = users.map((user, index) => ({
-    _id: index,
-    id: user._id,
-    Name: user.name,
-    Email: user.email,
-    Role: user.roles,
-  }));
+  const rows = useMemo(
+    () =>
+      users.map((user, index) => ({
+        _id: index,
+        id: user._id,
+        Name: user.name,
+        Email: user.email,
+        Role: user.roles,
+      })),
+    [users],
+  );
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -84,16 +81,13 @@ const AllUsersAdmin: React.FC = () => {
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   const handleDeleteClick = async () => {
-    const token: string | null = await getToken();
-    if (!token) return;
-
     try {
       for (const row of rows) {
         if (selected.includes(row._id)) {
           if (row.id) {
             const userIdString = row.id.toString();
             console.log(`Deleting user with ID: ${userIdString}`);
-            await deleteUser(userIdString, token || '');
+            await api.user.deleteUser(userIdString);
             setUsers((prevUsers) =>
               prevUsers.filter((user) => user._id !== row.id),
             );

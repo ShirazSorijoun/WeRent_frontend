@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './SearchBar.css';
-import apartmentService from '../../services/apartments-service';
 import { ApartmentProps } from '../../types/types';
 
 interface SearchBarProps {
@@ -118,7 +117,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setMinRooms('');
     setMaxRooms('');
     onClear();
-    apartmentService.getAllApartments();
   };
 
   const handleCitySuggestionClick = (city: string) => {

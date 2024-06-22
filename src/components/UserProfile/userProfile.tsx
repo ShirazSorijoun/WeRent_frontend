@@ -2,18 +2,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Card, Button, Modal, Form, Spinner, Alert } from 'react-bootstrap';
 import { ModeEditOutline } from '@mui/icons-material';
-import {
-  IUserData,
-  checkOldPassword,
-  getUserApartments,
-  getUserById,
-  updateOwnProfile,
-} from '../../services/user-service';
-import { uploadImg } from '../../services/file-service';
 import './userProfile.css';
 import { Link } from 'react-router-dom';
-import { getToken } from '@/api';
 import { ApartmentProps } from '@/types/types';
+import { IUserData } from '@/models';
+import { uploadImg } from '@/services/file-service';
+import { api } from '@/api';
 
 const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
 const UserProfile: React.FC = () => {
@@ -38,14 +32,12 @@ const UserProfile: React.FC = () => {
       return;
     }
 
-    const token: string | null = await getToken();
-    if (!token) return;
     try {
       setLoading(true);
-      const userData: IUserData = await getUserById(userId, token || '');
+      const userData: IUserData = await api.user.getUserById(userId);
       setUserProfile(userData);
       setTempUserProfile(userData);
-      const userApartmentsData = await getUserApartments(token);
+      const userApartmentsData = await api.user.getUserApartments();
       setUserApartments(userApartmentsData);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -67,8 +59,6 @@ const UserProfile: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    const token: string | null = await getToken();
-    if (!token) return;
     try {
       setLoading(true);
       let photoUrl = userProfile?.profile_image;
@@ -79,10 +69,11 @@ const UserProfile: React.FC = () => {
         console.log(photoUrl);
       }
 
-      await updateOwnProfile(
-        { ...tempUserProfile, profile_image: photoUrl },
-        token || '',
-      );
+      await api.user.updateOwnProfile({
+        ...tempUserProfile,
+        profile_image: photoUrl,
+      });
+
       setUserProfile({ ...tempUserProfile });
       handleCloseEditModal();
       fetchUserProfile();
@@ -109,8 +100,6 @@ const UserProfile: React.FC = () => {
   };
 
   const handleChangePassword = async () => {
-    const token: string | null = await getToken();
-    if (!token) return;
     try {
       // Check if the new password has at least 6 characters
       if (newPassword.length < 6) {
@@ -119,13 +108,13 @@ const UserProfile: React.FC = () => {
       } else {
         setPasswordError(null);
       }
-      const isValid = await checkOldPassword(oldPassword, token || '');
+      const isValid = await api.user.checkOldPassword(oldPassword);
       //console.log(isValid)
       if (isValid) {
-        await updateOwnProfile(
-          { ...tempUserProfile, password: newPassword },
-          token || '',
-        );
+        await api.user.updateOwnProfile({
+          ...tempUserProfile,
+          password: newPassword,
+        });
         setUserProfile({ ...tempUserProfile });
         fetchUserProfile();
         setPasswordError2(null);

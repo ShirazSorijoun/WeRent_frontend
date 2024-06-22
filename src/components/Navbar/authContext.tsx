@@ -1,5 +1,5 @@
+import { UserRole } from '@/models';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { UserRole } from '../../services/user-service';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -28,9 +28,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = () => {
     if (
-      localStorage.getItem('accessToken') !== null &&
-      localStorage.getItem('refreshToken') !== null &&
-      localStorage.getItem('userId') !== null
+      !!localStorage.getItem('accessToken') &&
+      !!localStorage.getItem('refreshToken') &&
+      !!localStorage.getItem('userId')
     ) {
       setIsLoggedIn(true);
     }

@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { ReviewProps } from '../../types/types';
-import reviewService from '../../services/review-service';
 import './addReview.css';
-//import { refreshAccessToken } from "../../services/user-service";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { getToken } from '@/api';
+import { api } from '@/api';
 
 const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
@@ -30,18 +27,14 @@ const AddReview: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const token: string | null = await getToken();
-    if (!token) return;
-
     try {
-      const { req } = reviewService.postReview(review, token || '');
-      const response = await req;
+      const response = await api.review.postReview(review);
 
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
       navigate('/allReviews');
 
-      console.log('Review submitted successfully:', response.data);
+      console.log('Review submitted successfully:', response);
     } catch (error) {
       console.error('Error submitting review:', error);
     }

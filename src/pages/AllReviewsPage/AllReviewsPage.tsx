@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import ReviewCard from '../../components/ReviewCard/ReviewCard';
-import reviewService from '../../services/review-service';
 import { ReviewProps } from '../../types/types';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './AllReviewsPage.css';
+import { api } from '@/api';
 
 const RentPropertiesPage: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const { req, abort } = reviewService.getAllReviews();
-
-    req
-      .then((response) => {
-        setReviews(response.data.reverse());
+    const insertReviews = async () => {
+      try {
+        const reviewsRes = await api.review.getAllReviews();
+        setReviews(reviewsRes.reverse());
         setIsLoading(false);
-      })
-      .catch((error) => {
-        if (error && error.code === 'ERR_CANCELED') {
-          console.log('Fetch request was cancelled');
-        } else {
-          console.error('Error fetching apartments:', error);
-        }
-      });
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
 
-    return () => abort();
+    insertReviews();
   }, []);
 
   return (

@@ -6,7 +6,7 @@ import ApartmentCard from '../../components/ApartmentCard/ApartmentCard';
 import { ApartmentProps } from '../../types/types';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import './RentPropertiesPage.css';
-import apartmentService from '../../services/apartments-service';
+import { api } from '@/api';
 
 const RentPropertiesPage = () => {
   const [apartments, setApartments] = useState<ApartmentProps[]>([]);
@@ -17,19 +17,16 @@ const RentPropertiesPage = () => {
   const [noApartmentsFound, setNoApartmentsFound] = useState<boolean>(false);
 
   useEffect(() => {
-    const { req, abort } = apartmentService.getAllApartments();
+    const insertAllApartments = async () => {
+      try {
+        const res = await api.apartment.getAllApartments();
+        setApartments(res);
+      } catch (error) {
+        console.error('Error fetching apartments:', error);
+      }
+    };
 
-    req
-      .then((response) => {
-        setApartments(response.data);
-      })
-      .catch((error) => {
-        if (error && error.code === 'ERR_CANCELED')
-          console.log('Fetch request was cancelled');
-        else console.error('Error fetching apartments:', error);
-      });
-
-    return () => abort();
+    insertAllApartments();
   }, []);
 
   const handleSearch = (

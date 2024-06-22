@@ -1,8 +1,4 @@
-import { getToken } from '@/api';
-import {
-  getApartmentById,
-  updateApartment,
-} from '@/services/apartments-service';
+import { api } from '@/api';
 import { ApartmentProps } from '@/types/types';
 import {
   EEditApartmentFields,
@@ -28,9 +24,8 @@ export const useEditApartment = (): IUseEditApartment => {
   const getApartmentForForm = useCallback(async (): TGetApartmentForFormRes => {
     if (!apartmentId) return {};
 
-    const res = await getApartmentById(apartmentId).req;
-
-    const apartment: ApartmentProps = res.data;
+    const apartment: ApartmentProps =
+      await api.apartment.getApartmentById(apartmentId);
 
     return {
       [EEditApartmentFields.CITY]: apartment.city,
@@ -49,16 +44,12 @@ export const useEditApartment = (): IUseEditApartment => {
 
   const handleSave = useCallback(
     async (editableApartment: EditApartmentFormData): Promise<boolean> => {
-      const token: string | null = await getToken();
-      if (!token) return false;
-
       setIsButtonLoading(true);
       try {
         if (apartmentId) {
-          await updateApartment(
+          await api.apartment.updateApartment(
             apartmentId,
             editableApartment as ApartmentProps,
-            token || '',
           );
         }
 
