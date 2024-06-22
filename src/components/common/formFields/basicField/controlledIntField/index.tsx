@@ -1,30 +1,48 @@
 import React, { useMemo } from 'react';
-import { InputBaseComponentProps } from '@mui/material';
+import { InputBaseComponentProps, TextField } from '@mui/material';
 import { IControlledBasicFieldTypeProps } from '../utils';
-import { ControlledBasicTextField } from '../controlledBasicTextField';
+import { Controller } from 'react-hook-form';
 
-export const ControlledIntField: React.FC<IControlledBasicFieldTypeProps> = ({
+interface ControlledIntFieldProps extends IControlledBasicFieldTypeProps {
+  step?: number;
+}
+
+export const ControlledIntField: React.FC<ControlledIntFieldProps> = ({
   fieldData,
   control,
   sxStyle,
   isWithLabel = false,
   otherProps,
+  step = 1,
 }) => {
   const inputProps = useMemo(() => {
-    const props: InputBaseComponentProps = {};
+    const props: InputBaseComponentProps = { step };
     if (otherProps?.maxValue) props.max = otherProps?.maxValue;
-    if (otherProps?.minValue) props.min = otherProps?.minsValue;
+    if (otherProps?.minValue) props.min = otherProps?.minValue;
     return props;
-  }, [otherProps]);
+  }, [otherProps, step]);
 
   return (
-    <ControlledBasicTextField
+    <Controller
       control={control}
-      fieldData={fieldData}
-      isWithLabel={isWithLabel}
-      type="number"
-      sxStyle={sxStyle}
-      inputProps={inputProps}
+      name={fieldData.fieldName}
+      render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
+        <TextField
+          inputRef={ref}
+          sx={sxStyle}
+          error={!!error}
+          FormHelperTextProps={{ style: { textAlign: 'right' } }}
+          placeholder={`enter ${fieldData.label}`}
+          label={isWithLabel ? fieldData.label : ''}
+          helperText={error?.message ?? ''}
+          value={value ?? 0}
+          type="number"
+          InputProps={{ inputProps }}
+          onChange={(e) => onChange(+e.target.value)}
+          variant="outlined"
+          fullWidth
+        />
+      )}
     />
   );
 };
