@@ -11,7 +11,7 @@ export const ControlledFloatField: React.FC<IControlledBasicFieldTypeProps> = ({
   otherProps,
 }) => {
   const inputProps = useMemo(() => {
-    const props: InputBaseComponentProps = { step: '0.01' };
+    const props: InputBaseComponentProps = { step: 0.01 };
     if (otherProps?.maxValue) props.max = otherProps?.maxValue;
     if (otherProps?.minValue) props.min = otherProps?.minsValue;
     return props;

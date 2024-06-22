@@ -27,7 +27,7 @@ export const ControlledDateTime: React.FC<IControlledBasicFieldTypeProps> = ({
             slotProps={{ textField: { error: !!error } }}
             ampm={false}
             onChange={onChange}
-            value={value}
+            value={value ?? {}}
             format={DATE_TEXT_FORMAT}
             viewRenderers={{
               hours: renderTimeViewClock,
