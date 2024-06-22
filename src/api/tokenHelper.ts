@@ -1,31 +1,16 @@
-import apiClient from '@/services/api-client';
 import axios from 'axios';
+import { ACCESS_TOKEN, REFRESH_TOKEN, api } from './api';
 
-const refreshAccessToken = async (token: string) => {
-  const abortController = new AbortController();
-
+export const refreshAccessToken = async () => {
   try {
-    const response = await apiClient.get('/auth/refresh', {
-      signal: abortController.signal,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const newTokens = await api.auth.refreshToken();
+    localStorage.setItem(ACCESS_TOKEN, newTokens.accessToken);
+    localStorage.setItem(REFRESH_TOKEN, newTokens.refreshToken);
 
-    console.log(response.data);
-    const { accessToken, refreshToken } = response.data;
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-
-    return {
-      accessToken,
-      refreshToken,
-    };
+    return newTokens;
   } catch (error) {
     console.error('Token refresh failed:', error);
     throw error;
-  } finally {
-    abortController.abort();
   }
 };
 
@@ -41,7 +26,7 @@ const handleRequestWithToken = async () => {
     return true;
   } catch (error) {
     try {
-      await refreshAccessToken(refreshToken);
+      await refreshAccessToken();
       return true;
     } catch (refreshError) {
       console.error('Error refreshing token:', refreshError);
@@ -56,7 +41,7 @@ const handleRequestWithToken = async () => {
   }
 };
 
-export const getToken = async (): Promise<string | null> => {
+const getToken = async (): Promise<string | null> => {
   const tokenRefreshed = await handleRequestWithToken();
 
   if (!tokenRefreshed) {

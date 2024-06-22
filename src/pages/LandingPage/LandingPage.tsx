@@ -2,32 +2,29 @@ import './LandingPage.css';
 import Reviews from '../../components/ReviewCard/ReviewCard';
 import { useEffect, useState } from 'react';
 import { ReviewProps } from '../../types/types';
-import reviewService from '../../services/review-service';
 import { Link } from 'react-router-dom';
 import landingPageImg from '../../assets/landing page image.png';
 import unsplash from '../../assets/landing page image - unsplash.png';
 import tellow from '../../assets/Arrow Tellow.svg';
 import goodHands from '../../assets/landing page - in good hands.png';
 import rectangle from '../../assets/Rectangle.png';
+import { api } from '@/api';
 
 const LandingPage: React.FC = () => {
   const [lastThreeReviews, setLastThreeReviews] = useState<ReviewProps[]>([]);
 
   useEffect(() => {
-    const { req, abort } = reviewService.getAllReviews();
-
-    req
-      .then((response) => {
-        const reviewsData = response.data.slice(-3); // Get the last 3 reviews
+    const setReviews = async () => {
+      try {
+        const reviewsData = await api.review.getAllReviews(); // Get the last 3 reviews
         console.log(reviewsData);
-        setLastThreeReviews(reviewsData);
-      })
-      .catch((error) => {
-        if (error && error.code === 'ERR_CANCELED')
-          console.log('Fetch request was cancelled');
-        else console.error('Error fetching apartments:', error);
-      });
-    return () => abort();
+        setLastThreeReviews(reviewsData.slice(-3));
+      } catch (error) {
+        console.error('Error fetching apartments:', error);
+      }
+    };
+
+    setReviews();
   }, []);
 
   return (

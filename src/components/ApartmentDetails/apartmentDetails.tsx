@@ -1,13 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from 'react';
-import apartmentService from '../../services/apartments-service';
 import { useEffect, useState } from 'react';
 import { ApartmentProps } from '../../types/types';
 import './apartmentDetails.css';
-import { getUserById } from '../../services/user-service';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
-import { getToken } from '@/api';
+import { api } from '@/api';
 import {
   ApartmentDeleteButton,
   ApartmentDetailsBody,
@@ -55,24 +52,20 @@ const ApartmentDetails = () => {
     [apartment?.owner, localStorageUserId],
   );
 
-  const fetchUserData = async () => {
-    const token: string | null = await getToken();
-    if (!token) return;
-
+  const fetchUserData = useCallback(async () => {
     try {
-      const userData = await getUserById(localStorageUserId || '', token || '');
+      const userData = await api.user.getUserById(localStorageUserId || '');
       setUserRole(userData?.roles ?? '');
     } catch (error) {
       console.error('Error fetching user data', error);
     }
-  };
+  }, [localStorageUserId]);
 
   const fetchApartmentData = useCallback(async (): Promise<void> => {
     if (!apartmentId) return;
 
     try {
-      const { req } = apartmentService.getApartmentById(apartmentId);
-      const apartmentData = (await req).data;
+      const apartmentData = await api.apartment.getApartmentById(apartmentId);
       setApartment(apartmentData);
       fetchUserData();
       setLoading(false);
@@ -81,11 +74,11 @@ const ApartmentDetails = () => {
       setLoadingError('Error fetching apartment details');
       setLoading(false);
     }
-  }, [apartmentId]);
+  }, [apartmentId, fetchUserData]);
 
   useEffect(() => {
     fetchApartmentData();
-  }, [apartmentId, localStorageUserId]);
+  }, [apartmentId, fetchApartmentData]);
 
   if (loading) {
     return <p className="text-center mt-5">Loading...</p>;

@@ -1,10 +1,9 @@
-import { getToken } from '@/api';
-import { deleteApartment } from '@/services/apartments-service';
 import React, { useCallback } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import swal from 'sweetalert';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { api } from '@/api';
 
 interface IApartmentDeleteButtonProps {
   apartmentId: string;
@@ -16,12 +15,9 @@ export const ApartmentDeleteButton: React.FC<IApartmentDeleteButtonProps> = ({
   const navigate = useNavigate();
 
   const handleDelete = useCallback(async () => {
-    const token: string | null = await getToken();
-    if (!token) return;
-
     try {
       if (apartmentId) {
-        await deleteApartment(apartmentId, token || '');
+        await api.apartment.deleteApartment(apartmentId);
         navigate('/');
       }
     } catch (error) {

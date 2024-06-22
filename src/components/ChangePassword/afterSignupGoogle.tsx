@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { changeRole, updateOwnProfile } from '../../services/user-service';
 import { Alert, Button, Card, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../Navbar/authContext';
-import { getToken } from '@/api';
+import { api } from '@/api';
 
 function ChangePassword() {
   const [password, setPassword] = useState('');
@@ -14,9 +13,6 @@ function ChangePassword() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const handleChangePassword = async () => {
-    const token: string | null = await getToken();
-    if (!token) return;
-
     try {
       // Check if the new password has at least 6 characters
       if (password.length < 6) {
@@ -26,8 +22,8 @@ function ChangePassword() {
         setPasswordError(null);
       }
 
-      await updateOwnProfile({ password: password }, token || '');
-      await changeRole(role, token || '');
+      await api.user.updateOwnProfile({ password: password });
+      await api.user.changeRole(role);
       localStorage.setItem('roles', role);
 
       setShowSuccessAlert(true);
@@ -36,7 +32,7 @@ function ChangePassword() {
       login();
       navigate('/');
     } catch (error) {
-      console.log('fail chnge password');
+      console.log('fail change password');
     }
   };
 

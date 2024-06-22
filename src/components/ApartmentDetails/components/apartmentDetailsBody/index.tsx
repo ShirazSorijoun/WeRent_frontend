@@ -1,12 +1,10 @@
-import { getToken } from '@/api';
-import { updateApartment } from '@/services/apartments-service';
 import { uploadImg } from '@/services/file-service';
 import { ApartmentProps } from '@/types/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { getUserById } from '@/services/user-service';
 import './apartmentDetailsBody.css';
+import { api } from '@/api';
 
 interface IApartmentDetailsBodyProps {
   refreshApartmentDisplay: () => Promise<void>;
@@ -25,11 +23,8 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
 
   const fetchUserData = useCallback(async (ownerId?: string) => {
     if (ownerId) {
-      const token: string | null = await getToken();
-      if (!token) return;
-
       try {
-        const ownerData = await getUserById(ownerId, token || '');
+        const ownerData = await api.user.getUserById(ownerId);
         setOwnerName(ownerData.name);
       } catch (error) {
         console.error('Error fetching user data', error);
@@ -50,16 +45,11 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
     const imageResponse = await uploadImg(selectedImage);
     const photoUrl = imageResponse.replace(/\\/g, '/');
 
-    const token: string | null = await getToken();
-    if (!token) return;
-
     try {
       if (apartmentId) {
-        await updateApartment(
-          apartmentId,
-          { apartment_image: photoUrl },
-          token || '',
-        );
+        await api.apartment.updateApartment(apartmentId, {
+          apartment_image: photoUrl,
+        });
       }
 
       refreshApartmentDisplay();

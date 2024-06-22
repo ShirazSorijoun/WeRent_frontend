@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { useAuth } from './authContext';
-import { UserRole } from '../../services/user-service';
 import icon from '../../assets/LOGO WeRent2.jpeg';
+import { UserRole } from '@/models';
 
 function Navbar() {
   const { isLoggedIn, logout, roles } = useAuth();

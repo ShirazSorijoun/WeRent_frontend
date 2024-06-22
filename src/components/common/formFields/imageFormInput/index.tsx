@@ -1,13 +1,21 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { imageURL } from '@/api';
-import { Box, CardMedia, TextField } from '@mui/material';
+import { Box, CardMedia, SxProps, TextField, Theme } from '@mui/material';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { style } from './style';
-import { IFormFieldInput } from '@/models';
 
-interface IImageFormInputProps extends IFormFieldInput {
+interface IFormFieldInputData {
+  label?: string;
+  sxStyle?: SxProps<Theme>;
+  fieldName: string;
+  placeholder?: string;
+}
+
+interface IImageFormInputProps {
   defaultImageName?: string;
+  control: Control;
+  formData: IFormFieldInputData;
 }
 
 export const ImageFormInput: FC<IImageFormInputProps> = ({

@@ -3,12 +3,10 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import z from 'zod';
 import './addApartment.css';
 import { ApartmentProps } from '../../types/types';
-import apartmentService from '../../services/apartments-service';
 import Uploader from '../Uploader/uploader';
-import { getUserById } from '../../services/user-service';
 import { uploadImg } from '../../services/file-service';
 import { useNavigate } from 'react-router';
-import { getToken } from '@/api';
+import { api } from '@/api';
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -82,9 +80,6 @@ const AddApartment: React.FC = () => {
     email: string;
   } | null>(null);
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
   const fetchUserData = async () => {
     const userId = localStorage.getItem('userId');
 
@@ -93,11 +88,8 @@ const AddApartment: React.FC = () => {
       return;
     }
 
-    const token: string | null = await getToken();
-    if (!token) return;
-
     try {
-      const response = await getUserById(userId, token || '');
+      const response = await api.user.getUserById(userId);
       const name = response.name;
       const email = response.email;
       setUserData({ name, email });
@@ -130,6 +122,10 @@ const AddApartment: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   const handlePrevStep = () => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
   };
@@ -137,36 +133,23 @@ const AddApartment: React.FC = () => {
   const handleChange = (e: ChangeEventTypes) => {
     let newValue;
 
-    if (
-      ['floor', 'numberOfFloors', 'rooms', 'price', 'sizeInSqMeters'].includes(
-        e.target.name,
-      )
-    ) {
-      if (
-        e.target.name === 'numberOfFloors' ||
-        e.target.name === 'floor' ||
-        e.target.name === 'price'
-      ) {
-        newValue = Math.max(+e.target.value, 0);
-      } else if (
-        e.target.name === 'rooms' ||
-        e.target.name === 'sizeInSqMeters'
-      ) {
-        newValue = Math.max(+e.target.value, 1);
-      }
-    } else {
-      newValue = e.target.value;
-    }
+    const { name, value } = e.target;
+
+    if (['floor', 'numberOfFloors', 'price'].includes(name)) {
+      newValue = Math.max(+e.target.value, 0);
+    } else if (['rooms', 'sizeInSqMeters'].includes(name)) {
+      newValue = Math.max(+e.target.value, 1);
+    } else newValue = value;
 
     setApartmentData({
       ...apartmentData,
-      [e.target.name]: newValue,
+      [name]: newValue,
     });
 
     // Clear the error for the current field
     setErrors((prevErrors) => {
       const updatedErrors = { ...prevErrors };
-      delete updatedErrors[e.target.name];
+      delete updatedErrors[name];
       return updatedErrors;
     });
   };
@@ -215,14 +198,6 @@ const AddApartment: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await fetchUserData();
-    const token = localStorage.getItem('accessToken');
-
-    if (!token) {
-      console.error('Access token not found in local storage');
-      return;
-    }
-
     if (phoneError) {
       // Don't submit the form if there is a phone number error
       return;
@@ -244,19 +219,15 @@ const AddApartment: React.FC = () => {
       apartment_image: imageUrl || undefined,
     };
 
-    const { req } = apartmentService.postApartment(
-      apartmentDataWithImage,
-      token,
-    );
-
-    req
-      .then((response) => {
-        console.log('Apartment added successfully', response.data);
-        navigate('/apartment-details/' + response.data._id);
-      })
-      .catch((error) => {
-        console.error('Error adding apartment', error);
-      });
+    try {
+      const updatedApartment = await api.apartment.postApartment(
+        apartmentDataWithImage,
+      );
+      console.log('Apartment added successfully', updatedApartment);
+      navigate('/apartment-details/' + updatedApartment._id);
+    } catch (error) {
+      console.error('Error adding apartment', error);
+    }
   };
 
   return (

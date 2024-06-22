@@ -7,20 +7,14 @@ import UserVactor from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { uploadImg } from '../../services/file-service';
-import {
-  registerUser,
-  UserRole,
-  ILogin,
-  loginUser,
-  googleSignin,
-  IUser,
-} from '../../services/user-service';
 import { z } from 'zod';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import './Registration.css';
 import { useAuth } from '../Navbar/authContext';
 import { useNavigate } from 'react-router';
 import { Alert } from 'react-bootstrap';
+import { ILogin, UserRole, IUser } from '@/models';
+import { api } from '@/api';
 
 const schema = z.object({
   name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
@@ -126,11 +120,11 @@ function Registration() {
       };
 
       try {
-        const registrationResponse = await registerUser(user);
+        const registrationResponse = await api.auth.registerUser(user);
         console.log('User registered:', registrationResponse);
 
         // Log in the user immediately after successful registration
-        const loginResponse = await loginUser(formData);
+        const loginResponse = await api.auth.loginUser(formData);
         console.log('User logged in');
         //console.log(loginResponse)
 
@@ -162,7 +156,7 @@ function Registration() {
   ) => {
     console.log(credentialResponse);
     try {
-      const res = await googleSignin(credentialResponse);
+      const res = await api.auth.googleSignin(credentialResponse);
       console.log(res);
       localStorage.setItem('accessToken', res?.accessToken);
       localStorage.setItem('refreshToken', res?.refreshToken);

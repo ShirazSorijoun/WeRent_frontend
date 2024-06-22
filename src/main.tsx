@@ -19,10 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <CssBaseline />
           <ToastContainer
             position="top-center"
-            autoClose={3000}
+            autoClose={2000}
             newestOnTop={false}
             closeOnClick
-            rtl
             pauseOnFocusLoss={false}
             draggable
             theme="colored"

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ILogin, loginUser } from '../../services/user-service';
 import { useAuth } from '../Navbar/authContext';
 import { useNavigate } from 'react-router';
 import './login.css';
+import { ILogin } from '@/models';
+import { api } from '@/api';
 
 const Login: React.FC = () => {
   const { login } = useAuth();
@@ -11,7 +12,7 @@ const Login: React.FC = () => {
     email: '',
     password: '',
   });
-  const [error, setError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleChange = (
@@ -28,7 +29,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const loginResponse = await loginUser(formData);
+      const loginResponse = await api.auth.loginUser(formData);
 
       console.log('User logged in');
 
@@ -38,12 +39,12 @@ const Login: React.FC = () => {
       localStorage.setItem('roles', loginResponse?.userRole);
       console.log('roles', localStorage.getItem('roles'));
 
-      setError(null);
+      setFormError(null);
       login();
       navigate('/');
     } catch (error) {
       console.error('Login failed', error);
-      setError('Invalid username or password');
+      setFormError('Invalid username or password');
     }
   };
 
@@ -91,7 +92,7 @@ const Login: React.FC = () => {
               onChange={(e) => handleChange(e, 'password')}
             />
           </div>
-          {error && <p className="text-danger">{error}</p>}
+          {formError && <p className="text-danger">{formError}</p>}
           <button type="submit" className="button-71" onClick={login}>
             Login
           </button>
