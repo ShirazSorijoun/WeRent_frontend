@@ -3,7 +3,6 @@ import { Grid, Typography } from '@mui/material';
 import { IControlledBasicFieldTypeProps } from '../utils';
 import { EBasicFieldType } from '@/models/forms';
 import { ControlledDateTime } from '../controlledDateTime';
-import { ControlledFloatField } from '../controlledFloatField';
 import { ControlledIntField } from '../controlledIntField';
 import { ControlledTextArray } from '../controlledTextArray';
 import { ControlledBasicTextField } from '../controlledBasicTextField';
@@ -35,12 +34,13 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
         );
       case EBasicFieldType.float:
         return (
-          <ControlledFloatField
+          <ControlledIntField
             control={control}
             fieldData={fieldData}
             sxStyle={sxStyle}
             isWithLabel={isWithLabel}
             otherProps={otherProps}
+            step={0.01}
           />
         );
       case EBasicFieldType.int:
