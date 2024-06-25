@@ -1,16 +1,17 @@
-import apiClient from './api-client';
+import { axiosInstance } from "@/api/api";
 
-interface IUploadResponse {
+interface UploadResponse {
   url: string;
 }
-export const uploadImg = async (img: File) => {
+
+export const uploadImg = async (img: File): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
-    console.log('Uploading image...' + img);
+    console.log('Uploading image...', img);
     const formData = new FormData();
     if (img) {
       formData.append('file', img);
-      apiClient
-        .post<IUploadResponse>('file?file=123.png', formData, {
+      axiosInstance
+        .post<UploadResponse>('file/upload?file=123.png', formData, {
           headers: {
             'Content-Type': 'image/png',
           },
@@ -23,6 +24,8 @@ export const uploadImg = async (img: File) => {
           console.log(err);
           reject(err);
         });
+    } else {
+      reject(new Error('No image provided'));
     }
   });
 };
