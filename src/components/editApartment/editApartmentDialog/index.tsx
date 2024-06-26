@@ -10,7 +10,7 @@ import React, { useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { EditApartmentFormData, schema, defaultFormValues } from '../formUtils';
-import { EditApartmentFormBody } from '../EditApartmentFormBody';
+import { EditApartmentFormBody } from '../editApartmentFormBody';
 import { LoadingButton } from '@mui/lab';
 import { useEditApartment } from './hooks/useEditApartmentDialog';
 
