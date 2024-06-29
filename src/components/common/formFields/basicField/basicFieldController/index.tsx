@@ -7,6 +7,7 @@ import { ControlledIntField } from '../controlledIntField';
 import { ControlledTextArray } from '../controlledTextArray';
 import { ControlledBasicTextField } from '../controlledBasicTextField';
 import { ControlledCoordinateInput } from '../controlledCoordinateInput';
+import { ControlledDate } from '../controlledDate';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
@@ -22,9 +23,19 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
 }) => {
   const componentToUse = useMemo(() => {
     switch (type) {
-      case EBasicFieldType.date:
+      case EBasicFieldType.dateTime:
         return (
           <ControlledDateTime
+            control={control}
+            fieldData={fieldData}
+            sxStyle={sxStyle}
+            isWithLabel={isWithLabel}
+            otherProps={otherProps}
+          />
+        );
+      case EBasicFieldType.date:
+        return (
+          <ControlledDate
             control={control}
             fieldData={fieldData}
             sxStyle={sxStyle}

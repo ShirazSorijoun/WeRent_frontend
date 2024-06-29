@@ -1,14 +1,15 @@
 const GoogleMapComponent = () => {
   return (
     <iframe
-      src="https://moch.maps.arcgis.com/apps/webappviewer/index.html?id=d6191754d18a4fd29ee2e2ca1d040759"
+      id="ifrMap"
       width="800"
       height="600"
       style={{ border: 0 }}
       allowFullScreen={true}
       loading="lazy"
       referrerPolicy="no-referrer-when-downgrade"
-    ></iframe>
+      src="https://www.govmap.gov.il/map.html?bb=1&zb=1&in=1&c=167818.55,634749.67&z=7&lay=TABA_MSBS_ITM,ADD_PROJECTS_UR_MUCHRAZ,URBANRENEWAL_SETTLMENT"
+    />
   );
 };
 

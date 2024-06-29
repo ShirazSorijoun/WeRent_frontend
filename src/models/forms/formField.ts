@@ -7,6 +7,7 @@ export interface IFormField {
 }
 
 export enum EBasicFieldType {
+  dateTime = 'dateTime',
   date = 'date',
   float = 'float',
   int = 'int ',
