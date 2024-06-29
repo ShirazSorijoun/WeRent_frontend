@@ -2,6 +2,7 @@ import { CredentialResponse } from '@react-oauth/google';
 import { IUser, ILogin } from '@/models';
 import { axiosInstance } from '../api';
 import { ILoginResponse, LoginDecodedData } from '@/models/login';
+import { AxiosRequestConfig } from 'axios';
 
 const AUTH_API_KEY = '/auth';
 
@@ -16,8 +17,10 @@ const googleLogin = async (
 ): Promise<ILoginResponse> =>
   (await axiosInstance.post(`${AUTH_API_KEY}/google`, credentialResponse)).data;
 
-const refreshToken = async (): Promise<LoginDecodedData> =>
-  (await axiosInstance.get(`${AUTH_API_KEY}/refresh`)).data;
+const refreshToken = async (
+  config?: AxiosRequestConfig<any>,
+): Promise<LoginDecodedData> =>
+  (await axiosInstance.get(`${AUTH_API_KEY}/refresh`, config)).data;
 
 export const authAPI = {
   registerUser,
