@@ -40,14 +40,3 @@ const handleRequestWithToken = async () => {
     }
   }
 };
-
-const getToken = async (): Promise<string | null> => {
-  const tokenRefreshed = await handleRequestWithToken();
-
-  if (!tokenRefreshed) {
-    console.log('Token refresh failed');
-    return null;
-  }
-
-  return localStorage.getItem('accessToken');
-};

@@ -7,8 +7,3 @@ export interface ApiResponse<T = any> {
   data?: T;
   error?: string;
 }
-
-export interface LoginDecodedData {
-  accessToken: string;
-  refreshToken: string;
-}

@@ -1,14 +1,11 @@
 import axios from 'axios';
 import { authAPI, userAPI, apartmentAPI, reviewAPI } from './modelsServices';
 import { refreshAccessToken } from './tokenHelper';
+import { serverURL } from './apiUtils';
 
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
 export const REFETCH_INTERVAL = 3000;
-
-export const serverURL =
-  import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
-export const imageURL = serverURL + '/api';
 
 export const axiosInstance = axios.create({
   baseURL: serverURL,

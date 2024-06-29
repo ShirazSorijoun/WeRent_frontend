@@ -11,6 +11,7 @@ import { ControlledDate } from '../controlledDate';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
+  hideTitle?: boolean;
 }
 
 export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
@@ -19,7 +20,8 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   sxStyle,
   isWithLabel = false,
   otherProps,
-  type,
+  type = EBasicFieldType.text,
+  hideTitle = false,
 }) => {
   const componentToUse = useMemo(() => {
     switch (type) {
@@ -103,6 +105,7 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
             sxStyle={sxStyle}
             isWithLabel={isWithLabel}
             otherProps={otherProps}
+            type={type}
           />
         );
     }
@@ -110,9 +113,11 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
 
   return (
     <Grid container direction="column">
-      <Grid item>
-        <Typography>{fieldData.label}</Typography>
-      </Grid>
+      {!hideTitle && (
+        <Grid item>
+          <Typography>{fieldData.label}</Typography>
+        </Grid>
+      )}
       <Grid item>{componentToUse}</Grid>
     </Grid>
   );

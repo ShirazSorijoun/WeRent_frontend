@@ -13,7 +13,7 @@ import './Registration.css';
 import { useAuth } from '../Navbar/authContext';
 import { useNavigate } from 'react-router';
 import { Alert } from 'react-bootstrap';
-import { ILogin, UserRole, IUser } from '@/models';
+import { UserRole, IUser, IRegister } from '@/models';
 import { api } from '@/api';
 
 const schema = z.object({
@@ -31,7 +31,7 @@ function Registration() {
   const [selectedItem, setSelectedItem] = useState<string>('User type');
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState(false);
-  const [formData, setFormData] = useState<ILogin>({
+  const [formData, setFormData] = useState<IRegister>({
     name: '',
     email: '',
     password: '',
@@ -128,11 +128,8 @@ function Registration() {
         console.log('User logged in');
         //console.log(loginResponse)
 
-        localStorage.setItem('accessToken', loginResponse?.tokens.accessToken);
-        localStorage.setItem(
-          'refreshToken',
-          loginResponse?.tokens.refreshToken,
-        );
+        localStorage.setItem('accessToken', loginResponse?.token.accessToken);
+        localStorage.setItem('refreshToken', loginResponse?.token.refreshToken);
         localStorage.setItem('userId', loginResponse?.userId);
         localStorage.setItem('roles', loginResponse?.userRole);
 
@@ -156,11 +153,11 @@ function Registration() {
   ) => {
     console.log(credentialResponse);
     try {
-      const res = await api.auth.googleSignin(credentialResponse);
+      const res = await api.auth.googleLogin(credentialResponse);
       console.log(res);
-      localStorage.setItem('accessToken', res?.accessToken);
-      localStorage.setItem('refreshToken', res?.refreshToken);
-      localStorage.setItem('userId', res?._id);
+      localStorage.setItem('accessToken', res?.token.accessToken);
+      localStorage.setItem('refreshToken', res?.token.refreshToken);
+      localStorage.setItem('userId', res?.userId);
       navigate('/changePassword');
     } catch (e) {
       console.log(e);

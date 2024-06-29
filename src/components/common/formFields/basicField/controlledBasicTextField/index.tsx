@@ -29,7 +29,7 @@ export const ControlledBasicTextField: React.FC<
           inputRef={ref}
           sx={sxStyle}
           error={!!error}
-          FormHelperTextProps={{ style: { textAlign: 'right' } }}
+          // FormHelperTextProps={{ style: { textAlign: 'right' } }}
           placeholder={`enter ${fieldData.label}`}
           label={isWithLabel ? fieldData.label : ''}
           helperText={error?.message ?? ''}
