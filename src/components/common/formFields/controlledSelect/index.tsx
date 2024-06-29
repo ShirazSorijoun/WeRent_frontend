@@ -72,7 +72,6 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
           }}
           MenuProps={{
             sx: menuSX,
-            style: { direction: 'rtl' },
             anchorOrigin: {
               vertical: 'bottom',
               horizontal: 'center',

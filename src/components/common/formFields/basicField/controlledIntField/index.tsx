@@ -31,7 +31,6 @@ export const ControlledIntField: React.FC<ControlledIntFieldProps> = ({
           inputRef={ref}
           sx={sxStyle}
           error={!!error}
-          FormHelperTextProps={{ style: { textAlign: 'right' } }}
           placeholder={`enter ${fieldData.label}`}
           label={isWithLabel ? fieldData.label : ''}
           helperText={error?.message ?? ''}
