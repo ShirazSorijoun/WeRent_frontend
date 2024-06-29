@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login/login';
 import LandingPage from './pages/LandingPage/LandingPage';
 import Navbar from './components/Navbar/Navbar';
 import SignUpPage from './components/Registration/Registration';
@@ -15,6 +14,7 @@ import ChangePassword from './components/ChangePassword/afterSignupGoogle';
 import AddReview from './components/AddReview/addReview';
 import AllReviews from './pages/AllReviewsPage/AllReviewsPage';
 import RestAPI from './components/RestAPI/api';
+import { LoginPage } from './pages/loginScreen/loginPage';
 
 const App: React.FC = () => {
   return (
@@ -30,7 +30,7 @@ const App: React.FC = () => {
             />
             <Route path="/allReviews" element={<AllReviews />} />
             <Route path="/addreview" element={<AddReview />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserPage />} />
             <Route path="/addApartment" element={<AddApartmentPage />} />

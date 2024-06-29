@@ -12,6 +12,7 @@ export enum EBasicFieldType {
   float = 'float',
   int = 'int ',
   text = 'text',
+  password = 'password',
   textArray = 'textArray',
   multiLineText = 'multiLineText',
   coordinate = 'coordinate',

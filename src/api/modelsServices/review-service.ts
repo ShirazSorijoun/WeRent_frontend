@@ -9,7 +9,7 @@ const getAllReviews = async (): Promise<ReviewProps[]> =>
 const postReview = async (review: ReviewProps): Promise<ReviewProps> =>
   (
     await axiosInstance.post(`${REVIEW_API_KEY}/create`, {
-      review: review,
+      review,
     })
   ).data;
 

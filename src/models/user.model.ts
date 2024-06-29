@@ -21,10 +21,12 @@ export interface IUser extends IUserData {
 }
 
 export interface ILogin {
-  name: string;
   email: string;
   password: string;
-  roles?: UserRole;
+}
+
+export interface IRegister extends ILogin {
+  name: string;
 }
 
 export interface UpdateOwnProfileData {
