@@ -1,3 +1,10 @@
+.card-body-div {
+  display: 'flex';
+  flex-direction: 'column';
+  justify-content: 'center';
+  align-items: 'center';
+}
+
 .css-1752boj {
   max-width: 100%;
   height: auto;
@@ -32,7 +39,7 @@
 }
 
 .css-ojkpqy::after {
-  content: "";
+  content: '';
   display: block;
   height: 14px;
   margin: 0px 16px;
@@ -246,7 +253,7 @@
 }
 
 .css-ltdyfs::before {
-  content: "";
+  content: '';
   position: relative;
   top: 9px;
   width: 5px;
@@ -325,9 +332,9 @@
 }
 
 .margin-between-sections {
-    margin-top: 40px;
-  }
+  margin-top: 40px;
+}
 
-  .custom-header {
-    background-color: #F8F9FA; 
-  }
+.custom-header {
+  background-color: #f8f9fa;
+}

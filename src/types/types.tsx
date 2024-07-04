@@ -34,3 +34,31 @@ export type ReviewProps = {
   date: string;
   description: string;
 };
+
+export const defaultApartment: ApartmentProps = {
+  _id: '',
+  city: '',
+  address: '',
+  type: '',
+  owner: '',
+  floor: 0,
+  numberOfFloors: 0,
+  rooms: 0,
+  sizeInSqMeters: 0,
+  price: 0,
+  entryDate: new Date(),
+  apartment_image: '',
+  furniture: '',
+  features: {
+    parking: false,
+    accessForDisabled: false,
+    storage: false,
+    dimension: false,
+    terrace: false,
+    garden: false,
+    elevators: false,
+    airConditioning: false,
+  },
+  description: '',
+  phone: ' ',
+};

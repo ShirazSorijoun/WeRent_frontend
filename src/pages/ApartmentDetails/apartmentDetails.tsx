@@ -1,65 +1,22 @@
 import React, { useCallback, useMemo } from 'react';
 import { useEffect, useState } from 'react';
-import { ApartmentProps } from '../../types/types';
-import './apartmentDetails.css';
+import { ApartmentProps, defaultApartment } from '../../types/types';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { api } from '@/api';
-import {
-  ApartmentDeleteButton,
-  ApartmentDetailsBody,
-  ApartmentEditButton,
-} from './components';
-
-const defaultApartment: ApartmentProps = {
-  _id: '',
-  city: '',
-  address: '',
-  type: '',
-  owner: '',
-  floor: 0,
-  numberOfFloors: 0,
-  rooms: 0,
-  sizeInSqMeters: 0,
-  price: 0,
-  entryDate: new Date(),
-  apartment_image: '',
-  furniture: '',
-  features: {
-    parking: false,
-    accessForDisabled: false,
-    storage: false,
-    dimension: false,
-    terrace: false,
-    garden: false,
-    elevators: false,
-    airConditioning: false,
-  },
-  description: '',
-  phone: ' ',
-};
+import './apartmentDetails.css';
+import { ApartmentDetailsHeader, ApartmentDetailsBody } from './components';
 
 export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
   const [apartment, setApartment] = useState<ApartmentProps>(defaultApartment);
-  const [userRole, setUserRole] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [loadingError, setLoadingError] = useState<string | null>(null);
-  const localStorageUserId = localStorage.getItem('userId');
+  const [loadingError, setLoadingError] = useState(false);
 
   const isCreatedByUser = useMemo(
-    () => apartment.owner === localStorageUserId,
-    [apartment?.owner, localStorageUserId],
+    () => apartment.owner === localStorage.getItem('userId'),
+    [apartment?.owner],
   );
-
-  const fetchUserData = useCallback(async () => {
-    try {
-      const userData = await api.user.getUserById(localStorageUserId || '');
-      setUserRole(userData?.roles ?? '');
-    } catch (error) {
-      console.error('Error fetching user data', error);
-    }
-  }, [localStorageUserId]);
 
   const fetchApartmentData = useCallback(async (): Promise<void> => {
     if (!apartmentId) return;
@@ -67,14 +24,13 @@ export const ApartmentDetailsPage: React.FC = () => {
     try {
       const apartmentData = await api.apartment.getApartmentById(apartmentId);
       setApartment(apartmentData);
-      fetchUserData();
       setLoading(false);
     } catch (error) {
       console.error('Error fetching apartment details', error);
-      setLoadingError('Error fetching apartment details');
+      setLoadingError(true);
       setLoading(false);
     }
-  }, [apartmentId, fetchUserData]);
+  }, [apartmentId]);
 
   useEffect(() => {
     fetchApartmentData();
@@ -85,7 +41,11 @@ export const ApartmentDetailsPage: React.FC = () => {
   }
 
   if (loadingError) {
-    return <p className="text-center mt-5 text-danger">{loadingError}</p>;
+    return (
+      <p className="text-center mt-5 text-danger">
+        Error fetching apartment details
+      </p>
+    );
   }
 
   if (!apartment) {
@@ -104,32 +64,17 @@ export const ApartmentDetailsPage: React.FC = () => {
           marginBottom: '100px',
         }}
       >
-        <Card.Header
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}
-        >
-          {isCreatedByUser ? (
-            <ApartmentEditButton refreshApartmentDisplay={fetchApartmentData} />
-          ) : (
-            <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
-          )}
-          {isCreatedByUser || userRole === 'admin' ? (
-            <ApartmentDeleteButton apartmentId={apartmentId} />
-          ) : (
-            <h1 style={{ height: '40px' }}></h1>
-          )}
-        </Card.Header>
-        <Card.Body style={{ overflow: 'auto' }}>
-          <ApartmentDetailsBody
-            apartment={apartment}
-            apartmentId={apartmentId}
-            isCreatedByUser={isCreatedByUser}
-            refreshApartmentDisplay={fetchApartmentData}
-          />
-        </Card.Body>
+        <ApartmentDetailsHeader
+          apartmentId={apartmentId}
+          isCreatedByUser={isCreatedByUser}
+          refreshApartmentDisplay={fetchApartmentData}
+        />
+        <ApartmentDetailsBody
+          apartmentId={apartmentId}
+          isCreatedByUser={isCreatedByUser}
+          refreshApartmentDisplay={fetchApartmentData}
+          apartment={apartment}
+        />
       </Card>
     </div>
   );

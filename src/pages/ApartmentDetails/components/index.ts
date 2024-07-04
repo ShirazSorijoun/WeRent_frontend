@@ -1,3 +1,2 @@
-export { ApartmentEditButton } from './apartmentEditButton';
-export { ApartmentDeleteButton } from './apartmentDeleteButton';
-export { ApartmentDetailsBody } from './apartmentDetailsBody';
+export { ApartmentDetailsBody } from './body';
+export { ApartmentDetailsHeader } from './header';

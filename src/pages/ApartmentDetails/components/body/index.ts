@@ -1,0 +1,1 @@
+export { ApartmentDetailsBody } from './apartmentDetailsBody';

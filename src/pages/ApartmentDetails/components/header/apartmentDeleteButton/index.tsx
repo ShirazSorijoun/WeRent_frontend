@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { api } from '@/api';
 
 interface IApartmentDeleteButtonProps {
-  apartmentId: string;
+  apartmentId?: string;
 }
 
 export const ApartmentDeleteButton: React.FC<IApartmentDeleteButtonProps> = ({
@@ -39,7 +39,7 @@ export const ApartmentDeleteButton: React.FC<IApartmentDeleteButtonProps> = ({
 
   return (
     <>
-      <Button onClick={openDeleteDialog} variant="light" style={{}}>
+      <Button onClick={openDeleteDialog} variant="light">
         <DeleteIcon />
       </Button>
     </>
