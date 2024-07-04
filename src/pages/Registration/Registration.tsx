@@ -14,7 +14,7 @@ import { Alert } from 'react-bootstrap';
 import { UserRole, IUser, IRegister } from '@/models';
 import { api } from '@/api';
 import { ILoginResponse } from '@/models/login';
-import { useAuth } from '@@/Navbar/authContext';
+import { useAuth } from '@/common/context/authContext';
 
 const schema = z.object({
   name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),

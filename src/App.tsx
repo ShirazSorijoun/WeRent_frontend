@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
-import { AuthProvider } from './components/Navbar/authContext';
+import { AuthProvider } from './common/context/authContext';
 import RestAPI from './components/RestAPI/api';
 import {
   LandingPage,

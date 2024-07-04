@@ -5,7 +5,7 @@ import { LoginFormData } from '../../loginFormBody/formUtils';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { ILoginResponse } from '@/models/login';
-import { useAuth } from '@@/Navbar/authContext';
+import { useAuth } from '@/common/context/authContext';
 
 interface IUseHandleLogin {
   handleValidFormData: (formData: LoginFormData) => Promise<void>;
