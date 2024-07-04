@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { useGetImageUrlFromName } from '@/common/hooks';
 
 interface Apartment {
   _id?: string;
@@ -32,14 +33,12 @@ const bull = (
 );
 
 const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment }) => {
+  const apartmentImage = useGetImageUrlFromName(apartment.apartment_image);
+
   return (
     <Card className="card-container">
       <Box className="image-container">
-        <img
-          src={apartment.apartment_image}
-          alt="Apartment"
-          className="apartment-image"
-        />
+        <img src={apartmentImage} alt="Apartment" className="apartment-image" />
       </Box>
       <CardContent className="card-content">
         <Typography

@@ -1,0 +1,1 @@
+export { UserApartmentCard } from './userApartmentCard';

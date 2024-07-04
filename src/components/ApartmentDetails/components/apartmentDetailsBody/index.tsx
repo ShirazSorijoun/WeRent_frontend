@@ -1,10 +1,10 @@
-import { uploadImg } from '@/services/file-service';
 import { ApartmentProps } from '@/types/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import './apartmentDetailsBody.css';
 import { api } from '@/api';
+import { useGetImageUrlFromName } from '@/common/hooks';
 
 interface IApartmentDetailsBodyProps {
   refreshApartmentDisplay: () => Promise<void>;
@@ -42,17 +42,16 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
     if (!files?.length) return;
 
     const selectedImage = files[0];
-    const imageResponse = await uploadImg(selectedImage);
-    const photoUrl = imageResponse.replace(/\\/g, '/');
 
     try {
       if (apartmentId) {
+        const imageResponse = await api.file.uploadImage(selectedImage);
         await api.apartment.updateApartment(apartmentId, {
-          apartment_image: photoUrl,
+          apartment_image: imageResponse,
         });
-      }
 
-      refreshApartmentDisplay();
+        refreshApartmentDisplay();
+      }
     } catch {
       console.log('error to change img');
     }
@@ -64,6 +63,8 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
       fileInput.click();
     }
   };
+
+  const apartmentImage = useGetImageUrlFromName(apartment.apartment_image);
 
   return (
     <div
@@ -78,7 +79,7 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
       <div className="css-1752boj e142rc1o2">
         <div className="col-md-6">
           <img
-            src={apartment.apartment_image}
+            src={apartmentImage}
             alt="Apartment"
             className="img-fluid mb-4"
           />
