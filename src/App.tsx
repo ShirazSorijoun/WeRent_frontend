@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import { AuthProvider } from './common/context/authContext';
-import RestAPI from './components/RestAPI/api';
 import {
   LandingPage,
   AddReview,
@@ -16,6 +15,7 @@ import {
   AllUsersAdminPage,
   ChangePassword,
   ApartmentDetailsPage,
+  MapPage,
 } from './pages';
 
 const App: React.FC = () => {
@@ -39,7 +39,7 @@ const App: React.FC = () => {
             <Route path="/users" element={<AllUsersAdminPage />} />
             <Route path="/rent" element={<RentPropertiesPage />} />
             <Route path="/changePassword" element={<ChangePassword />} />
-            <Route path="/googlemap" element={<RestAPI />} />
+            <Route path="/googlemap" element={<MapPage />} />
           </Routes>
           <Footer />
         </div>
