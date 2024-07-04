@@ -13,7 +13,7 @@ import EnhancedTableHead from './EnhancedTableHead';
 import { api } from '@/api';
 import { IUser } from '@/models';
 
-const AllUsersAdmin: React.FC = () => {
+export const AllUsersAdminPage: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
 
@@ -164,5 +164,3 @@ const AllUsersAdmin: React.FC = () => {
     </div>
   );
 };
-
-export default AllUsersAdmin;

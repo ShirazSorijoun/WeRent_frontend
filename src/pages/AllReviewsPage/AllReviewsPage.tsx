@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import './AllReviewsPage.css';
 import { api } from '@/api';
 
-const RentPropertiesPage: React.FC = () => {
+export const AllReviewsPage: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -48,5 +48,3 @@ const RentPropertiesPage: React.FC = () => {
     </div>
   );
 };
-
-export default RentPropertiesPage;

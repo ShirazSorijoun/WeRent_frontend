@@ -10,7 +10,7 @@ import goodHands from '../../assets/landing page - in good hands.png';
 import rectangle from '../../assets/Rectangle.png';
 import { api } from '@/api';
 
-const LandingPage: React.FC = () => {
+export const LandingPage: React.FC = () => {
   const [lastThreeReviews, setLastThreeReviews] = useState<ReviewProps[]>([]);
 
   useEffect(() => {
@@ -140,5 +140,3 @@ const LandingPage: React.FC = () => {
     </div>
   );
 };
-
-export default LandingPage;

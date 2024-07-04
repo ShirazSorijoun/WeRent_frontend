@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import UserProfile from '../../components/UserProfile/userProfile';
 
-const UserPage = () => {
+export const UserPage = () => {
   return (
     <>
       <Container style={{ marginTop: '30px', marginBottom: '200px' }}>
@@ -16,5 +16,3 @@ const UserPage = () => {
     </>
   );
 };
-
-export default UserPage;

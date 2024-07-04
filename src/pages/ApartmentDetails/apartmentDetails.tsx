@@ -39,7 +39,7 @@ const defaultApartment: ApartmentProps = {
   phone: ' ',
 };
 
-const ApartmentDetails = () => {
+export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
   const [apartment, setApartment] = useState<ApartmentProps>(defaultApartment);
   const [userRole, setUserRole] = useState<string>('');
@@ -134,5 +134,3 @@ const ApartmentDetails = () => {
     </div>
   );
 };
-
-export default ApartmentDetails;

@@ -8,7 +8,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import './RentPropertiesPage.css';
 import { api } from '@/api';
 
-const RentPropertiesPage = () => {
+export const RentPropertiesPage = () => {
   const [apartments, setApartments] = useState<ApartmentProps[]>([]);
   const [isSearchPerformed, setIsSearchPerformed] = useState<boolean>(false);
   const [filteredApartments, setFilteredApartments] = useState<
@@ -97,5 +97,3 @@ const RentPropertiesPage = () => {
     </Container>
   );
 };
-
-export default RentPropertiesPage;
