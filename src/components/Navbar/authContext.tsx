@@ -1,5 +1,12 @@
 import { UserRole } from '@/models';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -18,6 +25,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   });
   const [roles, setRoles] = useState<UserRole | undefined>(undefined); // Initialize roles as undefined
 
+  const navigate = useNavigate();
+
+  const login = useCallback(() => {
+    if (
+      !!localStorage.getItem('accessToken') &&
+      !!localStorage.getItem('refreshToken') &&
+      !!localStorage.getItem('userId')
+    ) {
+      if (localStorage.getItem('roles') === null) {
+        navigate('/changePassword');
+      } else {
+        setIsLoggedIn(true);
+        console.log('User logged in (Navbar)');
+      }
+    }
+  }, [setIsLoggedIn, navigate]);
+
   useEffect(() => {
     if (localStorage.getItem('roles') !== null)
       // If roles are in local storage
@@ -26,17 +50,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem('isLoggedIn', String(isLoggedIn));
   }, [isLoggedIn]);
 
-  const login = () => {
-    if (
-      !!localStorage.getItem('accessToken') &&
-      !!localStorage.getItem('refreshToken') &&
-      !!localStorage.getItem('userId')
-    ) {
-      setIsLoggedIn(true);
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      if (localStorage.getItem('roles') === null) {
+        setIsLoggedIn(false);
+        navigate('/changePassword');
+      } else {
+        login();
+      }
     }
-
-    console.log('User logged in (Navbar)');
-  };
+  }, [login, navigate]);
 
   const logout = () => {
     localStorage.removeItem('accessToken');

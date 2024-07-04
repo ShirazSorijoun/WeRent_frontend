@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router';
 import { Alert } from 'react-bootstrap';
 import { UserRole, IUser, IRegister } from '@/models';
 import { api } from '@/api';
+import { ILoginResponse } from '@/models/login';
 
 const schema = z.object({
   name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
@@ -63,6 +64,24 @@ function Registration() {
   const selectImg = () => {
     console.log('Selecting image...');
     fileInputRef.current?.click();
+  };
+
+  const logUserAfterRegister = async (data: ILoginResponse) => {
+    console.log('User logged in');
+
+    localStorage.setItem('accessToken', data.token.accessToken);
+    localStorage.setItem('refreshToken', data.token.refreshToken);
+    localStorage.setItem('userId', data.userId);
+
+    if (!data.userRole) {
+      navigate('/changePassword');
+    } else {
+      localStorage.setItem('roles', data.userRole);
+      console.log('roles', localStorage.getItem('roles'));
+
+      login();
+      navigate('/');
+    }
   };
 
   const onRegister = async () => {
@@ -124,16 +143,7 @@ function Registration() {
 
         // Log in the user immediately after successful registration
         const loginResponse = await api.auth.loginUser(formData);
-        console.log('User logged in');
-        //console.log(loginResponse)
-
-        localStorage.setItem('accessToken', loginResponse?.token.accessToken);
-        localStorage.setItem('refreshToken', loginResponse?.token.refreshToken);
-        localStorage.setItem('userId', loginResponse?.userId);
-        localStorage.setItem('roles', loginResponse?.userRole);
-
-        login();
-        navigate('/');
+        logUserAfterRegister(loginResponse);
       } catch (error: any) {
         console.error('Login failed:', error);
         //console.log(error.response.status);
@@ -153,11 +163,7 @@ function Registration() {
     console.log(credentialResponse);
     try {
       const res = await api.auth.googleLogin(credentialResponse);
-      console.log(res);
-      localStorage.setItem('accessToken', res?.token.accessToken);
-      localStorage.setItem('refreshToken', res?.token.refreshToken);
-      localStorage.setItem('userId', res?.userId);
-      navigate('/changePassword');
+      logUserAfterRegister(res);
     } catch (e) {
       console.log(e);
     }
