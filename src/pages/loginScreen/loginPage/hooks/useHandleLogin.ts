@@ -30,12 +30,17 @@ export const useHandleLogin = (): IUseHandleLogin => {
     localStorage.setItem('accessToken', data.token.accessToken);
     localStorage.setItem('refreshToken', data.token.refreshToken);
     localStorage.setItem('userId', data.userId);
-    localStorage.setItem('roles', data.userRole);
-    console.log('roles', localStorage.getItem('roles'));
-    toast.success('successfully login');
-    setIsButtonLoading(false);
-    login();
-    navigate('/');
+
+    if (!data.userRole) {
+      navigate('/changePassword');
+    } else {
+      localStorage.setItem('roles', data.userRole);
+      console.log('roles', localStorage.getItem('roles'));
+      toast.success('successfully login');
+      setIsButtonLoading(false);
+      login();
+      navigate('/');
+    }
   };
 
   const handleValidFormData = async (formData: LoginFormData) => {
@@ -68,7 +73,8 @@ export const useHandleLogin = (): IUseHandleLogin => {
     credentialResponse: CredentialResponse,
   ) => {
     try {
-      const response = await api.auth.googleLogin(credentialResponse);
+      const response: ILoginResponse =
+        await api.auth.googleLogin(credentialResponse);
       onLoginSuccess(response);
     } catch (error: any) {
       handleGoogleLoginFailure();
