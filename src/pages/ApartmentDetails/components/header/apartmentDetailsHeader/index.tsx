@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import { ApartmentDeleteButton } from '../apartmentDeleteButton';
 import { ApartmentEditButton } from '../apartmentEditButton';
 import { api } from '@/api';
+import { ApartmentTamaWarning } from '../apartmentTamaWarning';
 
 interface IApartmentDetailsHeaderProps {
   refreshApartmentDisplay: () => Promise<void>;
@@ -47,6 +48,7 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
       ) : (
         <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
       )}
+      <ApartmentTamaWarning apartmentId={apartmentId} />
       {isCreatedByUser || userRole === 'admin' ? (
         <ApartmentDeleteButton apartmentId={apartmentId} />
       ) : (
