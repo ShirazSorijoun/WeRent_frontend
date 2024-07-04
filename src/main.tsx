@@ -8,12 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { defaultTheme } from './utils/theme';
 import { ToastContainer } from 'react-toastify';
+import { GOOGLE_API_KEY } from './api';
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="818522048605-6netuag42gtdeo51nc2v48p66jdl0brg.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={GOOGLE_API_KEY}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={defaultTheme}>
           <CssBaseline />

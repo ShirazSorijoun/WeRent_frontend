@@ -1,5 +1,11 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { authAPI, userAPI, apartmentAPI, reviewAPI } from './modelsServices';
+import {
+  authAPI,
+  userAPI,
+  apartmentAPI,
+  reviewAPI,
+  fileAPI,
+} from './modelsServices';
 import { serverURL } from './apiUtils';
 
 export const ACCESS_TOKEN = 'accessToken';
@@ -20,6 +26,7 @@ export const api = {
   review: reviewAPI,
   auth: authAPI,
   user: userAPI,
+  file: fileAPI,
 };
 
 const refreshAccessToken = async (
@@ -29,7 +36,7 @@ const refreshAccessToken = async (
   localStorage.setItem(ACCESS_TOKEN, newTokens.accessToken);
   localStorage.setItem(REFRESH_TOKEN, newTokens.refreshToken);
 
-  return newTokens.refreshToken;
+  return newTokens.accessToken;
 };
 
 axiosInstance.interceptors.request.use(
@@ -55,10 +62,10 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const refreshToken = await refreshAccessToken(originalRequest);
+        const accessToken = await refreshAccessToken(originalRequest);
 
         // Update the authorization header and retry the original request
-        originalRequest.headers.Authorization = `Bearer ${refreshToken}`;
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return await axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error('Error on refreshing token:', refreshError);

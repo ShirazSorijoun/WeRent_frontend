@@ -4,7 +4,6 @@ import z from 'zod';
 import './addApartment.css';
 import { ApartmentProps } from '../../types/types';
 import Uploader from '../Uploader/uploader';
-import { uploadImg } from '../../services/file-service';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
 
@@ -209,9 +208,7 @@ const AddApartment: React.FC = () => {
       const formData = new FormData();
       formData.append('file', uploadedFile);
 
-      const imageResponse = await uploadImg(uploadedFile);
-
-      imageUrl = imageResponse.replace(/\\/g, '/');
+      imageUrl = await api.file.uploadImage(uploadedFile);
     }
 
     const apartmentDataWithImage = {

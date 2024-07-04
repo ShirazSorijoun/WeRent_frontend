@@ -6,7 +6,6 @@ import img from '../../assets/img.jpg';
 import UserVactor from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { uploadImg } from '../../services/file-service';
 import { z } from 'zod';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import './Registration.css';
@@ -92,7 +91,7 @@ function Registration() {
     let url: string | undefined;
     if (imgSrc) {
       try {
-        url = await uploadImg(imgSrc);
+        url = await api.file.uploadImage(imgSrc);
       } catch (error) {
         setFormErrors({
           image: 'Failed to upload the image. Please try again.',
