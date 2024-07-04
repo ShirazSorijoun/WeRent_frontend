@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import { useAuth } from './authContext';
+import { useAuth } from '../../common/context/authContext';
 import icon from '../../assets/LOGO WeRent2.jpeg';
 import { UserRole } from '@/models';
 

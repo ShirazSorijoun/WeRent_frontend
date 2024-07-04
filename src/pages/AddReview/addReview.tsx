@@ -5,7 +5,7 @@ import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/api';
 
-const AddReview: React.FC = () => {
+export const AddReview: React.FC = () => {
   const [review, setReview] = React.useState<ReviewProps>({
     ownerName: '',
     ownerImage: '',
@@ -93,5 +93,3 @@ const AddReview: React.FC = () => {
     </div>
   );
 };
-
-export default AddReview;

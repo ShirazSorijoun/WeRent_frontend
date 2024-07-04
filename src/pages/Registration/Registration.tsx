@@ -9,12 +9,12 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { z } from 'zod';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import './Registration.css';
-import { useAuth } from '../Navbar/authContext';
 import { useNavigate } from 'react-router';
 import { Alert } from 'react-bootstrap';
 import { UserRole, IUser, IRegister } from '@/models';
 import { api } from '@/api';
 import { ILoginResponse } from '@/models/login';
+import { useAuth } from '@/common/context/authContext';
 
 const schema = z.object({
   name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
@@ -24,7 +24,7 @@ const schema = z.object({
     .min(6, { message: 'Password must be at least 6 characters' }),
 });
 
-function Registration() {
+export const RegistrationPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [imgSrc, setImgSrc] = useState<File>();
@@ -325,6 +325,4 @@ function Registration() {
       </Alert>
     </div>
   );
-}
-
-export default Registration;
+};

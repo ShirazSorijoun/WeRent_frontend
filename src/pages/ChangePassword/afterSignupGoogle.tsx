@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Alert, Button, Card, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../Navbar/authContext';
 import { api } from '@/api';
+import { useAuth } from '@/common/context/authContext';
 
-function ChangePassword() {
+export const ChangePassword = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const navigate = useNavigate();
@@ -128,6 +128,6 @@ function ChangePassword() {
       </Alert>
     </div>
   );
-}
+};
 
 export default ChangePassword;

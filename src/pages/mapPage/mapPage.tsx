@@ -1,4 +1,4 @@
-const GoogleMapComponent = () => {
+export const MapPage = () => {
   return (
     <iframe
       id="ifrMap"
@@ -12,5 +12,3 @@ const GoogleMapComponent = () => {
     />
   );
 };
-
-export default GoogleMapComponent;

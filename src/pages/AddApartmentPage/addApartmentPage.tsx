@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import AddApartment from '../../components/AddApartment/addApartment';
 
-const AddApartmentPage = () => {
+export const AddApartmentPage = () => {
   return (
     <>
       <Container style={{ marginTop: '30px', marginBottom: '200px' }}>
@@ -16,5 +16,3 @@ const AddApartmentPage = () => {
     </>
   );
 };
-
-export default AddApartmentPage;

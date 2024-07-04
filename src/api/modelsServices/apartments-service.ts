@@ -33,10 +33,18 @@ export const deleteApartment = async (apartmentId: string) =>
   (await axiosInstance.delete(`${APARTMENT_API_KEY}/delete/${apartmentId}`))
     .data;
 
+export const checkTamaCloseToApartment = async (
+  apartmentId: string,
+): Promise<boolean> =>
+  new Promise((resolve, reject) => {
+    resolve(true);
+  });
+
 export const apartmentAPI = {
   getAllApartments,
   postApartment,
   getApartmentById,
   updateApartment,
   deleteApartment,
+  checkTamaCloseToApartment,
 };
