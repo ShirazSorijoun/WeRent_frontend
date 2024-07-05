@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Alert, Button, Card, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
-import { useAuth } from '@/common/context/authContext';
+import { useAuth } from '@/common/hooks';
 
 export const ChangePassword = () => {
   const [password, setPassword] = useState('');
