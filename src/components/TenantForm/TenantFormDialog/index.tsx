@@ -1,3 +1,8 @@
+import React, { useCallback, useEffect } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { schema, tenantQuestionnaireDefaultValues } from '../formUtils';
+import { LoadingButton } from '@mui/lab';
 import {
   Dialog,
   DialogTitle,
@@ -5,27 +10,19 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import React, { useCallback, useEffect } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { schema, tenantQuestionnaireDefaultValues } from '../formUtils';
-import { LoadingButton } from '@mui/lab';
-import { useTenantForm } from './hooks/useTenantForm';
 import { FormTenantFormBody } from '../TenantFormBody';
 
 interface ITenantFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
-  completeSave: () => Promise<void>;
+  completeSave: () => void;
 }
 
 export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
+  isOpen,
   handleCancel,
   completeSave,
-  isOpen,
 }) => {
-  const { saveTenantForm, isButtonLoading } = useTenantForm();
-
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: tenantQuestionnaireDefaultValues,
@@ -42,49 +39,30 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     handleCancel();
   }, [handleCancel, reset]);
 
-  const handleCloseDialog = () => {
-    // Handle dialog close event
-  };
-
   const onSubmit = useCallback(
     async (formData: any) => {
-      const isSaved = await saveTenantForm(formData);
-      if (isSaved) {
-        completeSave();
-      }
+      // Perform form submission logic here, e.g., saving data
+      console.log(formData);
+      completeSave(); // Close dialog after saving
     },
-    [completeSave, saveTenantForm],
+    [completeSave],
   );
 
   return (
-    <Dialog
-      open={isOpen}
-      onClose={handleCloseDialog}
-      fullWidth
-      PaperProps={{
-        component: 'form',
-        onSubmit: handleSubmit(onSubmit),
-      }}
-    >
+    <Dialog open={isOpen} onClose={closeDialog} fullWidth>
       <DialogTitle>Tenant Form</DialogTitle>
       <DialogContent>
         <FormTenantFormBody control={control} />
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={closeDialog}
-          disabled={isButtonLoading}
-        >
+        <Button variant="contained" color="error" onClick={closeDialog}>
           Cancel
         </Button>
         <LoadingButton
-          loading={isButtonLoading}
-          role="progressbar"
+          type="submit"
           variant="contained"
           color="success"
-          type="submit"
+          onClick={handleSubmit(onSubmit)}
         >
           Save
         </LoadingButton>
