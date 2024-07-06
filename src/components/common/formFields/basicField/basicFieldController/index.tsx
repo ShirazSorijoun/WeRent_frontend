@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, MenuItem, Select } from '@mui/material';
 import { IControlledBasicFieldTypeProps } from '../utils';
 import { EBasicFieldType } from '@/models/forms';
 import { ControlledDateTime } from '../controlledDateTime';
@@ -97,6 +97,22 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
             otherProps={otherProps}
           />
         );
+      case EBasicFieldType.select:
+        return (
+          <Select
+            {...otherProps}
+            {...fieldData}
+            label={fieldData.label}
+            defaultValue=""
+            onChange={(e) => {
+              // Handle select change here
+              // You can use control.setValue() from react-hook-form
+            }}
+          >
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+        );
       default:
         return (
           <ControlledBasicTextField
@@ -122,3 +138,5 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
     </Grid>
   );
 };
+
+export default BasicFieldController;

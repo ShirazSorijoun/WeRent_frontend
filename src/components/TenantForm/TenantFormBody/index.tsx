@@ -18,7 +18,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
     <>
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select} // Assuming select is for yes/no
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RENTAL_AGREEMENT
@@ -27,7 +27,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a textarea for comments
+        type={EBasicFieldType.multiLineText} // Assuming multiLineText for comments
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS
@@ -36,7 +36,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_INFORMATION
@@ -45,7 +45,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a textarea for comments
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS
@@ -54,7 +54,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS
@@ -63,7 +63,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a textarea for comments
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS
@@ -72,7 +72,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.QUESTIONS_ADDRESSED
@@ -81,7 +81,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a textarea for comments
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS
@@ -90,7 +90,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_CONDITION
@@ -99,7 +99,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a textarea for comments
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS
@@ -108,7 +108,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RECEIVED_INFORMATION
@@ -117,7 +117,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a textarea for comments
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.TRANSITION_PROBLEMS
@@ -135,7 +135,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text} // Assuming it's a select for yes/no
+        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.MAINTENANCE_REQUESTS
@@ -144,7 +144,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text}
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS
@@ -153,7 +153,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.text}
+        type={EBasicFieldType.multiLineText}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.FIRST_IMPRESSION

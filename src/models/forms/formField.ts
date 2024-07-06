@@ -16,4 +16,5 @@ export enum EBasicFieldType {
   textArray = 'textArray',
   multiLineText = 'multiLineText',
   coordinate = 'coordinate',
+  select = 'select',
 }
