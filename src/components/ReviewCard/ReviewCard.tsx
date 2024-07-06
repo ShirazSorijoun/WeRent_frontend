@@ -5,6 +5,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import { useGetImageUrlFromName } from '@/common/hooks';
 
 interface ReviewProps {
   _id?: string;
@@ -19,6 +20,8 @@ interface ReviewCardProps {
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+  const ownerImage = useGetImageUrlFromName(review.ownerImage);
+
   return (
     <div className="card-container">
       <div>
@@ -27,7 +30,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
             avatar={
               <Avatar sx={{ width: 56, height: 56 }}>
                 <img
-                  src={review.ownerImage}
+                  src={ownerImage}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </Avatar>

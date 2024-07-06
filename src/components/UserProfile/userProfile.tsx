@@ -3,11 +3,11 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Card, Button, Modal, Form, Spinner, Alert } from 'react-bootstrap';
 import { ModeEditOutline } from '@mui/icons-material';
 import './userProfile.css';
-import { Link } from 'react-router-dom';
 import { ApartmentProps } from '@/types/types';
 import { IUserData } from '@/models';
-import { uploadImg } from '@/services/file-service';
 import { api } from '@/api';
+import { useGetImageUrlFromName } from '@/common/hooks';
+import { UserApartmentCard } from './components';
 
 const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
 const UserProfile: React.FC = () => {
@@ -64,8 +64,8 @@ const UserProfile: React.FC = () => {
       let photoUrl = userProfile?.profile_image;
 
       if (selectedFile) {
-        const imageResponse = await uploadImg(selectedFile);
-        photoUrl = imageResponse.replace(/\\/g, '/');
+        const imageResponse = await api.file.uploadImage(selectedFile);
+        photoUrl = imageResponse;
         console.log(photoUrl);
       }
 
@@ -129,6 +129,8 @@ const UserProfile: React.FC = () => {
       console.log('fail chnge password');
     }
   };
+
+  const profileImage = useGetImageUrlFromName(userProfile?.profile_image);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -195,7 +197,7 @@ const UserProfile: React.FC = () => {
               }}
             >
               <img
-                src={userProfile?.profile_image}
+                src={profileImage}
                 alt="Profile"
                 style={{
                   maxWidth: '300px',
@@ -370,29 +372,10 @@ const UserProfile: React.FC = () => {
                     userApartments?.length > 0 ? (
                       <>
                         {userApartments.map((apartment) => (
-                          <Card
-                            as={Link}
-                            to={`/apartment-details/${apartment._id}`}
+                          <UserApartmentCard
+                            apartment={apartment}
                             key={apartment._id}
-                            style={{
-                              marginRight: '10px',
-                              height: '180px',
-                              width: '200px',
-                              position: 'relative',
-                              flexShrink: 0,
-                            }}
-                          >
-                            <Card.Img
-                              variant="top"
-                              src={apartment.apartment_image}
-                              style={{ width: '100%', height: '80%' }}
-                            />
-                            <Card.Body style={{ padding: '4px' }}>
-                              <Card.Text style={{ color: '#344050' }}>
-                                {apartment.city}
-                              </Card.Text>
-                            </Card.Body>
-                          </Card>
+                          />
                         ))}
                       </>
                     ) : (

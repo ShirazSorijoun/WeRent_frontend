@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import { useAuth } from './authContext';
+import { useAuth } from '../../common/context/authContext';
 import icon from '../../assets/LOGO WeRent2.jpeg';
 import { UserRole } from '@/models';
 
@@ -23,29 +23,29 @@ function Navbar() {
           Home
         </Link>
         {isLoggedIn && (
-          <Link to="/rent" className="page">
-            Rent properties
-          </Link>
-        )}
-        {isLoggedIn && roles === UserRole.Owner && (
-          <Link to="/addApartment" className="page">
-            Add apartment
-          </Link>
-        )}
-        {isLoggedIn && roles !== UserRole.Admin && (
-          <Link to="/profile" className="page">
-            Profile
-          </Link>
-        )}
-        {isLoggedIn && roles == UserRole.Admin && (
-          <Link to="/users" className="page">
-            Private Area
-          </Link>
-        )}
-        {isLoggedIn && (
-          <Link to="/allReviews" className="page">
-            Reviews
-          </Link>
+          <>
+            <Link to="/rent" className="page">
+              Rent properties
+            </Link>
+            {roles === UserRole.Owner && (
+              <Link to="/addApartment" className="page">
+                Add apartment
+              </Link>
+            )}
+            {roles !== UserRole.Admin && (
+              <Link to="/profile" className="page">
+                Profile
+              </Link>
+            )}
+            {roles == UserRole.Admin && (
+              <Link to="/users" className="page">
+                Private Area
+              </Link>
+            )}
+            <Link to="/allReviews" className="page">
+              Reviews
+            </Link>
+          </>
         )}
       </div>
 
