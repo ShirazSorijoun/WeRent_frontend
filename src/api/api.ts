@@ -6,6 +6,7 @@ import {
   reviewAPI,
   fileAPI,
 } from './modelsServices';
+import { tenantFormAPI } from './modelsServices/form-service';
 import { serverURL } from './apiUtils';
 
 export const ACCESS_TOKEN = 'accessToken';
@@ -27,6 +28,7 @@ export const api = {
   auth: authAPI,
   user: userAPI,
   file: fileAPI,
+  tenantForm: tenantFormAPI,
 };
 
 const refreshAccessToken = async (
