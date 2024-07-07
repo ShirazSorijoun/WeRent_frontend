@@ -38,7 +38,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           : false;
         if (isTokenValid) {
           setIsLoggedIn(true);
-          localStorage.setItem('isLoggedIn', String(true));
 
           console.log('User logged in (Navbar)');
         } else {
@@ -57,6 +56,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (localStorage.getItem('roles') !== null)
       // If roles are in local storage
       setRoles(localStorage.getItem('roles') as UserRole); // Set roles from local storage
+
+    localStorage.setItem('isLoggedIn', String(isLoggedIn));
   }, [isLoggedIn]);
 
   useEffect(() => {

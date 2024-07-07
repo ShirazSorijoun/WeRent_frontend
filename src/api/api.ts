@@ -9,6 +9,7 @@ import {
 import { tenantFormAPI } from './modelsServices/form-service';
 import { serverURL } from './apiUtils';
 import { handleLocalStorageLogout } from '@/utils/auth';
+import swal from 'sweetalert';
 
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
@@ -74,9 +75,13 @@ axiosInstance.interceptors.response.use(
         const accessToken = await refreshAccessToken(originalRequest);
 
         if (!accessToken) {
+          await swal(
+            'your identification has expired so you need to login again',
+          );
+
           handleLocalStorageLogout();
 
-          location.replace(location.origin);
+          location.replace(location.origin + '/login');
           return;
         }
         // Update the authorization header and retry the original request
