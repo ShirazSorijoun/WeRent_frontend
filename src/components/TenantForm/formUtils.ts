@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IFormField } from '@/models/forms';
+import { IControlledSelectArray, IFormField } from '@/models/forms';
 
 export enum ETenantQuestionnaireFields {
   RENTAL_AGREEMENT = 'rentalAgreement',
@@ -95,6 +95,11 @@ export const tenantQuestionnaireFormDataObject: Record<
     label: 'What was your first impression of the property?',
   },
 };
+
+export const booleanSelectFieldValues: IControlledSelectArray = [
+  { display: 'Yes', value: 'Yes' },
+  { display: 'No', value: 'No' },
+];
 
 //validation
 export const schema = z.object({

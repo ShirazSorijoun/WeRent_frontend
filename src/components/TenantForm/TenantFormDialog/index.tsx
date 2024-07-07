@@ -9,10 +9,10 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Snackbar,
 } from '@mui/material';
 import { FormTenantFormBody } from '../TenantFormBody';
 import { postTeantForm } from '../../../api/modelsServices/form-service';
+import { toast } from 'react-toastify';
 
 interface ITenantFormDialogProps {
   isOpen: boolean;
@@ -31,7 +31,6 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
   });
 
   const [submitting, setSubmitting] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -52,8 +51,8 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
         console.log('Form data saved:', formData);
         completeSave(); // Notify parent component about successful save
       } catch (err) {
-        setError('Failed to save form data. Please try again.');
-        console.error('Error saving form data:', error);
+        toast.error('Failed to save form data. Please try again.');
+        console.error('Error saving form data:', err);
       } finally {
         setSubmitting(false);
       }
@@ -61,12 +60,16 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     [completeSave],
   );
 
-  const handleCloseSnackbar = () => {
-    setError(null);
-  };
-
   return (
-    <Dialog open={isOpen} onClose={closeDialog} fullWidth>
+    <Dialog
+      open={isOpen}
+      onClose={closeDialog}
+      fullWidth
+      PaperProps={{
+        component: 'form',
+        onSubmit: handleSubmit(onSubmit),
+      }}
+    >
       <DialogTitle>Tenant Form</DialogTitle>
       <DialogContent>
         <FormTenantFormBody control={control} />
@@ -79,20 +82,11 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
           type="submit"
           variant="contained"
           color="success"
-          onClick={handleSubmit(onSubmit)}
           loading={submitting}
         >
           Save
         </LoadingButton>
       </DialogActions>
-      <Snackbar
-        open={!!error}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        message={error}
-      />
     </Dialog>
   );
 };
-
-export default TenantFormDialog;
