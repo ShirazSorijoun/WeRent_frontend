@@ -6,6 +6,7 @@ import {
   reviewAPI,
   fileAPI,
 } from './modelsServices';
+import { tenantFormAPI } from './modelsServices/form-service';
 import { serverURL } from './apiUtils';
 import { handleLocalStorageLogout } from '@/utils/auth';
 
@@ -28,6 +29,7 @@ export const api = {
   auth: authAPI,
   user: userAPI,
   file: fileAPI,
+  tenantForm: tenantFormAPI,
 };
 
 const refreshAccessToken = async (

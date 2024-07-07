@@ -62,3 +62,26 @@ export const defaultApartment: ApartmentProps = {
   description: '',
   phone: ' ',
 };
+
+export type TenantFormProps = {
+  owner: string;
+  rentalAgreement: 'Yes' | 'No';
+  rentalAgreementComments?: string;
+  propertyInformation: 'Yes' | 'No';
+  propertyInformationComments?: string;
+  leaseSigningProcess: 'Yes' | 'No';
+  leaseSigningProcessComments?: string;
+  questionsAddressed: 'Yes' | 'No';
+  questionsAddressedComments?: string;
+  propertyCondition: 'Yes' | 'No';
+  propertyConditionComments?: string;
+  receivedInformation: 'Yes' | 'No';
+  transitionProblems?: string;
+  satisfactionRating: number;
+  maintenanceRequests: 'Yes' | 'No';
+  maintenanceRequestsComments?: string;
+  firstImpression?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+

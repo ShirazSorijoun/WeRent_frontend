@@ -8,12 +8,14 @@ import { IUserData } from '@/models';
 import { api } from '@/api';
 import { useGetImageUrlFromName } from '@/common/hooks';
 import { UserApartmentCard } from './components';
+import { TenantFormDialog } from '@/components/TenantForm';
 
 const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
 const UserProfile: React.FC = () => {
   const [userProfile, setUserProfile] = useState<IUserData>(defaultUserProfile);
   const [userApartments, setUserApartments] = useState<ApartmentProps[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [tempUserProfile, setTempUserProfile] =
     useState<IUserData>(defaultUserProfile);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -132,6 +134,14 @@ const UserProfile: React.FC = () => {
 
   const profileImage = useGetImageUrlFromName(userProfile?.profile_image);
 
+  const openDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div
@@ -153,6 +163,17 @@ const UserProfile: React.FC = () => {
         >
           Add Review
         </Button>
+      </div>
+      <div>
+        {/* Button to trigger the TenantForm dialog */}
+        <Button onClick={openDialog}>Open Tenant Form</Button>
+        <TenantFormDialog
+          isOpen={dialogOpen}
+          handleCancel={closeDialog}
+          completeSave={() => {
+            closeDialog();
+          }}
+        />
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Card

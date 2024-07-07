@@ -122,3 +122,5 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
     </Grid>
   );
 };
+
+export default BasicFieldController;
