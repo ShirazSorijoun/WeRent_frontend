@@ -24,6 +24,7 @@ interface ControlledSelectProps {
   valuesArray: IControlledSelectArray;
   formControlSX?: SxProps<Theme>;
   menuSX?: SxProps<Theme>;
+  noPlaceHolder?: boolean;
 }
 
 export const ControlledSelect: React.FC<ControlledSelectProps> = ({
@@ -31,11 +32,17 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
   control,
   valuesArray,
   formControlSX,
+  noPlaceHolder = false,
   menuSX,
 }) => {
   const placeholderText = useMemo(
-    () => <div style={{ color: '#ababab' }}>select {fieldData.label}</div>,
-    [fieldData],
+    () =>
+      noPlaceHolder ? (
+        ''
+      ) : (
+        <div style={{ color: '#ababab' }}>select {fieldData.label}</div>
+      ),
+    [fieldData.label, noPlaceHolder],
   );
 
   const valuesToRender = useMemo(
@@ -57,7 +64,11 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
     const isError = !!error;
     const errorText = error?.message;
     return (
-      <FormControl sx={formControlSX} margin="none" variant="outlined">
+      <FormControl
+        sx={formControlSX ?? { width: '100%' }}
+        margin="none"
+        variant="outlined"
+      >
         <Select
           inputRef={ref}
           error={isError}

@@ -167,27 +167,13 @@ const UserProfile: React.FC = () => {
       <div>
         {/* Button to trigger the TenantForm dialog */}
         <Button onClick={openDialog}>Open Tenant Form</Button>
-        <Modal show={dialogOpen} onHide={closeDialog}>
-          <Modal.Header closeButton>
-            <Modal.Title>Tenant Form</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {/* Content of your TenantForm dialog */}
-            <TenantFormDialog
-              isOpen={dialogOpen}
-              handleCancel={closeDialog}
-              completeSave={() => {
-                closeDialog();
-              }}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeDialog}>
-              Close
-            </Button>
-            {/* Additional buttons or actions for the dialog */}
-          </Modal.Footer>
-        </Modal>
+        <TenantFormDialog
+          isOpen={dialogOpen}
+          handleCancel={closeDialog}
+          completeSave={() => {
+            closeDialog();
+          }}
+        />
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Card

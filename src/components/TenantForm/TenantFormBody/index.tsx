@@ -3,9 +3,10 @@ import { Control } from 'react-hook-form';
 import {
   tenantQuestionnaireFormDataObject,
   ETenantQuestionnaireFields,
+  booleanSelectFieldValues,
 } from '../formUtils';
 import { EBasicFieldType } from '@/models/forms';
-import { BasicFieldController } from '@@/common/formFields';
+import { BasicFieldController, ControlledSelect } from '@@/common/formFields';
 
 interface IFormTenantFormBodyProps {
   control: Control<any>;
@@ -16,14 +17,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
 }) => {
   return (
     <>
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select} // Assuming select is for yes/no
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RENTAL_AGREEMENT
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -34,14 +36,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_INFORMATION
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -52,14 +55,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -70,14 +74,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.QUESTIONS_ADDRESSED
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -88,14 +93,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_CONDITION
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -106,14 +112,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RECEIVED_INFORMATION
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -133,14 +140,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={booleanSelectFieldValues}
         control={control}
-        type={EBasicFieldType.select}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.MAINTENANCE_REQUESTS
           ]
         }
+        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -163,5 +171,3 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
     </>
   );
 };
-
-export default FormTenantFormBody;
