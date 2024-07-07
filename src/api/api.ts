@@ -32,11 +32,17 @@ export const api = {
 const refreshAccessToken = async (
   config?: AxiosRequestConfig<any>,
 ): Promise<string> => {
-  const newTokens = await api.auth.refreshToken(config);
-  localStorage.setItem(ACCESS_TOKEN, newTokens.accessToken);
-  localStorage.setItem(REFRESH_TOKEN, newTokens.refreshToken);
+  try {
+    const newTokens = await api.auth.refreshToken(config);
+    localStorage.setItem(ACCESS_TOKEN, newTokens.accessToken);
+    localStorage.setItem(REFRESH_TOKEN, newTokens.refreshToken);
 
-  return newTokens.accessToken;
+    return newTokens.accessToken;
+  } catch (error: any) {
+    if (error?.response?.status === 403) {
+      return '';
+    } else throw error;
+  }
 };
 
 axiosInstance.interceptors.request.use(
@@ -64,6 +70,10 @@ axiosInstance.interceptors.response.use(
       try {
         const accessToken = await refreshAccessToken(originalRequest);
 
+        if (!accessToken) {
+          location.replace(location.origin);
+          return;
+        }
         // Update the authorization header and retry the original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return await axiosInstance(originalRequest);

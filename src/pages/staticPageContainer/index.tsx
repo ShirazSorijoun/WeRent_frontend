@@ -7,11 +7,9 @@ export const StaticPageContainer: FC = () => {
   return (
     <>
       <AuthProvider>
-        <div>
-          <Navbar />
-          <Outlet />
-          <Footer />
-        </div>
+        <Navbar />
+        <Outlet />
+        <Footer />
       </AuthProvider>
     </>
   );
