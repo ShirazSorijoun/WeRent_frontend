@@ -5,7 +5,6 @@ import { UserRole } from '@/models';
 import { handleLocalStorageLogout } from '@/utils/auth';
 import { useState, useCallback, useEffect } from 'react';
 import { redirect } from 'react-router';
-import { toast } from 'react-toastify';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -44,11 +43,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           logout();
         }
       }
-    } else {
-      toast.error('you need to login again, saved login time has expired');
-      setIsLoggedIn(false);
-
-      redirect('/login');
     }
   }, [setIsLoggedIn, logout]);
 
