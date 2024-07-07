@@ -7,6 +7,7 @@ import {
   fileAPI,
 } from './modelsServices';
 import { serverURL } from './apiUtils';
+import { handleLocalStorageLogout } from '@/utils/auth';
 
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
@@ -71,6 +72,8 @@ axiosInstance.interceptors.response.use(
         const accessToken = await refreshAccessToken(originalRequest);
 
         if (!accessToken) {
+          handleLocalStorageLogout();
+
           location.replace(location.origin);
           return;
         }
