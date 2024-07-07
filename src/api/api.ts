@@ -8,6 +8,8 @@ import {
 } from './modelsServices';
 import { tenantFormAPI } from './modelsServices/form-service';
 import { serverURL } from './apiUtils';
+import { handleLocalStorageLogout } from '@/utils/auth';
+import swal from 'sweetalert';
 
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
@@ -34,11 +36,17 @@ export const api = {
 const refreshAccessToken = async (
   config?: AxiosRequestConfig<any>,
 ): Promise<string> => {
-  const newTokens = await api.auth.refreshToken(config);
-  localStorage.setItem(ACCESS_TOKEN, newTokens.accessToken);
-  localStorage.setItem(REFRESH_TOKEN, newTokens.refreshToken);
+  try {
+    const newTokens = await api.auth.refreshToken(config);
+    localStorage.setItem(ACCESS_TOKEN, newTokens.accessToken);
+    localStorage.setItem(REFRESH_TOKEN, newTokens.refreshToken);
 
-  return newTokens.accessToken;
+    return newTokens.accessToken;
+  } catch (error: any) {
+    if (error?.response?.status === 403) {
+      return '';
+    } else throw error;
+  }
 };
 
 axiosInstance.interceptors.request.use(
@@ -61,11 +69,21 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const accessToken = await refreshAccessToken(originalRequest);
 
+        if (!accessToken) {
+          await swal(
+            'your identification has expired so you need to login again',
+          );
+
+          handleLocalStorageLogout();
+
+          location.replace(location.origin + '/login');
+          return;
+        }
         // Update the authorization header and retry the original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return await axiosInstance(originalRequest);

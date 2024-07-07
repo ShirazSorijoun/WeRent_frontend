@@ -22,9 +22,13 @@ const refreshToken = async (
 ): Promise<LoginDecodedData> =>
   (await axiosInstance.get(`${AUTH_API_KEY}/refresh`, config)).data;
 
+const checkToken = async (token: string | null): Promise<boolean> =>
+  (await axiosInstance.post(`${AUTH_API_KEY}/checkToken`, { token })).data;
+
 export const authAPI = {
   registerUser,
   loginUser,
   googleLogin,
   refreshToken,
+  checkToken,
 };

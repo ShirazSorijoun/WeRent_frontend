@@ -1,10 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import { useAuth } from '../../common/context/authContext';
-import icon from '../../assets/LOGO WeRent2.jpeg';
+import icon from '@/assets/LOGO WeRent2.jpeg';
 import { UserRole } from '@/models';
+import React from 'react';
+import { useAuth } from '@/common/hooks';
 
-function Navbar() {
+export const Navbar: React.FC = () => {
   const { isLoggedIn, logout, roles } = useAuth();
   const navigate = useNavigate();
 
@@ -68,6 +69,4 @@ function Navbar() {
       </div>
     </div>
   );
-}
-
-export default Navbar;
+};
