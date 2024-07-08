@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { api } from '@/api';
 import { TenantQuestionnaireFormData } from '../../formUtils';
+import axios from 'axios';
 
 interface IUseTenantForm {
   saveTenantForm: (formData: TenantQuestionnaireFormData) => Promise<boolean>;
@@ -14,12 +15,19 @@ export const useTenantForm = (): IUseTenantForm => {
     async (formData: TenantQuestionnaireFormData): Promise<boolean> => {
       setIsButtonLoading(true);
       try {
-        const updatedFormData = { ...formData, owner: '' };
+        const updatedFormData = { ...formData };
+
         await api.tenantForm.postTeantForm(updatedFormData);
+
         setIsButtonLoading(false);
         return true;
       } catch (error) {
         console.error('Error saving tenant form:', error);
+        if (axios.isAxiosError(error)) {
+          console.error('Error response:', error.response?.data);
+          console.error('Status code:', error.response?.status);
+          console.error('Headers:', error.response?.headers);
+        }
         setIsButtonLoading(false);
         return false;
       }

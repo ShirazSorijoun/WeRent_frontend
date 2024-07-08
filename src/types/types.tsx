@@ -64,7 +64,6 @@ export const defaultApartment: ApartmentProps = {
 };
 
 export type TenantFormProps = {
-  owner: string;
   rentalAgreement: 'Yes' | 'No';
   rentalAgreementComments?: string;
   propertyInformation: 'Yes' | 'No';
