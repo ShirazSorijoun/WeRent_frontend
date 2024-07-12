@@ -360,55 +360,54 @@ const UserProfile: React.FC = () => {
               </Button>
             </Card.Body>
           </Card>
-          {userProfile?.roles === 'owner' && (
-            <Card
+
+          <Card
+            style={{
+              width: '700px',
+              height: '45%',
+              display: 'flex',
+              margin: 'auto',
+              marginTop: '30px',
+            }}
+          >
+            <Card.Header
               style={{
-                width: '700px',
-                height: '45%',
                 display: 'flex',
-                margin: 'auto',
-                marginTop: '30px',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              <Card.Header
+              <h5 style={{ fontWeight: 'bold' }}>My apartments</h5>
+            </Card.Header>
+
+            <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
+              <div
+                className="card-body"
                 style={{
+                  overflow: 'auto',
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  marginRight: '10px',
                 }}
               >
-                <h5 style={{ fontWeight: 'bold' }}>My apartments</h5>
-              </Card.Header>
-
-              <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
-                <div
-                  className="card-body"
-                  style={{
-                    overflow: 'auto',
-                    display: 'flex',
-                    marginRight: '10px',
-                  }}
-                >
-                  {userProfile ? (
-                    userApartments?.length > 0 ? (
-                      <>
-                        {userApartments.map((apartment) => (
-                          <UserApartmentCard
-                            apartment={apartment}
-                            key={apartment._id}
-                          />
-                        ))}
-                      </>
-                    ) : (
-                      <h3>No posts found</h3>
-                    )
+                {userProfile ? (
+                  userApartments?.length > 0 ? (
+                    <>
+                      {userApartments.map((apartment) => (
+                        <UserApartmentCard
+                          apartment={apartment}
+                          key={apartment._id}
+                        />
+                      ))}
+                    </>
                   ) : (
-                    <h3>Loading...</h3>
-                  )}
-                </div>
-              </Card.Body>
-            </Card>
-          )}
+                    <h3>No posts found</h3>
+                  )
+                ) : (
+                  <h3>Loading...</h3>
+                )}
+              </div>
+            </Card.Body>
+          </Card>
         </div>
       </div>
       {/* Alert for success */}

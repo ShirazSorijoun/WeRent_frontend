@@ -28,7 +28,7 @@ export const AllUsersAdminPage: React.FC = () => {
 
       try {
         const allUsers = await api.user.getAllUsers();
-        const filteredUsers = allUsers.filter((user) => user.roles !== 'admin');
+        const filteredUsers = allUsers.filter((user) => !user.isAdmin);
         setUsers(filteredUsers);
       } catch (error) {
         console.log('Error fetching users');
@@ -45,7 +45,6 @@ export const AllUsersAdminPage: React.FC = () => {
         id: user._id,
         Name: user.name,
         Email: user.email,
-        Role: user.roles,
       })),
     [users],
   );
@@ -152,7 +151,6 @@ export const AllUsersAdminPage: React.FC = () => {
                       <TableCell align="center">{row.Name}</TableCell>
                       <TableCell align="center">{row.id}</TableCell>
                       <TableCell align="center">{row.Email}</TableCell>
-                      <TableCell align="center">{row.Role}</TableCell>
                     </TableRow>
                   );
                 })}

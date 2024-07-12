@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import icon from '@/assets/LOGO WeRent2.jpeg';
-import { UserRole } from '@/models';
 import React from 'react';
 import { useAuth } from '@/common/hooks';
 
+const isAdmin = false;
 export const Navbar: React.FC = () => {
-  const { isLoggedIn, logout, roles } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -28,17 +28,16 @@ export const Navbar: React.FC = () => {
             <Link to="/rent" className="page">
               Rent properties
             </Link>
-            {roles === UserRole.Owner && (
-              <Link to="/addApartment" className="page">
-                Add apartment
-              </Link>
-            )}
-            {roles !== UserRole.Admin && (
-              <Link to="/profile" className="page">
-                Profile
-              </Link>
-            )}
-            {roles == UserRole.Admin && (
+            {!isAdmin ? (
+              <>
+                <Link to="/addApartment" className="page">
+                  Add apartment
+                </Link>
+                <Link to="/profile" className="page">
+                  Profile
+                </Link>
+              </>
+            ) : (
               <Link to="/users" className="page">
                 Private Area
               </Link>

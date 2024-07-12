@@ -1,16 +1,10 @@
-export enum UserRole {
-  Admin = 'admin',
-  Owner = 'owner',
-  Tenant = 'tenant',
-}
-
 export interface IUserData {
   name: string;
   email: string;
   password: string;
-  roles?: UserRole;
   profile_image?: string;
   advertisedApartments?: string[];
+  isAdmin?: boolean;
 }
 
 export interface IUser extends IUserData {
@@ -35,3 +29,5 @@ export interface UpdateOwnProfileData {
   password?: string;
   profile_image?: string;
 }
+
+export const googleDefaultPass = 'sign by google';

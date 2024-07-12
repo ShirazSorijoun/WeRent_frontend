@@ -31,11 +31,9 @@ export const useHandleLogin = (): IUseHandleLogin => {
     localStorage.setItem('refreshToken', data.token.refreshToken);
     localStorage.setItem('userId', data.userId);
 
-    if (!data.userRole) {
+    if (data.isNeedPass) {
       navigate('/changePassword');
     } else {
-      localStorage.setItem('roles', data.userRole);
-      console.log('roles', localStorage.getItem('roles'));
       toast.success('successfully login');
       setIsButtonLoading(false);
       login();

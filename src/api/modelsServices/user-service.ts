@@ -7,14 +7,20 @@ const USER_API_KEY = '/user';
 const getUserById = async (userId: string): Promise<IUserData> => {
   const response = await axiosInstance.get(`${USER_API_KEY}/id/${userId}`);
 
-  const { name, email, password, roles, profile_image, advertisedApartments } =
-    response.data;
+  const {
+    name,
+    email,
+    password,
+    profile_image,
+    advertisedApartments,
+    isAdmin,
+  } = response.data;
 
   return {
     name,
     email,
     password,
-    roles,
+    isAdmin,
     advertisedApartments,
     profile_image,
   };
@@ -43,12 +49,6 @@ const deleteUser = async (userId: string): Promise<void> => {
   await axiosInstance.get(`${USER_API_KEY}/delete/${userId}`);
 };
 
-const changeRole = async (role: string): Promise<void> => {
-  await axiosInstance.patch(`${USER_API_KEY}/changeRole`, {
-    role,
-  });
-};
-
 export const userAPI = {
   getUserById,
   getUserApartments,
@@ -56,5 +56,4 @@ export const userAPI = {
   checkOldPassword,
   getAllUsers,
   deleteUser,
-  changeRole,
 };

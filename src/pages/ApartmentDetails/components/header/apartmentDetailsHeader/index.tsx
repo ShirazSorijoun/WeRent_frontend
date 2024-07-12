@@ -16,14 +16,14 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
   apartmentId,
   isCreatedByUser,
 }) => {
-  const [userRole, setUserRole] = useState<string>('');
+  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
   const fetchUserData = useCallback(async () => {
     try {
       const userData = await api.user.getUserById(
         localStorage.getItem('userId') || '',
       );
-      setUserRole(userData?.roles ?? '');
+      setIsUserAdmin(!!userData?.isAdmin);
     } catch (error) {
       console.error('Error fetching user data', error);
     }
@@ -49,7 +49,7 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
         <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
       )}
       <ApartmentTamaWarning apartmentId={apartmentId} />
-      {isCreatedByUser || userRole === 'admin' ? (
+      {isCreatedByUser || isUserAdmin ? (
         <ApartmentDeleteButton apartmentId={apartmentId} />
       ) : (
         <h1 style={{ height: '40px' }}></h1>
