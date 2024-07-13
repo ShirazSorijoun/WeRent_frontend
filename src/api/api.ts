@@ -7,6 +7,7 @@ import {
   fileAPI,
 } from './modelsServices';
 import { tenantFormAPI } from './modelsServices/form-service';
+import { leaseAgreementAPI } from './modelsServices/leaseAgreement-service';
 import { serverURL } from './apiUtils';
 import { handleLocalStorageLogout } from '@/utils/auth';
 import swal from 'sweetalert';
@@ -31,6 +32,7 @@ export const api = {
   user: userAPI,
   file: fileAPI,
   tenantForm: tenantFormAPI,
+  leaseAgreement: leaseAgreementAPI,
 };
 
 const refreshAccessToken = async (

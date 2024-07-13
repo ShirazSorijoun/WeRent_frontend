@@ -84,3 +84,54 @@ export type TenantFormProps = {
   updatedAt?: Date;
 };
 
+
+export type LeaseAgreementFormProps = {
+  _id?: string;
+  date_dayOfTheMonth: number;
+  date_month: number;
+  date_year: number;
+
+  ownerId?: string;
+  ownerName: string;
+  ownerIDNumber: string;
+  ownerStreet: string;
+  ownerCity: string;
+
+  tenantId?: string;
+  tenantName: string;
+  tenantIDNumber: string;
+  tenantStreet: string;
+  tenantCity: string;
+
+  apartmentId?: string;
+  apartmentNumberOfRooms: number;
+  apartmentFloorNumber: number;
+  apartmentStreet: string;
+  apartmentCity: string;
+
+  numOfRentalMonths: number;
+  startDate: string;
+  endDate: string;
+  rentalPricePerMonth: number;
+  dayOfTheMonthForPayment: number;
+  paymentMethod: string;
+
+  nameOfBank?: string;
+  bankAccountNumber?: string;
+  bankBranch?: string;
+
+  optionPeriod: string;
+  optionPeriodLength?: number;
+  maxPercentageIncrease?: number;
+  maxNumOfMonthsIncludeOptionPeriod?: number;
+  numOfDaysForRepair: number;
+  subtenant: string;
+  numOfDaysPaymentDelay: number;
+
+  promissoryNote: string;
+  promissoryNoteAmount?: number;
+  letterOfGuarantee: string;
+  guarantee?: string;
+  guaranteeAmount?: number;
+  animal: string;
+};

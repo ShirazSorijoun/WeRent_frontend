@@ -9,6 +9,7 @@ import { api } from '@/api';
 import { useGetImageUrlFromName } from '@/common/hooks';
 import { UserApartmentCard } from './components';
 import { TenantFormDialog } from '@/components/TenantForm';
+import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
 
 const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
 const UserProfile: React.FC = () => {
@@ -168,6 +169,17 @@ const UserProfile: React.FC = () => {
         {/* Button to trigger the TenantForm dialog */}
         <Button onClick={openDialog}>Open Tenant Form</Button>
         <TenantFormDialog
+          isOpen={dialogOpen}
+          handleCancel={closeDialog}
+          completeSave={() => {
+            closeDialog();
+          }}
+        />
+      </div>
+      <div>
+        {/* Button to trigger the LeaseAgreementForm dialog */}
+        <Button onClick={openDialog}>Open Lease Agreement Form</Button>
+        <LeaseAgreementFormDialog
           isOpen={dialogOpen}
           handleCancel={closeDialog}
           completeSave={() => {
