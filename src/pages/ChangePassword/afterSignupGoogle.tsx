@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Alert, Button, Card, Dropdown } from 'react-bootstrap';
+import { Alert, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
-import { useAuth } from '@/common/hooks';
+import { useAppDispatch } from '@/hooks/store';
+import { userLogin } from '@/stores/user';
 
 export const ChangePassword = () => {
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
@@ -22,23 +22,16 @@ export const ChangePassword = () => {
         setPasswordError(null);
       }
 
-      await api.user.updateOwnProfile({ password: password });
-      await api.user.changeRole(role);
-      localStorage.setItem('roles', role);
+      const userId: string = await api.user.updateOwnProfile({ password });
 
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
       console.log('Password updated successfully!');
-      login();
+      await dispatch(userLogin(userId));
       navigate('/');
     } catch (error) {
       console.log('fail change password');
     }
-  };
-
-  const handleRoleChange = (item: string) => {
-    setRole(item);
-    console.log(item);
   };
 
   return (
@@ -77,29 +70,6 @@ export const ChangePassword = () => {
               {passwordError && <p className="text-danger">{passwordError}</p>}
             </div>
 
-            {/* Dropdown for selecting role */}
-            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
-              <Dropdown>
-                <Dropdown.Toggle variant="light" id="dropdown-basic">
-                  {role || 'Select Role'}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    onClick={() => handleRoleChange('owner')}
-                    href="#"
-                  >
-                    Owner
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => handleRoleChange('tenant')}
-                    href="#"
-                  >
-                    Tenant
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
             <div style={{ marginTop: '20px' }}></div>
             <Button
               style={{

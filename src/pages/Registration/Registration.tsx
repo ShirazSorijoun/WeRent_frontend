@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import './Registration.css';
 import { ChangeEvent, useRef, useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
 import img from '../../assets/img.jpg';
 import UserVactor from '../../assets/user_vector.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,10 +10,12 @@ import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import './Registration.css';
 import { useNavigate } from 'react-router';
 import { Alert } from 'react-bootstrap';
-import { UserRole, IUser, IRegister } from '@/models';
+import { IUser, IRegister } from '@/models';
 import { api } from '@/api';
 import { ILoginResponse } from '@/models/login';
-import { useAuth } from '@/common/hooks';
+import { useAppDispatch } from '@/hooks/store';
+import { userLogin } from '@/stores/user';
+import { handleLocalStorageLogin } from '@/utils/auth';
 
 const schema = z.object({
   name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
@@ -26,9 +27,7 @@ const schema = z.object({
 
 export const RegistrationPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [imgSrc, setImgSrc] = useState<File>();
-  const [selectedItem, setSelectedItem] = useState<string>('User type');
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState<IRegister>({
@@ -37,12 +36,8 @@ export const RegistrationPage = () => {
     password: '',
   });
 
-  const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-    console.log(item);
-  };
+  const dispatch = useAppDispatch();
 
-  let newSelectedItem: UserRole;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -67,32 +62,18 @@ export const RegistrationPage = () => {
   };
 
   const logUserAfterRegister = async (data: ILoginResponse) => {
-    console.log('User logged in');
+    handleLocalStorageLogin(data);
 
-    localStorage.setItem('accessToken', data.token.accessToken);
-    localStorage.setItem('refreshToken', data.token.refreshToken);
-    localStorage.setItem('userId', data.userId);
-
-    if (!data.userRole) {
+    if (!data.isNeedPass) {
       navigate('/changePassword');
     } else {
-      localStorage.setItem('roles', data.userRole);
-      console.log('roles', localStorage.getItem('roles'));
-
-      login();
+      await dispatch(userLogin(data.userId));
       navigate('/');
     }
   };
 
   const onRegister = async () => {
     console.log('Registering...');
-    // Check if the user selected a role
-    if (selectedItem === 'User type') {
-      setFormErrors({
-        role: 'Please choose a role (Owner or Tenant)',
-      });
-      return;
-    }
 
     try {
       schema.parse(formData);
@@ -124,15 +105,10 @@ export const RegistrationPage = () => {
       emailInputRef.current?.value &&
       passwordInputRef.current?.value
     ) {
-      if (selectedItem === 'Owner') newSelectedItem = UserRole.Owner;
-      if (selectedItem === 'Tenant') newSelectedItem = UserRole.Tenant;
-      console.log(url);
-
       const user: IUser = {
         name: nameInputRef.current?.value,
         email: emailInputRef.current?.value,
         password: passwordInputRef.current?.value,
-        roles: newSelectedItem,
         profile_image: url,
         tokens: [],
       };
@@ -225,32 +201,6 @@ export const RegistrationPage = () => {
               placeholder="Profile Picture"
               onChange={onImgSelected}
             />
-
-            <Dropdown>
-              <Dropdown.Toggle variant="light" id="dropdown-basic">
-                {selectedItem}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  onClick={() => handleItemClick('Owner')}
-                  href="#"
-                >
-                  Owner
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => handleItemClick('Tenant')}
-                  href="#"
-                >
-                  Tenant
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            {formErrors.role && (
-              <p className="text-danger">{formErrors.role}</p>
-            )}
-
             <input
               ref={nameInputRef}
               type="text"

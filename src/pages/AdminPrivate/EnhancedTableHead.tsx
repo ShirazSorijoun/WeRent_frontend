@@ -6,7 +6,6 @@ import TableRow from '@mui/material/TableRow';
 interface Data {
   id: string;
   email: string;
-  role: string;
   name: string;
 }
 
@@ -35,12 +34,6 @@ const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: 'Email',
-  },
-  {
-    id: 'role',
-    numeric: true,
-    disablePadding: false,
-    label: 'Role',
   },
 ];
 
