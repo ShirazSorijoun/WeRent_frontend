@@ -9,12 +9,8 @@ import {
   UserChangePassword,
   UserDetails,
 } from './components';
-import { selectUser } from '@/stores/user';
-import { useAppSelector } from '@/hooks/store';
 
 const UserProfile: React.FC = () => {
-  const userData = useAppSelector(selectUser);
-
   const [tenantDialogOpen, setTenantDialogOpen] = useState(false);
   const openTenantDialog = () => {
     setTenantDialogOpen(true);
@@ -78,10 +74,10 @@ const UserProfile: React.FC = () => {
         />
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <UserDetails userData={userData} />
+        <UserDetails />
 
         <div style={{ marginTop: '30px', marginBottom: '20px' }}>
-          <UserChangePassword userData={userData} />
+          <UserChangePassword />
 
           <UserApartmentsContainer />
         </div>

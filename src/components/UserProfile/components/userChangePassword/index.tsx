@@ -1,18 +1,11 @@
 import { api } from '@/api';
 import { useAppDispatch } from '@/hooks/store';
-import { IUserData } from '@/models';
 import { updateUser } from '@/stores/user';
 import React, { useState } from 'react';
 import { Card, Button, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-interface IUserChangePasswordProps {
-  userData: IUserData;
-}
-
-export const UserChangePassword: React.FC<IUserChangePasswordProps> = ({
-  userData,
-}) => {
+export const UserChangePassword: React.FC = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,15 +23,13 @@ export const UserChangePassword: React.FC<IUserChangePasswordProps> = ({
       } else {
         setPasswordError(null);
       }
-      const isValid = await api.user.checkOldPassword(oldPassword);
+      const newPassHash = await api.user.updateUserPass(
+        oldPassword,
+        newPassword,
+      );
 
-      if (isValid) {
-        await api.user.updateOwnProfile({
-          ...userData,
-          password: newPassword,
-        });
-
-        dispatch(updateUser({ password: newPassword }));
+      if (newPassHash) {
+        dispatch(updateUser({ password: newPassHash }));
 
         setPasswordError2(null);
         toast.success('Password changed successfully!');
