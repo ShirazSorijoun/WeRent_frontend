@@ -1,14 +1,13 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { useGetImageUrlFromName } from '@/common/hooks';
-import { IUserData } from '@/models';
 import { UserEditButton } from '../editUser';
+import { useAppSelector } from '@/hooks/store';
+import { selectUser } from '@/stores/user';
 
-interface IUserDetailsProps {
-  userData: IUserData;
-}
+export const UserDetails: React.FC = () => {
+  const userData = useAppSelector(selectUser);
 
-export const UserDetails: React.FC<IUserDetailsProps> = ({ userData }) => {
   const profileImage = useGetImageUrlFromName(userData?.profile_image);
 
   return (

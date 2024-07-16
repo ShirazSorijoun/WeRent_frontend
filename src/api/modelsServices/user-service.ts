@@ -36,12 +36,16 @@ const updateOwnProfile = async (user: UpdateOwnProfileData): Promise<string> =>
     })
   ).data;
 
-const checkOldPassword = async (oldPassword: string): Promise<boolean> =>
-  !!(
-    await axiosInstance.post(`${USER_API_KEY}/checkOldPassword`, {
+const updateUserPass = async (
+  oldPassword: string,
+  newPassword: string,
+): Promise<string> =>
+  (
+    await axiosInstance.post(`${USER_API_KEY}/updateUserPass`, {
       oldPassword,
+      newPassword,
     })
-  ).data.isValid;
+  ).data;
 
 const getAllUsers = async (): Promise<IUser[]> =>
   (await axiosInstance.get(USER_API_KEY)).data;
@@ -54,7 +58,7 @@ export const userAPI = {
   getUserById,
   getUserApartments,
   updateOwnProfile,
-  checkOldPassword,
+  updateUserPass,
   getAllUsers,
   deleteUser,
 };
