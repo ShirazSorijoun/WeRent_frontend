@@ -13,7 +13,9 @@ import { Alert } from 'react-bootstrap';
 import { IUser, IRegister } from '@/models';
 import { api } from '@/api';
 import { ILoginResponse } from '@/models/login';
-import { useAuth } from '@/common/hooks';
+import { useAppDispatch } from '@/hooks/store';
+import { userLogin } from '@/stores/user';
+import { handleLocalStorageLogin } from '@/utils/auth';
 
 const schema = z.object({
   name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
@@ -25,7 +27,6 @@ const schema = z.object({
 
 export const RegistrationPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [imgSrc, setImgSrc] = useState<File>();
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState(false);
@@ -34,6 +35,8 @@ export const RegistrationPage = () => {
     email: '',
     password: '',
   });
+
+  const dispatch = useAppDispatch();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -59,16 +62,12 @@ export const RegistrationPage = () => {
   };
 
   const logUserAfterRegister = async (data: ILoginResponse) => {
-    console.log('User logged in');
-
-    localStorage.setItem('accessToken', data.token.accessToken);
-    localStorage.setItem('refreshToken', data.token.refreshToken);
-    localStorage.setItem('userId', data.userId);
+    handleLocalStorageLogin(data);
 
     if (!data.isNeedPass) {
       navigate('/changePassword');
     } else {
-      login();
+      await dispatch(userLogin(data.userId));
       navigate('/');
     }
   };

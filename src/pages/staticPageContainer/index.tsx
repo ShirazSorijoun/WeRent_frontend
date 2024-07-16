@@ -1,16 +1,45 @@
-import { FC } from 'react';
-import { Outlet } from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { Outlet, redirect } from 'react-router-dom';
 import { Footer, Navbar } from './components';
-import { AuthProvider } from '@@/authProvider';
+import { useAppDispatch } from '@/hooks/store';
+import { ACCESS_TOKEN, api } from '@/api/api';
+import { logout, userLogin } from '@/stores/user';
 
 export const StaticPageContainer: FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const startEffect = async () => {
+      if (localStorage.getItem('isLoggedIn') === 'true') {
+        const userId = localStorage.getItem('userId');
+        if (
+          !!localStorage.getItem('accessToken') &&
+          !!localStorage.getItem('refreshToken') &&
+          !!userId
+        ) {
+          const accessToken = localStorage.getItem(ACCESS_TOKEN);
+          const isTokenValid = accessToken
+            ? await api.auth.checkToken(accessToken)
+            : false;
+          if (isTokenValid) {
+            await dispatch(userLogin(userId));
+          } else {
+            dispatch(logout());
+          }
+        }
+      } else {
+        redirect('/login');
+      }
+    };
+
+    startEffect();
+  }, [dispatch]);
+
   return (
     <>
-      <AuthProvider>
-        <Navbar />
-        <Outlet />
-        <Footer />
-      </AuthProvider>
+      <Navbar />
+      <Outlet />
+      <Footer />
     </>
   );
 };

@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Alert, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
-import { useAuth } from '@/common/hooks';
+import { useAppDispatch } from '@/hooks/store';
+import { userLogin } from '@/stores/user';
 
 export const ChangePassword = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
@@ -21,12 +22,12 @@ export const ChangePassword = () => {
         setPasswordError(null);
       }
 
-      await api.user.updateOwnProfile({ password });
+      const userId: string = await api.user.updateOwnProfile({ password });
 
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
       console.log('Password updated successfully!');
-      login();
+      await dispatch(userLogin(userId));
       navigate('/');
     } catch (error) {
       console.log('fail change password');

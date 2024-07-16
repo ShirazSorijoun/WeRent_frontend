@@ -29,11 +29,12 @@ const getUserById = async (userId: string): Promise<IUserData> => {
 const getUserApartments = async (): Promise<ApartmentProps[]> =>
   (await axiosInstance.get(`${USER_API_KEY}/apartments`)).data;
 
-const updateOwnProfile = async (user: UpdateOwnProfileData): Promise<void> => {
-  await axiosInstance.patch(`${USER_API_KEY}/updateOwnProfile`, {
-    user,
-  });
-};
+const updateOwnProfile = async (user: UpdateOwnProfileData): Promise<string> =>
+  (
+    await axiosInstance.patch(`${USER_API_KEY}/updateOwnProfile`, {
+      user,
+    })
+  ).data;
 
 const checkOldPassword = async (oldPassword: string): Promise<boolean> =>
   !!(

@@ -2,15 +2,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import icon from '@/assets/LOGO WeRent2.jpeg';
 import React from 'react';
-import { useAuth } from '@/common/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/store';
+import { logout, selectIsUserAdmin, selectIsUserLoggedIn } from '@/stores/user';
 
-const isAdmin = false;
 export const Navbar: React.FC = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsUserLoggedIn);
+  const isAdmin = useAppSelector(selectIsUserAdmin);
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     navigate('/');
   };
 

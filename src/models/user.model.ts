@@ -7,6 +7,9 @@ export interface IUserData {
   isAdmin?: boolean;
 }
 
+export interface StoreUser extends IUserData {
+  userId: string;
+}
 export interface IUser extends IUserData {
   _id?: string;
   accessToken?: string;

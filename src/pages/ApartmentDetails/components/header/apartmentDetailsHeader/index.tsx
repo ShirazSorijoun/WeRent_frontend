@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { Card } from 'react-bootstrap';
 import { ApartmentDeleteButton } from '../apartmentDeleteButton';
 import { ApartmentEditButton } from '../apartmentEditButton';
-import { api } from '@/api';
 import { ApartmentTamaWarning } from '../apartmentTamaWarning';
+import { useAppSelector } from '@/hooks/store';
+import { selectIsUserAdmin } from '@/stores/user';
 
 interface IApartmentDetailsHeaderProps {
   refreshApartmentDisplay: () => Promise<void>;
@@ -16,22 +17,7 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
   apartmentId,
   isCreatedByUser,
 }) => {
-  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
-
-  const fetchUserData = useCallback(async () => {
-    try {
-      const userData = await api.user.getUserById(
-        localStorage.getItem('userId') || '',
-      );
-      setIsUserAdmin(!!userData?.isAdmin);
-    } catch (error) {
-      console.error('Error fetching user data', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
+  const isAdmin = useAppSelector(selectIsUserAdmin);
 
   return (
     <Card.Header
@@ -49,7 +35,7 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
         <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
       )}
       <ApartmentTamaWarning apartmentId={apartmentId} />
-      {isCreatedByUser || isUserAdmin ? (
+      {isCreatedByUser || isAdmin ? (
         <ApartmentDeleteButton apartmentId={apartmentId} />
       ) : (
         <h1 style={{ height: '40px' }}></h1>

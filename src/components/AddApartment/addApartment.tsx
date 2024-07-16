@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import z from 'zod';
 import './addApartment.css';
 import { ApartmentProps } from '../../types/types';
 import Uploader from '../Uploader/uploader';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
+import { useAppSelector } from '@/hooks/store';
+import { selectUser } from '@/stores/user';
 
 type ChangeEventTypes =
   | ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -74,28 +76,7 @@ const AddApartment: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [userData, setUserData] = useState<{
-    name: string;
-    email: string;
-  } | null>(null);
-
-  const fetchUserData = async () => {
-    const userId = localStorage.getItem('userId');
-
-    if (!userId) {
-      console.error('User ID not found in local storage');
-      return;
-    }
-
-    try {
-      const response = await api.user.getUserById(userId);
-      const name = response.name;
-      const email = response.email;
-      setUserData({ name, email });
-    } catch (error) {
-      console.error('Error submitting aparment:', error);
-    }
-  };
+  const userData = useAppSelector(selectUser);
 
   const handleNextStep = async () => {
     if (currentStep === 2) {
@@ -120,10 +101,6 @@ const AddApartment: React.FC = () => {
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   const handlePrevStep = () => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
@@ -586,7 +563,7 @@ const AddApartment: React.FC = () => {
                           className="form-control"
                           id="name"
                           name="name"
-                          value={userData?.name || ''}
+                          value={userData.name || ''}
                           readOnly
                           style={{ color: 'gray' }}
                         />
@@ -600,7 +577,7 @@ const AddApartment: React.FC = () => {
                           className="form-control"
                           id="email"
                           name="email"
-                          value={userData?.email || ''}
+                          value={userData.email || ''}
                           readOnly
                           style={{ color: 'gray' }}
                         />

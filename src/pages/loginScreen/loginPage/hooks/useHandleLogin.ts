@@ -5,7 +5,9 @@ import { LoginFormData } from '../../loginFormBody/formUtils';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { ILoginResponse } from '@/models/login';
-import { useAuth } from '@/common/hooks';
+import { useAppDispatch } from '@/hooks/store';
+import { handleLocalStorageLogin } from '@/utils/auth';
+import { userLogin } from '@/stores/user';
 
 interface IUseHandleLogin {
   handleValidFormData: (formData: LoginFormData) => Promise<void>;
@@ -18,25 +20,20 @@ interface IUseHandleLogin {
 }
 
 export const useHandleLogin = (): IUseHandleLogin => {
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
 
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const onLoginSuccess = async (data: ILoginResponse) => {
-    console.log('User logged in');
-
-    localStorage.setItem('accessToken', data.token.accessToken);
-    localStorage.setItem('refreshToken', data.token.refreshToken);
-    localStorage.setItem('userId', data.userId);
-
+    handleLocalStorageLogin(data);
     if (data.isNeedPass) {
       navigate('/changePassword');
     } else {
+      await dispatch(userLogin(data.userId));
       toast.success('successfully login');
       setIsButtonLoading(false);
-      login();
       navigate('/');
     }
   };
