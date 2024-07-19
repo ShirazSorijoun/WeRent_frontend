@@ -3,10 +3,9 @@ import { Control } from 'react-hook-form';
 import {
   tenantQuestionnaireFormDataObject,
   ETenantQuestionnaireFields,
-  booleanSelectFieldValues,
 } from '../formUtils';
 import { EBasicFieldType } from '@/models/forms';
-import { BasicFieldController, ControlledSelect } from '@@/common/formFields';
+import { BasicFieldController } from '@@/common/formFields';
 
 interface IFormTenantFormBodyProps {
   control: Control<any>;
@@ -17,15 +16,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
 }) => {
   return (
     <>
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RENTAL_AGREEMENT
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -36,15 +35,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_INFORMATION
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -55,15 +54,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -74,15 +73,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.QUESTIONS_ADDRESSED
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -93,15 +92,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PROPERTY_CONDITION
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -112,15 +111,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RECEIVED_INFORMATION
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}
@@ -140,15 +139,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <ControlledSelect
-        valuesArray={booleanSelectFieldValues}
+      <BasicFieldController
         control={control}
+        type={EBasicFieldType.boolean}
+        otherProps={{ noPlaceHolder: true }}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.MAINTENANCE_REQUESTS
           ]
         }
-        noPlaceHolder
       />
       <BasicFieldController
         control={control}

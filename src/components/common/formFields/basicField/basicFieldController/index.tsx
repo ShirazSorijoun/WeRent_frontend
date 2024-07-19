@@ -9,6 +9,7 @@ import { ControlledBasicTextField } from '../controlledBasicTextField';
 import { ControlledCoordinateInput } from '../controlledCoordinateInput';
 import { ControlledDate } from '../controlledDate';
 import { ControlledRating } from '../controlledRating';
+import { ControlledBoolean } from '../controlledBoolean';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
@@ -31,7 +32,10 @@ const fieldsMap: Partial<
   [EBasicFieldType.multiLineText]: ControlledBasicTextField,
   [EBasicFieldType.coordinate]: ControlledCoordinateInput,
   [EBasicFieldType.rating]: ControlledRating,
+  [EBasicFieldType.boolean]: ControlledBoolean,
 };
+
+const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];
 
 export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   type = EBasicFieldType.text,
@@ -49,7 +53,7 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
 
   return (
     <Grid container direction="column">
-      {!hideTitle && (
+      {!hideTitle && !typesWithOutLabel.includes(type) && (
         <Grid item>
           <Typography>{fieldProps.fieldData.label}</Typography>
         </Grid>
