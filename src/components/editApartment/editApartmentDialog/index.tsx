@@ -25,20 +25,22 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
   completeSave,
   isOpen,
 }) => {
+  const { handleSubmit, control, reset, setError } =
+    useForm<EditApartmentFormData>({
+      resolver: zodResolver(schema),
+      defaultValues: defaultFormValues,
+      resetOptions: {
+        keepDirtyValues: false,
+        keepErrors: true,
+      },
+    });
+
   const {
     getApartmentForForm,
     handleSave,
     handleWrongFormData,
     isButtonLoading,
-  } = useEditApartment();
-
-  const { handleSubmit, control, reset } = useForm<EditApartmentFormData>({
-    resolver: zodResolver(schema),
-    defaultValues: defaultFormValues,
-    resetOptions: {
-      keepDirtyValues: false,
-    },
-  });
+  } = useEditApartment(setError);
 
   useEffect(() => {
     const func = async () => {
@@ -103,6 +105,7 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
           <span>save</span>
         </LoadingButton>
       </DialogActions>
+      <div id="map" />
     </Dialog>
   );
 };

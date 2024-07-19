@@ -1,10 +1,12 @@
 import { api } from '@/api';
+import { addressAPIData } from '@/models/adressCheck';
 import { ApartmentProps } from '@/types/types';
 import {
   EEditApartmentFields,
   EditApartmentFormData,
 } from '@@/editApartment/formUtils';
 import { useCallback, useState } from 'react';
+import { UseFormSetError } from 'react-hook-form';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -16,7 +18,9 @@ interface IUseEditApartment {
   isButtonLoading: boolean;
 }
 
-export const useEditApartment = (): IUseEditApartment => {
+export const useEditApartment = (
+  setFormError: UseFormSetError<EditApartmentFormData>,
+): IUseEditApartment => {
   const { apartmentId } = useParams();
 
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
@@ -44,13 +48,38 @@ export const useEditApartment = (): IUseEditApartment => {
 
   const handleSave = useCallback(
     async (editableApartment: EditApartmentFormData): Promise<boolean> => {
+      let coordinatesRes: addressAPIData;
+      try {
+        coordinatesRes = await api.apartment.getAddressCoordinates(
+          `${editableApartment[EEditApartmentFields.ADDRESS]} ${editableApartment[EEditApartmentFields.CITY]}`,
+        );
+      } catch (error) {
+        const errorMsg = 'city or street are not valid';
+        setFormError(EEditApartmentFields.ADDRESS, {
+          type: 'manual',
+          message: errorMsg,
+        });
+        setFormError(EEditApartmentFields.CITY, {
+          type: 'manual',
+          message: errorMsg,
+        });
+        return false;
+      }
+
       setIsButtonLoading(true);
       try {
         if (apartmentId) {
-          await api.apartment.updateApartment(
-            apartmentId,
-            editableApartment as ApartmentProps,
-          );
+          const apartmentToSend = {
+            ...editableApartment,
+          } as ApartmentProps;
+
+          if (coordinatesRes) {
+            apartmentToSend.coordinate = {
+              lat: coordinatesRes.X,
+              lng: coordinatesRes.Y,
+            };
+          }
+          await api.apartment.updateApartment(apartmentId, apartmentToSend);
         }
 
         setIsButtonLoading(false);
