@@ -25,6 +25,10 @@ export type ApartmentProps = {
   };
   description?: string;
   phone?: string;
+  coordinate?: {
+    lng: number;
+    lat: number;
+  };
 };
 
 export type ReviewProps = {
@@ -83,7 +87,6 @@ export type TenantFormProps = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
 
 export type LeaseAgreementFormProps = {
   _id?: string;
