@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IControlledSelectArray, IFormField } from '@/models/forms';
+import { IFormField, zodOfBoolean } from '@/models/forms';
 
 export enum ETenantQuestionnaireFields {
   RENTAL_AGREEMENT = 'rentalAgreement',
@@ -95,35 +95,30 @@ export const tenantQuestionnaireFormDataObject: Record<
   },
 };
 
-export const booleanSelectFieldValues: IControlledSelectArray = [
-  { display: 'Yes', value: 'Yes' },
-  { display: 'No', value: 'No' },
-];
-
 //validation
 export const schema = z.object({
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: zodOfBoolean,
   [ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: z.string().optional(),
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: zodOfBoolean,
   [ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: zodOfBoolean,
   [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: zodOfBoolean,
   [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: zodOfBoolean,
   [ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: zodOfBoolean,
   [ETenantQuestionnaireFields.TRANSITION_PROBLEMS]: z.string().optional(),
   [ETenantQuestionnaireFields.SATISFACTION_RATING]: z.number().min(1).max(5),
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: z.enum(['Yes', 'No']),
+  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: zodOfBoolean,
   [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: z
     .string()
     .optional(),

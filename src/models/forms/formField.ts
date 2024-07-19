@@ -17,4 +17,5 @@ export enum EBasicFieldType {
   multiLineText = 'multiLineText',
   coordinate = 'coordinate',
   rating = 'rating',
+  boolean = 'boolean',
 }

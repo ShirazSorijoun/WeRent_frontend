@@ -9,122 +9,53 @@ import { ControlledBasicTextField } from '../controlledBasicTextField';
 import { ControlledCoordinateInput } from '../controlledCoordinateInput';
 import { ControlledDate } from '../controlledDate';
 import { ControlledRating } from '../controlledRating';
+import { ControlledBoolean } from '../controlledBoolean';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
   hideTitle?: boolean;
 }
 
+const extraProps: Partial<Record<EBasicFieldType, any>> = {
+  [EBasicFieldType.float]: { step: 0.01 },
+  [EBasicFieldType.multiLineText]: { isMultiline: true },
+};
+
+const fieldsMap: Partial<
+  Record<EBasicFieldType, React.FC<IControlledBasicFieldTypeProps>>
+> = {
+  [EBasicFieldType.dateTime]: ControlledDateTime,
+  [EBasicFieldType.date]: ControlledDate,
+  [EBasicFieldType.float]: ControlledIntField,
+  [EBasicFieldType.int]: ControlledIntField,
+  [EBasicFieldType.textArray]: ControlledTextArray,
+  [EBasicFieldType.multiLineText]: ControlledBasicTextField,
+  [EBasicFieldType.coordinate]: ControlledCoordinateInput,
+  [EBasicFieldType.rating]: ControlledRating,
+  [EBasicFieldType.boolean]: ControlledBoolean,
+};
+
+const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];
+
 export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
-  fieldData,
-  control,
-  sxStyle,
-  isWithLabel = false,
-  otherProps,
   type = EBasicFieldType.text,
   hideTitle = false,
+  ...fieldProps
 }) => {
   const componentToUse = useMemo(() => {
-    switch (type) {
-      case EBasicFieldType.dateTime:
-        return (
-          <ControlledDateTime
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-          />
-        );
-      case EBasicFieldType.date:
-        return (
-          <ControlledDate
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-          />
-        );
-      case EBasicFieldType.float:
-        return (
-          <ControlledIntField
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-            step={0.01}
-          />
-        );
-      case EBasicFieldType.int:
-        return (
-          <ControlledIntField
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-          />
-        );
-      case EBasicFieldType.textArray:
-        return (
-          <ControlledTextArray
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-          />
-        );
-      case EBasicFieldType.multiLineText:
-        return (
-          <ControlledBasicTextField
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-            isMultiline
-          />
-        );
-      case EBasicFieldType.coordinate:
-        return (
-          <ControlledCoordinateInput
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-          />
-        );
-      case EBasicFieldType.rating:
-        return (
-          <ControlledRating
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-          />
-        );
-      default:
-        return (
-          <ControlledBasicTextField
-            control={control}
-            fieldData={fieldData}
-            sxStyle={sxStyle}
-            isWithLabel={isWithLabel}
-            otherProps={otherProps}
-            type={type}
-          />
-        );
-    }
-  }, [control, fieldData, isWithLabel, otherProps, sxStyle, type]);
+    const Element = fieldsMap[type];
+    return Element ? (
+      <Element {...fieldProps} {...extraProps[type]} />
+    ) : (
+      <ControlledBasicTextField {...fieldProps} type={type} />
+    );
+  }, [fieldProps, type]);
 
   return (
     <Grid container direction="column">
-      {!hideTitle && (
+      {!hideTitle && !typesWithOutLabel.includes(type) && (
         <Grid item>
-          <Typography>{fieldData.label}</Typography>
+          <Typography>{fieldProps.fieldData.label}</Typography>
         </Grid>
       )}
       <Grid item>{componentToUse}</Grid>
