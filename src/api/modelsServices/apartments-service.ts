@@ -1,5 +1,6 @@
 import { ApartmentProps } from '@/types/types';
 import { axiosInstance } from '../api';
+import { addressAPIData, addressCheckRes } from '@/models/adressCheck';
 
 const APARTMENT_API_KEY = '/apartment';
 
@@ -40,6 +41,22 @@ export const checkTamaCloseToApartment = async (
     resolve(true);
   });
 
+export const getAddressCoordinates = async (
+  address: string,
+): Promise<addressAPIData> => {
+  const res = await fetch(
+    `https://es.govmap.gov.il/TldSearch/api/DetailsByQuery?query=${address}&lyrs=1&gid=govmap`,
+  );
+
+  const resData: addressCheckRes = await res.json();
+
+  if (resData.Error) {
+    throw new Error();
+  } else {
+    return resData.data.ADDRESS[0];
+  }
+};
+
 export const apartmentAPI = {
   getAllApartments,
   postApartment,
@@ -47,4 +64,5 @@ export const apartmentAPI = {
   updateApartment,
   deleteApartment,
   checkTamaCloseToApartment,
+  getAddressCoordinates,
 };

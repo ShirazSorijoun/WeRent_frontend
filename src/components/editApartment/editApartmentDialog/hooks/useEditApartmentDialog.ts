@@ -5,6 +5,7 @@ import {
   EditApartmentFormData,
 } from '@@/editApartment/formUtils';
 import { useCallback, useState } from 'react';
+import { UseFormSetError } from 'react-hook-form';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -16,7 +17,9 @@ interface IUseEditApartment {
   isButtonLoading: boolean;
 }
 
-export const useEditApartment = (): IUseEditApartment => {
+export const useEditApartment = (
+  setFormError: UseFormSetError<EditApartmentFormData>,
+): IUseEditApartment => {
   const { apartmentId } = useParams();
 
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
@@ -44,6 +47,24 @@ export const useEditApartment = (): IUseEditApartment => {
 
   const handleSave = useCallback(
     async (editableApartment: EditApartmentFormData): Promise<boolean> => {
+      try {
+        const res = await api.apartment.getAddressCoordinates(
+          `${editableApartment[EEditApartmentFields.ADDRESS]} ${editableApartment[EEditApartmentFields.CITY]}`,
+        );
+        console.log(res);
+      } catch (error) {
+        const errorMsg = 'city or street are not valid';
+        setFormError(EEditApartmentFields.ADDRESS, {
+          type: 'manual',
+          message: errorMsg,
+        });
+        setFormError(EEditApartmentFields.CITY, {
+          type: 'manual',
+          message: errorMsg,
+        });
+        return false;
+      }
+
       setIsButtonLoading(true);
       try {
         if (apartmentId) {
