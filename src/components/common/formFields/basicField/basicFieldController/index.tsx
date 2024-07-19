@@ -8,6 +8,7 @@ import { ControlledTextArray } from '../controlledTextArray';
 import { ControlledBasicTextField } from '../controlledBasicTextField';
 import { ControlledCoordinateInput } from '../controlledCoordinateInput';
 import { ControlledDate } from '../controlledDate';
+import { ControlledRating } from '../controlledRating';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
@@ -97,6 +98,14 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
             otherProps={otherProps}
           />
         );
+      case EBasicFieldType.rating:
+        return (
+          <ControlledRating
+            control={control}
+            fieldData={fieldData}
+            sxStyle={sxStyle}
+          />
+        );
       default:
         return (
           <ControlledBasicTextField
@@ -122,5 +131,3 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
     </Grid>
   );
 };
-
-export default BasicFieldController;

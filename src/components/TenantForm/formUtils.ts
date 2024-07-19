@@ -78,8 +78,7 @@ export const tenantQuestionnaireFormDataObject: Record<
   },
   [ETenantQuestionnaireFields.SATISFACTION_RATING]: {
     fieldName: ETenantQuestionnaireFields.SATISFACTION_RATING,
-    label:
-      'How satisfied are you with the condition of the property? (rating 1-5)',
+    label: 'How satisfied are you with the condition of the property?',
   },
   [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: {
     fieldName: ETenantQuestionnaireFields.MAINTENANCE_REQUESTS,

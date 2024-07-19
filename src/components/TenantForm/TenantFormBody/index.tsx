@@ -133,7 +133,7 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       />
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.int}
+        type={EBasicFieldType.rating}
         fieldData={
           tenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.SATISFACTION_RATING
