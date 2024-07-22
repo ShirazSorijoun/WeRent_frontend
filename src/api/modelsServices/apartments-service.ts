@@ -1,4 +1,4 @@
-import { ApartmentProps } from '@/types/types';
+import { ApartmentProps, IMatch } from '@/types/types';
 import { axiosInstance } from '../api';
 import { addressAPIData, addressCheckRes } from '@/models/adressCheck';
 
@@ -18,6 +18,20 @@ export const postApartment = async (
 
 export const getApartmentById = async (id: string): Promise<ApartmentProps> =>
   (await axiosInstance.get(`${APARTMENT_API_KEY}/${id}`)).data;
+
+export const acceptMatch = async (matchId: string): Promise<void> =>
+  axiosInstance.put(`${APARTMENT_API_KEY}/match/accept`, {
+    matchId,
+  });
+
+export const getMatchingList = async (apartmentId: string): Promise<IMatch[]> =>
+  (await axiosInstance.get(`${APARTMENT_API_KEY}/match/${apartmentId}`)).data;
+
+export const matchApartment = async (apartmentId: string, userId: string): Promise<void> =>
+  axiosInstance.post(`${APARTMENT_API_KEY}/match`, {
+    apartmentId,
+    userId,
+  });
 
 export const updateApartment = async (
   id: string,
@@ -65,4 +79,7 @@ export const apartmentAPI = {
   deleteApartment,
   checkTamaCloseToApartment,
   getAddressCoordinates,
+  matchApartment,
+  getMatchingList,
+  acceptMatch,
 };

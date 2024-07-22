@@ -1,9 +1,11 @@
-import { ApartmentProps } from '@/types/types';
-import React from 'react';
+import { ApartmentProps, IMatch } from '@/types/types';
+import React, { useEffect, useState } from 'react';
 import { useGetImageUrlFromName } from '@/common/hooks';
 import { Card } from 'react-bootstrap';
 import { ApartmentData } from '../apartmentData';
 import { ApartmentImage } from '../apartmentImage';
+import Button from '@mui/material/Button';
+import { api } from '@/api';
 
 interface IApartmentDetailsBodyProps {
   refreshApartmentDisplay: () => Promise<void>;
@@ -19,18 +21,44 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
   isCreatedByUser,
 }) => {
   const apartmentImage = useGetImageUrlFromName(apartment.apartment_image);
+  const [isMatched, setIsMatched] = React.useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
+
+  const fetchMatchingList = async () => {
+    const matchingListFromBE = await api.apartment.getMatchingList(apartmentId);
+    setIsAccepted(matchingListFromBE.some((match) => match.user._id === localStorage.getItem('userId') && match.accepted))
+  }
+
+  const matchApartment = async () => {
+    const userId = localStorage.getItem('userId')!;
+    await api.apartment.matchApartment(apartmentId, userId);
+    setIsMatched(true);
+  }
+
+  useEffect(() => {
+    fetchMatchingList();
+  }, []);
 
   return (
     <Card.Body style={{ overflow: 'auto' }}>
       <div className="row g-3 card-body-div">
         <div className="css-1752boj e142rc1o2">
+          {!isCreatedByUser && !isAccepted && (
+            !isMatched ? <Button onClick={matchApartment}>I like this apartment!</Button>
+              : 'You have already matched with this apartment!')}
+          {isAccepted && (
+            <div>You have been accepted to this apartment! </div>
+          )}
           <ApartmentImage
             apartmentImage={apartmentImage}
             isCreatedByUser={isCreatedByUser}
             apartmentId={apartmentId}
             refreshApartmentDisplay={refreshApartmentDisplay}
           />
-          <ApartmentData apartment={apartment} />
+          <ApartmentData
+            apartment={apartment}
+            apartmentId={apartmentId}
+            isCreatedByUser={isCreatedByUser}/>
         </div>
       </div>
     </Card.Body>

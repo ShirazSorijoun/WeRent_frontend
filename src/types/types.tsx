@@ -1,3 +1,7 @@
+import { string } from 'zod';
+import user from '@/stores/user';
+import { IUserData } from '@/models';
+
 export type ApartmentProps = {
   _id?: string;
   city: string;
@@ -30,6 +34,14 @@ export type ApartmentProps = {
     lat: number;
   };
 };
+
+export type IMatch = {
+  _id?: string;
+  apartment: string;
+  user: Pick<IUserData, 'email' | 'name' | '_id'>;
+  date: Date;
+  accepted: boolean;
+}
 
 export type ReviewProps = {
   _id?: string;
