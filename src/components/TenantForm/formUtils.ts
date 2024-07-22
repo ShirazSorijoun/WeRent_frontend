@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { IFormField, zodOfBoolean } from '@/models/forms';
 
 export enum ETenantQuestionnaireFields {
   RENTAL_AGREEMENT = 'rentalAgreement',
@@ -22,7 +21,7 @@ export enum ETenantQuestionnaireFields {
 
 export const tenantQuestionnaireFormDataObject: Record<
   ETenantQuestionnaireFields,
-  IFormField
+  { fieldName: string; label: string }
 > = {
   [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: {
     fieldName: ETenantQuestionnaireFields.RENTAL_AGREEMENT,
@@ -95,51 +94,51 @@ export const tenantQuestionnaireFormDataObject: Record<
   },
 };
 
-//validation
+// Validation schema
 export const schema = z.object({
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: zodOfBoolean,
+  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: z.string().optional(),
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: zodOfBoolean,
+  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: zodOfBoolean,
+  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: zodOfBoolean,
+  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: zodOfBoolean,
+  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: zodOfBoolean,
+  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.TRANSITION_PROBLEMS]: z.string().optional(),
   [ETenantQuestionnaireFields.SATISFACTION_RATING]: z.number().min(1).max(5),
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: zodOfBoolean,
+  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: z.enum(['Yes', 'No']),
   [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: z
     .string()
     .optional(),
   [ETenantQuestionnaireFields.FIRST_IMPRESSION]: z.string().optional(),
 });
 
-export const tenantQuestionnaireDefaultValues = {
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: '',
+export const tenantQuestionnaireDefaultValues: TenantQuestionnaireFormData = {
+  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: 'No',
   [ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: '',
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: '',
+  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: 'No',
   [ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: '',
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: '',
+  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: 'No',
   [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: '',
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: '',
+  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: 'No',
   [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: '',
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: '',
+  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: 'No',
   [ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: '',
-  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: '',
+  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: 'No',
   [ETenantQuestionnaireFields.TRANSITION_PROBLEMS]: '',
-  [ETenantQuestionnaireFields.SATISFACTION_RATING]: 0,
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: '',
+  [ETenantQuestionnaireFields.SATISFACTION_RATING]: 1,
+  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: 'No',
   [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: '',
   [ETenantQuestionnaireFields.FIRST_IMPRESSION]: '',
 };

@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import './userProfile.css';
-import { TenantFormDialog } from '@/components/TenantForm';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
 import {
   UserApartmentsContainer,
@@ -11,14 +10,7 @@ import {
 } from './components';
 
 const UserProfile: React.FC = () => {
-  const [tenantDialogOpen, setTenantDialogOpen] = useState(false);
-  const openTenantDialog = () => {
-    setTenantDialogOpen(true);
-  };
-
-  const closeTenantDialog = () => {
-    setTenantDialogOpen(false);
-  };
+  
 
   const [leaseDialogOpen, setLeaseDialogOpen] = useState(false);
   const openLeaseDialog = () => {
@@ -50,17 +42,6 @@ const UserProfile: React.FC = () => {
         >
           Add Review
         </Button>
-      </div>
-      <div>
-        {/* Button to trigger the TenantForm dialog */}
-        <Button onClick={openTenantDialog}>Open Tenant Form</Button>
-        <TenantFormDialog
-          isOpen={tenantDialogOpen}
-          handleCancel={closeTenantDialog}
-          completeSave={() => {
-            closeTenantDialog();
-          }}
-        />
       </div>
       <div>
         {/* Button to trigger the LeaseAgreementForm dialog */}

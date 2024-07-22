@@ -11,6 +11,15 @@ export const postTeantForm = async (
     tenantForm: formData,
   })).data;
 
+export const getTenantFormByOwnerId = async (
+  ownerId: string,
+): Promise<TenantFormProps | string> => {
+  console.log('ownerId', ownerId);
+  const response = await axiosInstance.get(`${FORM_API_KEY}/${ownerId}`);
+  return response.data;
+};
+
 export const tenantFormAPI = {
   postTeantForm,
+  getTenantFormByOwnerId,
 };

@@ -1,7 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { schema, tenantQuestionnaireDefaultValues } from '../formUtils';
+import {
+  schema,
+  tenantQuestionnaireDefaultValues,
+  TenantQuestionnaireFormData,
+} from '../formUtils';
 import { LoadingButton } from '@mui/lab';
 import {
   Dialog,
@@ -17,39 +21,42 @@ import { toast } from 'react-toastify';
 interface ITenantFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
-  completeSave: () => void;
+  completeSave: (data: TenantQuestionnaireFormData) => void;
+  initialData?: TenantQuestionnaireFormData | null;
 }
 
 export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
   isOpen,
   handleCancel,
   completeSave,
+  initialData,
 }) => {
-  const { handleSubmit, control, reset } = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: tenantQuestionnaireDefaultValues,
-  });
+  const { handleSubmit, control, reset } = useForm<TenantQuestionnaireFormData>(
+    {
+      resolver: zodResolver(schema),
+      defaultValues: tenantQuestionnaireDefaultValues,
+    },
+  );
 
   const [submitting, setSubmitting] = React.useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      reset(tenantQuestionnaireDefaultValues);
+      reset(initialData || tenantQuestionnaireDefaultValues);
     }
-  }, [isOpen, reset]);
+  }, [isOpen, reset, initialData]);
 
   const closeDialog = useCallback(() => {
-    reset();
     handleCancel();
-  }, [handleCancel, reset]);
+  }, [handleCancel]);
 
   const onSubmit = useCallback(
-    async (formData: any) => {
+    async (formData: TenantQuestionnaireFormData) => {
       setSubmitting(true);
       try {
         await postTeantForm(formData); // Call your API function to save form data
         console.log('Form data saved:', formData);
-        completeSave(); // Notify parent component about successful save
+        completeSave(formData); // Notify parent component about successful save
       } catch (err) {
         toast.error('Failed to save form data. Please try again.');
         console.error('Error saving form data:', err);

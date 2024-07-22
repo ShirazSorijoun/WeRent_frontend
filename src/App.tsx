@@ -14,6 +14,7 @@ import {
   ApartmentDetailsPage,
   MapPage,
   StaticPageContainer,
+  ApartmentPersonalAreaPage,
 } from './pages';
 
 const App: React.FC = () => {
@@ -36,6 +37,10 @@ const App: React.FC = () => {
           <Route path="/rent" element={<RentPropertiesPage />} />
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/googlemap" element={<MapPage />} />
+          <Route
+            path="/ApartmentPersonalArea"
+            element={<ApartmentPersonalAreaPage />}
+          />
         </Route>
       </Routes>
     </Router>
