@@ -11,3 +11,4 @@ export { AllUsersAdminPage } from './AdminPrivate';
 export { ApartmentDetailsPage } from './ApartmentDetails/apartmentDetails';
 export { MapPage } from './mapPage/mapPage';
 export { StaticPageContainer } from './staticPageContainer';
+export { ApartmentPersonalAreaPage } from './ApartmentPersonalArea/index';

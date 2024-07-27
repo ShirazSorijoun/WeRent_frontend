@@ -100,6 +100,32 @@ export type TenantFormProps = {
   updatedAt?: Date;
 };
 
+export type QuarterlyTenantFormProps = {
+  propertyConditionRating: number;
+  maintenanceIssues?: string;
+  responseTimeSatisfaction: number;
+  ownerResponsiveness: number;
+  comfortableRaisingConcerns: 'Yes' | 'No';
+  comfortableRaisingConcernsComments?: string;
+  renewalConsideration: 'Yes' | 'No' | 'Undecided';
+  responseTimeToRequests:
+    | 'Within 24 hours'
+    | '1-3 days'
+    | '4-7 days'
+    | 'More than a week';
+  resolutionTime:
+    | 'Within 24 hours'
+    | '1-3 days'
+    | '4-7 days'
+    | 'More than a week';
+  issuesResolvedToSatisfaction: 'Yes' | 'No';
+  issuesResolvedToSatisfactionComments?: string;
+  preferredCommunicationMethod: 'Phone' | 'Email' | 'Text' | 'Personal';
+  communicationSkillsRating: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
 export type LeaseAgreementFormProps = {
   _id?: string;
   date_dayOfTheMonth: number;

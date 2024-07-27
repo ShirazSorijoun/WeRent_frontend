@@ -1,0 +1,8 @@
+.success-message {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .form-completed-message {
+    margin-top: 20px;
+  }

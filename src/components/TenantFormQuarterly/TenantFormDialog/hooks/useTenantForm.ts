@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { api } from '@/api';
-import { InitialTenantQuestionnaireFormData } from '../../formUtils';
+import { QuarterlyTenantQuestionnaireFormData } from '../../formUtils';
 import axios from 'axios';
 
 interface IUseTenantForm {
   saveTenantForm: (
-    formData: InitialTenantQuestionnaireFormData,
+    formData: QuarterlyTenantQuestionnaireFormData,
   ) => Promise<boolean>;
   isButtonLoading: boolean;
 }
@@ -14,12 +14,16 @@ export const useTenantForm = (): IUseTenantForm => {
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const saveTenantForm = useCallback(
-    async (formData: InitialTenantQuestionnaireFormData): Promise<boolean> => {
+    async (
+      formData: QuarterlyTenantQuestionnaireFormData,
+    ): Promise<boolean> => {
       setIsButtonLoading(true);
       try {
-        const updatedFormData = { ...formData };
+        const updatedFormData = {
+          ...formData,
+        };
 
-        await api.tenantForm.postTeantForm(updatedFormData);
+        await api.tenantForm.postTeantFormQuarterly(updatedFormData);
 
         setIsButtonLoading(false);
         return true;
