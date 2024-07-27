@@ -25,7 +25,7 @@ interface ITenantFormDialogProps {
   initialData?: QuarterlyTenantQuestionnaireFormData | null;
 }
 
-export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
+export const QuarterlyTenantFormDialog: React.FC<ITenantFormDialogProps> = ({
   isOpen,
   handleCancel,
   completeSave,

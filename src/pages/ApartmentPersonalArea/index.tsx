@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { TenantFormDialog } from '@/components/TenantForm';
+import { QuarterlyTenantQuestionnaireFormData } from '@/components/TenantFormQuarterly/formUtils';
 import './style.css';
 import { Button, Card } from 'react-bootstrap';
 import { InitialTenantQuestionnaireFormData } from '@@/TenantForm/formUtils';
-import { QuarterlyTenantQuestionnaireFormData } from '@/components/TenantFormQuarterly/formUtils';
-import { getTenantFormByOwnerId } from '@/api/modelsServices/form-service';
+import {
+  getTenantFormByOwnerId,
+  getTenantFormQuarterlyByOwnerId,
+} from '@/api/modelsServices/form-service';
+import { QuarterlyTenantFormDialog } from '@@/TenantFormQuarterly/TenantFormDialog';
 
 export const ApartmentPersonalAreaPage: React.FC = () => {
   const [tenantDialogOpen, setTenantDialogOpen] = useState(false);
@@ -26,6 +30,7 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
         if (ownerId) {
           try {
             const response = await getTenantFormByOwnerId(ownerId);
+
             if (response) {
               setFormCompleted(true);
             } else {
@@ -34,11 +39,9 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
             }
           } catch (error) {
             if ((error as any).response?.status === 404) {
-              // Handle 404 error specifically
               setTenantFormData(null);
               setFormCompleted(false);
             } else {
-              // Handle other errors
               console.error('Error fetching tenant form data:', error);
               setTenantFormData(null);
               setFormCompleted(false);
@@ -52,7 +55,43 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
       }
     };
 
+    const fetchFormDataQuarterly = async () => {
+      try {
+        const ownerId = localStorage.getItem('userId');
+        if (ownerId) {
+          try {
+            const responseQuarterly =
+              await getTenantFormQuarterlyByOwnerId(ownerId);
+
+            if (responseQuarterly) {
+              setQuarterlyFormCompleted(true);
+            } else {
+              setQuarterlyTenantFormData(null);
+              setQuarterlyFormCompleted(false);
+            }
+          } catch (error) {
+            if ((error as any).response?.status === 404) {
+              setQuarterlyTenantFormData(null);
+              setQuarterlyFormCompleted(false);
+            } else {
+              console.error(
+                'Error fetching quarterly tenant form data:',
+                error,
+              );
+              setQuarterlyTenantFormData(null);
+              setQuarterlyFormCompleted(false);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error retrieving user ID from localStorage:', error);
+        setQuarterlyTenantFormData(null);
+        setQuarterlyFormCompleted(false);
+      }
+    };
+
     fetchFormData();
+    fetchFormDataQuarterly();
   }, []);
 
   const openTenantDialog = useCallback(() => {
@@ -63,6 +102,14 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
     setTenantDialogOpen(false);
   }, []);
 
+  const openQuarterlyTenantDialog = useCallback(() => {
+    setQuarterlyTenantDialogOpen(true);
+  }, []);
+
+  const closeQuarterlyTenantDialog = useCallback(() => {
+    setQuarterlyTenantDialogOpen(false);
+  }, []);
+
   const handleFormSubmit = useCallback(
     (data: InitialTenantQuestionnaireFormData) => {
       setTenantFormData(data);
@@ -70,6 +117,15 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
       closeTenantDialog();
     },
     [closeTenantDialog],
+  );
+
+  const handleQuarterlyFormSubmit = useCallback(
+    (data: QuarterlyTenantQuestionnaireFormData) => {
+      setQuarterlyTenantFormData(data);
+      setQuarterlyFormCompleted(true);
+      closeQuarterlyTenantDialog();
+    },
+    [closeQuarterlyTenantDialog],
   );
 
   return (
@@ -94,6 +150,30 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
           handleCancel={closeTenantDialog}
           completeSave={handleFormSubmit}
           initialData={tenantFormData || undefined}
+        />
+      </div>
+      <div>
+        {quarterlyFormCompleted ? (
+          <div className="form-completed-message">
+            <Card>
+              <Card.Body>
+                <Card.Title>Quarterly Tenant Form</Card.Title>
+                <Card.Text className="success-message">
+                  The form has been filled out successfully.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </div>
+        ) : (
+          <Button onClick={openQuarterlyTenantDialog}>
+            Open Quarterly Tenant Form
+          </Button>
+        )}
+        <QuarterlyTenantFormDialog
+          isOpen={quarterlyTenantDialogOpen}
+          handleCancel={closeQuarterlyTenantDialog}
+          completeSave={handleQuarterlyFormSubmit}
+          initialData={quarterlyTenantFormData || undefined}
         />
       </div>
     </div>
