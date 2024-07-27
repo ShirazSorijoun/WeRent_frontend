@@ -13,7 +13,6 @@ export enum ETenantQuestionnaireFields {
   ISSUES_RESOLVED_TO_SATISFACTION = 'issuesResolvedToSatisfaction',
   PREFERRED_COMMUNICATION_METHOD = 'preferredCommunicationMethod',
   COMMUNICATION_SKILLS_RATING = 'communicationSkillsRating',
-  COMFORTABLE_RAISING_ISSUES = 'comfortableRaisingIssues',
 }
 
 export const quarterlyTenantQuestionnaireFormDataObject: Record<
@@ -79,11 +78,6 @@ export const quarterlyTenantQuestionnaireFormDataObject: Record<
     label:
       'How would you rate the communication skills of the owner/landlord? (rating 1-5)',
   },
-  [ETenantQuestionnaireFields.COMFORTABLE_RAISING_ISSUES]: {
-    fieldName: ETenantQuestionnaireFields.COMFORTABLE_RAISING_ISSUES,
-    label:
-      'Did you feel comfortable raising issues or concerns with the owner/landlord? (yes/no)',
-  },
 };
 
 // Validation schema
@@ -98,7 +92,10 @@ export const schema = z.object({
     .min(1)
     .max(5),
   [ETenantQuestionnaireFields.OWNER_RESPONSIVENESS]: z.number().min(1).max(5),
-  [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: z.boolean(),
+  [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: z.enum([
+    'Yes',
+    'No',
+  ]),
   [ETenantQuestionnaireFields.RENEWAL_CONSIDERATION]: z.enum([
     'Yes',
     'No',
@@ -116,7 +113,10 @@ export const schema = z.object({
     '4-7 days',
     'More than a week',
   ]),
-  [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: z.boolean(),
+  [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: z.enum([
+    'Yes',
+    'No',
+  ]),
   [ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD]: z.enum([
     'Phone',
     'Email',
@@ -127,7 +127,6 @@ export const schema = z.object({
     .number()
     .min(1)
     .max(5),
-  [ETenantQuestionnaireFields.COMFORTABLE_RAISING_ISSUES]: z.boolean(),
   [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS_COMMENTS]: z
     .string()
     .optional(),
@@ -139,15 +138,14 @@ export const quarterlyTenantQuestionnaireDefaultValues: QuarterlyTenantQuestionn
     [ETenantQuestionnaireFields.MAINTENANCE_ISSUES]: '',
     [ETenantQuestionnaireFields.RESPONSE_TIME_SATISFACTION]: 1,
     [ETenantQuestionnaireFields.OWNER_RESPONSIVENESS]: 1,
-    [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: false,
+    [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: 'No',
     [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS_COMMENTS]: '',
     [ETenantQuestionnaireFields.RENEWAL_CONSIDERATION]: 'Undecided',
     [ETenantQuestionnaireFields.RESPONSE_TIME_TO_REQUESTS]: 'More than a week',
     [ETenantQuestionnaireFields.RESOLUTION_TIME]: 'More than a week',
-    [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: false,
+    [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: 'No',
     [ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD]: 'Email',
     [ETenantQuestionnaireFields.COMMUNICATION_SKILLS_RATING]: 1,
-    [ETenantQuestionnaireFields.COMFORTABLE_RAISING_ISSUES]: false,
   };
 
 export type QuarterlyTenantQuestionnaireFormData = z.infer<typeof schema>;

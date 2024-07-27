@@ -110,7 +110,6 @@ export type QuarterlyTenantFormProps = {
   issuesResolvedToSatisfactionComments?: string;
   preferredCommunicationMethod: 'Phone' | 'Email' | 'Text' | 'Personal';
   communicationSkillsRating: number;
-  comfortableRaisingIssues: 'Yes' | 'No';
   createdAt?: Date;
   updatedAt?: Date;
 };

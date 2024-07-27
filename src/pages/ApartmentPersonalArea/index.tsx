@@ -3,6 +3,7 @@ import { TenantFormDialog } from '@/components/TenantForm';
 import './style.css';
 import { Button, Card } from 'react-bootstrap';
 import { InitialTenantQuestionnaireFormData } from '@@/TenantForm/formUtils';
+import { QuarterlyTenantQuestionnaireFormData } from '@/components/TenantFormQuarterly/formUtils';
 import { getTenantFormByOwnerId } from '@/api/modelsServices/form-service';
 
 export const ApartmentPersonalAreaPage: React.FC = () => {
@@ -10,6 +11,13 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
   const [tenantFormData, setTenantFormData] =
     useState<InitialTenantQuestionnaireFormData | null>(null);
   const [formCompleted, setFormCompleted] = useState<boolean>(false);
+
+  const [quarterlyTenantDialogOpen, setQuarterlyTenantDialogOpen] =
+    useState(false);
+  const [quarterlyTenantFormData, setQuarterlyTenantFormData] =
+    useState<QuarterlyTenantQuestionnaireFormData | null>(null);
+  const [quarterlyFormCompleted, setQuarterlyFormCompleted] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const fetchFormData = async () => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Control } from 'react-hook-form';
 import {
-  tenantQuestionnaireFormDataObject,
-  ETenantQuestionnaireFields,
+  initialTenantQuestionnaireFormDataObject,
+  EInitialTenantQuestionnaireFields,
 } from '../formUtils';
 import { EBasicFieldType } from '@/models/forms';
 import { BasicFieldController } from '@@/common/formFields';
@@ -21,8 +21,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.RENTAL_AGREEMENT
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT
           ]
         }
       />
@@ -30,8 +30,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText} // Assuming multiLineText for comments
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS
           ]
         }
       />
@@ -40,8 +40,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.PROPERTY_INFORMATION
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION
           ]
         }
       />
@@ -49,8 +49,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS
           ]
         }
       />
@@ -59,8 +59,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS
           ]
         }
       />
@@ -68,8 +68,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS
           ]
         }
       />
@@ -78,8 +78,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.QUESTIONS_ADDRESSED
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED
           ]
         }
       />
@@ -87,8 +87,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS
           ]
         }
       />
@@ -97,8 +97,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.PROPERTY_CONDITION
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.PROPERTY_CONDITION
           ]
         }
       />
@@ -106,8 +106,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS
           ]
         }
       />
@@ -116,8 +116,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.RECEIVED_INFORMATION
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION
           ]
         }
       />
@@ -125,8 +125,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.TRANSITION_PROBLEMS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS
           ]
         }
       />
@@ -134,8 +134,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.rating}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.SATISFACTION_RATING
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.SATISFACTION_RATING
           ]
         }
       />
@@ -144,8 +144,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         type={EBasicFieldType.boolean}
         otherProps={{ noPlaceHolder: true }}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.MAINTENANCE_REQUESTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS
           ]
         }
       />
@@ -153,8 +153,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS
           ]
         }
       />
@@ -162,8 +162,8 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
         control={control}
         type={EBasicFieldType.multiLineText}
         fieldData={
-          tenantQuestionnaireFormDataObject[
-            ETenantQuestionnaireFields.FIRST_IMPRESSION
+          initialTenantQuestionnaireFormDataObject[
+            EInitialTenantQuestionnaireFields.FIRST_IMPRESSION
           ]
         }
       />

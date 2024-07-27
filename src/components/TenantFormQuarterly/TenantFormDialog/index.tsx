@@ -3,8 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
   schema,
-  initialTenantQuestionnaireDefaultValues,
-  InitialTenantQuestionnaireFormData,
+  quarterlyTenantQuestionnaireDefaultValues,
+  QuarterlyTenantQuestionnaireFormData,
 } from '../formUtils';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -15,14 +15,14 @@ import {
   Button,
 } from '@mui/material';
 import { FormTenantFormBody } from '../TenantFormBody';
-import { postTeantForm } from '../../../api/modelsServices/form-service';
+import { api } from '@/api';
 import { toast } from 'react-toastify';
 
 interface ITenantFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
-  completeSave: (data: InitialTenantQuestionnaireFormData) => void;
-  initialData?: InitialTenantQuestionnaireFormData | null;
+  completeSave: (data: QuarterlyTenantQuestionnaireFormData) => void;
+  initialData?: QuarterlyTenantQuestionnaireFormData | null;
 }
 
 export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
@@ -32,16 +32,16 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
   initialData,
 }) => {
   const { handleSubmit, control, reset } =
-    useForm<InitialTenantQuestionnaireFormData>({
+    useForm<QuarterlyTenantQuestionnaireFormData>({
       resolver: zodResolver(schema),
-      defaultValues: initialTenantQuestionnaireDefaultValues,
+      defaultValues: quarterlyTenantQuestionnaireDefaultValues,
     });
 
   const [submitting, setSubmitting] = React.useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      reset(initialData || initialTenantQuestionnaireDefaultValues);
+      reset(initialData || quarterlyTenantQuestionnaireDefaultValues);
     }
   }, [isOpen, reset, initialData]);
 
@@ -50,10 +50,10 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
   }, [handleCancel]);
 
   const onSubmit = useCallback(
-    async (formData: InitialTenantQuestionnaireFormData) => {
+    async (formData: QuarterlyTenantQuestionnaireFormData) => {
       setSubmitting(true);
       try {
-        await postTeantForm(formData); // Call your API function to save form data
+        await api.tenantForm.postTeantFormQuarterly(formData); // Call your API function to save form data
         console.log('Form data saved:', formData);
         completeSave(formData); // Notify parent component about successful save
       } catch (err) {
@@ -76,7 +76,7 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
         onSubmit: handleSubmit(onSubmit),
       }}
     >
-      <DialogTitle>Tenant Form</DialogTitle>
+      <DialogTitle>Quarterly Tenant Form</DialogTitle>
       <DialogContent>
         <FormTenantFormBody control={control} />
       </DialogContent>

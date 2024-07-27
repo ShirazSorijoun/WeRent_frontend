@@ -1,5 +1,5 @@
 import { axiosInstance } from '../api';
-import { TenantFormProps } from '@/types/types';
+import { QuarterlyTenantFormProps, TenantFormProps } from '@/types/types';
 
 const FORM_API_KEY = '/tenantForm';
 
@@ -22,8 +22,8 @@ export const getTenantFormByOwnerId = async (
 };
 
 export const postTeantFormQuarterly = async (
-  formData: TenantFormProps,
-): Promise<TenantFormProps> =>
+  formData: QuarterlyTenantFormProps,
+): Promise<QuarterlyTenantFormProps> =>
   (console.log('formData', formData),
   await axiosInstance.post(`${FORM_API_KEY}/quarterly/create`, {
     tenantForm: formData,
