@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export enum ETenantQuestionnaireFields {
+export enum EInitialTenantQuestionnaireFields {
   RENTAL_AGREEMENT = 'rentalAgreement',
   RENTAL_AGREEMENT_COMMENTS = 'rentalAgreementComments',
   PROPERTY_INFORMATION = 'propertyInformation',
@@ -19,128 +19,151 @@ export enum ETenantQuestionnaireFields {
   FIRST_IMPRESSION = 'firstImpression',
 }
 
-export const tenantQuestionnaireFormDataObject: Record<
-  ETenantQuestionnaireFields,
+export const initialTenantQuestionnaireFormDataObject: Record<
+  EInitialTenantQuestionnaireFields,
   { fieldName: string; label: string }
 > = {
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: {
-    fieldName: ETenantQuestionnaireFields.RENTAL_AGREEMENT,
+  [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: {
+    fieldName: EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT,
     label: 'Was the rental agreement clear and easy to understand?',
   },
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: {
-    fieldName: ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS,
+  [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS,
     label: 'Comments',
   },
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: {
-    fieldName: ETenantQuestionnaireFields.PROPERTY_INFORMATION,
+  [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: {
+    fieldName: EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION,
     label:
       'Did you feel that you received enough information about the property and the rental conditions?',
   },
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: {
-    fieldName: ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS,
+  [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS,
     label: 'Comments',
   },
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: {
-    fieldName: ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS,
+  [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: {
+    fieldName: EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS,
     label: 'Was the process of signing the lease simple?',
   },
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: {
-    fieldName: ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS,
+  [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS,
     label: 'Comments',
   },
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: {
-    fieldName: ETenantQuestionnaireFields.QUESTIONS_ADDRESSED,
+  [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: {
+    fieldName: EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED,
     label:
       'Were all your questions and concerns addressed during the signing of the lease?',
   },
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: {
-    fieldName: ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS,
+  [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS,
     label: 'Comments',
   },
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: {
-    fieldName: ETenantQuestionnaireFields.PROPERTY_CONDITION,
+  [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: {
+    fieldName: EInitialTenantQuestionnaireFields.PROPERTY_CONDITION,
     label: 'Was the property clean and ready for moving in?',
   },
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: {
-    fieldName: ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS,
+  [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS,
     label: 'Comments',
   },
-  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: {
-    fieldName: ETenantQuestionnaireFields.RECEIVED_INFORMATION,
+  [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: {
+    fieldName: EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION,
     label:
       'Have you received all the necessary information, such as emergency contacts, building codes and garbage disposal instructions?',
   },
-  [ETenantQuestionnaireFields.TRANSITION_PROBLEMS]: {
-    fieldName: ETenantQuestionnaireFields.TRANSITION_PROBLEMS,
+  [EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS]: {
+    fieldName: EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS,
     label:
       'Did you encounter any problems during the transition process? If so, please describe.',
   },
-  [ETenantQuestionnaireFields.SATISFACTION_RATING]: {
-    fieldName: ETenantQuestionnaireFields.SATISFACTION_RATING,
+  [EInitialTenantQuestionnaireFields.SATISFACTION_RATING]: {
+    fieldName: EInitialTenantQuestionnaireFields.SATISFACTION_RATING,
     label: 'How satisfied are you with the condition of the property?',
   },
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: {
-    fieldName: ETenantQuestionnaireFields.MAINTENANCE_REQUESTS,
+  [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS,
     label:
       'Have you had any initial maintenance or repair requests? If so, were they addressed immediately?',
   },
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: {
-    fieldName: ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS,
+  [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: {
+    fieldName: EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS,
     label: 'Comments',
   },
-  [ETenantQuestionnaireFields.FIRST_IMPRESSION]: {
-    fieldName: ETenantQuestionnaireFields.FIRST_IMPRESSION,
+  [EInitialTenantQuestionnaireFields.FIRST_IMPRESSION]: {
+    fieldName: EInitialTenantQuestionnaireFields.FIRST_IMPRESSION,
     label: 'What was your first impression of the property?',
   },
 };
 
 // Validation schema
 export const schema = z.object({
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: z.string().optional(),
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: z
+  [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: z.enum(['Yes', 'No']),
+  [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: z
+  [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: z.enum([
+    'Yes',
+    'No',
+  ]),
+  [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: z
+  [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: z.enum([
+    'Yes',
+    'No',
+  ]),
+  [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: z
+  [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: z.enum([
+    'Yes',
+    'No',
+  ]),
+  [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.TRANSITION_PROBLEMS]: z.string().optional(),
-  [ETenantQuestionnaireFields.SATISFACTION_RATING]: z.number().min(1).max(5),
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: z.enum(['Yes', 'No']),
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: z
+  [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: z.enum(['Yes', 'No']),
+  [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: z
     .string()
     .optional(),
-  [ETenantQuestionnaireFields.FIRST_IMPRESSION]: z.string().optional(),
+  [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: z.enum([
+    'Yes',
+    'No',
+  ]),
+  [EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS]: z
+    .string()
+    .optional(),
+  [EInitialTenantQuestionnaireFields.SATISFACTION_RATING]: z
+    .number()
+    .min(1)
+    .max(5),
+  [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: z.enum([
+    'Yes',
+    'No',
+  ]),
+  [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: z
+    .string()
+    .optional(),
+  [EInitialTenantQuestionnaireFields.FIRST_IMPRESSION]: z.string().optional(),
 });
 
-export const tenantQuestionnaireDefaultValues: TenantQuestionnaireFormData = {
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT]: 'No',
-  [ETenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: '',
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION]: 'No',
-  [ETenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: '',
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: 'No',
-  [ETenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: '',
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED]: 'No',
-  [ETenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: '',
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION]: 'No',
-  [ETenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: '',
-  [ETenantQuestionnaireFields.RECEIVED_INFORMATION]: 'No',
-  [ETenantQuestionnaireFields.TRANSITION_PROBLEMS]: '',
-  [ETenantQuestionnaireFields.SATISFACTION_RATING]: 1,
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS]: 'No',
-  [ETenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: '',
-  [ETenantQuestionnaireFields.FIRST_IMPRESSION]: '',
-};
+export const initialTenantQuestionnaireDefaultValues: InitialTenantQuestionnaireFormData =
+  {
+    [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: 'No',
+    [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: '',
+    [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: 'No',
+    [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: '',
+    [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: 'No',
+    [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: '',
+    [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: 'No',
+    [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: '',
+    [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: 'No',
+    [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: '',
+    [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: 'No',
+    [EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS]: '',
+    [EInitialTenantQuestionnaireFields.SATISFACTION_RATING]: 1,
+    [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: 'No',
+    [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: '',
+    [EInitialTenantQuestionnaireFields.FIRST_IMPRESSION]: '',
+  };
 
-export type TenantQuestionnaireFormData = z.infer<typeof schema>;
+export type InitialTenantQuestionnaireFormData = z.infer<typeof schema>;

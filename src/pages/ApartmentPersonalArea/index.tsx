@@ -2,13 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { TenantFormDialog } from '@/components/TenantForm';
 import './style.css';
 import { Button, Card } from 'react-bootstrap';
-import { TenantQuestionnaireFormData } from '@@/TenantForm/formUtils';
+import { InitialTenantQuestionnaireFormData } from '@@/TenantForm/formUtils';
 import { getTenantFormByOwnerId } from '@/api/modelsServices/form-service';
 
 export const ApartmentPersonalAreaPage: React.FC = () => {
   const [tenantDialogOpen, setTenantDialogOpen] = useState(false);
   const [tenantFormData, setTenantFormData] =
-    useState<TenantQuestionnaireFormData | null>(null);
+    useState<InitialTenantQuestionnaireFormData | null>(null);
   const [formCompleted, setFormCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
   }, []);
 
   const handleFormSubmit = useCallback(
-    (data: TenantQuestionnaireFormData) => {
+    (data: InitialTenantQuestionnaireFormData) => {
       setTenantFormData(data);
       setFormCompleted(true);
       closeTenantDialog();
