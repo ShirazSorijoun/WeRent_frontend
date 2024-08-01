@@ -58,12 +58,23 @@ export const UserDetails: React.FC = () => {
         </div>
         <div className="col-lg-6">
           <label className="form-label" htmlFor="AccountInput_Name">
-            Name
+            First Name
           </label>
           <input
             className="form-control"
             id="AccountInput_Name"
-            value={userData.name}
+            value={userData.firstName}
+            readOnly
+          ></input>
+        </div>
+        <div className="col-lg-6">
+          <label className="form-label" htmlFor="AccountInput_Name">
+            Last Name
+          </label>
+          <input
+            className="form-control"
+            id="AccountInput_Name"
+            value={userData.lastName}
             readOnly
           ></input>
         </div>

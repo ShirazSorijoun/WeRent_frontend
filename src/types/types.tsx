@@ -38,7 +38,7 @@ export type ApartmentProps = {
 export type IMatch = {
   _id?: string;
   apartment: string;
-  user: Pick<IUserData, 'email' | 'name' | '_id'>;
+  user: Pick<IUserData, 'email' | 'firstName' | 'lastName' | 'phoneNumber' | '_id'>;
   date: Date;
   accepted: boolean;
 }

@@ -1,6 +1,11 @@
 export interface IUserData {
   _id?: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  personalId: string;
+  streetAddress: string;
+  cityAddress: string;
+  phoneNumber: string;
   email: string;
   password: string;
   profile_image?: string;
@@ -24,7 +29,8 @@ export interface ILogin {
 }
 
 export interface IRegister extends ILogin {
-  name: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface UpdateOwnProfileData {

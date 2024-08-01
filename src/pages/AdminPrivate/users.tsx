@@ -41,10 +41,9 @@ export const AllUsersAdminPage: React.FC = () => {
   const rows = useMemo(
     () =>
       users.map((user, index) => ({
+        ...user,
         _id: index,
         id: user._id,
-        Name: user.name,
-        Email: user.email,
       })),
     [users],
   );
@@ -148,9 +147,9 @@ export const AllUsersAdminPage: React.FC = () => {
                           }}
                         />
                       </TableCell>
-                      <TableCell align="center">{row.Name}</TableCell>
+                      <TableCell align="center">{`${row.firstName} ${row.lastName}`}</TableCell>
                       <TableCell align="center">{row.id}</TableCell>
-                      <TableCell align="center">{row.Email}</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
                     </TableRow>
                   );
                 })}
