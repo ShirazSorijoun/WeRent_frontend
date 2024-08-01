@@ -11,7 +11,9 @@ interface IEditUserDialogProps {
   userData: IUserData;
 }
 
-const defaultUserProfile: IUserData = { email: '', name: '', password: '' };
+const defaultUserProfile: IUserData = {
+  email: '', firstName: '', lastName: '', password: '',
+  personalId: '', cityAddress: '', streetAddress: '', phoneNumber: ''};
 
 export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   handleCancel,
@@ -75,11 +77,27 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
               onChange={imageSelected}
             />
           </Form.Group>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
+          <Form.Group controlId="firstName">
+            <Form.Label>First Name</Form.Label>
             <Form.Control
               type="text"
-              value={tempUserProfile?.name}
+              value={tempUserProfile?.firstName}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="lastName">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={tempUserProfile?.lastName}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="personalId">
+            <Form.Label>Personal Id Number</Form.Label>
+            <Form.Control
+              type="text"
+              value={tempUserProfile?.personalId}
               onChange={handleChange}
             />
           </Form.Group>
@@ -88,6 +106,30 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
             <Form.Control
               type="text"
               value={tempUserProfile?.email}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="phoneNumber">
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              type="text"
+              value={tempUserProfile?.phoneNumber}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="streetAddress">
+            <Form.Label>Street Address</Form.Label>
+            <Form.Control
+              type="text"
+              value={tempUserProfile?.streetAddress}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="cityAddress">
+            <Form.Label>City Address</Form.Label>
+            <Form.Control
+              type="text"
+              value={tempUserProfile?.cityAddress}
               onChange={handleChange}
             />
           </Form.Group>

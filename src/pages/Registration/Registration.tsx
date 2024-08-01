@@ -18,7 +18,8 @@ import { userLogin } from '@/stores/user';
 import { handleLocalStorageLogin } from '@/utils/auth';
 
 const schema = z.object({
-  name: z.string().min(3, { message: 'Name must contain at least 3 letters' }),
+  firstName: z.string().min(2, { message: 'First Name must contain at least 2 letters' }),
+  lastName: z.string().min(2, { message: 'Last Name must contain at least 2 letters' }),
   email: z.string().email({ message: 'Invalid email format' }),
   password: z
     .string()
@@ -31,7 +32,8 @@ export const RegistrationPage = () => {
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState<IRegister>({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
   });
@@ -39,9 +41,14 @@ export const RegistrationPage = () => {
   const dispatch = useAppDispatch();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const nameInputRef = useRef<HTMLInputElement>(null);
+  const firstNameInputRef = useRef<HTMLInputElement>(null);
+  const lastNameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+  const personalIdInputRef = useRef<HTMLInputElement>(null);
+  const phoneNumberInputRef = useRef<HTMLInputElement>(null);
+  const cityAddressInputRef = useRef<HTMLInputElement>(null);
+  const streetAddressInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange =
     (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,14 +108,24 @@ export const RegistrationPage = () => {
     }
 
     if (
-      nameInputRef.current?.value &&
+      firstNameInputRef.current?.value &&
+      lastNameInputRef.current?.value &&
+      personalIdInputRef.current?.value &&
+      phoneNumberInputRef.current?.value &&
+      cityAddressInputRef.current?.value &&
+      streetAddressInputRef.current?.value &&
       emailInputRef.current?.value &&
       passwordInputRef.current?.value
     ) {
       const user: IUser = {
-        name: nameInputRef.current?.value,
+        firstName: firstNameInputRef.current?.value,
+        lastName: lastNameInputRef.current?.value,
         email: emailInputRef.current?.value,
         password: passwordInputRef.current?.value,
+        personalId: personalIdInputRef.current?.value,
+        phoneNumber: phoneNumberInputRef.current?.value,
+        cityAddress: cityAddressInputRef.current?.value,
+        streetAddress: streetAddressInputRef.current?.value,
         profile_image: url,
         tokens: [],
       };
@@ -118,7 +135,7 @@ export const RegistrationPage = () => {
         console.log('User registered:', registrationResponse);
 
         // Log in the user immediately after successful registration
-        const loginResponse = await api.auth.loginUser(formData);
+        const loginResponse = await api.auth.loginUser({email: formData.email, password: formData.password});
         logUserAfterRegister(loginResponse);
       } catch (error: any) {
         console.error('Login failed:', error);
@@ -202,14 +219,34 @@ export const RegistrationPage = () => {
               onChange={onImgSelected}
             />
             <input
-              ref={nameInputRef}
+              ref={firstNameInputRef}
               type="text"
               className="form-control"
-              placeholder="Name"
-              onChange={handleChange('name')}
+              placeholder="First Name"
+              onChange={handleChange('firstName')}
             />
-            {formErrors.name && (
-              <p className="text-danger">{formErrors.name}</p>
+            {formErrors.firstName && (
+              <p className="text-danger">{formErrors.firstName}</p>
+            )}
+            <input
+              ref={lastNameInputRef}
+              type="text"
+              className="form-control"
+              placeholder="Last Name"
+              onChange={handleChange('lastName')}
+            />
+            {formErrors.lastName && (
+              <p className="text-danger">{formErrors.lastName}</p>
+            )}
+            <input
+              ref={personalIdInputRef}
+              type="text"
+              className="form-control"
+              placeholder="Personal Id"
+              onChange={handleChange('personalId')}
+            />
+            {formErrors.personalId && (
+              <p className="text-danger">{formErrors.personalId}</p>
             )}
             <input
               ref={emailInputRef}
@@ -220,6 +257,36 @@ export const RegistrationPage = () => {
             />
             {formErrors.email && (
               <p className="text-danger">{formErrors.email}</p>
+            )}
+            <input
+              ref={phoneNumberInputRef}
+              type="text"
+              className="form-control"
+              placeholder="Phone Number"
+              onChange={handleChange('phoneNumber')}
+            />
+            {formErrors.phoneNumber && (
+              <p className="text-danger">{formErrors.phoneNumber}</p>
+            )}
+            <input
+              ref={streetAddressInputRef}
+              type="text"
+              className="form-control"
+              placeholder="Street Address"
+              onChange={handleChange('streetAddress')}
+            />
+            {formErrors.streetAddress && (
+              <p className="text-danger">{formErrors.streetAddress}</p>
+            )}
+            <input
+              ref={cityAddressInputRef}
+              type="text"
+              className="form-control"
+              placeholder="City Address"
+              onChange={handleChange('cityAddress')}
+            />
+            {formErrors.cityAddress && (
+              <p className="text-danger">{formErrors.cityAddress}</p>
             )}
             <input
               ref={passwordInputRef}

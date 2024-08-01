@@ -7,23 +7,7 @@ const USER_API_KEY = '/user';
 const getUserById = async (userId: string): Promise<IUserData> => {
   const response = await axiosInstance.get(`${USER_API_KEY}/id/${userId}`);
 
-  const {
-    name,
-    email,
-    password,
-    profile_image,
-    advertisedApartments,
-    isAdmin,
-  } = response.data;
-
-  return {
-    name,
-    email,
-    password,
-    isAdmin,
-    advertisedApartments,
-    profile_image,
-  };
+  return response.data;
 };
 
 const getUserApartments = async (): Promise<ApartmentProps[]> =>
