@@ -6,31 +6,41 @@ import { useAppDispatch } from '@/hooks/store';
 import { userLogin } from '@/stores/user';
 
 export const ChangePassword = () => {
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [id, setId] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  const handleChangePassword = async () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleUpdateProfile = async () => {
     try {
-      // Check if the new password has at least 6 characters
-      if (password.length < 6) {
-        setPasswordError('Password must be at least 6 characters');
+      // Validate the input fields
+      if (!phoneNumber || !id || !street || !city) {
+        setError('All fields are required');
         return;
       } else {
-        setPasswordError(null);
+        setError(null);
       }
 
-      const userId: string = await api.user.updateOwnProfile({ password });
+      const userId: string = await api.user.updateOwnProfile({
+        phoneNumber,
+        personalId: id,
+        streetAddress: street,
+        cityAddress: city,
+      });
 
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
-      console.log('Password updated successfully!');
-      await dispatch(userLogin(userId));
+      console.log('Profile updated successfully!');
+      await dispatch(userLogin(localStorage.getItem('userId') as string));
       navigate('/');
+      // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
-      console.log('fail change password');
+      console.log('Failed to update profile');
     }
   };
 
@@ -53,24 +63,60 @@ export const ChangePassword = () => {
               justifyContent: 'center',
             }}
           >
-            <h5 style={{ fontWeight: 'bold' }}>Choose Password and Role</h5>
+            <h5 style={{ fontWeight: 'bold' }}>Update Profile</h5>
           </Card.Header>
 
           <Card.Body style={{ overflow: 'auto' }}>
             <div className="col-lg-6" style={{ marginBottom: '20px' }}>
-              <label className="form-label" htmlFor="NewPassword">
-                Please choose a new password
+              <label className="form-label" htmlFor="PhoneNumber">
+                Phone Number
               </label>
               <input
-                type="password"
+                type="text"
                 className="form-control"
-                id="NewPassword"
-                onChange={(e) => setPassword(e.target.value)}
-              ></input>
-              {passwordError && <p className="text-danger">{passwordError}</p>}
+                id="PhoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
             </div>
+            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
+              <label className="form-label" htmlFor="ID">
+                ID
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="ID"
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+              />
+            </div>
+            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
+              <label className="form-label" htmlFor="Street">
+                Street
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="Street"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+              />
+            </div>
+            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
+              <label className="form-label" htmlFor="City">
+                City
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+            {error && <p className="text-danger">{error}</p>}
 
-            <div style={{ marginTop: '20px' }}></div>
             <Button
               style={{
                 backgroundColor: '#6C757D',
@@ -78,7 +124,7 @@ export const ChangePassword = () => {
                 color: '#FFFFFF',
               }}
               variant="primary1"
-              onClick={handleChangePassword}
+              onClick={handleUpdateProfile}
             >
               Save
             </Button>
@@ -94,7 +140,7 @@ export const ChangePassword = () => {
         dismissible
         style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 9999 }}
       >
-        Password changed successfully!
+        Profile updated successfully!
       </Alert>
     </div>
   );

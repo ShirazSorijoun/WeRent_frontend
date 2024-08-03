@@ -18,8 +18,12 @@ import { userLogin } from '@/stores/user';
 import { handleLocalStorageLogin } from '@/utils/auth';
 
 const schema = z.object({
-  firstName: z.string().min(2, { message: 'First Name must contain at least 2 letters' }),
-  lastName: z.string().min(2, { message: 'Last Name must contain at least 2 letters' }),
+  firstName: z
+    .string()
+    .min(2, { message: 'First Name must contain at least 2 letters' }),
+  lastName: z
+    .string()
+    .min(2, { message: 'Last Name must contain at least 2 letters' }),
   email: z.string().email({ message: 'Invalid email format' }),
   password: z
     .string()
@@ -71,12 +75,13 @@ export const RegistrationPage = () => {
   const logUserAfterRegister = async (data: ILoginResponse) => {
     handleLocalStorageLogin(data);
 
+    console.log('User logged in:', data);
     if (!data.isNeedPass) {
       await dispatch(userLogin(data.userId));
       navigate('/rent');
     } else {
-      await dispatch(userLogin(data.userId));
-      navigate('/');
+      /*await dispatch(userLogin(data.userId));*/
+      navigate('/changePassword');
     }
   };
 
@@ -136,7 +141,10 @@ export const RegistrationPage = () => {
         console.log('User registered:', registrationResponse);
 
         // Log in the user immediately after successful registration
-        const loginResponse = await api.auth.loginUser({email: formData.email, password: formData.password});
+        const loginResponse = await api.auth.loginUser({
+          email: formData.email,
+          password: formData.password,
+        });
         logUserAfterRegister(loginResponse);
       } catch (error: any) {
         console.error('Login failed:', error);
