@@ -28,14 +28,11 @@ export const useHandleLogin = (): IUseHandleLogin => {
 
   const onLoginSuccess = async (data: ILoginResponse) => {
     handleLocalStorageLogin(data);
-    if (data.isNeedPass) {
-      navigate('/changePassword');
-    } else {
-      await dispatch(userLogin(data.userId));
-      toast.success('successfully login');
-      setIsButtonLoading(false);
-      navigate('/');
-    }
+
+    await dispatch(userLogin(data.userId));
+    toast.success('successfully login');
+    setIsButtonLoading(false);
+    navigate('/');
   };
 
   const handleValidFormData = async (formData: LoginFormData) => {

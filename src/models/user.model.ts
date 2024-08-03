@@ -34,7 +34,12 @@ export interface IRegister extends ILogin {
 }
 
 export interface UpdateOwnProfileData {
-  name?: string;
+  firstName?: string;
+  lastName?: string;
+  personalId?: string;
+  streetAddress?: string;
+  cityAddress?: string;
+  phoneNumber?: string;
   email?: string;
   password?: string;
   profile_image?: string;
