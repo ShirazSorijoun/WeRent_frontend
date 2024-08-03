@@ -72,7 +72,8 @@ export const RegistrationPage = () => {
     handleLocalStorageLogin(data);
 
     if (!data.isNeedPass) {
-      navigate('/changePassword');
+      await dispatch(userLogin(data.userId));
+      navigate('/rent');
     } else {
       await dispatch(userLogin(data.userId));
       navigate('/');

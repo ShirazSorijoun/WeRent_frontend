@@ -6,3 +6,29 @@
   .form-completed-message {
     margin-top: 20px;
   }
+
+  .apartment-personal-area {
+    margin: 20px;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+  }
+  
+  .card-header {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .list-group-item {
+    font-size: 1em;
+  }
+  
+  .form-completed-message {
+    margin-top: 20px;
+  }
+  
+  .success-message {
+    color: green;
+    font-weight: bold;
+  }
