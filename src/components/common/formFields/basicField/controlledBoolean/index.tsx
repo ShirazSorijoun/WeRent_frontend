@@ -1,24 +1,22 @@
 import { IControlledSelectArray } from '@/models';
-import { ControlledSelect } from '../../controlledSelect';
 import { IControlledBasicFieldTypeProps } from '../utils';
+import { ControlledRadioGroup } from '../../controlledRadioGroup';
 
 const booleanSelectFieldValues: IControlledSelectArray = [
-  { display: 'Yes', value: 'Yes' },
-  { display: 'No', value: 'No' },
+  { display: 'Yes', value: true },
+  { display: 'No', value: false },
 ];
 
 export const ControlledBoolean: React.FC<IControlledBasicFieldTypeProps> = ({
   fieldData,
   control,
   sxStyle,
-  otherProps,
 }) => {
   return (
-    <ControlledSelect
-      valuesArray={booleanSelectFieldValues}
+    <ControlledRadioGroup
+      options={booleanSelectFieldValues}
       control={control}
       fieldData={fieldData}
-      noPlaceHolder={otherProps?.noPlaceHolder ?? false}
       formControlSX={sxStyle}
     />
   );
