@@ -1,6 +1,5 @@
-import { string } from 'zod';
-import user from '@/stores/user';
 import { IUserData } from '@/models';
+import { ICoordinates } from '@/models/adressCheck';
 
 export type ApartmentProps = {
   _id?: string;
@@ -29,19 +28,19 @@ export type ApartmentProps = {
   };
   description?: string;
   phone?: string;
-  coordinate?: {
-    lng: number;
-    lat: number;
-  };
+  coordinate?: ICoordinates;
 };
 
 export type IMatch = {
   _id?: string;
   apartment: string;
-  user: Pick<IUserData, 'email' | 'firstName' | 'lastName' | 'phoneNumber' | '_id'>;
+  user: Pick<
+    IUserData,
+    'email' | 'firstName' | 'lastName' | 'phoneNumber' | '_id'
+  >;
   date: Date;
   accepted: boolean;
-}
+};
 
 export type ReviewProps = {
   _id?: string;

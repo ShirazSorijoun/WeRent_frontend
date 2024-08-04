@@ -1,6 +1,7 @@
 import { ApartmentProps, IMatch } from '@/types/types';
 import { axiosInstance } from '../api';
-import { addressAPIData, addressCheckRes } from '@/models/adressCheck';
+import { addressCheckRes, ICoordinates } from '@/models/adressCheck';
+import { convertITMToUTM } from '@/utils/coorrdinates';
 
 const APARTMENT_API_KEY = '/apartment';
 
@@ -27,7 +28,10 @@ export const acceptMatch = async (matchId: string): Promise<void> =>
 export const getMatchingList = async (apartmentId: string): Promise<IMatch[]> =>
   (await axiosInstance.get(`${APARTMENT_API_KEY}/match/${apartmentId}`)).data;
 
-export const matchApartment = async (apartmentId: string, userId: string): Promise<void> =>
+export const matchApartment = async (
+  apartmentId: string,
+  userId: string,
+): Promise<void> =>
   axiosInstance.post(`${APARTMENT_API_KEY}/match`, {
     apartmentId,
     userId,
@@ -50,14 +54,19 @@ export const deleteApartment = async (apartmentId: string) =>
 
 export const checkTamaCloseToApartment = async (
   apartmentId: string,
-): Promise<boolean> =>
-  new Promise((resolve, reject) => {
-    resolve(true);
-  });
+): Promise<boolean> => {
+  const res: any[] = (
+    await axiosInstance.get(
+      `${APARTMENT_API_KEY}/searchPointsWithinRadius/${apartmentId}`,
+    )
+  ).data;
+
+  return !!res.length || true;
+};
 
 export const getAddressCoordinates = async (
   address: string,
-): Promise<addressAPIData> => {
+): Promise<ICoordinates> => {
   const res = await fetch(
     `https://es.govmap.gov.il/TldSearch/api/DetailsByQuery?query=${address}&lyrs=1&gid=govmap`,
   );
@@ -67,7 +76,8 @@ export const getAddressCoordinates = async (
   if (resData.Error) {
     throw new Error();
   } else {
-    return resData.data.ADDRESS[0];
+    const originCoordinates = resData.data.ADDRESS[0];
+    return convertITMToUTM(originCoordinates.X, originCoordinates.Y);
   }
 };
 
