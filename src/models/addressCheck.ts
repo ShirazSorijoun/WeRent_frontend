@@ -10,3 +10,8 @@ export interface addressCheckRes {
   };
   Error: number;
 }
+
+export interface ICoordinates {
+  lat: number;
+  lng: number;
+}

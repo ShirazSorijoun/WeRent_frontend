@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { addressAPIData } from '@/models/adressCheck';
+import { ICoordinates } from '@/models/addressCheck';
 import { ApartmentProps } from '@/types/types';
 import {
   EEditApartmentFields,
@@ -48,10 +48,11 @@ export const useEditApartment = (
 
   const handleSave = useCallback(
     async (editableApartment: EditApartmentFormData): Promise<boolean> => {
-      let coordinatesRes: addressAPIData;
+      let coordinatesRes: ICoordinates;
       try {
         coordinatesRes = await api.apartment.getAddressCoordinates(
-          `${editableApartment[EEditApartmentFields.ADDRESS]} ${editableApartment[EEditApartmentFields.CITY]}`,
+          editableApartment[EEditApartmentFields.ADDRESS]!,
+          editableApartment[EEditApartmentFields.CITY]!,
         );
       } catch (error) {
         const errorMsg = 'city or street are not valid';
@@ -74,10 +75,7 @@ export const useEditApartment = (
           } as ApartmentProps;
 
           if (coordinatesRes) {
-            apartmentToSend.coordinate = {
-              lat: coordinatesRes.X,
-              lng: coordinatesRes.Y,
-            };
+            apartmentToSend.coordinate = coordinatesRes;
           }
           await api.apartment.updateApartment(apartmentId, apartmentToSend);
         }
