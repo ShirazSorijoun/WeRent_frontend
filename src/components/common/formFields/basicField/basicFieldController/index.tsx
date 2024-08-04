@@ -10,6 +10,7 @@ import { ControlledCoordinateInput } from '../controlledCoordinateInput';
 import { ControlledDate } from '../controlledDate';
 import { ControlledRating } from '../controlledRating';
 import { ControlledBoolean } from '../controlledBoolean';
+import { ControlledSwitch } from '../controlledSwitch';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
@@ -33,6 +34,7 @@ const fieldsMap: Partial<
   [EBasicFieldType.coordinate]: ControlledCoordinateInput,
   [EBasicFieldType.rating]: ControlledRating,
   [EBasicFieldType.boolean]: ControlledBoolean,
+  [EBasicFieldType.switch]: ControlledSwitch,
 };
 
 const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];

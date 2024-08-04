@@ -224,7 +224,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.boolean}
+        type={EBasicFieldType.switch}
         fieldData={
           leaseAgreementFormDataObject[ELeaseAgreementFields.OPTION_PERIOD]
         }
@@ -272,7 +272,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.boolean}
+        type={EBasicFieldType.switch}
         fieldData={
           leaseAgreementFormDataObject[ELeaseAgreementFields.SUBTENANT]
         }
@@ -290,7 +290,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.boolean}
+        type={EBasicFieldType.switch}
         fieldData={
           leaseAgreementFormDataObject[ELeaseAgreementFields.PROMISSORY_NOTE]
         }
@@ -308,7 +308,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.boolean}
+        type={EBasicFieldType.switch}
         fieldData={
           leaseAgreementFormDataObject[
             ELeaseAgreementFields.LETTER_OF_GUARANTEE
@@ -334,7 +334,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.boolean}
+        type={EBasicFieldType.switch}
         fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.ANIMAL]}
       />
     </>

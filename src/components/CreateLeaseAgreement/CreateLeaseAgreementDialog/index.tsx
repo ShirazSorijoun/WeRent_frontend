@@ -20,11 +20,9 @@ interface ILeaseAgreementFormDialogProps {
   completeSave: () => void;
 }
 
-export const LeaseAgreementFormDialog: React.FC<ILeaseAgreementFormDialogProps> = ({
-  isOpen,
-  handleCancel,
-  completeSave,
-}) => {
+export const LeaseAgreementFormDialog: React.FC<
+  ILeaseAgreementFormDialogProps
+> = ({ isOpen, handleCancel, completeSave }) => {
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: leaseAgreementDefaultValues,
