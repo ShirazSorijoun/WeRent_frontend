@@ -66,9 +66,10 @@ export const checkTamaCloseToApartment = async (
 
 export const getAddressCoordinates = async (
   address: string,
+  city: string,
 ): Promise<ICoordinates> => {
   const res = await fetch(
-    `https://es.govmap.gov.il/TldSearch/api/DetailsByQuery?query=${address}&lyrs=1&gid=govmap`,
+    `https://es.govmap.gov.il/TldSearch/api/DetailsByQuery?query=${address} ${city}&lyrs=1&gid=govmap`,
   );
 
   const resData: addressCheckRes = await res.json();

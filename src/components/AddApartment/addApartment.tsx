@@ -83,7 +83,8 @@ const AddApartment: React.FC = () => {
       try {
         schema.parse(apartmentData);
         const coordinatesRes = await api.apartment.getAddressCoordinates(
-          `${apartmentData.address} ${apartmentData.city}`,
+          apartmentData.address,
+          apartmentData.city,
         );
         setApartmentData({ ...apartmentData, coordinate: coordinatesRes });
         setErrors({});

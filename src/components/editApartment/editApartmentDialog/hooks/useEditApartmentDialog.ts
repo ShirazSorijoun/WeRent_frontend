@@ -51,7 +51,8 @@ export const useEditApartment = (
       let coordinatesRes: ICoordinates;
       try {
         coordinatesRes = await api.apartment.getAddressCoordinates(
-          `${editableApartment[EEditApartmentFields.ADDRESS]} ${editableApartment[EEditApartmentFields.CITY]}`,
+          editableApartment[EEditApartmentFields.ADDRESS]!,
+          editableApartment[EEditApartmentFields.CITY]!,
         );
       } catch (error) {
         const errorMsg = 'city or street are not valid';
