@@ -7,7 +7,7 @@ interface IControlledSelectArrayItem<T> {
 
 export type IControlledSelectArray<T> = IControlledSelectArrayItem<T>[];
 
-export const zodOfStringSelect = (
+export const zodOfStringSelectValues = (
   valuesArray: IControlledSelectArray<string>,
 ): z.ZodEnum<[string, ...string[]]> => {
   const arrayForValidation = valuesArray.map(
