@@ -92,10 +92,7 @@ export const schema = z.object({
     .min(1)
     .max(5),
   [ETenantQuestionnaireFields.OWNER_RESPONSIVENESS]: z.number().min(1).max(5),
-  [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: z.boolean(),
   [ETenantQuestionnaireFields.RENEWAL_CONSIDERATION]: z.enum([
     'Yes',
     'No',
@@ -113,10 +110,7 @@ export const schema = z.object({
     '4-7 days',
     'More than a week',
   ]),
-  [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: z.boolean(),
   [ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD]: z.enum([
     'Phone',
     'Email',
@@ -138,12 +132,12 @@ export const quarterlyTenantQuestionnaireDefaultValues: QuarterlyTenantQuestionn
     [ETenantQuestionnaireFields.MAINTENANCE_ISSUES]: '',
     [ETenantQuestionnaireFields.RESPONSE_TIME_SATISFACTION]: 1,
     [ETenantQuestionnaireFields.OWNER_RESPONSIVENESS]: 1,
-    [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: 'No',
+    [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: false,
     [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS_COMMENTS]: '',
     [ETenantQuestionnaireFields.RENEWAL_CONSIDERATION]: 'Undecided',
     [ETenantQuestionnaireFields.RESPONSE_TIME_TO_REQUESTS]: 'More than a week',
     [ETenantQuestionnaireFields.RESOLUTION_TIME]: 'More than a week',
-    [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: 'No',
+    [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: false,
     [ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD]: 'Email',
     [ETenantQuestionnaireFields.COMMUNICATION_SKILLS_RATING]: 1,
   };

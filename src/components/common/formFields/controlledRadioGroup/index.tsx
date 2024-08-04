@@ -16,7 +16,7 @@ import { IControlledSelectArray, IFormField } from '@/models/forms';
 interface IControlledRadioGroupProps {
   fieldData: IFormField;
   control: Control<FieldValues, any>;
-  options: IControlledSelectArray;
+  options: IControlledSelectArray<any>;
   formControlSX?: SxProps<Theme>;
 }
 

@@ -2,7 +2,7 @@ import { IControlledSelectArray } from '@/models';
 import { IControlledBasicFieldTypeProps } from '../utils';
 import { ControlledRadioGroup } from '../../controlledRadioGroup';
 
-const booleanSelectFieldValues: IControlledSelectArray = [
+const booleanSelectFieldValues: IControlledSelectArray<boolean> = [
   { display: 'Yes', value: true },
   { display: 'No', value: false },
 ];
