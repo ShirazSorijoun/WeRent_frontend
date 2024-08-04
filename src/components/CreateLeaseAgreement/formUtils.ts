@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  IControlledSelectArray,
-  IFormField,
-  zodOfBoolean,
-} from '@/models/forms';
+import { IControlledSelectArray, IFormField } from '@/models/forms';
 
 export enum ELeaseAgreementFields {
   DATE_DAY_OF_MONTH = 'date_dayOfTheMonth',
@@ -240,7 +236,7 @@ export const schema = z.object({
   [ELeaseAgreementFields.NAME_OF_BANK]: z.string().optional(),
   [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: z.string().optional(),
   [ELeaseAgreementFields.BANK_BRANCH]: z.string().optional(),
-  [ELeaseAgreementFields.OPTION_PERIOD]: zodOfBoolean,
+  [ELeaseAgreementFields.OPTION_PERIOD]: z.boolean(),
   [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: z.number().int().optional(),
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: z.number().int().optional(),
   [ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD]: z
@@ -248,16 +244,16 @@ export const schema = z.object({
     .int()
     .optional(),
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: z.number().int(),
-  [ELeaseAgreementFields.SUBTENANT]: zodOfBoolean,
+  [ELeaseAgreementFields.SUBTENANT]: z.boolean(),
   [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: z.number().int(),
-  [ELeaseAgreementFields.PROMISSORY_NOTE]: zodOfBoolean,
+  [ELeaseAgreementFields.PROMISSORY_NOTE]: z.boolean(),
   [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: z.number().optional(),
-  [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: zodOfBoolean,
+  [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: z.boolean(),
   [ELeaseAgreementFields.GUARANTEE]: z
     .enum(['Financial deposit', 'Autonomous bank guarantee'])
     .optional(),
   [ELeaseAgreementFields.GUARANTEE_AMOUNT]: z.number().optional(),
-  [ELeaseAgreementFields.ANIMAL]: zodOfBoolean,
+  [ELeaseAgreementFields.ANIMAL]: z.boolean(),
 });
 
 export const leaseAgreementDefaultValues = {
@@ -286,19 +282,19 @@ export const leaseAgreementDefaultValues = {
   [ELeaseAgreementFields.NAME_OF_BANK]: '',
   [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: '',
   [ELeaseAgreementFields.BANK_BRANCH]: '',
-  [ELeaseAgreementFields.OPTION_PERIOD]: '',
+  [ELeaseAgreementFields.OPTION_PERIOD]: false,
   [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: 0,
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: 0,
   [ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD]: 0,
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: 0,
-  [ELeaseAgreementFields.SUBTENANT]: '',
+  [ELeaseAgreementFields.SUBTENANT]: false,
   [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: 0,
-  [ELeaseAgreementFields.PROMISSORY_NOTE]: '',
+  [ELeaseAgreementFields.PROMISSORY_NOTE]: false,
   [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: 0,
-  [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: '',
+  [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: false,
   [ELeaseAgreementFields.GUARANTEE]: '',
   [ELeaseAgreementFields.GUARANTEE_AMOUNT]: 0,
-  [ELeaseAgreementFields.ANIMAL]: '',
+  [ELeaseAgreementFields.ANIMAL]: false,
 };
 
 export type leaseAgreementFormData = z.infer<typeof schema>;

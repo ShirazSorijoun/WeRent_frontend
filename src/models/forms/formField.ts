@@ -18,5 +18,6 @@ export enum EBasicFieldType {
   coordinate = 'coordinate',
   rating = 'rating',
   boolean = 'boolean',
+  switch = 'switch',
   enum = 'enum',
 }

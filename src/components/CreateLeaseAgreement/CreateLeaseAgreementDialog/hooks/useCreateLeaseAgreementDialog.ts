@@ -3,12 +3,14 @@ import { api } from '@/api';
 import { leaseAgreementFormData } from '../../formUtils';
 import axios from 'axios';
 
-interface IUseLeaseAgreementForm  {
-  saveLeaseAgreementForm: (formData: leaseAgreementFormData) => Promise<boolean>;
+interface IUseLeaseAgreementForm {
+  saveLeaseAgreementForm: (
+    formData: leaseAgreementFormData,
+  ) => Promise<boolean>;
   isButtonLoading: boolean;
 }
 
-export const useLeaseAgreementForm  = (): IUseLeaseAgreementForm  => {
+export const useLeaseAgreementForm = (): IUseLeaseAgreementForm => {
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const saveLeaseAgreementForm = useCallback(

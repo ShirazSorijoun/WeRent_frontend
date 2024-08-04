@@ -160,18 +160,18 @@ export type LeaseAgreementFormProps = {
   bankAccountNumber?: string;
   bankBranch?: string;
 
-  optionPeriod: string;
+  optionPeriod: boolean;
   optionPeriodLength?: number;
   maxPercentageIncrease?: number;
   maxNumOfMonthsIncludeOptionPeriod?: number;
   numOfDaysForRepair: number;
-  subtenant: string;
+  subtenant: boolean;
   numOfDaysPaymentDelay: number;
 
-  promissoryNote: string;
+  promissoryNote: boolean;
   promissoryNoteAmount?: number;
-  letterOfGuarantee: string;
+  letterOfGuarantee: boolean;
   guarantee?: string;
   guaranteeAmount?: number;
-  animal: string;
+  animal: boolean;
 };
