@@ -10,12 +10,12 @@ import {
   FormHelperText,
 } from '@mui/material';
 import { FieldValues, Controller, Control } from 'react-hook-form';
-import { IControlledCheckBoxOptions, IFormField } from '@/models/forms';
+import { IControlledMultiCheckBoxOptions, IFormField } from '@/models/forms';
 
 interface IControlledMultiCheckedBoxProps {
   fieldData: IFormField;
   control: Control<FieldValues, any>;
-  options: IControlledCheckBoxOptions;
+  options: IControlledMultiCheckBoxOptions;
   formControlSX?: SxProps<Theme>;
 }
 

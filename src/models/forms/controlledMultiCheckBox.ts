@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-interface checkBoxOptionField {
+interface IMultiCheckBoxOptionField {
   field: string;
   display: string;
 }
-export type IControlledCheckBoxOptions = checkBoxOptionField[];
+export type IControlledMultiCheckBoxOptions = IMultiCheckBoxOptionField[];
 
-export const createCheckBoxZod = (
-  checkBoxOptions: IControlledCheckBoxOptions,
+export const createMultiCheckBoxZod = (
+  checkBoxOptions: IControlledMultiCheckBoxOptions,
 ) => {
   const zodObject: Record<string, any> = {};
   checkBoxOptions.forEach((option) => {
