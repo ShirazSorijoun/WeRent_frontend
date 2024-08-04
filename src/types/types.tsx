@@ -79,20 +79,20 @@ export const defaultApartment: ApartmentProps = {
 };
 
 export type TenantFormProps = {
-  rentalAgreement: 'Yes' | 'No';
+  rentalAgreement: boolean;
   rentalAgreementComments?: string;
-  propertyInformation: 'Yes' | 'No';
+  propertyInformation: boolean;
   propertyInformationComments?: string;
-  leaseSigningProcess: 'Yes' | 'No';
+  leaseSigningProcess: boolean;
   leaseSigningProcessComments?: string;
-  questionsAddressed: 'Yes' | 'No';
+  questionsAddressed: boolean;
   questionsAddressedComments?: string;
-  propertyCondition: 'Yes' | 'No';
+  propertyCondition: boolean;
   propertyConditionComments?: string;
-  receivedInformation: 'Yes' | 'No';
+  receivedInformation: boolean;
   transitionProblems?: string;
   satisfactionRating: number;
-  maintenanceRequests: 'Yes' | 'No';
+  maintenanceRequests: boolean;
   maintenanceRequestsComments?: string;
   firstImpression?: string;
   createdAt?: Date;
@@ -104,7 +104,7 @@ export type QuarterlyTenantFormProps = {
   maintenanceIssues?: string;
   responseTimeSatisfaction: number;
   ownerResponsiveness: number;
-  comfortableRaisingConcerns: 'Yes' | 'No';
+  comfortableRaisingConcerns: boolean;
   comfortableRaisingConcernsComments?: string;
   renewalConsideration: 'Yes' | 'No' | 'Undecided';
   responseTimeToRequests:
@@ -117,7 +117,7 @@ export type QuarterlyTenantFormProps = {
     | '1-3 days'
     | '4-7 days'
     | 'More than a week';
-  issuesResolvedToSatisfaction: 'Yes' | 'No';
+  issuesResolvedToSatisfaction: boolean;
   issuesResolvedToSatisfactionComments?: string;
   preferredCommunicationMethod: 'Phone' | 'Email' | 'Text' | 'Personal';
   communicationSkillsRating: number;

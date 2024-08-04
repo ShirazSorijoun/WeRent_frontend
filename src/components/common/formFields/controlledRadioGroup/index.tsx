@@ -16,7 +16,7 @@ import { IControlledSelectArray, IFormField } from '@/models/forms';
 interface IControlledRadioGroupProps {
   fieldData: IFormField;
   control: Control<FieldValues, any>;
-  options: IControlledSelectArray;
+  options: IControlledSelectArray<any>;
   formControlSX?: SxProps<Theme>;
 }
 
@@ -41,6 +41,7 @@ export const ControlledRadioGroup: React.FC<IControlledRadioGroupProps> = ({
                 {options.map((option) => (
                   <FormControlLabel
                     key={option.value}
+                    value={option.value}
                     control={<Radio />}
                     label={option.display}
                   />

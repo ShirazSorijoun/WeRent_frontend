@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { IControlledSelectArray, IFormField } from '@/models/forms';
+import {
+  IControlledSelectArray,
+  IFormField,
+  zodOfStringSelect,
+} from '@/models/forms';
 
 export enum EEditApartmentFields {
   CITY = 'city',
@@ -62,7 +66,7 @@ export const editFormDataObject: Record<EEditApartmentFields, IFormField> = {
   },
 };
 
-export const typeFieldValues: IControlledSelectArray = [
+export const typeFieldValues: IControlledSelectArray<string> = [
   { display: 'Apartment', value: 'Apartment' },
   { display: 'Garden apartment', value: 'Garden apartment' },
   { display: 'Private/Cottage', value: 'Private/Cottage' },
@@ -74,7 +78,7 @@ export const typeFieldValues: IControlledSelectArray = [
   { display: 'Other', value: 'Other' },
 ];
 
-export const furnitureFieldValues: IControlledSelectArray = [
+export const furnitureFieldValues: IControlledSelectArray<string> = [
   { display: 'full', value: 'full' },
   { display: 'partial', value: 'partial' },
   { display: 'none', value: 'none' },
@@ -83,13 +87,14 @@ export const furnitureFieldValues: IControlledSelectArray = [
 export const schema = z.object({
   [EEditApartmentFields.CITY]: z.string().optional(),
   [EEditApartmentFields.ADDRESS]: z.string().optional(),
-  [EEditApartmentFields.TYPE]: z.any().optional(),
+  [EEditApartmentFields.TYPE]: zodOfStringSelect(typeFieldValues).optional(),
   [EEditApartmentFields.FLOOR]: z.number().optional(),
   [EEditApartmentFields.NUM_OF_FLOORS]: z.number().optional(),
   [EEditApartmentFields.SIZE_IN_SQ_METER]: z.number().optional(),
   [EEditApartmentFields.PRICE]: z.number().optional(),
   [EEditApartmentFields.ENTRY_DATE]: z.date().optional(),
-  [EEditApartmentFields.FURNITURE]: z.any().optional(),
+  [EEditApartmentFields.FURNITURE]:
+    zodOfStringSelect(furnitureFieldValues).optional(),
   [EEditApartmentFields.DESCRIPTION]: z.string().optional(),
   [EEditApartmentFields.PHONE]: z.string().optional(),
 });

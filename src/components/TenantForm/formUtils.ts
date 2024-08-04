@@ -96,39 +96,27 @@ export const initialTenantQuestionnaireFormDataObject: Record<
 
 // Validation schema
 export const schema = z.object({
-  [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: z.enum(['Yes', 'No']),
+  [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: z.boolean(),
   [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: z
     .string()
     .optional(),
-  [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: z.boolean(),
   [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: z
     .string()
     .optional(),
-  [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: z.boolean(),
   [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: z
     .string()
     .optional(),
-  [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: z.boolean(),
   [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: z
     .string()
     .optional(),
-  [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: z.enum(['Yes', 'No']),
+  [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: z.boolean(),
   [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: z
     .string()
     .optional(),
-  [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: z.boolean(),
   [EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS]: z
     .string()
     .optional(),
@@ -136,10 +124,7 @@ export const schema = z.object({
     .number()
     .min(1)
     .max(5),
-  [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: z.enum([
-    'Yes',
-    'No',
-  ]),
+  [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: z.boolean(),
   [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: z
     .string()
     .optional(),
@@ -148,20 +133,20 @@ export const schema = z.object({
 
 export const initialTenantQuestionnaireDefaultValues: InitialTenantQuestionnaireFormData =
   {
-    [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: 'No',
+    [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: false,
     [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: '',
-    [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: 'No',
+    [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: false,
     [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: '',
-    [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: 'No',
+    [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: false,
     [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: '',
-    [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: 'No',
+    [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: false,
     [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: '',
-    [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: 'No',
+    [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: false,
     [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: '',
-    [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: 'No',
+    [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: false,
     [EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS]: '',
     [EInitialTenantQuestionnaireFields.SATISFACTION_RATING]: 1,
-    [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: 'No',
+    [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: false,
     [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: '',
     [EInitialTenantQuestionnaireFields.FIRST_IMPRESSION]: '',
   };

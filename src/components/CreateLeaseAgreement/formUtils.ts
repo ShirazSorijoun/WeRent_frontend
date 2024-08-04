@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { IControlledSelectArray, IFormField } from '@/models/forms';
+import {
+  IControlledSelectArray,
+  IFormField,
+  zodOfStringSelect,
+} from '@/models/forms';
 
 export enum ELeaseAgreementFields {
   DATE_DAY_OF_MONTH = 'date_dayOfTheMonth',
@@ -200,12 +204,12 @@ export const leaseAgreementFormDataObject: Record<
   },
 };
 
-export const paymentMethodFieldValues: IControlledSelectArray = [
+export const paymentMethodFieldValues: IControlledSelectArray<string> = [
   { display: 'Bank Transfer', value: 'Bank Transfer' },
   { display: 'Checks', value: 'Checks' },
 ];
 
-export const guaranteeFieldValues: IControlledSelectArray = [
+export const guaranteeFieldValues: IControlledSelectArray<string> = [
   { display: 'Financial deposit', value: 'Financial deposit' },
   { display: 'Autonomous bank guarantee', value: 'Autonomous bank guarantee' },
 ];
@@ -232,7 +236,9 @@ export const schema = z.object({
   [ELeaseAgreementFields.END_DATE]: z.string(),
   [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: z.number(),
   [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: z.number().int(),
-  [ELeaseAgreementFields.PAYMENT_METHOD]: z.enum(['Bank Transfer', 'Checks']),
+  [ELeaseAgreementFields.PAYMENT_METHOD]: zodOfStringSelect(
+    paymentMethodFieldValues,
+  ),
   [ELeaseAgreementFields.NAME_OF_BANK]: z.string().optional(),
   [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: z.string().optional(),
   [ELeaseAgreementFields.BANK_BRANCH]: z.string().optional(),
@@ -249,9 +255,8 @@ export const schema = z.object({
   [ELeaseAgreementFields.PROMISSORY_NOTE]: z.boolean(),
   [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: z.number().optional(),
   [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: z.boolean(),
-  [ELeaseAgreementFields.GUARANTEE]: z
-    .enum(['Financial deposit', 'Autonomous bank guarantee'])
-    .optional(),
+  [ELeaseAgreementFields.GUARANTEE]:
+    zodOfStringSelect(guaranteeFieldValues).optional(),
   [ELeaseAgreementFields.GUARANTEE_AMOUNT]: z.number().optional(),
   [ELeaseAgreementFields.ANIMAL]: z.boolean(),
 });

@@ -21,7 +21,7 @@ import { IControlledSelectArray, IFormField } from '@/models/forms';
 interface ControlledSelectProps {
   fieldData: IFormField;
   control: Control<FieldValues, any>;
-  valuesArray: IControlledSelectArray;
+  valuesArray: IControlledSelectArray<any>;
   formControlSX?: SxProps<Theme>;
   menuSX?: SxProps<Theme>;
   noPlaceHolder?: boolean;
