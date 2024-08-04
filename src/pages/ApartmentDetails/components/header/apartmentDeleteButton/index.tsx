@@ -18,7 +18,7 @@ export const ApartmentDeleteButton: React.FC<IApartmentDeleteButtonProps> = ({
     try {
       if (apartmentId) {
         await api.apartment.deleteApartment(apartmentId);
-        navigate('/');
+        navigate(-1);
       }
     } catch (error) {
       console.error('Error deleting apartment:', error);

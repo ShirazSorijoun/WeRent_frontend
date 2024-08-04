@@ -1,5 +1,5 @@
 import { IUserData } from '@/models';
-import { ICoordinates } from '@/models/adressCheck';
+import { ICoordinates } from '@/models/addressCheck';
 
 export type ApartmentProps = {
   _id?: string;

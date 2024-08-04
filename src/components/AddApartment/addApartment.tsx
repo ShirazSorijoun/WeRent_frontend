@@ -82,6 +82,12 @@ const AddApartment: React.FC = () => {
     if (currentStep === 2) {
       try {
         schema.parse(apartmentData);
+        const coordinatesRes = await api.apartment.getAddressCoordinates(
+          `${apartmentData.address} ${apartmentData.city}`,
+        );
+        setApartmentData({ ...apartmentData, coordinate: coordinatesRes });
+        setErrors({});
+        setCurrentStep(3);
       } catch (error) {
         if (error instanceof z.ZodError) {
           console.log('Validation errors:', error.errors);
@@ -92,12 +98,19 @@ const AddApartment: React.FC = () => {
             }
           });
           setErrors(validationErrors);
-          return;
+        } else {
+          const errorMsg = 'city or street are not valid';
+
+          const updatedErrors = {
+            ...errors,
+            ['address']: errorMsg,
+            ['city']: errorMsg,
+          };
+
+          setErrors(updatedErrors);
         }
       }
-    }
-
-    if (Object.keys(errors).length === 0) {
+    } else if (Object.keys(errors).length === 0) {
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
@@ -188,15 +201,14 @@ const AddApartment: React.FC = () => {
       imageUrl = await api.file.uploadImage(uploadedFile);
     }
 
-    const apartmentDataWithImage = {
+    const fullApartmentData: ApartmentProps = {
       ...apartmentData,
       apartment_image: imageUrl || undefined,
     };
 
     try {
-      const updatedApartment = await api.apartment.postApartment(
-        apartmentDataWithImage,
-      );
+      const updatedApartment =
+        await api.apartment.postApartment(fullApartmentData);
       console.log('Apartment added successfully', updatedApartment);
       navigate('/apartment-details/' + updatedApartment._id);
     } catch (error) {
@@ -563,7 +575,11 @@ const AddApartment: React.FC = () => {
                           className="form-control"
                           id="name"
                           name="name"
-                          value={userData.name || ''}
+                          value={
+                            userData
+                              ? `${userData.firstName} ${userData.lastName}`
+                              : ''
+                          }
                           readOnly
                           style={{ color: 'gray' }}
                         />

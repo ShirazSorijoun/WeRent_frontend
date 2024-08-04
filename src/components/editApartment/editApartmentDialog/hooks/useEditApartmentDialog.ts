@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { ICoordinates } from '@/models/adressCheck';
+import { ICoordinates } from '@/models/addressCheck';
 import { ApartmentProps } from '@/types/types';
 import {
   EEditApartmentFields,

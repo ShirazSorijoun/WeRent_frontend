@@ -1,4 +1,4 @@
-import { ICoordinates } from '@/models/adressCheck';
+import { ICoordinates } from '@/models/addressCheck';
 import proj4 from 'proj4';
 
 // Define the ITM and UTM projections

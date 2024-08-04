@@ -1,6 +1,6 @@
 import { ApartmentProps, IMatch } from '@/types/types';
 import { axiosInstance } from '../api';
-import { addressCheckRes, ICoordinates } from '@/models/adressCheck';
+import { addressCheckRes, ICoordinates } from '@/models/addressCheck';
 import { convertITMToUTM } from '@/utils/coorrdinates';
 
 const APARTMENT_API_KEY = '/apartment';
