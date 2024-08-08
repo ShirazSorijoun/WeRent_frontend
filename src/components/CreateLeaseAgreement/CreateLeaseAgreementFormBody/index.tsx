@@ -25,138 +25,14 @@ export const FormLeaseAgreementFormBody: React.FC<
 
         <BasicFieldController
           control={control}
-          type={EBasicFieldType.int}
-          fieldData={
-            leaseAgreementFormDataObject[
-              ELeaseAgreementFields.DATE_DAY_OF_MONTH
-            ]
-          }
-        />
-
-        <p>בחודש</p>
-        <BasicFieldController
-          control={control}
-          type={EBasicFieldType.int}
-          fieldData={
-            leaseAgreementFormDataObject[ELeaseAgreementFields.DATE_MONTH]
-          }
-        />
-
-        <p>בשנת</p>
-        <BasicFieldController
-          control={control}
-          type={EBasicFieldType.int}
-          fieldData={
-            leaseAgreementFormDataObject[ELeaseAgreementFields.DATE_YEAR]
-          }
+          type={EBasicFieldType.date}
+          fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.DATE]}
         />
       </section>
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.OWNER_NAME]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.OWNER_ID_NUMBER]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.OWNER_STREET]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.OWNER_CITY]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.TENANT_NAME]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.TENANT_ID_NUMBER]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.TENANT_STREET]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.TENANT_CITY]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.float}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.APARTMENT_NUMBER_OF_ROOMS
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.APARTMENT_FLOOR_NUMBER
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.APARTMENT_STREET]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.NUM_OF_RENTAL_MONTHS
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
+        type={EBasicFieldType.date}
         fieldData={
           leaseAgreementFormDataObject[ELeaseAgreementFields.START_DATE]
         }
@@ -164,7 +40,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.multiLineText}
+        type={EBasicFieldType.date}
         fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.END_DATE]}
       />
 

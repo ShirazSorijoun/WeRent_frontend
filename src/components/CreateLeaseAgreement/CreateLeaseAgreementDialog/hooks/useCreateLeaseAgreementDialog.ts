@@ -19,7 +19,10 @@ export const useLeaseAgreementForm = (): IUseLeaseAgreementForm => {
       try {
         const updatedFormData = { ...formData };
 
-        await api.leaseAgreement.postLeaseAgreementForm(updatedFormData);
+        await api.leaseAgreement.postLeaseAgreementForm({
+          ...updatedFormData,
+          apartmentId: '',
+        });
 
         setIsButtonLoading(false);
         return true;
