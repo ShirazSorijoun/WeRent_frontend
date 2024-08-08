@@ -1,218 +1,73 @@
 import React from 'react';
-import { Control } from 'react-hook-form';
 import {
-  leaseAgreementFormDataObject,
-  ELeaseAgreementFields,
-  paymentMethodFieldValues,
-  guaranteeFieldValues,
-} from '../formUtils';
-import { EBasicFieldType } from '@/models/forms';
-import { BasicFieldController, ControlledSelect } from '@@/common/formFields';
+  CreateLeaseAgreementFormPage1,
+  CreateLeaseAgreementFormPage2,
+  CreateLeaseAgreementFormPage3,
+  CreateLeaseAgreementFormPage4,
+  CreateLeaseAgreementFormPage5,
+} from './formPages';
+import { Box, Button, Step, StepButton, Stepper } from '@mui/material';
+import { ControlProps } from '@/models/form';
 
-interface IFormLeaseAgreementFormBodyProps {
-  control: Control<any>;
-}
+const steps = ['1', '2', '3', '4', '5'];
+const StepToComp: React.FC<ControlProps>[] = [
+  CreateLeaseAgreementFormPage1,
+  CreateLeaseAgreementFormPage2,
+  CreateLeaseAgreementFormPage3,
+  CreateLeaseAgreementFormPage4,
+  CreateLeaseAgreementFormPage5,
+];
 
-export const FormLeaseAgreementFormBody: React.FC<
-  IFormLeaseAgreementFormBodyProps
-> = ({ control }) => {
+export const FormLeaseAgreementFormBody: React.FC<ControlProps> = ({
+  control,
+}) => {
+  const [activeStep, setActiveStep] = React.useState<number>(0);
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleStep = (step: number) => () => {
+    setActiveStep(step);
+  };
+
+  const Comp = StepToComp[activeStep];
   return (
     <>
-      {/* Section 1: Lease Dates */}
       <section>
         <h2>חוזה שכירות בלתי מוגנת</h2>
         <p>שנערך ונחתם ביום</p>
-
-        <BasicFieldController
-          control={control}
-          type={EBasicFieldType.date}
-          fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.DATE]}
-        />
       </section>
 
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.date}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.START_DATE]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.date}
-        fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.END_DATE]}
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.float}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT
-          ]
-        }
-      />
-
-      <ControlledSelect
-        valuesArray={paymentMethodFieldValues}
-        control={control}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.PAYMENT_METHOD]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.NAME_OF_BANK]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.BANK_ACCOUNT_NUMBER
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.multiLineText}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.BANK_BRANCH]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.switch}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.OPTION_PERIOD]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.OPTION_PERIOD_LENGTH
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.switch}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.SUBTENANT]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.switch}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.PROMISSORY_NOTE]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.float}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT
-          ]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.switch}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.LETTER_OF_GUARANTEE
-          ]
-        }
-      />
-
-      <ControlledSelect
-        valuesArray={guaranteeFieldValues}
-        control={control}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.GUARANTEE]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.float}
-        fieldData={
-          leaseAgreementFormDataObject[ELeaseAgreementFields.GUARANTEE_AMOUNT]
-        }
-      />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.switch}
-        fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.ANIMAL]}
-      />
+      <Stepper nonLinear activeStep={activeStep}>
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepButton color="inherit" onClick={handleStep(index)}>
+              {label}
+            </StepButton>
+          </Step>
+        ))}
+      </Stepper>
+      <Comp control={control} />
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+        <Box sx={{ flex: '1 1 auto' }} />
+        {activeStep != steps.length - 1 && (
+          <Button onClick={handleNext} sx={{ mr: 1 }}>
+            Next
+          </Button>
+        )}
+      </Box>
     </>
   );
 };

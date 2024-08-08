@@ -13,3 +13,7 @@ export interface IFormFieldInput {
   control: Control;
   formData: IFormFieldInputData;
 }
+
+export interface ControlProps {
+  control: Control<any>;
+}
