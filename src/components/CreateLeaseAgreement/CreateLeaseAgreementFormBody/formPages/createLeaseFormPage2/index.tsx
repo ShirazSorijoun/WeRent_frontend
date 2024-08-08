@@ -94,16 +94,6 @@ export const CreateLeaseAgreementFormPage2: React.FC<ControlProps> = ({
           ]
         }
       />
-
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.int}
-        fieldData={
-          leaseAgreementFormDataObject[
-            ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD
-          ]
-        }
-      />
     </>
   );
 };

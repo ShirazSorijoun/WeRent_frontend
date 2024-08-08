@@ -15,7 +15,6 @@ export enum ELeaseAgreementFields {
   OPTION_PERIOD = 'optionPeriod',
   OPTION_PERIOD_LENGTH = 'optionPeriodLength',
   MAX_PERCENTAGE_INCREASE = 'maxPercentageIncrease',
-  MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD = 'maxNumOfMonthsIncludeOptionPeriod',
   NUM_OF_DAYS_FOR_REPAIR = 'numOfDaysForRepair',
   SUBTENANT = 'subtenant',
   NUM_OF_DAYS_PAYMENT_DELAY = 'numOfDaysPaymentDelay',
@@ -78,10 +77,6 @@ export const leaseAgreementFormDataObject: Record<
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: {
     fieldName: ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE,
     label: 'Maximum Percentage Increase',
-  },
-  [ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD]: {
-    fieldName: ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD,
-    label: 'Maximum Number of Months Including Option Period',
   },
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: {
     fieldName: ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR,
@@ -146,10 +141,6 @@ export const schema = z.object({
   [ELeaseAgreementFields.OPTION_PERIOD]: z.boolean(),
   [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: z.number().int().optional(),
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: z.number().int().optional(),
-  [ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD]: z
-    .number()
-    .int()
-    .optional(),
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: z.number().int(),
   [ELeaseAgreementFields.SUBTENANT]: z.boolean(),
   [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: z.number().int(),
@@ -175,7 +166,6 @@ export const leaseAgreementDefaultValues = {
   [ELeaseAgreementFields.OPTION_PERIOD]: false,
   [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: 0,
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: 0,
-  [ELeaseAgreementFields.MAX_NUM_OF_MONTHS_INCLUDE_OPTION_PERIOD]: 0,
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: 0,
   [ELeaseAgreementFields.SUBTENANT]: false,
   [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: 0,
