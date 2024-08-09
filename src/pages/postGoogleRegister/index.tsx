@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
 import { useAppDispatch } from '@/hooks/store';
 import { userLogin } from '@/stores/user';
 
-export const ChangePassword = () => {
+export const PostGoogleRegister: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [id, setId] = useState('');
   const [street, setStreet] = useState('');
@@ -36,7 +36,7 @@ export const ChangePassword = () => {
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
       console.log('Profile updated successfully!');
-      await dispatch(userLogin(localStorage.getItem('userId') as string));
+      await dispatch(userLogin(userId));
       navigate('/');
       // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
@@ -145,5 +145,3 @@ export const ChangePassword = () => {
     </div>
   );
 };
-
-export default ChangePassword;
