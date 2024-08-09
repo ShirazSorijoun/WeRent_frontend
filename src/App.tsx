@@ -10,11 +10,11 @@ import {
   LoginPage,
   RegistrationPage,
   AllUsersAdminPage,
-  ChangePassword,
   ApartmentDetailsPage,
   MapPage,
   StaticPageContainer,
   ApartmentPersonalAreaPage,
+  PostGoogleRegister,
 } from './pages';
 
 const App: React.FC = () => {
@@ -35,7 +35,7 @@ const App: React.FC = () => {
           <Route path="/addApartment" element={<AddApartmentPage />} />
           <Route path="/users" element={<AllUsersAdminPage />} />
           <Route path="/rent" element={<RentPropertiesPage />} />
-          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/postGoogleRegister" element={<PostGoogleRegister />} />
           <Route path="/googlemap" element={<MapPage />} />
           <Route
             path="/ApartmentPersonalArea"

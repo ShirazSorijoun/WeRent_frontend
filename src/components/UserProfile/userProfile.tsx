@@ -8,9 +8,11 @@ import {
   UserChangePassword,
   UserDetails,
 } from './components';
+import { useAppSelector } from '@/hooks/store';
+import { selectIsUserWithGoogle } from '@/stores/user';
 
 const UserProfile: React.FC = () => {
-  
+  const isUserWithGoogle = useAppSelector(selectIsUserWithGoogle);
 
   const [leaseDialogOpen, setLeaseDialogOpen] = useState(false);
   const openLeaseDialog = () => {
@@ -58,7 +60,7 @@ const UserProfile: React.FC = () => {
         <UserDetails />
 
         <div style={{ marginTop: '30px', marginBottom: '20px' }}>
-          <UserChangePassword />
+          {!isUserWithGoogle && <UserChangePassword />}
 
           <UserApartmentsContainer />
         </div>

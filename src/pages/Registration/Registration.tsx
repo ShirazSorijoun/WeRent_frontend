@@ -75,13 +75,12 @@ export const RegistrationPage = () => {
   const logUserAfterRegister = async (data: ILoginResponse) => {
     handleLocalStorageLogin(data);
 
-    console.log('User logged in:', data);
-    if (!data.isNeedPass) {
-      await dispatch(userLogin(data.userId));
-      navigate('/rent');
+    if (data.isNeedMoreData) {
+      navigate('/postGoogleRegister');
     } else {
-      /*await dispatch(userLogin(data.userId));*/
-      navigate('/changePassword');
+      await dispatch(userLogin(data.userId));
+      console.log('User logged in:', data);
+      navigate('/rent');
     }
   };
 

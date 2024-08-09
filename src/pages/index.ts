@@ -6,7 +6,7 @@ export { RegistrationPage } from './Registration/Registration';
 export { RentPropertiesPage } from './RentPropertiesPage/RentPropertiesPage';
 export { UserPage } from './UserPage/userPage';
 export { LoginPage } from './loginScreen/loginPage';
-export { ChangePassword } from './ChangePassword/afterSignupGoogle';
+export { PostGoogleRegister } from './postGoogleRegister';
 export { AllUsersAdminPage } from './AdminPrivate';
 export { ApartmentDetailsPage } from './ApartmentDetails/apartmentDetails';
 export { MapPage } from './mapPage/mapPage';

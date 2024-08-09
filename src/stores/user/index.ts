@@ -4,7 +4,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { StoreUser } from '@/models';
+import { defaultUserData, googleDefaultPass, StoreUser } from '@/models';
 import { RootState } from '..';
 import { handleLocalStorageLogout } from '@/utils/auth';
 import { api } from '@/api';
@@ -18,12 +18,8 @@ interface UserState {
 const initialState: UserState = {
   userData: {
     userId: '',
-    email: '',
-    name: '',
-    profile_image: '',
-    password: '',
-    advertisedApartments: [],
-    isAdmin: false,
+    isWithGoogle: false,
+    ...defaultUserData,
   },
 };
 
@@ -33,7 +29,11 @@ export const userLogin = createAsyncThunk(
     const response = await api.user.getUserById(userId);
     localStorage.setItem('isLoggedIn', String(true));
 
-    return { userId, ...response };
+    return {
+      userId,
+      isWithGoogle: googleDefaultPass === response.password,
+      ...response,
+    };
   },
 );
 
@@ -82,14 +82,9 @@ export const selectIsUserAdmin = createSelector(
   (user: StoreUser): boolean => !!user.isAdmin,
 );
 
-export const selectUserName = createSelector(
+export const selectIsUserWithGoogle = createSelector(
   selectUser,
-  (user: StoreUser): string => user.name,
-);
-
-export const selectIsAdmin = createSelector(
-  selectUser,
-  (user: StoreUser): boolean => !!user.isAdmin,
+  (user: StoreUser): boolean => !!user.isWithGoogle,
 );
 
 export default userSlice.reducer;
