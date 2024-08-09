@@ -19,7 +19,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT
@@ -38,7 +37,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION
@@ -57,7 +55,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS
@@ -76,7 +73,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED
@@ -95,7 +91,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.PROPERTY_CONDITION
@@ -114,7 +109,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION
@@ -142,7 +136,6 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
       <BasicFieldController
         control={control}
         type={EBasicFieldType.boolean}
-        otherProps={{ noPlaceHolder: true }}
         fieldData={
           initialTenantQuestionnaireFormDataObject[
             EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS

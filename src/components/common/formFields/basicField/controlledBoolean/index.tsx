@@ -1,11 +1,12 @@
-import { IControlledSelectArray } from '@/models';
 import { IControlledBasicFieldTypeProps } from '../utils';
-import { ControlledRadioGroup } from '../../controlledRadioGroup';
-
-const booleanSelectFieldValues: IControlledSelectArray<boolean> = [
-  { display: 'Yes', value: true },
-  { display: 'No', value: false },
-];
+import { Controller } from 'react-hook-form';
+import {
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormHelperText,
+  FormControl,
+} from '@mui/material';
 
 export const ControlledBoolean: React.FC<IControlledBasicFieldTypeProps> = ({
   fieldData,
@@ -13,11 +14,33 @@ export const ControlledBoolean: React.FC<IControlledBasicFieldTypeProps> = ({
   sxStyle,
 }) => {
   return (
-    <ControlledRadioGroup
-      options={booleanSelectFieldValues}
+    <Controller
       control={control}
-      fieldData={fieldData}
-      formControlSX={sxStyle}
+      name={fieldData.fieldName}
+      render={({ field: { value, onChange }, fieldState: { error } }) => (
+        <FormControl sx={sxStyle} margin="none" variant="outlined">
+          <RadioGroup
+            value={value}
+            onChange={(e, selectedVal) => {
+              onChange(selectedVal === 'true');
+            }}
+          >
+            <FormControlLabel
+              key="Yes"
+              value={true}
+              control={<Radio />}
+              label="Yes"
+            />
+            <FormControlLabel
+              key="No"
+              value={false}
+              control={<Radio />}
+              label="No"
+            />
+          </RadioGroup>
+          <FormHelperText error={!!error}>{error?.message}</FormHelperText>
+        </FormControl>
+      )}
     />
   );
 };
