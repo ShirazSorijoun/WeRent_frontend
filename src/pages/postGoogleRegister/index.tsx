@@ -1,42 +1,59 @@
-import React, { useState } from 'react';
-import { Alert, Button, Card } from 'react-bootstrap';
+import React from 'react';
+import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
 import { useAppDispatch } from '@/hooks/store';
 import { userLogin } from '@/stores/user';
+import {
+  editFormDataObject,
+  EPostGoogleRegisterFields,
+  PostGoogleRegisterFormData,
+  schema,
+} from './formUtils';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { BasicFieldController } from '@@/common/formFields';
+import { toast } from 'react-toastify';
 
 export const PostGoogleRegister: React.FC = () => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [id, setId] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const { handleSubmit, control, setError } =
+    useForm<PostGoogleRegisterFormData>({
+      resolver: zodResolver(schema),
+    });
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (form: PostGoogleRegisterFormData) => {
     try {
-      // Validate the input fields
-      if (!phoneNumber || !id || !street || !city) {
-        setError('All fields are required');
-        return;
-      } else {
-        setError(null);
-      }
+      await api.apartment.getAddressCoordinates(
+        form[EPostGoogleRegisterFields.ADDRESS]!,
+        form[EPostGoogleRegisterFields.CITY]!,
+      );
+    } catch (error) {
+      const errorMsg = 'העיר או הכתובת אינם תקניים';
+      setError(EPostGoogleRegisterFields.ADDRESS, {
+        type: 'manual',
+        message: errorMsg,
+      });
+      setError(EPostGoogleRegisterFields.CITY, {
+        type: 'manual',
+        message: errorMsg,
+      });
+      return;
+    }
 
+    try {
       const userId: string = await api.user.updateOwnProfile({
-        phoneNumber,
-        personalId: id,
-        streetAddress: street,
-        cityAddress: city,
+        phoneNumber: form[EPostGoogleRegisterFields.PHONE],
+        personalId: form[EPostGoogleRegisterFields.ID],
+        streetAddress: form[EPostGoogleRegisterFields.ADDRESS],
+        cityAddress: form[EPostGoogleRegisterFields.CITY],
       });
 
-      setShowSuccessAlert(true);
-      setTimeout(() => setShowSuccessAlert(false), 3000);
-      console.log('Profile updated successfully!');
       await dispatch(userLogin(userId));
+      toast.success('הפרופיל נשמר בהצלחה');
+
       navigate('/');
       // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
@@ -63,59 +80,30 @@ export const PostGoogleRegister: React.FC = () => {
               justifyContent: 'center',
             }}
           >
-            <h5 style={{ fontWeight: 'bold' }}>Update Profile</h5>
+            <h5 style={{ fontWeight: 'bold' }}>השלם פרטי פרופיל</h5>
           </Card.Header>
 
           <Card.Body style={{ overflow: 'auto' }}>
-            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
-              <label className="form-label" htmlFor="PhoneNumber">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="PhoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-            </div>
-            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
-              <label className="form-label" htmlFor="ID">
-                ID
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="ID"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-              />
-            </div>
-            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
-              <label className="form-label" htmlFor="Street">
-                Street
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="Street"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-              />
-            </div>
-            <div className="col-lg-6" style={{ marginBottom: '20px' }}>
-              <label className="form-label" htmlFor="City">
-                City
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-            </div>
-            {error && <p className="text-danger">{error}</p>}
+            <BasicFieldController
+              control={control}
+              fieldData={editFormDataObject[EPostGoogleRegisterFields.PHONE]}
+              sxStyle={{ marginBottom: '20px' }}
+            />
+            <BasicFieldController
+              control={control}
+              fieldData={editFormDataObject[EPostGoogleRegisterFields.ID]}
+              sxStyle={{ marginBottom: '20px' }}
+            />
+            <BasicFieldController
+              control={control}
+              fieldData={editFormDataObject[EPostGoogleRegisterFields.ADDRESS]}
+              sxStyle={{ marginBottom: '20px' }}
+            />
+            <BasicFieldController
+              control={control}
+              fieldData={editFormDataObject[EPostGoogleRegisterFields.CITY]}
+              sxStyle={{ marginBottom: '20px' }}
+            />
 
             <Button
               style={{
@@ -124,24 +112,13 @@ export const PostGoogleRegister: React.FC = () => {
                 color: '#FFFFFF',
               }}
               variant="primary1"
-              onClick={handleUpdateProfile}
+              onClick={handleSubmit(handleUpdateProfile)}
             >
               Save
             </Button>
           </Card.Body>
         </Card>
       </div>
-
-      {/* Alert for success */}
-      <Alert
-        variant="success"
-        show={showSuccessAlert}
-        onClose={() => setShowSuccessAlert(false)}
-        dismissible
-        style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 9999 }}
-      >
-        Profile updated successfully!
-      </Alert>
     </div>
   );
 };
