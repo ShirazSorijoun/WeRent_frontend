@@ -82,4 +82,9 @@ export const selectIsUserAdmin = createSelector(
   (user: StoreUser): boolean => !!user.isAdmin,
 );
 
+export const selectIsUserWithGoogle = createSelector(
+  selectUser,
+  (user: StoreUser): boolean => !!user.isWithGoogle,
+);
+
 export default userSlice.reducer;
