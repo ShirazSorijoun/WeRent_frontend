@@ -26,92 +26,98 @@ export enum ELeaseAgreementFields {
   ANIMAL = 'animal',
 }
 
+export const FIRST_STEP_NAME = '1';
+export const SECOND_STEP_NAME = '2';
+export const THIRD_STEP_NAME = '3';
+export const FORTH_STEP_NAME = '4';
+export const FIFTH_STEP_NAME = '5';
+
 export const leaseAgreementFormDataObject: Record<
   ELeaseAgreementFields,
   IFormField
 > = {
   [ELeaseAgreementFields.DATE]: {
-    fieldName: ELeaseAgreementFields.DATE,
+    fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.DATE}`,
     label: 'תאריך חתימה',
   },
   [ELeaseAgreementFields.START_DATE]: {
-    fieldName: ELeaseAgreementFields.START_DATE,
+    fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.START_DATE}`,
     label: 'Start Date',
   },
   [ELeaseAgreementFields.END_DATE]: {
-    fieldName: ELeaseAgreementFields.END_DATE,
+    fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.END_DATE}`,
     label: 'End Date',
   },
   [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: {
-    fieldName: ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH}`,
     label: 'Rental Price per Month',
   },
   [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: {
-    fieldName: ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT}`,
     label: 'Day of the Month for Payment',
   },
   [ELeaseAgreementFields.PAYMENT_METHOD]: {
-    fieldName: ELeaseAgreementFields.PAYMENT_METHOD,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.PAYMENT_METHOD}`,
     label: 'Payment Method',
   },
   [ELeaseAgreementFields.NAME_OF_BANK]: {
-    fieldName: ELeaseAgreementFields.NAME_OF_BANK,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.NAME_OF_BANK}`,
     label: 'Name of Bank',
   },
   [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: {
-    fieldName: ELeaseAgreementFields.BANK_ACCOUNT_NUMBER,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.BANK_ACCOUNT_NUMBER}`,
     label: 'Bank Account Number',
   },
   [ELeaseAgreementFields.BANK_BRANCH]: {
-    fieldName: ELeaseAgreementFields.BANK_BRANCH,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.BANK_BRANCH}`,
     label: 'Bank Branch',
   },
   [ELeaseAgreementFields.OPTION_PERIOD]: {
-    fieldName: ELeaseAgreementFields.OPTION_PERIOD,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.OPTION_PERIOD}`,
     label: 'Option Period',
   },
   [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: {
-    fieldName: ELeaseAgreementFields.OPTION_PERIOD_LENGTH,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.OPTION_PERIOD_LENGTH}`,
     label: 'Option Period Length',
   },
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: {
-    fieldName: ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE,
+    fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE}`,
     label: 'Maximum Percentage Increase',
   },
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: {
-    fieldName: ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR,
+    fieldName: `${THIRD_STEP_NAME}.${ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR}`,
     label: 'Number of Days for Repair',
   },
   [ELeaseAgreementFields.SUBTENANT]: {
-    fieldName: ELeaseAgreementFields.SUBTENANT,
+    fieldName: `${THIRD_STEP_NAME}.${ELeaseAgreementFields.SUBTENANT}`,
     label: 'Subtenant Allowed',
   },
   [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: {
-    fieldName: ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY,
+    fieldName: `${THIRD_STEP_NAME}.${ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY}`,
     label: 'Number of Days Payment Delay',
   },
   [ELeaseAgreementFields.PROMISSORY_NOTE]: {
-    fieldName: ELeaseAgreementFields.PROMISSORY_NOTE,
+    fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.PROMISSORY_NOTE}`,
     label: 'Promissory Note',
   },
   [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: {
-    fieldName: ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT,
+    fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT}`,
     label: 'Promissory Note Amount',
   },
   [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: {
-    fieldName: ELeaseAgreementFields.LETTER_OF_GUARANTEE,
+    fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.LETTER_OF_GUARANTEE}`,
     label: 'Letter of Guarantee',
   },
   [ELeaseAgreementFields.GUARANTEE]: {
-    fieldName: ELeaseAgreementFields.GUARANTEE,
+    fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.GUARANTEE}`,
     label: 'Guarantee',
   },
   [ELeaseAgreementFields.GUARANTEE_AMOUNT]: {
-    fieldName: ELeaseAgreementFields.GUARANTEE_AMOUNT,
+    fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.GUARANTEE_AMOUNT}`,
     label: 'Guarantee Amount',
   },
   [ELeaseAgreementFields.ANIMAL]: {
-    fieldName: ELeaseAgreementFields.ANIMAL,
+    fieldName: `${FIFTH_STEP_NAME}.${ELeaseAgreementFields.ANIMAL}`,
     label: 'Animal Allowed',
   },
 };
@@ -127,30 +133,41 @@ export const guaranteeFieldValues: IControlledSelectArray<string> = [
 ];
 
 export const schema = z.object({
-  [ELeaseAgreementFields.DATE]: z.date(),
-  [ELeaseAgreementFields.START_DATE]: z.date(),
-  [ELeaseAgreementFields.END_DATE]: z.date(),
-  [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: z.number(),
-  [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: z.number().int(),
-  [ELeaseAgreementFields.PAYMENT_METHOD]: zodOfStringSelectValues(
-    paymentMethodFieldValues,
-  ),
-  [ELeaseAgreementFields.NAME_OF_BANK]: z.string().optional(),
-  [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: z.string().optional(),
-  [ELeaseAgreementFields.BANK_BRANCH]: z.string().optional(),
-  [ELeaseAgreementFields.OPTION_PERIOD]: z.boolean(),
-  [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: z.number().int().optional(),
-  [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: z.number().int().optional(),
-  [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: z.number().int(),
-  [ELeaseAgreementFields.SUBTENANT]: z.boolean(),
-  [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: z.number().int(),
-  [ELeaseAgreementFields.PROMISSORY_NOTE]: z.boolean(),
-  [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: z.number().optional(),
-  [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: z.boolean(),
-  [ELeaseAgreementFields.GUARANTEE]:
-    zodOfStringSelectValues(guaranteeFieldValues).optional(),
-  [ELeaseAgreementFields.GUARANTEE_AMOUNT]: z.number().optional(),
-  [ELeaseAgreementFields.ANIMAL]: z.boolean(),
+  [FIRST_STEP_NAME]: z.object({
+    [ELeaseAgreementFields.DATE]: z.date(),
+    [ELeaseAgreementFields.START_DATE]: z.date(),
+    [ELeaseAgreementFields.END_DATE]: z.date(),
+  }),
+  [SECOND_STEP_NAME]: z.object({
+    [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: z.number(),
+    [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: z.number().int(),
+    [ELeaseAgreementFields.PAYMENT_METHOD]: zodOfStringSelectValues(
+      paymentMethodFieldValues,
+    ),
+    [ELeaseAgreementFields.NAME_OF_BANK]: z.string().optional(),
+    [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: z.string().optional(),
+    [ELeaseAgreementFields.BANK_BRANCH]: z.string().optional(),
+    [ELeaseAgreementFields.OPTION_PERIOD]: z.boolean(),
+    [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: z.number().int().optional(),
+  }),
+  [THIRD_STEP_NAME]: z.object({
+    [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: z
+      .number()
+      .int()
+      .optional(),
+    [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: z.number().int(),
+  }),
+  [FORTH_STEP_NAME]: z.object({
+    [ELeaseAgreementFields.SUBTENANT]: z.boolean(),
+    [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: z.number().int(),
+    [ELeaseAgreementFields.PROMISSORY_NOTE]: z.boolean(),
+    [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: z.number().optional(),
+    [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: z.boolean(),
+    [ELeaseAgreementFields.GUARANTEE]:
+      zodOfStringSelectValues(guaranteeFieldValues).optional(),
+    [ELeaseAgreementFields.GUARANTEE_AMOUNT]: z.number().optional(),
+  }),
+  [FIFTH_STEP_NAME]: z.object({ [ELeaseAgreementFields.ANIMAL]: z.boolean() }),
 });
 
 export const leaseAgreementDefaultValues = {

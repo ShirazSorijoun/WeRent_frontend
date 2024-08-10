@@ -54,7 +54,7 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   }, [fieldProps, type]);
 
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" sx={{ paddingBottom: '20px' }}>
       {!hideTitle && !typesWithOutLabel.includes(type) && (
         <Grid item>
           <Typography>{fieldProps.fieldData.label}</Typography>

@@ -1,7 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { schema, leaseAgreementDefaultValues } from '../formUtils';
+import {
+  schema,
+  leaseAgreementDefaultValues,
+  FIFTH_STEP_NAME,
+  FIRST_STEP_NAME,
+  FORTH_STEP_NAME,
+  SECOND_STEP_NAME,
+  THIRD_STEP_NAME,
+} from '../formUtils';
 import { LoadingButton } from '@mui/lab';
 import {
   Dialog,
@@ -10,9 +18,18 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { FormLeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
 import { postLeaseAgreementForm } from '../../../api/modelsServices/leaseAgreement-service';
 import { toast } from 'react-toastify';
+import { IFormSteps } from '@/models';
+import { ControlProps } from '@/models/form';
+import {
+  CreateLeaseAgreementFormPage1,
+  CreateLeaseAgreementFormPage2,
+  CreateLeaseAgreementFormPage3,
+  CreateLeaseAgreementFormPage4,
+  CreateLeaseAgreementFormPage5,
+} from '../formPages';
+import { FormStepper, StepperButtons } from '@@/common/stepper';
 
 interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
@@ -20,14 +37,36 @@ interface ILeaseAgreementFormDialogProps {
   completeSave: () => void;
 }
 
+const steps: IFormSteps = [
+  { label: '1', stepIdentifier: FIRST_STEP_NAME },
+  { label: '2', stepIdentifier: SECOND_STEP_NAME },
+  { label: '3', stepIdentifier: THIRD_STEP_NAME },
+  { label: '4', stepIdentifier: FORTH_STEP_NAME },
+  { label: '5', stepIdentifier: FIFTH_STEP_NAME },
+];
+
+const StepToComp: React.FC<ControlProps>[] = [
+  CreateLeaseAgreementFormPage1,
+  CreateLeaseAgreementFormPage2,
+  CreateLeaseAgreementFormPage3,
+  CreateLeaseAgreementFormPage4,
+  CreateLeaseAgreementFormPage5,
+];
+
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
 > = ({ isOpen, handleCancel, completeSave }) => {
-  const { handleSubmit, control, reset } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(schema),
     defaultValues: leaseAgreementDefaultValues,
   });
 
+  const [activeStep, setActiveStep] = React.useState<number>(0);
   const [submitting, setSubmitting] = React.useState(false);
 
   useEffect(() => {
@@ -58,6 +97,8 @@ export const LeaseAgreementFormDialog: React.FC<
     [completeSave],
   );
 
+  const FormDisplayBody = useMemo(() => StepToComp[activeStep], [activeStep]);
+
   return (
     <Dialog
       open={isOpen}
@@ -68,9 +109,20 @@ export const LeaseAgreementFormDialog: React.FC<
         onSubmit: handleSubmit(onSubmit),
       }}
     >
-      <DialogTitle>Lease Agreement Form</DialogTitle>
+      <DialogTitle>חוזה שכירות בלתי מוגנת</DialogTitle>
       <DialogContent>
-        <FormLeaseAgreementFormBody control={control} />
+        <FormStepper
+          activeStep={activeStep}
+          errors={errors}
+          setActiveStep={setActiveStep}
+          steps={steps}
+        />
+        <FormDisplayBody control={control} />
+        <StepperButtons
+          activeStep={activeStep}
+          numOfSteps={steps.length}
+          setActiveStep={setActiveStep}
+        />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={closeDialog}>
