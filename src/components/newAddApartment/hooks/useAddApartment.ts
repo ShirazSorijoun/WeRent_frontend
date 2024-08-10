@@ -8,15 +8,15 @@ import { toast } from 'react-toastify';
 import { ApartmentFormData, EApartmentFields } from '../formUtils';
 import { useNavigate } from 'react-router';
 
-interface IUseEditApartment {
+interface IUseAddApartment {
   handleSave: (editableApartment: ApartmentFormData) => Promise<void>;
   handleWrongFormData: () => void;
   isButtonLoading: boolean;
 }
 
-export const useEditApartment = (
+export const useAddApartment = (
   setFormError: UseFormSetError<ApartmentFormData>,
-): IUseEditApartment => {
+): IUseAddApartment => {
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -42,18 +42,21 @@ export const useEditApartment = (
       }
 
       setIsButtonLoading(true);
-      // let imageUrl: string | undefined = undefined;
+      const { [EApartmentFields.IMAGE]: imageToUpload, ...apartmentData } =
+        newApartment;
 
-      // if (uploadedFile) {
-      //   const formData = new FormData();
-      //   formData.append('file', uploadedFile);
+      let imageUrl: string | undefined = undefined;
 
-      //   imageUrl = await api.file.uploadImage(uploadedFile);
-      // }
+      if (imageToUpload) {
+        const formData = new FormData();
+        formData.append('file', imageToUpload);
+
+        imageUrl = await api.file.uploadImage(imageToUpload);
+      }
 
       const fullApartmentData = {
-        ...newApartment,
-        // apartment_image: imageUrl || undefined,
+        ...apartmentData,
+        apartment_image: imageUrl,
         coordinate: coordinatesRes,
         owner: '',
       } as IApartment;
@@ -72,7 +75,7 @@ export const useEditApartment = (
   );
 
   const handleWrongFormData = (): void => {
-    toast.error('please fill the form properly');
+    toast.error('קיימת שגיאה במילוי הטופס');
   };
 
   return {

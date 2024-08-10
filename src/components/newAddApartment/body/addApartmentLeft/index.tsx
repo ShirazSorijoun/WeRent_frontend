@@ -30,6 +30,12 @@ export const AddApartmentBodyLeft: React.FC<IProps> = ({ control }) => {
         type={EBasicFieldType.multiLineText}
         fieldData={apartmentFormDataObject[EApartmentFields.DESCRIPTION]}
       />
+
+      <BasicFieldController
+        control={control}
+        type={EBasicFieldType.image}
+        fieldData={apartmentFormDataObject[EApartmentFields.IMAGE]}
+      />
     </>
   );
 };

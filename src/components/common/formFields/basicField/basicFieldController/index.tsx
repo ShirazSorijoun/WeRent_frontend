@@ -11,6 +11,7 @@ import { ControlledDate } from '../controlledDate';
 import { ControlledRating } from '../controlledRating';
 import { ControlledBoolean } from '../controlledBoolean';
 import { ControlledSwitch } from '../controlledSwitch';
+import { ControlledImage } from '../controlledImage';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
@@ -36,6 +37,7 @@ const fieldsMap: Partial<
   [EBasicFieldType.rating]: ControlledRating,
   [EBasicFieldType.boolean]: ControlledBoolean,
   [EBasicFieldType.switch]: ControlledSwitch,
+  [EBasicFieldType.image]: ControlledImage,
 };
 
 const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];

@@ -20,6 +20,7 @@ export enum EApartmentFields {
   FURNITURE = 'furniture',
   FEATURES = 'features',
   DESCRIPTION = 'description',
+  IMAGE = 'imageFile',
 }
 
 export const apartmentFormDataObject: Record<EApartmentFields, IFormField> = {
@@ -61,7 +62,7 @@ export const apartmentFormDataObject: Record<EApartmentFields, IFormField> = {
   },
   [EApartmentFields.DESCRIPTION]: {
     fieldName: EApartmentFields.DESCRIPTION,
-    label: 'תיאור הדירה',
+    label: 'תיאור הדירה (אופציונאלי)',
   },
   [EApartmentFields.NUM_OF_ROOMS]: {
     fieldName: EApartmentFields.NUM_OF_ROOMS,
@@ -69,7 +70,11 @@ export const apartmentFormDataObject: Record<EApartmentFields, IFormField> = {
   },
   [EApartmentFields.FEATURES]: {
     fieldName: EApartmentFields.FEATURES,
-    label: 'הדירה באה עם',
+    label: ':הדירה באה עם',
+  },
+  [EApartmentFields.IMAGE]: {
+    fieldName: EApartmentFields.IMAGE,
+    label: 'תמונה של הדירה (אופציונאלי)',
   },
 };
 
@@ -115,7 +120,15 @@ export const schema = z.object({
   [EApartmentFields.PRICE]: z.number(),
   [EApartmentFields.FEATURES]: createMultiCheckBoxZod(apartmentFeatures),
   [EApartmentFields.DESCRIPTION]: z.string().optional(),
+  [EApartmentFields.IMAGE]: z.instanceof(File).optional(),
 });
 
-export const defaultFormValues = {};
+export const defaultFormValues = {
+  floor: 0,
+  numberOfFloors: 0,
+  rooms: 0,
+  sizeInSqMeters: 0,
+  price: 0,
+  entryDate: new Date(),
+};
 export type ApartmentFormData = z.infer<typeof schema>;

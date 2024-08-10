@@ -1,38 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { ApartmentFormData, schema, defaultFormValues } from './formUtils';
-import { useEditApartment } from './hooks/useEditApartmentDialog';
+import { useAddApartment } from './hooks/useAddApartment';
 
 import { AddApartmentBody } from './body';
 import { Box, Card, CardActions, CardContent, CardHeader } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 export const NewAddApartment: React.FC = () => {
-  const { handleSubmit, control, reset, setError } = useForm<ApartmentFormData>(
-    {
-      resolver: zodResolver(schema),
-      defaultValues: defaultFormValues,
-      resetOptions: {
-        keepDirtyValues: false,
-        keepErrors: true,
-      },
-    },
-  );
+  const { handleSubmit, control, setError } = useForm<ApartmentFormData>({
+    resolver: zodResolver(schema),
+    defaultValues: defaultFormValues,
+  });
 
   const { handleSave, handleWrongFormData, isButtonLoading } =
-    useEditApartment(setError);
-
-  const closeLogic = useCallback(() => {
-    reset();
-  }, [reset]);
-
-  const onSubmit = useCallback(
-    async (form: ApartmentFormData): Promise<void> => {
-      // const isSaved = await handleSave(form);
-    },
-    [handleSave],
-  );
+    useAddApartment(setError);
 
   return (
     <Box
@@ -40,20 +22,19 @@ export const NewAddApartment: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // height: '100vh',
       }}
     >
       <Card
         sx={{ width: '60%', margin: '30px' }}
         raised
         component="form"
-        onSubmit={handleSubmit(onSubmit, handleWrongFormData)}
+        onSubmit={handleSubmit(handleSave, handleWrongFormData)}
       >
-        <CardHeader title="הוספת דירה" />
+        <CardHeader dir="rtl" title="הוספת דירה" />
         <CardContent sx={{ padding: 0 }}>
           <AddApartmentBody control={control} />
         </CardContent>
-        <CardActions>
+        <CardActions dir="rtl">
           <LoadingButton
             loading={isButtonLoading}
             role="progressbar"

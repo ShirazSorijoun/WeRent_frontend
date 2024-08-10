@@ -1,34 +1,24 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { imageURL } from '@/api';
-import { Box, CardMedia, SxProps, TextField, Theme } from '@mui/material';
+import { Box, CardMedia, TextField } from '@mui/material';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { style } from './style';
+import { IControlledBasicFieldTypeProps } from '../utils';
 
-interface IFormFieldInputData {
-  label?: string;
-  sxStyle?: SxProps<Theme>;
-  fieldName: string;
-  placeholder?: string;
-}
-
-interface IImageFormInputProps {
-  defaultImageName?: string;
-  control: Control;
-  formData: IFormFieldInputData;
-}
-
-export const ImageFormInput: FC<IImageFormInputProps> = ({
+export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
   control,
-  formData,
-  defaultImageName,
+  fieldData,
+  otherProps,
+  sxStyle,
+  isWithLabel = false,
 }) => {
   const [selectedImageToDisplay, setSelectedImageToDisplay] =
     useState<string>();
 
   const defaultImagePath = useMemo(
-    () => `${imageURL}/${defaultImageName}`,
-    [defaultImageName],
+    () => `${imageURL}/${otherProps?.defaultImageName}`,
+    [otherProps?.defaultImageName],
   );
 
   const handleImageChange = useCallback(
@@ -51,7 +41,7 @@ export const ImageFormInput: FC<IImageFormInputProps> = ({
   return (
     <Box sx={style.boxContainer}>
       <Controller
-        name={formData.fieldName}
+        name={fieldData.fieldName}
         control={control}
         render={({
           field: { name, onChange, disabled },
@@ -62,8 +52,8 @@ export const ImageFormInput: FC<IImageFormInputProps> = ({
             margin="dense"
             fullWidth
             type="file"
-            sx={formData.sxStyle}
-            label={formData.label ?? ''}
+            sx={sxStyle}
+            label={isWithLabel ? fieldData.label : ''}
             name={name}
             disabled={disabled}
             InputProps={{ componentsProps: { input: { accept: 'image/*' } } }}
@@ -76,7 +66,7 @@ export const ImageFormInput: FC<IImageFormInputProps> = ({
           />
         )}
       />
-      {(selectedImageToDisplay || defaultImageName) && (
+      {(selectedImageToDisplay || otherProps?.defaultImageName) && (
         <CardMedia
           component="img"
           alt="Preview"
