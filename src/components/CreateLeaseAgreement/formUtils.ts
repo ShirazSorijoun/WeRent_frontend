@@ -171,27 +171,35 @@ export const schema = z.object({
 });
 
 export const leaseAgreementDefaultValues = {
-  [ELeaseAgreementFields.DATE]: new Date(),
-  [ELeaseAgreementFields.START_DATE]: new Date(),
-  [ELeaseAgreementFields.END_DATE]: new Date(),
-  [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: 0,
-  [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: 0,
-  [ELeaseAgreementFields.PAYMENT_METHOD]: '',
-  [ELeaseAgreementFields.NAME_OF_BANK]: '',
-  [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: '',
-  [ELeaseAgreementFields.BANK_BRANCH]: '',
-  [ELeaseAgreementFields.OPTION_PERIOD]: false,
-  [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: 0,
-  [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: 0,
-  [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: 0,
-  [ELeaseAgreementFields.SUBTENANT]: false,
-  [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: 0,
-  [ELeaseAgreementFields.PROMISSORY_NOTE]: false,
-  [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: 0,
-  [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: false,
-  [ELeaseAgreementFields.GUARANTEE]: '',
-  [ELeaseAgreementFields.GUARANTEE_AMOUNT]: 0,
-  [ELeaseAgreementFields.ANIMAL]: false,
+  [FIRST_STEP_NAME]: {
+    [ELeaseAgreementFields.DATE]: new Date(),
+    [ELeaseAgreementFields.START_DATE]: new Date(),
+    [ELeaseAgreementFields.END_DATE]: new Date(),
+  },
+  [SECOND_STEP_NAME]: {
+    [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: 0,
+    [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: 0,
+    [ELeaseAgreementFields.PAYMENT_METHOD]: '',
+    [ELeaseAgreementFields.NAME_OF_BANK]: '',
+    [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: '',
+    [ELeaseAgreementFields.BANK_BRANCH]: '',
+    [ELeaseAgreementFields.OPTION_PERIOD]: false,
+    [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: 0,
+  },
+  [THIRD_STEP_NAME]: {
+    [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: 0,
+    [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: 0,
+  },
+  [FORTH_STEP_NAME]: {
+    [ELeaseAgreementFields.SUBTENANT]: false,
+    [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: 0,
+    [ELeaseAgreementFields.PROMISSORY_NOTE]: false,
+    [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: 0,
+    [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: false,
+    [ELeaseAgreementFields.GUARANTEE]: '',
+    [ELeaseAgreementFields.GUARANTEE_AMOUNT]: 0,
+  },
+  [FIFTH_STEP_NAME]: { [ELeaseAgreementFields.ANIMAL]: false },
 };
 
 export type leaseAgreementFormData = z.infer<typeof schema>;

@@ -3,7 +3,7 @@ import { axiosInstance } from '../api';
 
 const API_KEY = '/leaseAgreement';
 
-export const postLeaseAgreementForm = async (
+const postLeaseAgreementForm = async (
   formData: ILeaseAgreementForm,
 ): Promise<ILeaseAgreementForm> =>
   (console.log('formData', formData),

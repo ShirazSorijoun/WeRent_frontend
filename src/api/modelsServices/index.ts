@@ -3,3 +3,4 @@ export { authAPI } from './auth-service';
 export { reviewAPI } from './review-service';
 export { userAPI } from './user-service';
 export { fileAPI } from './file-service';
+export { leaseAgreementAPI } from './leaseAgreement-service';

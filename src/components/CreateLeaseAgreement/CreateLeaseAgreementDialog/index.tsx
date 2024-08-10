@@ -9,6 +9,7 @@ import {
   FORTH_STEP_NAME,
   SECOND_STEP_NAME,
   THIRD_STEP_NAME,
+  leaseAgreementFormData,
 } from '../formUtils';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -18,8 +19,6 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { postLeaseAgreementForm } from '../../../api/modelsServices/leaseAgreement-service';
-import { toast } from 'react-toastify';
 import { IFormSteps } from '@/models';
 import { ControlProps } from '@/models/form';
 import {
@@ -30,6 +29,7 @@ import {
   CreateLeaseAgreementFormPage5,
 } from '../formPages';
 import { FormStepper, StepperButtons } from '@@/common/stepper';
+import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
 
 interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
@@ -66,8 +66,10 @@ export const LeaseAgreementFormDialog: React.FC<
     defaultValues: leaseAgreementDefaultValues,
   });
 
+  const { handleSave, handleWrongFormData, isButtonLoading } =
+    useLeaseAgreementForm();
+
   const [activeStep, setActiveStep] = React.useState<number>(0);
-  const [submitting, setSubmitting] = React.useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -81,32 +83,29 @@ export const LeaseAgreementFormDialog: React.FC<
   }, [handleCancel, reset]);
 
   const onSubmit = useCallback(
-    async (formData: any) => {
-      setSubmitting(true);
-      try {
-        await postLeaseAgreementForm(formData); // Call your API function to save form data
-        console.log('Form data saved:', formData);
-        completeSave(); // Notify parent component about successful save
-      } catch (err) {
-        toast.error('Failed to save form data. Please try again.');
-        console.error('Error saving form data:', err);
-      } finally {
-        setSubmitting(false);
-      }
+    async (formData: leaseAgreementFormData) => {
+      const isSaved = await handleSave(formData);
+      if (isSaved) completeSave();
     },
-    [completeSave],
+    [completeSave, handleSave],
   );
+
+  const handleCloseDialog = (event: any, reason: string) => {
+    if (reason && reason === 'backdropClick') {
+      return;
+    }
+  };
 
   const FormDisplayBody = useMemo(() => StepToComp[activeStep], [activeStep]);
 
   return (
     <Dialog
       open={isOpen}
-      onClose={closeDialog}
+      onClose={handleCloseDialog}
       fullWidth
       PaperProps={{
         component: 'form',
-        onSubmit: handleSubmit(onSubmit),
+        onSubmit: handleSubmit(onSubmit, handleWrongFormData),
       }}
     >
       <DialogTitle>חוזה שכירות בלתי מוגנת</DialogTitle>
@@ -132,7 +131,7 @@ export const LeaseAgreementFormDialog: React.FC<
           type="submit"
           variant="contained"
           color="success"
-          loading={submitting}
+          loading={isButtonLoading}
         >
           Save
         </LoadingButton>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Step, StepButton, Stepper } from '@mui/material';
+import { Step, StepLabel, Stepper } from '@mui/material';
 import { IFormSteps } from '@/models';
 import { FieldErrors } from 'react-hook-form';
 
@@ -21,30 +21,21 @@ export const FormStepper: React.FC<IFormStepperProps> = ({
     setActiveStep(step);
   };
 
-  const getStepColor = (index: number, stepIdentifier: string): string => {
-    if (index === activeStep) return 'primary';
-
-    if (errors[stepIdentifier]) return 'error';
-
-    return 'inherit';
-  };
-
   return (
-    <>
-      <Stepper nonLinear activeStep={activeStep}>
-        {steps.map((step, index) => (
-          <Step key={step.label}>
-            <StepButton
-              color={getStepColor(index, step.stepIdentifier)}
-              onClick={handleStep(index)}
-              optional={step.optionalText}
-              icon={step.icon ? <step.icon /> : undefined}
-            >
-              {step.label}
-            </StepButton>
-          </Step>
-        ))}
-      </Stepper>
-    </>
+    <Stepper nonLinear activeStep={activeStep} sx={{ paddingY: '20px' }}>
+      {steps.map((step, index) => (
+        <Step key={step.label}>
+          <StepLabel
+            error={!!errors[step.stepIdentifier]}
+            onClick={handleStep(index)}
+            optional={step.optionalText}
+            sx={{ cursor: 'pointer' }}
+            icon={step.icon ? <step.icon /> : undefined}
+          >
+            {step.label}
+          </StepLabel>
+        </Step>
+      ))}
+    </Stepper>
   );
 };
