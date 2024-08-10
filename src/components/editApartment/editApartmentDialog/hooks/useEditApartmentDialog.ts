@@ -1,6 +1,6 @@
 import { api } from '@/api';
 import { ICoordinates } from '@/models/addressCheck';
-import { ApartmentProps } from '@/types/types';
+import { IApartment } from '@/models/apartment.model';
 import {
   EEditApartmentFields,
   EditApartmentFormData,
@@ -28,7 +28,7 @@ export const useEditApartment = (
   const getApartmentForForm = useCallback(async (): TGetApartmentForFormRes => {
     if (!apartmentId) return {};
 
-    const apartment: ApartmentProps =
+    const apartment: IApartment =
       await api.apartment.getApartmentById(apartmentId);
 
     return {
@@ -72,7 +72,7 @@ export const useEditApartment = (
         if (apartmentId) {
           const apartmentToSend = {
             ...editableApartment,
-          } as ApartmentProps;
+          } as IApartment;
 
           if (coordinatesRes) {
             apartmentToSend.coordinate = coordinatesRes;

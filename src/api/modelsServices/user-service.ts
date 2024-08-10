@@ -1,6 +1,6 @@
-import { ApartmentProps } from '@/types/types';
 import { IUser, IUserData, UpdateOwnProfileData } from '@/models';
 import { axiosInstance } from '../api';
+import { IApartment } from '@/models/apartment.model';
 
 const USER_API_KEY = '/user';
 
@@ -10,7 +10,7 @@ const getUserById = async (userId: string): Promise<IUserData> => {
   return response.data;
 };
 
-const getUserApartments = async (): Promise<ApartmentProps[]> =>
+const getUserApartments = async (): Promise<IApartment[]> =>
   (await axiosInstance.get(`${USER_API_KEY}/apartments`)).data;
 
 const updateOwnProfile = async (user: UpdateOwnProfileData): Promise<string> =>

@@ -1,11 +1,11 @@
-import { ApartmentProps } from '@/types/types';
 import { Card } from 'react-bootstrap';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGetImageUrlFromName } from '@/common/hooks';
+import { IApartment } from '@/models/apartment.model';
 
 interface IUserApartmentCardProps {
-  apartment: ApartmentProps;
+  apartment: IApartment;
 }
 
 export const UserApartmentCard: React.FC<IUserApartmentCardProps> = ({

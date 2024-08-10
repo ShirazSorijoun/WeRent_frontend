@@ -2,7 +2,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import z from 'zod';
 import './addApartment.css';
-import { ApartmentProps } from '../../types/types';
+import { IApartment } from '@/models/apartment.model';
 import Uploader from '../Uploader/uploader';
 import { useNavigate } from 'react-router';
 import { api } from '@/api';
@@ -44,7 +44,7 @@ const schema = z.object({
 });
 
 const AddApartment: React.FC = () => {
-  const [apartmentData, setApartmentData] = useState<ApartmentProps>({
+  const [apartmentData, setApartmentData] = useState<IApartment>({
     city: '',
     address: '',
     type: 'Select the property type',
@@ -202,7 +202,7 @@ const AddApartment: React.FC = () => {
       imageUrl = await api.file.uploadImage(uploadedFile);
     }
 
-    const fullApartmentData: ApartmentProps = {
+    const fullApartmentData: IApartment = {
       ...apartmentData,
       apartment_image: imageUrl || undefined,
     };

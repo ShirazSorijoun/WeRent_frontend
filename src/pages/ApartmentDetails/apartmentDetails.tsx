@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useEffect, useState } from 'react';
-import { ApartmentProps, defaultApartment } from '../../types/types';
+import { IApartment, defaultApartment } from '@/models/apartment.model';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { api } from '@/api';
@@ -9,7 +9,7 @@ import { ApartmentDetailsHeader, ApartmentDetailsBody } from './components';
 
 export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
-  const [apartment, setApartment] = useState<ApartmentProps>(defaultApartment);
+  const [apartment, setApartment] = useState<IApartment>(defaultApartment);
   const [loading, setLoading] = useState(true);
   const [loadingError, setLoadingError] = useState(false);
 
