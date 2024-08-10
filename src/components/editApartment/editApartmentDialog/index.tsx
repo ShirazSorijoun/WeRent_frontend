@@ -105,7 +105,6 @@ export const EditApartmentDialog: React.FC<IEditApartmentDialogProps> = ({
           <span>save</span>
         </LoadingButton>
       </DialogActions>
-      <div id="map" />
     </Dialog>
   );
 };

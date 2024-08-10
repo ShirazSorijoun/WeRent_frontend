@@ -12,9 +12,9 @@ export enum EApartmentFields {
   CITY = 'city',
   ADDRESS = 'address',
   FLOOR = 'floor',
-  NUM_OF_FLOORS = 'numOfFloors',
+  NUM_OF_FLOORS = 'numberOfFloors',
   NUM_OF_ROOMS = 'rooms',
-  SIZE_IN_SQ_METER = 'sizeInSqMeter',
+  SIZE_IN_SQ_METER = 'sizeInSqMeters',
   PRICE = 'price',
   ENTRY_DATE = 'entryDate',
   FURNITURE = 'furniture',
@@ -103,9 +103,9 @@ export const apartmentFeatures: IControlledMultiCheckBoxOptions = [
 ];
 
 export const schema = z.object({
-  [EApartmentFields.TYPE]: zodOfStringSelectValues(typeFieldValues).optional(),
-  [EApartmentFields.CITY]: z.string().optional(),
-  [EApartmentFields.ADDRESS]: z.string().optional(),
+  [EApartmentFields.TYPE]: zodOfStringSelectValues(typeFieldValues),
+  [EApartmentFields.CITY]: z.string(),
+  [EApartmentFields.ADDRESS]: z.string(),
   [EApartmentFields.FLOOR]: z.number(),
   [EApartmentFields.NUM_OF_FLOORS]: z.number(),
   [EApartmentFields.SIZE_IN_SQ_METER]: z.number(),

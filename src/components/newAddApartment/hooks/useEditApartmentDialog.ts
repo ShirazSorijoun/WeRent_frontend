@@ -1,18 +1,15 @@
 import { api } from '@/api';
 import { ICoordinates } from '@/models/addressCheck';
 import { IApartment } from '@/models/apartment.model';
-import { EditApartmentFormData } from '@@/editApartment/formUtils';
 
 import { useCallback, useState } from 'react';
 import { UseFormSetError } from 'react-hook-form';
-import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { ApartmentFormData, EApartmentFields } from '../formUtils';
+import { useNavigate } from 'react-router';
 
-type TGetApartmentForFormRes = Promise<ApartmentFormData>;
 interface IUseEditApartment {
-  getApartmentForForm: () => TGetApartmentForFormRes;
-  handleSave: (editableApartment: ApartmentFormData) => Promise<boolean>;
+  handleSave: (editableApartment: ApartmentFormData) => Promise<void>;
   handleWrongFormData: () => void;
   isButtonLoading: boolean;
 }
@@ -20,38 +17,16 @@ interface IUseEditApartment {
 export const useEditApartment = (
   setFormError: UseFormSetError<ApartmentFormData>,
 ): IUseEditApartment => {
-  const { apartmentId } = useParams();
-
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
-
-  const getApartmentForForm = useCallback(async (): TGetApartmentForFormRes => {
-    if (!apartmentId) return {};
-
-    const apartment: IApartment =
-      await api.apartment.getApartmentById(apartmentId);
-
-    return {
-      [EApartmentFields.CITY]: apartment.city,
-      [EApartmentFields.ADDRESS]: apartment.address,
-      [EApartmentFields.TYPE]: apartment.type,
-      [EApartmentFields.FLOOR]: apartment.floor,
-      [EApartmentFields.NUM_OF_FLOORS]: apartment.numberOfFloors,
-      [EApartmentFields.SIZE_IN_SQ_METER]: apartment.sizeInSqMeters,
-      [EApartmentFields.PRICE]: apartment.price,
-      [EApartmentFields.ENTRY_DATE]: new Date(apartment.entryDate),
-      [EApartmentFields.FURNITURE]: apartment.furniture,
-      [EApartmentFields.DESCRIPTION]: apartment.description,
-      [EApartmentFields.PHONE]: apartment.phone,
-    };
-  }, [apartmentId]);
+  const navigate = useNavigate();
 
   const handleSave = useCallback(
-    async (editableApartment: EditApartmentFormData): Promise<boolean> => {
+    async (newApartment: ApartmentFormData): Promise<void> => {
       let coordinatesRes: ICoordinates;
       try {
         coordinatesRes = await api.apartment.getAddressCoordinates(
-          editableApartment[EApartmentFields.ADDRESS]!,
-          editableApartment[EApartmentFields.CITY]!,
+          newApartment[EApartmentFields.ADDRESS]!,
+          newApartment[EApartmentFields.CITY]!,
         );
       } catch (error) {
         const errorMsg = 'city or street are not valid';
@@ -63,35 +38,37 @@ export const useEditApartment = (
           type: 'manual',
           message: errorMsg,
         });
-        return false;
+        return;
       }
 
       setIsButtonLoading(true);
+      // let imageUrl: string | undefined = undefined;
+
+      // if (uploadedFile) {
+      //   const formData = new FormData();
+      //   formData.append('file', uploadedFile);
+
+      //   imageUrl = await api.file.uploadImage(uploadedFile);
+      // }
+
+      const fullApartmentData = {
+        ...newApartment,
+        // apartment_image: imageUrl || undefined,
+        coordinate: coordinatesRes,
+        owner: '',
+      } as IApartment;
+
       try {
-        if (apartmentId) {
-          const apartmentToSend = {
-            ...editableApartment,
-          } as IApartment;
+        const updatedApartment =
+          await api.apartment.postApartment(fullApartmentData);
+        toast.success('הדירה נוצרה בהצלחה');
 
-          if (coordinatesRes) {
-            apartmentToSend.coordinate = coordinatesRes;
-          }
-          await api.apartment.updateApartment(apartmentId, apartmentToSend);
-        }
-
-        setIsButtonLoading(false);
-        toast.success('the apartment was successfully updated');
-
-        return true;
+        navigate('/apartment-details/' + updatedApartment._id);
       } catch (error) {
-        console.error('Error updating apartment:', error);
-        setIsButtonLoading(false);
-        toast.error('there was an error during the update');
-
-        return false;
+        toast.error('הייתה שגיאה ביצירת הדירה');
       }
     },
-    [apartmentId],
+    [navigate, setFormError],
   );
 
   const handleWrongFormData = (): void => {
@@ -101,7 +78,6 @@ export const useEditApartment = (
   return {
     handleSave,
     handleWrongFormData,
-    getApartmentForForm,
     isButtonLoading,
   };
 };
