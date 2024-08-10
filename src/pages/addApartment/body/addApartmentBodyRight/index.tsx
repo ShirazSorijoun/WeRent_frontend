@@ -5,7 +5,7 @@ import {
   EApartmentFields,
   furnitureFieldValues,
   typeFieldValues,
-} from '@@/newAddApartment/formUtils';
+} from '../../formUtils';
 import { style } from './style';
 import { Grid } from '@mui/material';
 import React from 'react';

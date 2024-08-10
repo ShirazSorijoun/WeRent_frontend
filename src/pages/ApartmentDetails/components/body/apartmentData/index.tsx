@@ -1,8 +1,9 @@
 import { api } from '@/api';
 import { IMatch } from '@/types/types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '@mui/material';
 import { IApartment } from '@/models/apartment.model';
+import { IUserData } from '@/models';
 
 interface IApartmentDataProps {
   apartment: IApartment;
@@ -14,21 +15,25 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({
   apartmentId,
   isCreatedByUser,
 }) => {
-  const [ownerName, setOwnerName] = useState<string>('');
+  const [ownerData, setOwnerData] = useState<IUserData>();
   const [matchingList, setMatchingList] = useState<IMatch[]>([]);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
 
   const fetchOwnerData = useCallback(async (ownerId?: string) => {
     if (ownerId) {
       try {
-        const ownerData = await api.user.getUserById(ownerId);
-        setOwnerName(`${ownerData.firstName} ${ownerData.lastName}`);
+        const owner = await api.user.getUserById(ownerId);
+        setOwnerData(owner);
       } catch (error) {
         console.error('Error fetching user data', error);
       }
     }
   }, []);
 
+  const ownerName = useMemo(
+    () => `${ownerData?.firstName ?? ''} ${ownerData?.lastName ?? ''}`,
+    [ownerData],
+  );
   const fetchMatchingList = async () => {
     const matchingListFromBE = await api.apartment.getMatchingList(apartmentId);
     setMatchingList(matchingListFromBE);
@@ -494,7 +499,7 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({
                 d="M4.869 2.834l1.292 1.292a1 1 0 0 1 0 1.414L5.126 6.575c.342.93.923 1.801 1.742 2.612.819.81 1.69 1.417 2.612 1.821l1.086-1.183a1 1 0 0 1 1.39-.08l1.147.989a1 1 0 0 1 .128 1.382l-.545.682a2 2 0 0 1-1.65.749c-2.295-.102-4.265-.974-5.91-2.619C3.463 9.264 2.59 7.155 2.505 4.601a2 2 0 0 1 .798-1.666l.259-.194a1 1 0 0 1 1.307.093z"
               ></path>
             </svg>
-            {apartment.phone}
+            {ownerData?.phoneNumber ?? ''}
           </a>
         </div>
       </div>

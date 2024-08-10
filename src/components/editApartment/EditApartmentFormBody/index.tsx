@@ -71,11 +71,6 @@ export const EditApartmentFormBody: React.FC<IEditApartmentFormBodyProps> = ({
         type={EBasicFieldType.multiLineText}
         fieldData={editFormDataObject[EEditApartmentFields.DESCRIPTION]}
       />
-      <BasicFieldController
-        control={control}
-        type={EBasicFieldType.text}
-        fieldData={editFormDataObject[EEditApartmentFields.PHONE]}
-      />
     </>
   );
 };

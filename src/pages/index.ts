@@ -1,4 +1,3 @@
-export { AddApartmentPage } from './AddApartmentPage/addApartmentPage';
 export { AddReview } from './AddReview/addReview';
 export { AllReviewsPage } from './AllReviewsPage/AllReviewsPage';
 export { LandingPage } from './LandingPage/LandingPage';
@@ -12,3 +11,4 @@ export { ApartmentDetailsPage } from './ApartmentDetails/apartmentDetails';
 export { MapPage } from './mapPage/mapPage';
 export { StaticPageContainer } from './staticPageContainer';
 export { ApartmentPersonalAreaPage } from './ApartmentPersonalArea/index';
+export { AddApartment } from './addApartment';

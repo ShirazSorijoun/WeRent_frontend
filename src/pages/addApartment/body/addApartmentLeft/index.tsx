@@ -8,7 +8,7 @@ import {
   apartmentFormDataObject,
   EApartmentFields,
   apartmentFeatures,
-} from '@@/newAddApartment/formUtils';
+} from '../../formUtils';
 import React from 'react';
 import { Control } from 'react-hook-form';
 

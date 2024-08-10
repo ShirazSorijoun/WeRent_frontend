@@ -13,7 +13,6 @@ export enum EEditApartmentFields {
   ENTRY_DATE = 'entryDate',
   FURNITURE = 'furniture',
   DESCRIPTION = 'description',
-  PHONE = 'phone',
 }
 
 export const editFormDataObject: Record<EEditApartmentFields, IFormField> = {
@@ -57,10 +56,6 @@ export const editFormDataObject: Record<EEditApartmentFields, IFormField> = {
     fieldName: EEditApartmentFields.DESCRIPTION,
     label: 'description',
   },
-  [EEditApartmentFields.PHONE]: {
-    fieldName: EEditApartmentFields.PHONE,
-    label: 'phone',
-  },
 };
 
 export const typeFieldValues: IControlledSelectArray<string> = [
@@ -94,7 +89,6 @@ export const schema = z.object({
   [EEditApartmentFields.FURNITURE]:
     zodOfStringSelectValues(furnitureFieldValues).optional(),
   [EEditApartmentFields.DESCRIPTION]: z.string().optional(),
-  [EEditApartmentFields.PHONE]: z.string().optional(),
 });
 
 export const defaultFormValues = {};

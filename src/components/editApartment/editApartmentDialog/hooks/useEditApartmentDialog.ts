@@ -42,7 +42,6 @@ export const useEditApartment = (
       [EEditApartmentFields.ENTRY_DATE]: new Date(apartment.entryDate),
       [EEditApartmentFields.FURNITURE]: apartment.furniture,
       [EEditApartmentFields.DESCRIPTION]: apartment.description,
-      [EEditApartmentFields.PHONE]: apartment.phone,
     };
   }, [apartmentId]);
 

@@ -14,8 +14,8 @@ import {
   StaticPageContainer,
   ApartmentPersonalAreaPage,
   PostGoogleRegister,
+  AddApartment,
 } from './pages';
-import { AddApartment } from '@@/addApartment';
 
 const App: React.FC = () => {
   return (

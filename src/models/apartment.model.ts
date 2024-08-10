@@ -25,7 +25,6 @@ export type IApartment = {
     airConditioning: boolean;
   };
   description?: string;
-  phone?: string;
   coordinate?: ICoordinates;
 };
 
@@ -54,5 +53,4 @@ export const defaultApartment: IApartment = {
     airConditioning: false,
   },
   description: '',
-  phone: ' ',
 };
