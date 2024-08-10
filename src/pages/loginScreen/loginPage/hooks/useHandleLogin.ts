@@ -27,8 +27,6 @@ export const useHandleLogin = (): IUseHandleLogin => {
   const navigate = useNavigate();
 
   const onLoginSuccess = async (data: ILoginResponse) => {
-    handleLocalStorageLogin(data);
-
     await dispatch(userLogin(data.userId));
     toast.success('successfully login');
     setIsButtonLoading(false);
@@ -63,11 +61,15 @@ export const useHandleLogin = (): IUseHandleLogin => {
 
   const handleGoogleLoginSuccess = async (
     credentialResponse: CredentialResponse,
-  ) => {
+  ): Promise<void> => {
     try {
       const response: ILoginResponse =
         await api.auth.googleLogin(credentialResponse);
-      onLoginSuccess(response);
+
+      handleLocalStorageLogin(response);
+      if (response.isNeedMoreData) {
+        navigate('/postGoogleRegister');
+      } else onLoginSuccess(response);
     } catch (error: any) {
       handleGoogleLoginFailure();
     }

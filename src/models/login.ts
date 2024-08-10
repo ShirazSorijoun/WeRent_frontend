@@ -6,5 +6,5 @@ export interface LoginDecodedData {
 export interface ILoginResponse {
   token: LoginDecodedData;
   userId: string;
-  isNeedPass: boolean;
+  isNeedMoreData: boolean;
 }

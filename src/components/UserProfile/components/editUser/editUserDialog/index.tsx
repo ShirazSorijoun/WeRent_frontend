@@ -1,6 +1,6 @@
 import { api } from '@/api';
 import { useAppDispatch } from '@/hooks/store';
-import { IUserData } from '@/models';
+import { defaultUserData, IUserData } from '@/models';
 import { updateUser } from '@/stores/user';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
@@ -11,17 +11,13 @@ interface IEditUserDialogProps {
   userData: IUserData;
 }
 
-const defaultUserProfile: IUserData = {
-  email: '', firstName: '', lastName: '', password: '',
-  personalId: '', cityAddress: '', streetAddress: '', phoneNumber: ''};
-
 export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   handleCancel,
   isOpen,
   userData,
 }) => {
   const [tempUserProfile, setTempUserProfile] =
-    useState<IUserData>(defaultUserProfile);
+    useState<IUserData>(defaultUserData);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dispatch = useAppDispatch();
 

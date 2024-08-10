@@ -14,5 +14,4 @@ export const handleLocalStorageLogin = (loginRes: ILoginResponse) => {
   localStorage.setItem('accessToken', token.accessToken);
   localStorage.setItem('refreshToken', token.refreshToken);
   localStorage.setItem('userId', userId);
-  localStorage.setItem('isLoggedIn', String(true));
 };

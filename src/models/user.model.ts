@@ -15,6 +15,7 @@ export interface IUserData {
 
 export interface StoreUser extends IUserData {
   userId: string;
+  isWithGoogle: boolean;
 }
 export interface IUser extends IUserData {
   _id?: string;
@@ -44,5 +45,16 @@ export interface UpdateOwnProfileData {
   password?: string;
   profile_image?: string;
 }
+
+export const defaultUserData: IUserData = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  personalId: '',
+  cityAddress: '',
+  streetAddress: '',
+  phoneNumber: '',
+};
 
 export const googleDefaultPass = 'sign by google';
