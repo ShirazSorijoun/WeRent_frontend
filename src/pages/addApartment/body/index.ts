@@ -1,0 +1,1 @@
+export { AddApartmentBody } from './addApartmentBody';

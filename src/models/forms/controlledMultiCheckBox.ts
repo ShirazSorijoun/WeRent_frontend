@@ -9,10 +9,14 @@ export type IControlledMultiCheckBoxOptions = IMultiCheckBoxOptionField[];
 export const createMultiCheckBoxZod = (
   checkBoxOptions: IControlledMultiCheckBoxOptions,
 ) => {
-  const zodObject: Record<string, any> = {};
+  const defaultObject: Record<string, boolean> = {};
+  let zodObject = z.object({});
   checkBoxOptions.forEach((option) => {
-    zodObject[option.field] = z.boolean().optional().default(false);
+    defaultObject[option.field] = false;
+    zodObject = zodObject.extend({
+      [option.field]: z.boolean().optional().default(false),
+    });
   });
 
-  return z.object(zodObject);
+  return zodObject.optional().default(defaultObject);
 };

@@ -19,5 +19,6 @@ export enum EBasicFieldType {
   rating = 'rating',
   boolean = 'boolean',
   switch = 'switch',
+  image = 'image',
   enum = 'enum',
 }

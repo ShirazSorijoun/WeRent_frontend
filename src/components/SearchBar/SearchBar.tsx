@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './SearchBar.css';
-import { ApartmentProps } from '../../types/types';
+import { IApartment } from '@/models/apartment.model';
 
 interface SearchBarProps {
-  apartments: ApartmentProps[];
+  apartments: IApartment[];
   onSearch: (
     city: string,
     types: string[],

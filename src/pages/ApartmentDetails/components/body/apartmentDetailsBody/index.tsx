@@ -1,4 +1,3 @@
-import { ApartmentProps, IMatch } from '@/types/types';
 import React, { useEffect, useState } from 'react';
 import { useGetImageUrlFromName } from '@/common/hooks';
 import { Card } from 'react-bootstrap';
@@ -6,10 +5,11 @@ import { ApartmentData } from '../apartmentData';
 import { ApartmentImage } from '../apartmentImage';
 import Button from '@mui/material/Button';
 import { api } from '@/api';
+import { IApartment } from '@/models/apartment.model';
 
 interface IApartmentDetailsBodyProps {
   refreshApartmentDisplay: () => Promise<void>;
-  apartment: ApartmentProps;
+  apartment: IApartment;
   apartmentId: string;
   isCreatedByUser: boolean;
 }
@@ -26,14 +26,19 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
 
   const fetchMatchingList = async () => {
     const matchingListFromBE = await api.apartment.getMatchingList(apartmentId);
-    setIsAccepted(matchingListFromBE.some((match) => match.user._id === localStorage.getItem('userId') && match.accepted))
-  }
+    setIsAccepted(
+      matchingListFromBE.some(
+        (match) =>
+          match.user._id === localStorage.getItem('userId') && match.accepted,
+      ),
+    );
+  };
 
   const matchApartment = async () => {
     const userId = localStorage.getItem('userId')!;
     await api.apartment.matchApartment(apartmentId, userId);
     setIsMatched(true);
-  }
+  };
 
   useEffect(() => {
     fetchMatchingList();
@@ -43,12 +48,14 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
     <Card.Body style={{ overflow: 'auto' }}>
       <div className="row g-3 card-body-div">
         <div className="css-1752boj e142rc1o2">
-          {!isCreatedByUser && !isAccepted && (
-            !isMatched ? <Button onClick={matchApartment}>I like this apartment!</Button>
-              : 'You have already matched with this apartment!')}
-          {isAccepted && (
-            <div>You have been accepted to this apartment! </div>
-          )}
+          {!isCreatedByUser &&
+            !isAccepted &&
+            (!isMatched ? (
+              <Button onClick={matchApartment}>I like this apartment!</Button>
+            ) : (
+              'You have already matched with this apartment!'
+            ))}
+          {isAccepted && <div>You have been accepted to this apartment! </div>}
           <ApartmentImage
             apartmentImage={apartmentImage}
             isCreatedByUser={isCreatedByUser}
@@ -58,7 +65,8 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
           <ApartmentData
             apartment={apartment}
             apartmentId={apartmentId}
-            isCreatedByUser={isCreatedByUser}/>
+            isCreatedByUser={isCreatedByUser}
+          />
         </div>
       </div>
     </Card.Body>

@@ -9,21 +9,28 @@ import {
   FormControl,
   FormHelperText,
 } from '@mui/material';
-import { FieldValues, Controller, Control } from 'react-hook-form';
+import { Controller, Control } from 'react-hook-form';
 import { IControlledMultiCheckBoxOptions, IFormField } from '@/models/forms';
 
 interface IControlledMultiCheckedBoxProps {
   fieldData: IFormField;
-  control: Control<FieldValues, any>;
+  control: Control<any>;
   options: IControlledMultiCheckBoxOptions;
   formControlSX?: SxProps<Theme>;
+  gridSx?: SxProps<Theme>;
 }
 
 export const ControlledMultiCheckedBox: React.FC<
   IControlledMultiCheckedBoxProps
-> = ({ fieldData, control, options, formControlSX }) => {
+> = ({
+  fieldData,
+  control,
+  options,
+  formControlSX,
+  gridSx = { direction: 'rtl', paddingBottom: '20px' },
+}) => {
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" sx={gridSx}>
       <Grid item>
         <Typography>{fieldData.label}</Typography>
       </Grid>

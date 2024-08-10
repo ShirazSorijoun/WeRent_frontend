@@ -1,23 +1,24 @@
-import { ApartmentProps, IMatch } from '@/types/types';
 import { axiosInstance } from '../api';
 import { addressCheckRes, ICoordinates } from '@/models/addressCheck';
+import { IApartment } from '@/models/apartment.model';
+import { IMatch } from '@/types/types';
 import { convertITMToUTM } from '@/utils/coordinates';
 
 const APARTMENT_API_KEY = '/apartment';
 
-export const getAllApartments = async (): Promise<ApartmentProps[]> =>
+export const getAllApartments = async (): Promise<IApartment[]> =>
   (await axiosInstance.get(APARTMENT_API_KEY)).data;
 
 export const postApartment = async (
-  apartmentData: ApartmentProps,
-): Promise<ApartmentProps> =>
+  apartmentData: IApartment,
+): Promise<IApartment> =>
   (
     await axiosInstance.post(`${APARTMENT_API_KEY}/create`, {
       apartment: apartmentData,
     })
   ).data;
 
-export const getApartmentById = async (id: string): Promise<ApartmentProps> =>
+export const getApartmentById = async (id: string): Promise<IApartment> =>
   (await axiosInstance.get(`${APARTMENT_API_KEY}/${id}`)).data;
 
 export const acceptMatch = async (matchId: string): Promise<void> =>
@@ -39,8 +40,8 @@ export const matchApartment = async (
 
 export const updateApartment = async (
   id: string,
-  updatedApartment: Partial<ApartmentProps>,
-): Promise<ApartmentProps> =>
+  updatedApartment: Partial<IApartment>,
+): Promise<IApartment> =>
   (
     await axiosInstance.patch(`${APARTMENT_API_KEY}/update`, {
       id,
