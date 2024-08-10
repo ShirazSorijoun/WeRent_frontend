@@ -18,6 +18,7 @@ interface IControlledRadioGroupProps {
   control: Control<FieldValues, any>;
   options: IControlledSelectArray<any>;
   formControlSX?: SxProps<Theme>;
+  gridSx?: SxProps<Theme>;
 }
 
 export const ControlledRadioGroup: React.FC<IControlledRadioGroupProps> = ({
@@ -25,9 +26,10 @@ export const ControlledRadioGroup: React.FC<IControlledRadioGroupProps> = ({
   control,
   options,
   formControlSX,
+  gridSx = { direction: 'rtl', paddingBottom: '20px' },
 }) => {
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" sx={gridSx}>
       <Grid item>
         <Typography>{fieldData.label}</Typography>
       </Grid>

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, SxProps, Theme, Typography } from '@mui/material';
 import { IControlledBasicFieldTypeProps } from '../utils';
 import { EBasicFieldType } from '@/models/forms';
 import { ControlledDateTime } from '../controlledDateTime';
@@ -15,6 +15,7 @@ import { ControlledSwitch } from '../controlledSwitch';
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
   hideTitle?: boolean;
+  gridSx?: SxProps<Theme>;
 }
 
 const extraProps: Partial<Record<EBasicFieldType, any>> = {
@@ -42,6 +43,7 @@ const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];
 export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   type = EBasicFieldType.text,
   hideTitle = false,
+  gridSx = { direction: 'rtl', paddingBottom: '20px' },
   ...fieldProps
 }) => {
   const componentToUse = useMemo(() => {
@@ -54,7 +56,7 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   }, [fieldProps, type]);
 
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" sx={gridSx}>
       {!hideTitle && !typesWithOutLabel.includes(type) && (
         <Grid item>
           <Typography>{fieldProps.fieldData.label}</Typography>
