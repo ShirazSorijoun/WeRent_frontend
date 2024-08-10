@@ -7,7 +7,7 @@ import { AddApartmentBody } from './body';
 import { Box, Card, CardActions, CardContent, CardHeader } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
-export const NewAddApartment: React.FC = () => {
+export const AddApartment: React.FC = () => {
   const { handleSubmit, control, setError } = useForm<ApartmentFormData>({
     resolver: zodResolver(schema),
     defaultValues: defaultFormValues,

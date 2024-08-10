@@ -15,8 +15,7 @@ import {
   ApartmentPersonalAreaPage,
   PostGoogleRegister,
 } from './pages';
-import { NewAddApartment } from '@@/newAddApartment';
-import AddApartment from '@@/AddApartment/addApartment';
+import { AddApartment } from '@@/addApartment';
 
 const App: React.FC = () => {
   return (
@@ -33,8 +32,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegistrationPage />} />
           <Route path="/profile" element={<UserPage />} />
-          <Route path="/addApartment" element={<NewAddApartment />} />
-          <Route path="/addApartmentOld" element={<AddApartment />} />
+          <Route path="/addApartment" element={<AddApartment />} />
           <Route path="/users" element={<AllUsersAdminPage />} />
           <Route path="/rent" element={<RentPropertiesPage />} />
           <Route path="/postGoogleRegister" element={<PostGoogleRegister />} />
