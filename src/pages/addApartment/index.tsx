@@ -25,7 +25,7 @@ export const AddApartment: React.FC = () => {
       }}
     >
       <Card
-        sx={{ width: '60%', margin: '30px' }}
+        sx={{ width: '80%', margin: '30px' }}
         raised
         component="form"
         onSubmit={handleSubmit(handleSave, handleWrongFormData)}

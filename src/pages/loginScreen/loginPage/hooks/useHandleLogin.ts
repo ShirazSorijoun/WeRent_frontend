@@ -43,6 +43,7 @@ export const useHandleLogin = (): IUseHandleLogin => {
         password,
       });
 
+      handleLocalStorageLogin(response);
       onLoginSuccess(response);
     } catch (error: any) {
       setIsButtonLoading(false);
