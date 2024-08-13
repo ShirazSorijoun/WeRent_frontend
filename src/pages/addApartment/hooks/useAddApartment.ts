@@ -96,12 +96,15 @@ export const useAddApartment = (
 
         toast.success('הדירה נשמרה בהצלחה');
 
-        navigate('/apartment-details/' + updatedApartment._id);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        isEdit
+          ? navigate(-1)
+          : navigate('/apartment-details/' + updatedApartment._id);
       } catch (error) {
         toast.error('הייתה שגיאה בשמירת הדירה');
       }
     },
-    [navigate, setFormError],
+    [apartmentId, isEdit, navigate, setFormError],
   );
 
   const handleWrongFormData = (): void => {
