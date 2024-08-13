@@ -1,16 +1,19 @@
 import { api } from '@/api';
 import { ICoordinates } from '@/models/addressCheck';
-import { IApartment } from '@/models/apartment.model';
-
-import { useCallback, useState } from 'react';
+import { defaultApartment, IApartment } from '@/models/apartment.model';
+import { useCallback, useMemo, useState } from 'react';
 import { UseFormSetError } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { ApartmentFormData, EApartmentFields } from '../formUtils';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
+type TGetApartmentForFormRes = Promise<ApartmentFormData | object>;
 interface IUseAddApartment {
+  getApartmentForForm: () => TGetApartmentForFormRes;
   handleSave: (editableApartment: ApartmentFormData) => Promise<void>;
   handleWrongFormData: () => void;
+  handleBackClick: () => void;
+  isEdit: boolean;
   isButtonLoading: boolean;
 }
 
@@ -19,6 +22,31 @@ export const useAddApartment = (
 ): IUseAddApartment => {
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { apartmentId } = useParams();
+
+  const isEdit = useMemo(() => !!apartmentId, [apartmentId]);
+  const getApartmentForForm = useCallback(async (): TGetApartmentForFormRes => {
+    if (!apartmentId) return defaultApartment;
+
+    const apartment: IApartment =
+      await api.apartment.getApartmentById(apartmentId);
+
+    return {
+      [EApartmentFields.ADDRESS]: apartment.address,
+      [EApartmentFields.CITY]: apartment.city,
+      [EApartmentFields.TYPE]: apartment.type,
+      [EApartmentFields.FLOOR]: apartment.floor,
+      [EApartmentFields.NUM_OF_FLOORS]: apartment.numberOfFloors,
+      [EApartmentFields.NUM_OF_ROOMS]: apartment.rooms,
+      [EApartmentFields.SIZE_IN_SQ_METER]: apartment.sizeInSqMeters,
+      [EApartmentFields.PRICE]: apartment.price,
+      [EApartmentFields.ENTRY_DATE]: new Date(apartment.entryDate),
+      [EApartmentFields.FURNITURE]: apartment.furniture,
+      [EApartmentFields.DESCRIPTION]: apartment.description,
+      [EApartmentFields.FEATURES]: apartment.features,
+      [EApartmentFields.IMAGE]: apartment.apartment_image,
+    };
+  }, [apartmentId]);
 
   const handleSave = useCallback(
     async (newApartment: ApartmentFormData): Promise<void> => {
@@ -29,7 +57,7 @@ export const useAddApartment = (
           newApartment[EApartmentFields.CITY]!,
         );
       } catch (error) {
-        const errorMsg = 'city or street are not valid';
+        const errorMsg = 'הכתובת או העיר אינם תקניים';
         setFormError(EApartmentFields.ADDRESS, {
           type: 'manual',
           message: errorMsg,
@@ -45,30 +73,32 @@ export const useAddApartment = (
       const { [EApartmentFields.IMAGE]: imageToUpload, ...apartmentData } =
         newApartment;
 
-      let imageUrl: string | undefined = undefined;
+      let imageUrl: string | undefined =
+        typeof imageToUpload === 'string' ? imageToUpload : undefined;
 
-      if (imageToUpload) {
+      if (imageToUpload && !imageUrl) {
         const formData = new FormData();
         formData.append('file', imageToUpload);
 
-        imageUrl = await api.file.uploadImage(imageToUpload);
+        imageUrl = await api.file.uploadImage(imageToUpload as File);
       }
 
       const fullApartmentData = {
         ...apartmentData,
         apartment_image: imageUrl,
         coordinate: coordinatesRes,
-        owner: '',
       } as IApartment;
 
       try {
-        const updatedApartment =
-          await api.apartment.postApartment(fullApartmentData);
-        toast.success('הדירה נוצרה בהצלחה');
+        const updatedApartment = isEdit
+          ? await api.apartment.updateApartment(apartmentId!, fullApartmentData)
+          : await api.apartment.postApartment(fullApartmentData);
+
+        toast.success('הדירה נשמרה בהצלחה');
 
         navigate('/apartment-details/' + updatedApartment._id);
       } catch (error) {
-        toast.error('הייתה שגיאה ביצירת הדירה');
+        toast.error('הייתה שגיאה בשמירת הדירה');
       }
     },
     [navigate, setFormError],
@@ -78,9 +108,15 @@ export const useAddApartment = (
     toast.error('קיימת שגיאה במילוי הטופס');
   };
 
+  const handleBackClick = (): void => {
+    navigate(-1);
+  };
   return {
+    getApartmentForForm,
     handleSave,
     handleWrongFormData,
+    handleBackClick,
     isButtonLoading,
+    isEdit,
   };
 };

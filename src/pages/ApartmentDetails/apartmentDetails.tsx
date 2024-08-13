@@ -67,12 +67,10 @@ export const ApartmentDetailsPage: React.FC = () => {
         <ApartmentDetailsHeader
           apartmentId={apartmentId}
           isCreatedByUser={isCreatedByUser}
-          refreshApartmentDisplay={fetchApartmentData}
         />
         <ApartmentDetailsBody
           apartmentId={apartmentId}
           isCreatedByUser={isCreatedByUser}
-          refreshApartmentDisplay={fetchApartmentData}
           apartment={apartment}
         />
       </Card>

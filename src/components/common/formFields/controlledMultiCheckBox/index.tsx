@@ -38,17 +38,13 @@ export const ControlledMultiCheckedBox: React.FC<
         <Controller
           control={control}
           name={fieldData.fieldName}
-          render={({
-            field: { value, ref, onChange },
-            fieldState: { error },
-          }) => (
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
             <FormControl sx={formControlSX} margin="none" variant="outlined">
               {options.map(({ field, display }) => (
                 <FormControlLabel
                   key={field}
                   control={
                     <Checkbox
-                      inputRef={ref}
                       value={value ? value[field] : false}
                       onChange={(
                         event: React.ChangeEvent<HTMLInputElement>,

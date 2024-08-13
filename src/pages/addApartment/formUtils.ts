@@ -120,7 +120,7 @@ export const schema = z.object({
   [EApartmentFields.PRICE]: z.number(),
   [EApartmentFields.FEATURES]: createMultiCheckBoxZod(apartmentFeatures),
   [EApartmentFields.DESCRIPTION]: z.string().optional(),
-  [EApartmentFields.IMAGE]: z.instanceof(File).optional(),
+  [EApartmentFields.IMAGE]: z.instanceof(File).or(z.string()).optional(),
 });
 
 export const defaultFormValues = {

@@ -27,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               newestOnTop={false}
               closeOnClick
               pauseOnFocusLoss={false}
+              pauseOnHover={false}
               draggable
               theme="colored"
             />

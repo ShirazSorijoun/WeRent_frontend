@@ -33,6 +33,10 @@ const App: React.FC = () => {
           <Route path="/signup" element={<RegistrationPage />} />
           <Route path="/profile" element={<UserPage />} />
           <Route path="/addApartment" element={<AddApartment />} />
+          <Route
+            path="/editApartment/:apartmentId"
+            element={<AddApartment />}
+          />
           <Route path="/users" element={<AllUsersAdminPage />} />
           <Route path="/rent" element={<RentPropertiesPage />} />
           <Route path="/postGoogleRegister" element={<PostGoogleRegister />} />
