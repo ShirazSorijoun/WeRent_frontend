@@ -5,7 +5,7 @@ export type IApartment = {
   city: string;
   address: string;
   type: string;
-  owner: string;
+  owner?: string;
   floor: number;
   numberOfFloors: number;
   rooms: number;

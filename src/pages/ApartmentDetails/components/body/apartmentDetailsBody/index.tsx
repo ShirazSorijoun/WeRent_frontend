@@ -2,20 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useGetImageUrlFromName } from '@/common/hooks';
 import { Card } from 'react-bootstrap';
 import { ApartmentData } from '../apartmentData';
-import { ApartmentImage } from '../apartmentImage';
 import Button from '@mui/material/Button';
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
 
 interface IApartmentDetailsBodyProps {
-  refreshApartmentDisplay: () => Promise<void>;
   apartment: IApartment;
   apartmentId: string;
   isCreatedByUser: boolean;
 }
 
 export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
-  refreshApartmentDisplay,
   apartment,
   apartmentId,
   isCreatedByUser,
@@ -56,12 +53,14 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
               'You have already matched with this apartment!'
             ))}
           {isAccepted && <div>You have been accepted to this apartment! </div>}
-          <ApartmentImage
-            apartmentImage={apartmentImage}
-            isCreatedByUser={isCreatedByUser}
-            apartmentId={apartmentId}
-            refreshApartmentDisplay={refreshApartmentDisplay}
-          />
+          <div className="col-md-6">
+            <img
+              src={apartmentImage}
+              alt="Apartment"
+              className="img-fluid mb-4"
+            />
+          </div>
+
           <ApartmentData
             apartment={apartment}
             apartmentId={apartmentId}

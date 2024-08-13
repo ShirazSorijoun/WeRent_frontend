@@ -7,13 +7,11 @@ import { useAppSelector } from '@/hooks/store';
 import { selectIsUserAdmin } from '@/stores/user';
 
 interface IApartmentDetailsHeaderProps {
-  refreshApartmentDisplay: () => Promise<void>;
   apartmentId: string;
   isCreatedByUser: boolean;
 }
 
 export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
-  refreshApartmentDisplay,
   apartmentId,
   isCreatedByUser,
 }) => {
@@ -28,9 +26,7 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
       }}
     >
       {isCreatedByUser ? (
-        <ApartmentEditButton
-          refreshApartmentDisplay={refreshApartmentDisplay}
-        />
+        <ApartmentEditButton apartmentId={apartmentId} />
       ) : (
         <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
       )}
