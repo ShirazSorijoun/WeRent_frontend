@@ -3,14 +3,10 @@ import {
   BasicFieldController,
   ControlledMultiCheckedBox,
 } from '@@/common/formFields';
-
-import {
-  apartmentFormDataObject,
-  EApartmentFields,
-  apartmentFeatures,
-} from '../../formUtils';
+import { apartmentFormDataObject, EApartmentFields } from '../../formUtils';
 import React from 'react';
 import { Control } from 'react-hook-form';
+import { apartmentFeatures } from '@/models/apartment.model';
 
 interface IProps {
   control: Control<any>;

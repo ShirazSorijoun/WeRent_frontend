@@ -1,4 +1,8 @@
 import { ICoordinates } from './addressCheck';
+import {
+  IControlledSelectArray,
+  IControlledMultiCheckBoxOptions,
+} from './forms';
 
 export type IApartment = {
   _id?: string;
@@ -27,6 +31,35 @@ export type IApartment = {
   description?: string;
   coordinate?: ICoordinates;
 };
+
+export const apartmentTypeFieldValues: IControlledSelectArray<string> = [
+  { display: 'דירה', value: 'Apartment' },
+  { display: 'דירת גן', value: 'Garden apartment' },
+  { display: 'פרטי/קוטג', value: 'Private/Cottage' },
+  { display: 'בית עירוני', value: 'Townhouse' },
+  { display: 'דופלקס', value: 'Duplex' },
+  { display: 'דירת גן/פנטהאוס', value: 'Roof/Penthouse' },
+  { display: 'יחידת דיור', value: 'Unit' },
+  { display: 'דירת נופש', value: 'Vacation apartment' },
+  { display: 'אחר', value: 'Other' },
+];
+
+export const apartmentFurnitureFieldValues: IControlledSelectArray<string> = [
+  { display: 'מלא', value: 'full' },
+  { display: 'חלקי', value: 'partial' },
+  { display: 'ללא', value: 'none' },
+];
+
+export const apartmentFeatures: IControlledMultiCheckBoxOptions = [
+  { field: 'parking', display: 'חניה' },
+  { field: 'accessForDisabled', display: 'נגישות לבעלי מוגבלות' },
+  { field: 'storage', display: 'יחידת אחסון' },
+  { field: 'dimension', display: 'ממ"ד' },
+  { field: 'terrace', display: 'מרפסת' },
+  { field: 'garden', display: 'גינה' },
+  { field: 'elevators', display: 'מעלית' },
+  { field: 'airConditioning', display: 'מיזוג' },
+];
 
 export const defaultApartment: IApartment = {
   _id: '',

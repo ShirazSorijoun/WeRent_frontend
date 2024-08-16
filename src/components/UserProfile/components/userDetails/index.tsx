@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { useGetImageUrlFromName } from '@/common/hooks';
+import { useGetImageUrlFromName } from '@/hooks';
 import { UserEditButton } from '../editUser';
 import { useAppSelector } from '@/hooks/store';
 import { selectUser } from '@/stores/user';

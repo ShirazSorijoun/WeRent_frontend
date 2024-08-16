@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useGetImageUrlFromName } from '@/common/hooks';
+import { useGetImageUrlFromName } from '@/hooks';
 import { Card } from 'react-bootstrap';
 import { ApartmentData } from '../apartmentData';
 import Button from '@mui/material/Button';
