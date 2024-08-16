@@ -1,15 +1,14 @@
 import { EBasicFieldType } from '@/models';
 import { ControlledSelect, BasicFieldController } from '@@/common/formFields';
-import {
-  apartmentFormDataObject,
-  EApartmentFields,
-  furnitureFieldValues,
-  typeFieldValues,
-} from '../../formUtils';
+import { apartmentFormDataObject, EApartmentFields } from '../../formUtils';
 import { style } from './style';
 import { Grid } from '@mui/material';
 import React from 'react';
 import { Control } from 'react-hook-form';
+import {
+  apartmentFurnitureFieldValues,
+  apartmentTypeFieldValues,
+} from '@/models/apartment.model';
 
 interface IProps {
   control: Control<any>;
@@ -20,7 +19,7 @@ export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
     <Grid container direction="column">
       <Grid item>
         <ControlledSelect
-          valuesArray={typeFieldValues}
+          valuesArray={apartmentTypeFieldValues}
           control={control}
           fieldData={apartmentFormDataObject[EApartmentFields.TYPE]}
           formControlSX={style.selectFormInput}
@@ -90,7 +89,7 @@ export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
       </Grid>
       <Grid item>
         <ControlledSelect
-          valuesArray={furnitureFieldValues}
+          valuesArray={apartmentFurnitureFieldValues}
           control={control}
           fieldData={apartmentFormDataObject[EApartmentFields.FURNITURE]}
           formControlSX={style.selectFormInput}

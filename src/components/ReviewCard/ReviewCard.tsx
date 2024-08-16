@@ -5,7 +5,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { useGetImageUrlFromName } from '@/common/hooks';
+import { useGetImageUrlFromName } from '@/hooks';
 
 interface ReviewProps {
   _id?: string;

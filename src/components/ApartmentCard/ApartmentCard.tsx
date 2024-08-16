@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { useGetImageUrlFromName } from '@/common/hooks';
+import { useGetImageUrlFromName } from '@/hooks';
 
 interface Apartment {
   _id?: string;

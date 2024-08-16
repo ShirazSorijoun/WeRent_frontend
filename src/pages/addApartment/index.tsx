@@ -57,6 +57,7 @@ export const AddApartment: React.FC = () => {
       >
         <CardHeader
           dir="rtl"
+          sx={{ paddingBottom: 0 }}
           title={`${isEdit ? 'עריכת' : 'יצירת'} דירה`}
           action={isEdit && <Button onClick={handleBackClick}>חזור</Button>}
         />

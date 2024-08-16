@@ -11,7 +11,7 @@ interface IProps {
 
 export const AddApartmentBody: React.FC<IProps> = ({ control }) => {
   return (
-    <Grid container direction="row" sx={{ padding: '0px 20px 20px 20px' }}>
+    <Grid container direction="row" sx={{ padding: '0px 20px' }}>
       <Grid item flex={1} sx={style.formGridItem}>
         <AddApartmentBodyRight control={control} />
       </Grid>
