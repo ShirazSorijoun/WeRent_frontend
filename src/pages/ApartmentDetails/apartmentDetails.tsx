@@ -81,7 +81,7 @@ export const ApartmentDetailsPage: React.FC = () => {
           apartment={apartment}
         />
 
-        <ApartmentMatches apartmentId={apartmentId} />
+        {isCreatedByUser && <ApartmentMatches apartmentId={apartmentId} />}
       </Card>
     </div>
   );

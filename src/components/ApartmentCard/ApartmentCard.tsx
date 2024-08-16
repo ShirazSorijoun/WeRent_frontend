@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useGetImageUrlFromName } from '@/hooks';
+import { apartmentTypeObject } from '@/models/apartment.model';
 
 interface Apartment {
   _id?: string;
@@ -55,8 +56,9 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment }) => {
           gutterBottom
           className="details"
         >
-          {apartment.type} {bull} {apartment.rooms} rooms {bull} Floor{' '}
-          {apartment.floor} {bull} {apartment.sizeInSqMeters} sqm
+          {apartmentTypeObject[apartment.type]} {bull} {apartment.rooms} חדרים{' '}
+          {bull} קומה
+          {apartment.floor} {bull} {apartment.sizeInSqMeters} מ"ר
         </Typography>
         <Typography variant="body2" color="text.secondary" className="details">
           {apartment.city}
@@ -67,7 +69,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment }) => {
           to={`/apartment-details/${apartment._id}`}
           style={{ textDecoration: 'none' }}
         >
-          <Button size="small">Learn More</Button>
+          <Button size="small">ראה עוד</Button>
         </Link>
       </CardActions>
     </Card>
