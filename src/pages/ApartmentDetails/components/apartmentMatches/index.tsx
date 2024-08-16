@@ -29,7 +29,11 @@ export const ApartmentMatches: React.FC<IApartmentDataProps> = ({
     <>
       <h3> Interested Clients</h3>
       {matchingList.map((matching) => (
-        <div data-auto="leads-form" className="css-rlze51 e1g5ext0">
+        <div
+          key={matching._id}
+          data-auto="leads-form"
+          className="css-rlze51 e1g5ext0"
+        >
           <div className="css-1p5re2e e1g5ext2">
             <div className="css-17hovo1 e1siqbpd0">
               <div
