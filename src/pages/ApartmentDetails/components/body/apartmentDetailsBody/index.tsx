@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useGetImageUrlFromName } from '@/hooks';
 import { Card } from 'react-bootstrap';
 import { ApartmentData } from '../apartmentData';
 import Button from '@mui/material/Button';
@@ -17,7 +16,6 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
   apartmentId,
   isCreatedByUser,
 }) => {
-  const apartmentImage = useGetImageUrlFromName(apartment.apartment_image);
   const [isMatched, setIsMatched] = React.useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
 
@@ -53,13 +51,6 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
               'You have already matched with this apartment!'
             ))}
           {isAccepted && <div>You have been accepted to this apartment! </div>}
-          <div className="col-md-6">
-            <img
-              src={apartmentImage}
-              alt="Apartment"
-              className="img-fluid mb-4"
-            />
-          </div>
 
           <ApartmentData
             apartment={apartment}

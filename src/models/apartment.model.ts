@@ -6,6 +6,17 @@ import {
   createObjectFromMultiCheckBoxOptions,
 } from './forms';
 
+export interface IApartmentFeatures {
+  parking: boolean;
+  accessForDisabled: boolean;
+  storage: boolean;
+  dimension: boolean;
+  terrace: boolean;
+  garden: boolean;
+  elevators: boolean;
+  airConditioning: boolean;
+}
+
 export type IApartment = {
   _id?: string;
   city: string;
@@ -19,17 +30,8 @@ export type IApartment = {
   price: number;
   entryDate: Date;
   apartment_image?: string;
-  furniture?: string;
-  features: {
-    parking: boolean;
-    accessForDisabled: boolean;
-    storage: boolean;
-    dimension: boolean;
-    terrace: boolean;
-    garden: boolean;
-    elevators: boolean;
-    airConditioning: boolean;
-  };
+  furniture: string;
+  features: IApartmentFeatures;
   description?: string;
   coordinate?: ICoordinates;
 };
