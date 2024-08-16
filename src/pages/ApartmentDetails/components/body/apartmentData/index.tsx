@@ -17,6 +17,7 @@ import {
   Card,
   CardHeader,
   Button,
+  Box,
 } from '@mui/material';
 import BusinessIcon from '@mui/icons-material/Business';
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -30,6 +31,7 @@ import YardIcon from '@mui/icons-material/Yard';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import AccessibleIcon from '@mui/icons-material/Accessible';
 import PhoneIcon from '@mui/icons-material/Phone';
+import PersonIcon from '@mui/icons-material/Person';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { useGetImageUrlFromName } from '@/hooks';
@@ -183,7 +185,15 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
             <Card>
               <CardHeader
                 avatar={
-                  <Avatar sx={{ marginRight: 0, marginLeft: '16px' }}>R</Avatar>
+                  <Avatar
+                    sx={{
+                      marginRight: 0,
+                      marginLeft: '16px',
+                      backgroundColor: '#edf6f7',
+                    }}
+                  >
+                    <PersonIcon sx={{ color: '#018489' }} />
+                  </Avatar>
                 }
                 sx={{
                   '& .MuiCardHeader-action': {
@@ -195,7 +205,7 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
                   <Button
                     data-auto="phone-number-button"
                     variant="text"
-                    startIcon={<PhoneIcon />}
+                    startIcon={<PhoneIcon sx={{ color: '#018489' }} />}
                     sx={{
                       color: '#303030',
                       direction: 'ltr',
@@ -208,11 +218,12 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
             </Card>
           </Grid>
         </Grid>
-        <Grid item flex={2}>
-          <img
-            src={apartmentImage}
+        <Grid item display="flex" justifyContent="center" flex={2}>
+          <Box
+            component="img"
+            sx={{ maxHeight: '500px' }}
             alt="Apartment"
-            className="img-fluid mb-4"
+            src={apartmentImage}
           />
         </Grid>
       </Grid>
