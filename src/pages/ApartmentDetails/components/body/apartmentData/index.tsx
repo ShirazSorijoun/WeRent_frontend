@@ -13,6 +13,10 @@ import {
   Stack,
   Divider,
   SvgIconTypeMap,
+  Avatar,
+  Card,
+  CardHeader,
+  Button,
 } from '@mui/material';
 import BusinessIcon from '@mui/icons-material/Business';
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -55,7 +59,7 @@ const featuresIcons: Record<
 
 const style: styleType = {
   feature: { display: 'flex' },
-  disabledFeature: { display: 'flex' },
+  disabledFeature: { display: 'flex', opacity: 0.4 },
   featureIcon: { paddingLeft: '6px' },
 };
 
@@ -94,7 +98,13 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
       const Icon = featuresIcons[key];
 
       return (
-        <Grid item key={key} flexDirection="row" xs={1} sx={style.feature}>
+        <Grid
+          item
+          key={key}
+          flexDirection="row"
+          xs={1}
+          sx={value ? style.feature : style.disabledFeature}
+        >
           <Icon sx={style.featureIcon} />
           <Typography>
             {`${value ? 'יש' : 'אין'} ${apartmentFeaturesObject[key]}`}
@@ -105,104 +115,107 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
   }, [apartment.features]);
 
   return (
-    <>
-      <Grid container spacing={3} sx={{ direction: 'rtl' }}>
-        <Grid item container justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h4">{apartment.city}</Typography>
-            <Typography variant="body1">{apartment.address}</Typography>
-          </Grid>
-          <Grid item alignContent="center">
-            <Typography variant="h5">{apartment.price} ₪</Typography>
-          </Grid>
-        </Grid>
+    <Grid container spacing={3} sx={{ direction: 'rtl' }}>
+      <Grid item container justifyContent="space-between">
         <Grid item>
-          <Stack
-            direction="row"
-            spacing={3}
-            useFlexGap
-            flexWrap="wrap"
-            divider={
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{ borderColor: 'black' }}
-              />
-            }
-          >
-            <Stack direction="row" spacing={1} useFlexGap>
-              <BusinessIcon />
-              <Typography>{apartmentTypeObject[apartment.type]}</Typography>
-            </Stack>
-            <Stack direction="row" spacing={1} useFlexGap>
-              <HotelIcon />
-              <Typography>{apartment.rooms} חדרים</Typography>
-            </Stack>
-            <Stack direction="row" spacing={1} useFlexGap>
-              <ArrowUpwardIcon />
-              <Typography>
-                קומה {apartment.floor} מתוך {apartment.numberOfFloors} קומות
-              </Typography>
-            </Stack>
-            <Stack direction="row" spacing={1} useFlexGap>
-              <CropFreeIcon />
-              <Typography>{apartment.sizeInSqMeters} מ"ר</Typography>
-            </Stack>
-          </Stack>
+          <Typography variant="h4">{apartment.city}</Typography>
+          <Typography variant="body1">{apartment.address}</Typography>
         </Grid>
-        <Grid container item spacing={1} direction="row">
-          <Grid item container spacing={5} flex={1} direction="column">
-            <Grid item>
-              <Typography variant="h6">מה בדירה:</Typography>
-              <Grid container columns={2} rowSpacing={3}>
-                {featureDisplay}
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Stack direction="row" spacing={1} useFlexGap>
-                <Typography sx={{ fontWeight: 600 }}>תאריך כניסה:</Typography>
-                <Typography>{formattedDate}</Typography>
-              </Stack>
-              <Stack direction="row" spacing={1} useFlexGap>
-                <Typography sx={{ fontWeight: 600 }}>ריהוט: </Typography>
-                <Typography>
-                  {apartmentFurnitureObject[apartment.furniture]}
-                </Typography>
-              </Stack>
-            </Grid>
-          </Grid>
-          <Grid item flex={2}>
-            <img
-              src={apartmentImage}
-              alt="Apartment"
-              className="img-fluid mb-4"
-            />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Typography>Owner: {ownerName}</Typography>
-          <PhoneIcon />
-          <Typography>{ownerData?.phoneNumber ?? ''}</Typography>
+        <Grid item alignContent="center">
+          <Typography variant="h5">{apartment.price} ₪</Typography>
         </Grid>
       </Grid>
-      {/*
-          <a data-auto="phone-number-button" className="css-qa186o e1g5ext4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill="#303030"
-                fillRule="evenodd"
-                d="M4.869 2.834l1.292 1.292a1 1 0 0 1 0 1.414L5.126 6.575c.342.93.923 1.801 1.742 2.612.819.81 1.69 1.417 2.612 1.821l1.086-1.183a1 1 0 0 1 1.39-.08l1.147.989a1 1 0 0 1 .128 1.382l-.545.682a2 2 0 0 1-1.65.749c-2.295-.102-4.265-.974-5.91-2.619C3.463 9.264 2.59 7.155 2.505 4.601a2 2 0 0 1 .798-1.666l.259-.194a1 1 0 0 1 1.307.093z"
-              ></path>
-            </svg>
-            {ownerData?.phoneNumber ?? ''}
-          </a>
-        </div>
-      </div> */}
-    </>
+      <Grid item>
+        <Stack
+          direction="row"
+          spacing={3}
+          useFlexGap
+          flexWrap="wrap"
+          divider={
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{ borderColor: 'black' }}
+            />
+          }
+        >
+          <Stack direction="row" spacing={1} useFlexGap>
+            <BusinessIcon />
+            <Typography>{apartmentTypeObject[apartment.type]}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1} useFlexGap>
+            <HotelIcon />
+            <Typography>{apartment.rooms} חדרים</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1} useFlexGap>
+            <ArrowUpwardIcon />
+            <Typography>
+              קומה {apartment.floor} מתוך {apartment.numberOfFloors} קומות
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1} useFlexGap>
+            <CropFreeIcon />
+            <Typography>{apartment.sizeInSqMeters} מ"ר</Typography>
+          </Stack>
+        </Stack>
+      </Grid>
+      <Grid container item spacing={1} direction="row">
+        <Grid item container spacing={5} flex={1} direction="column">
+          <Grid item>
+            <Typography variant="h6">מה בדירה:</Typography>
+            <Grid container columns={2} rowSpacing={3}>
+              {featureDisplay}
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Stack direction="row" spacing={1} useFlexGap>
+              <Typography sx={{ fontWeight: 600 }}>תאריך כניסה:</Typography>
+              <Typography>{formattedDate}</Typography>
+            </Stack>
+            <Stack direction="row" spacing={1} useFlexGap>
+              <Typography sx={{ fontWeight: 600 }}>ריהוט: </Typography>
+              <Typography>
+                {apartmentFurnitureObject[apartment.furniture]}
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item>
+            <Card>
+              <CardHeader
+                avatar={
+                  <Avatar sx={{ marginRight: 0, marginLeft: '16px' }}>R</Avatar>
+                }
+                sx={{
+                  '& .MuiCardHeader-action': {
+                    margin: 0, // Disables the margin on the action slot
+                  },
+                }}
+                title={`בעלים: ${ownerName}`}
+                action={
+                  <Button
+                    data-auto="phone-number-button"
+                    variant="text"
+                    startIcon={<PhoneIcon />}
+                    sx={{
+                      color: '#303030',
+                      direction: 'ltr',
+                    }}
+                  >
+                    {ownerData?.phoneNumber ?? ''}
+                  </Button>
+                }
+              />
+            </Card>
+          </Grid>
+        </Grid>
+        <Grid item flex={2}>
+          <img
+            src={apartmentImage}
+            alt="Apartment"
+            className="img-fluid mb-4"
+          />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
