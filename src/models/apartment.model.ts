@@ -2,6 +2,8 @@ import { ICoordinates } from './addressCheck';
 import {
   IControlledSelectArray,
   IControlledMultiCheckBoxOptions,
+  createObjectFromSelectArray,
+  createObjectFromMultiCheckBoxOptions,
 } from './forms';
 
 export type IApartment = {
@@ -44,12 +46,19 @@ export const apartmentTypeFieldValues: IControlledSelectArray<string> = [
   { display: 'אחר', value: 'Other' },
 ];
 
+export const apartmentTypeObject = createObjectFromSelectArray(
+  apartmentTypeFieldValues,
+);
+
 export const apartmentFurnitureFieldValues: IControlledSelectArray<string> = [
   { display: 'מלא', value: 'full' },
   { display: 'חלקי', value: 'partial' },
   { display: 'ללא', value: 'none' },
 ];
 
+export const apartmentFurnitureObject = createObjectFromSelectArray(
+  apartmentFurnitureFieldValues,
+);
 export const apartmentFeatures: IControlledMultiCheckBoxOptions = [
   { field: 'parking', display: 'חניה' },
   { field: 'accessForDisabled', display: 'נגישות לבעלי מוגבלות' },
@@ -60,6 +69,9 @@ export const apartmentFeatures: IControlledMultiCheckBoxOptions = [
   { field: 'elevators', display: 'מעלית' },
   { field: 'airConditioning', display: 'מיזוג' },
 ];
+
+export const apartmentFeaturesObject =
+  createObjectFromMultiCheckBoxOptions(apartmentFeatures);
 
 export const defaultApartment: IApartment = {
   _id: '',

@@ -5,17 +5,24 @@ import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { api } from '@/api';
 import './apartmentDetails.css';
-import { ApartmentDetailsHeader, ApartmentDetailsBody } from './components';
+import {
+  ApartmentDetailsHeader,
+  ApartmentDetailsBody,
+  ApartmentMatches,
+} from './components';
+import { selectUserId } from '@/stores/user';
+import { useAppSelector } from '@/hooks';
 
 export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
   const [apartment, setApartment] = useState<IApartment>(defaultApartment);
   const [loading, setLoading] = useState(true);
   const [loadingError, setLoadingError] = useState(false);
+  const loggedUser = useAppSelector(selectUserId);
 
   const isCreatedByUser = useMemo(
-    () => apartment.owner === localStorage.getItem('userId'),
-    [apartment?.owner],
+    () => apartment.owner === loggedUser,
+    [apartment.owner, loggedUser],
   );
 
   const fetchApartmentData = useCallback(async (): Promise<void> => {
@@ -73,6 +80,8 @@ export const ApartmentDetailsPage: React.FC = () => {
           isCreatedByUser={isCreatedByUser}
           apartment={apartment}
         />
+
+        <ApartmentMatches apartmentId={apartmentId} />
       </Card>
     </div>
   );
