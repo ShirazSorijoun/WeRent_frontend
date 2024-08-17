@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
   LandingPage,
-  AddReview,
   UserPage,
   RentPropertiesPage,
   AllReviewsPage,
@@ -28,7 +27,6 @@ const App: React.FC = () => {
             element={<ApartmentDetailsPage />}
           />
           <Route path="/allReviews" element={<AllReviewsPage />} />
-          <Route path="/addreview" element={<AddReview />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegistrationPage />} />
           <Route path="/profile" element={<UserPage />} />
