@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 interface IControlledSelectArrayItem<T> {
   value: T;
-  display: any;
+  display: unknown;
 }
 
 export type IControlledSelectArray<T> = IControlledSelectArrayItem<T>[];
