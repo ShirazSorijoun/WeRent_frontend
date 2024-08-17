@@ -16,39 +16,27 @@ export const Footer: React.FC = () => {
       }}
     >
       <Stack direction="row" justifyContent="space-around">
-        <Stack direction="row" spacing={2} useFlexGap>
-          <Typography variant="h4" sx={{ color: '#fff' }}>
+        <Stack direction="row" spacing={2} useFlexGap alignItems="center">
+          <Typography variant="h5" sx={{ color: '#fff' }}>
             קצת עלינו:
           </Typography>
-          <Typography sx={{ color: '#fff' }}>
+          <Typography sx={{ color: '#fff', width: '50%' }}>
             אנחנו כאן כדי לעזור לך למצוא את בית החלומות שלך בעזרת מצוינות אליה
             מלווה בטכנולוגיה והתאמה אישית לכל עסקת נדלן{' '}
           </Typography>
         </Stack>
-        <Stack direction="row" spacing={2} useFlexGap>
-          <Typography variant="h4" sx={{ color: '#fff' }}>
+        <Stack direction="row" spacing={2} useFlexGap alignItems="center">
+          <Typography variant="h5" sx={{ color: '#fff' }}>
             צור קשר:
           </Typography>
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-            }}
-          >
-            <li>
-              <Link sx={{ color: '#fff', textDecoration: 'none' }}>
-                אימייל : WeRent@gmail.com
-              </Link>
-            </li>
-            <li>
-              <Link sx={{ color: '#fff', textDecoration: 'none' }}>
-                טלפון: : 123-456-7890
-              </Link>
-            </li>
-          </ul>
+          <Stack alignItems="flex-start">
+            <Link sx={{ color: '#fff', textDecoration: 'none' }}>
+              אימייל - WeRent@gmail.com
+            </Link>
+            <Link sx={{ color: '#fff', textDecoration: 'none' }}>
+              טלפון - 123-456-7890
+            </Link>
+          </Stack>
         </Stack>
       </Stack>
       <Box
@@ -57,6 +45,7 @@ export const Footer: React.FC = () => {
           color: '#fff',
           textAlign: 'center',
           padding: '10px 0',
+          width: '100%',
         }}
       >
         &copy; 2024 WeRent. All rights reserved
