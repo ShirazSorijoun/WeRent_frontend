@@ -1,27 +1,66 @@
 import React from 'react';
 import './Footer.css';
+import { Box, Typography, Link, Stack } from '@mui/material';
 //import "./pages/LandingPage";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section about">
-          <h2>About Us</h2>
-          <p>
-            Discover your dream home with WeRent, where excellence meets
-            personalized service in every real estate transaction.
-          </p>
-        </div>
-        <div className="footer-section contact">
-          <h2>Contact Us</h2>
-          <p>Email: WeRent@gmail.com</p>
-          <p>Phone: 123-456-7890</p>
-        </div>
-      </div>
-      <div className="footer-bottom">
-        &copy; 2024 WeRent. All rights reserved.
-      </div>
-    </footer>
+    <Box
+      component="footer"
+      sx={{
+        backgroundColor: '#333',
+        padding: '20px 0',
+        color: 'white',
+        textAlign: 'center',
+        direction: 'rtl',
+      }}
+    >
+      <Stack direction="row" justifyContent="space-around">
+        <Stack direction="row" spacing={2} useFlexGap>
+          <Typography variant="h4" sx={{ color: '#fff' }}>
+            קצת עלינו:
+          </Typography>
+          <Typography sx={{ color: '#fff' }}>
+            אנחנו כאן כדי לעזור לך למצוא את בית החלומות שלך בעזרת מצוינות אליה
+            מלווה בטכנולוגיה והתאמה אישית לכל עסקת נדלן{' '}
+          </Typography>
+        </Stack>
+        <Stack direction="row" spacing={2} useFlexGap>
+          <Typography variant="h4" sx={{ color: '#fff' }}>
+            צור קשר:
+          </Typography>
+          <ul
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            }}
+          >
+            <li>
+              <Link sx={{ color: '#fff', textDecoration: 'none' }}>
+                אימייל : WeRent@gmail.com
+              </Link>
+            </li>
+            <li>
+              <Link sx={{ color: '#fff', textDecoration: 'none' }}>
+                טלפון: : 123-456-7890
+              </Link>
+            </li>
+          </ul>
+        </Stack>
+      </Stack>
+      <Box
+        sx={{
+          backgroundColor: '#111',
+          color: '#fff',
+          textAlign: 'center',
+          padding: '10px 0',
+        }}
+      >
+        &copy; 2024 WeRent. All rights reserved
+      </Box>
+    </Box>
   );
 };
