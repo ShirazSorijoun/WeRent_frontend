@@ -4,14 +4,14 @@ import { IApartment, defaultApartment } from '@/models/apartment.model';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { api } from '@/api';
-import './apartmentDetails.css';
 import {
   ApartmentDetailsHeader,
   ApartmentDetailsBody,
   ApartmentMatches,
 } from './components';
-import { selectUserId } from '@/stores/user';
+import { selectIsUserAdmin, selectUserId } from '@/stores/user';
 import { useAppSelector } from '@/hooks';
+import { ApartmentMatchButton } from './components/header/apartmentMatchButton';
 
 export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
@@ -19,6 +19,7 @@ export const ApartmentDetailsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [loadingError, setLoadingError] = useState(false);
   const loggedUser = useAppSelector(selectUserId);
+  const isAdmin = useAppSelector(selectIsUserAdmin);
 
   const isCreatedByUser = useMemo(
     () => apartment.owner === loggedUser,
@@ -71,10 +72,21 @@ export const ApartmentDetailsPage: React.FC = () => {
           marginBottom: '100px',
         }}
       >
-        <ApartmentDetailsHeader
-          apartmentId={apartmentId}
-          isCreatedByUser={isCreatedByUser}
-        />
+        <Card.Header
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            height: '55px',
+          }}
+        >
+          {(isCreatedByUser || isAdmin) && (
+            <ApartmentDetailsHeader apartmentId={apartmentId} />
+          )}
+          {!isCreatedByUser && (
+            <ApartmentMatchButton apartmentId={apartmentId} />
+          )}
+        </Card.Header>
         <ApartmentDetailsBody
           apartmentId={apartmentId}
           isCreatedByUser={isCreatedByUser}

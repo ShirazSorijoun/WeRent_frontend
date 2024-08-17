@@ -27,10 +27,10 @@ export const ApartmentDeleteButton: React.FC<IApartmentDeleteButtonProps> = ({
 
   const openDeleteDialog = useCallback(async () => {
     const isDelete = await swal({
-      title: 'are you sure you want to delete this apartment',
-      text: 'once its deleted there is no way to recover it',
+      title: 'האם אתה בטוח שברצונך למחוק דירה זו',
+      text: 'אין איך לשחזר מחיקה לאחר אישור',
       icon: 'warning',
-      buttons: ['cancel', 'delete'],
+      buttons: ['בטל', 'מחק'],
       dangerMode: true,
     });
 

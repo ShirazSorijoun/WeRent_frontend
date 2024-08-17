@@ -1,13 +1,13 @@
 import { axiosInstance } from '../api';
 import { QuarterlyTenantFormProps, TenantFormProps } from '@/types/types';
 
-const FORM_API_KEY = '/tenantForm';
+const TENANT_FORM_API_KEY = '/tenantForm';
 
-export const postTeantForm = async (
+export const postTenantForm = async (
   formData: TenantFormProps,
 ): Promise<TenantFormProps> =>
   (console.log('formData', formData),
-  await axiosInstance.post(`${FORM_API_KEY}/initial/create`, {
+  await axiosInstance.post(`${TENANT_FORM_API_KEY}/initial/create`, {
     tenantForm: formData,
   })).data;
 
@@ -16,16 +16,16 @@ export const getTenantFormByOwnerId = async (
 ): Promise<TenantFormProps | string> => {
   console.log('ownerId', ownerId);
   const response = await axiosInstance.get(
-    `${FORM_API_KEY}/initial/${ownerId}`,
+    `${TENANT_FORM_API_KEY}/initial/${ownerId}`,
   );
   return response.data;
 };
 
-export const postTeantFormQuarterly = async (
+export const postTenantFormQuarterly = async (
   formData: QuarterlyTenantFormProps,
 ): Promise<QuarterlyTenantFormProps> =>
   (console.log('formData', formData),
-  await axiosInstance.post(`${FORM_API_KEY}/quarterly/create`, {
+  await axiosInstance.post(`${TENANT_FORM_API_KEY}/quarterly/create`, {
     tenantForm: formData,
   })).data;
 
@@ -34,14 +34,7 @@ export const getTenantFormQuarterlyByOwnerId = async (
 ): Promise<TenantFormProps | string> => {
   console.log('ownerId', ownerId);
   const response = await axiosInstance.get(
-    `${FORM_API_KEY}/quarterly/${ownerId}`,
+    `${TENANT_FORM_API_KEY}/quarterly/${ownerId}`,
   );
   return response.data;
-};
-
-export const tenantFormAPI = {
-  postTeantForm,
-  getTenantFormByOwnerId,
-  postTeantFormQuarterly,
-  getTenantFormQuarterlyByOwnerId,
 };

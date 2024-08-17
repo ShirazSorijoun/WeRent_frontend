@@ -36,6 +36,7 @@ import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { useGetImageUrlFromName } from '@/hooks';
 import { dateFormatter } from '@/utils/date';
+import { ApartmentTamaWarning } from '../apartmentTamaWarning';
 
 interface IApartmentDataProps {
   apartment: IApartment;
@@ -119,9 +120,17 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
   return (
     <Grid container spacing={3} sx={{ direction: 'rtl' }}>
       <Grid item container justifyContent="space-between">
-        <Grid item>
-          <Typography variant="h4">{apartment.city}</Typography>
-          <Typography variant="body1">{apartment.address}</Typography>
+        <Grid item container alignItems="center" flex={1}>
+          <Grid item>
+            <Typography variant="h4">{apartment.city}</Typography>
+            <Typography variant="body1">{apartment.address}</Typography>
+          </Grid>
+          <Grid item>
+            <ApartmentTamaWarning
+              apartmentId={apartment._id}
+              coordinates={apartment.coordinate}
+            />
+          </Grid>
         </Grid>
         <Grid item alignContent="center">
           <Typography variant="h5">{apartment.price} ₪</Typography>
@@ -221,7 +230,7 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
         <Grid item display="flex" justifyContent="center" flex={2}>
           <Box
             component="img"
-            sx={{ maxHeight: '500px' }}
+            sx={{ maxHeight: '420px' }}
             alt="Apartment"
             src={apartmentImage}
           />

@@ -10,7 +10,3 @@ export const postLeaseAgreementForm = async (
   await axiosInstance.post(`${API_KEY}/create`, {
     leaseAgreement: formData,
   })).data;
-
-export const leaseAgreementAPI = {
-  postLeaseAgreementForm,
-};

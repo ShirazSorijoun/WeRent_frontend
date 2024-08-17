@@ -1,14 +1,14 @@
 import { IUserData } from '@/models';
 
 export type IMatch = {
-  _id?: string;
+  _id: string;
   apartment: string;
   user: Pick<
     IUserData,
-    'email' | 'firstName' | 'lastName' | 'phoneNumber' | '_id'
+    'email' | 'firstName' | 'lastName' | 'phoneNumber' | '_id' | 'profile_image'
   >;
   date: Date;
-  accepted: boolean;
+  accepted?: boolean;
 };
 
 export type ReviewProps = {

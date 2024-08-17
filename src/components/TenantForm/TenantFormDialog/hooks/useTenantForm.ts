@@ -19,7 +19,7 @@ export const useTenantForm = (): IUseTenantForm => {
       try {
         const updatedFormData = { ...formData };
 
-        await api.tenantForm.postTeantForm(updatedFormData);
+        await api.tenantForm.postTenantForm(updatedFormData);
 
         setIsButtonLoading(false);
         return true;
