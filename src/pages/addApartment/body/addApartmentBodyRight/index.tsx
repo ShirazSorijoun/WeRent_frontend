@@ -5,10 +5,7 @@ import { style } from './style';
 import { Grid } from '@mui/material';
 import React from 'react';
 import { Control } from 'react-hook-form';
-import {
-  apartmentFurnitureFieldValues,
-  apartmentTypeFieldValues,
-} from '@/models/apartment.model';
+import { apartmentTypeFieldValues } from '@/models/apartment.model';
 
 interface IProps {
   control: Control<any>;
@@ -85,14 +82,6 @@ export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
           control={control}
           type={EBasicFieldType.date}
           fieldData={apartmentFormDataObject[EApartmentFields.ENTRY_DATE]}
-        />
-      </Grid>
-      <Grid item>
-        <ControlledSelect
-          valuesArray={apartmentFurnitureFieldValues}
-          control={control}
-          fieldData={apartmentFormDataObject[EApartmentFields.FURNITURE]}
-          formControlSX={style.selectFormInput}
         />
       </Grid>
     </Grid>

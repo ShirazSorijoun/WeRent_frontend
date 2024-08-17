@@ -6,9 +6,9 @@ const REVIEW_API_KEY = '/userReview';
 export const getAllReviews = async (): Promise<ReviewProps[]> =>
   (await axiosInstance.get(REVIEW_API_KEY)).data;
 
-export const postReview = async (review: ReviewProps): Promise<ReviewProps> =>
+export const postReview = async (reviewText: string): Promise<ReviewProps> =>
   (
     await axiosInstance.post(`${REVIEW_API_KEY}/create`, {
-      review,
+      reviewText,
     })
   ).data;
