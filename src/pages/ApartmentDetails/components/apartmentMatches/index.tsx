@@ -12,12 +12,12 @@ export const ApartmentMatches: React.FC<IApartmentDataProps> = ({
   const [matchingList, setMatchingList] = useState<IMatch[]>([]);
 
   const fetchMatchingList = async () => {
-    const matchingListFromBE = await api.apartment.getMatchingList(apartmentId);
+    const matchingListFromBE = await api.match.getMatchingList(apartmentId);
     setMatchingList(matchingListFromBE);
   };
 
   const acceptMatch = async (matchId: string) => {
-    await api.apartment.acceptMatch(matchId);
+    await api.match.acceptMatch(matchId);
     fetchMatchingList();
   };
 

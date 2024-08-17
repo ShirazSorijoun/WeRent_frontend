@@ -20,7 +20,7 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
   const [isAccepted, setIsAccepted] = useState(false);
 
   const fetchMatchingList = async () => {
-    const matchingListFromBE = await api.apartment.getMatchingList(apartmentId);
+    const matchingListFromBE = await api.match.getMatchingList(apartmentId);
     setIsAccepted(
       matchingListFromBE.some(
         (match) =>
@@ -31,7 +31,7 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
 
   const matchApartment = async () => {
     const userId = localStorage.getItem('userId')!;
-    await api.apartment.matchApartment(apartmentId, userId);
+    await api.match.matchApartment(apartmentId, userId);
     setIsMatched(true);
   };
 
