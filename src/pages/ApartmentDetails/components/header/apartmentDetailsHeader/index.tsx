@@ -2,7 +2,6 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { ApartmentDeleteButton } from '../apartmentDeleteButton';
 import { ApartmentEditButton } from '../apartmentEditButton';
-import { ApartmentTamaWarning } from '../apartmentTamaWarning';
 import { useAppSelector } from '@/hooks/store';
 import { selectIsUserAdmin } from '@/stores/user';
 
@@ -30,7 +29,6 @@ export const ApartmentDetailsHeader: React.FC<IApartmentDetailsHeaderProps> = ({
       ) : (
         <h1 style={{ height: '40px', marginRight: '15px' }}></h1>
       )}
-      <ApartmentTamaWarning apartmentId={apartmentId} />
       {isCreatedByUser || isAdmin ? (
         <ApartmentDeleteButton apartmentId={apartmentId} />
       ) : (
