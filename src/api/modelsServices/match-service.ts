@@ -3,9 +3,13 @@ import { IMatch } from '@/types/types';
 
 const MATCH_API_KEY = '/match';
 
-export const acceptMatch = async (matchId: string): Promise<void> =>
+export const acceptMatch = async (
+  matchId: string,
+  status: boolean,
+): Promise<void> =>
   axiosInstance.put(`${MATCH_API_KEY}/accept`, {
     matchId,
+    status,
   });
 
 export const getMatchingList = async (apartmentId: string): Promise<IMatch[]> =>

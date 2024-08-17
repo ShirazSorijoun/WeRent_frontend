@@ -4,7 +4,6 @@ import { IApartment, defaultApartment } from '@/models/apartment.model';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { api } from '@/api';
-import './apartmentDetails.css';
 import {
   ApartmentDetailsHeader,
   ApartmentDetailsBody,
@@ -12,7 +11,7 @@ import {
 } from './components';
 import { selectIsUserAdmin, selectUserId } from '@/stores/user';
 import { useAppSelector } from '@/hooks';
-import { ApartmentMatchButton } from './components/header/aprtmentMatchButton';
+import { ApartmentMatchButton } from './components/header/apartmentMatchButton';
 
 export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
