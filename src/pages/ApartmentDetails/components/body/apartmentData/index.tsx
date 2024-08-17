@@ -120,7 +120,7 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({ apartment }) => {
   return (
     <Grid container spacing={3} sx={{ direction: 'rtl' }}>
       <Grid item container justifyContent="space-between">
-        <Grid item container flex={1}>
+        <Grid item container alignItems="center" flex={1}>
           <Grid item>
             <Typography variant="h4">{apartment.city}</Typography>
             <Typography variant="body1">{apartment.address}</Typography>

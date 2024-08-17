@@ -8,7 +8,7 @@ export type IMatch = {
     'email' | 'firstName' | 'lastName' | 'phoneNumber' | '_id'
   >;
   date: Date;
-  accepted: boolean;
+  accepted?: boolean;
 };
 
 export type ReviewProps = {

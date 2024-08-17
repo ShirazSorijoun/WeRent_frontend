@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card } from 'react-bootstrap';
 import { ApartmentData } from '../apartmentData';
-import Button from '@mui/material/Button';
-import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
 
 interface IApartmentDetailsBodyProps {
@@ -16,49 +14,13 @@ export const ApartmentDetailsBody: React.FC<IApartmentDetailsBodyProps> = ({
   apartmentId,
   isCreatedByUser,
 }) => {
-  const [isMatched, setIsMatched] = React.useState(false);
-  const [isAccepted, setIsAccepted] = useState(false);
-
-  const fetchMatchingList = async () => {
-    const matchingListFromBE = await api.match.getMatchingList(apartmentId);
-    setIsAccepted(
-      matchingListFromBE.some(
-        (match) =>
-          match.user._id === localStorage.getItem('userId') && match.accepted,
-      ),
-    );
-  };
-
-  const matchApartment = async () => {
-    const userId = localStorage.getItem('userId')!;
-    await api.match.matchApartment(apartmentId, userId);
-    setIsMatched(true);
-  };
-
-  useEffect(() => {
-    fetchMatchingList();
-  }, []);
-
   return (
     <Card.Body style={{ overflow: 'auto' }}>
-      <div className="row g-3 card-body-div">
-        <div className="css-1752boj e142rc1o2">
-          {!isCreatedByUser &&
-            !isAccepted &&
-            (!isMatched ? (
-              <Button onClick={matchApartment}>I like this apartment!</Button>
-            ) : (
-              'You have already matched with this apartment!'
-            ))}
-          {isAccepted && <div>You have been accepted to this apartment! </div>}
-
-          <ApartmentData
-            apartment={apartment}
-            apartmentId={apartmentId}
-            isCreatedByUser={isCreatedByUser}
-          />
-        </div>
-      </div>
+      <ApartmentData
+        apartment={apartment}
+        apartmentId={apartmentId}
+        isCreatedByUser={isCreatedByUser}
+      />
     </Card.Body>
   );
 };
