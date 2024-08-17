@@ -1,11 +1,11 @@
 import { api } from '@/api';
-import { ApartmentProps } from '@/types/types';
+import { IApartment } from '@/models/apartment.model';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { UserApartmentCard } from '../userApartmentCard';
 
 export const UserApartmentsContainer: React.FC = () => {
-  const [userApartments, setUserApartments] = useState<ApartmentProps[]>([]);
+  const [userApartments, setUserApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

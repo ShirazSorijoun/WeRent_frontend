@@ -4,17 +4,17 @@ import {
   LandingPage,
   AddReview,
   UserPage,
-  AddApartmentPage,
   RentPropertiesPage,
   AllReviewsPage,
   LoginPage,
   RegistrationPage,
   AllUsersAdminPage,
-  ChangePassword,
   ApartmentDetailsPage,
   MapPage,
   StaticPageContainer,
   ApartmentPersonalAreaPage,
+  PostGoogleRegister,
+  AddApartment,
 } from './pages';
 
 const App: React.FC = () => {
@@ -32,10 +32,14 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegistrationPage />} />
           <Route path="/profile" element={<UserPage />} />
-          <Route path="/addApartment" element={<AddApartmentPage />} />
+          <Route path="/addApartment" element={<AddApartment />} />
+          <Route
+            path="/editApartment/:apartmentId"
+            element={<AddApartment />}
+          />
           <Route path="/users" element={<AllUsersAdminPage />} />
           <Route path="/rent" element={<RentPropertiesPage />} />
-          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/postGoogleRegister" element={<PostGoogleRegister />} />
           <Route path="/googlemap" element={<MapPage />} />
           <Route
             path="/ApartmentPersonalArea"

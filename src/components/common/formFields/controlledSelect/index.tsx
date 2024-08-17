@@ -9,21 +9,16 @@ import {
   SxProps,
   Theme,
 } from '@mui/material';
-import {
-  FieldValues,
-  RefCallBack,
-  FieldError,
-  Controller,
-  Control,
-} from 'react-hook-form';
+import { RefCallBack, FieldError, Controller, Control } from 'react-hook-form';
 import { IControlledSelectArray, IFormField } from '@/models/forms';
 
 interface ControlledSelectProps {
   fieldData: IFormField;
-  control: Control<FieldValues, any>;
+  control: Control<any>;
   valuesArray: IControlledSelectArray<any>;
   formControlSX?: SxProps<Theme>;
   menuSX?: SxProps<Theme>;
+  gridSx?: SxProps<Theme>;
   noPlaceHolder?: boolean;
 }
 
@@ -33,14 +28,15 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
   valuesArray,
   formControlSX,
   noPlaceHolder = false,
-  menuSX,
+  menuSX = { direction: 'rtl' },
+  gridSx = { direction: 'rtl', paddingBottom: '20px' },
 }) => {
   const placeholderText = useMemo(
     () =>
       noPlaceHolder ? (
         ''
       ) : (
-        <div style={{ color: '#ababab' }}>select {fieldData.label}</div>
+        <div style={{ color: '#ababab' }}>בחר {fieldData.label}</div>
       ),
     [fieldData.label, noPlaceHolder],
   );
@@ -97,7 +93,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
   };
 
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" sx={gridSx}>
       <Grid item>
         <Typography>{fieldData.label}</Typography>
       </Grid>

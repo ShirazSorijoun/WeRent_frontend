@@ -29,7 +29,7 @@ export const ControlledBasicTextField: React.FC<
           inputRef={ref}
           sx={sxStyle}
           error={!!error}
-          placeholder={`enter ${fieldData.label}`}
+          placeholder={`הכנס ${fieldData.label}`}
           label={isWithLabel ? fieldData.label : ''}
           helperText={error?.message ?? ''}
           value={value ?? ''}
