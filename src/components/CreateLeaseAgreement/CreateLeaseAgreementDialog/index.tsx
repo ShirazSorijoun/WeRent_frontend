@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -20,15 +20,10 @@ import {
   Button,
 } from '@mui/material';
 import { IFormSteps } from '@/models';
-import {
-  CreateLeaseAgreementFormPage1,
-  CreateLeaseAgreementFormPage2,
-  CreateLeaseAgreementFormPage3,
-  CreateLeaseAgreementFormPage4,
-  CreateLeaseAgreementFormPage5,
-} from '../formPages';
+
 import { FormStepper } from '@@/common/formStepper';
 import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
+import { LeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
 
 interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
@@ -59,13 +54,8 @@ export const LeaseAgreementFormDialog: React.FC<
     defaultValues: leaseAgreementDefaultValues,
   });
 
-  const {
-    handleSave,
-    handleWrongFormData,
-    isButtonLoading,
-    apartment,
-    tenantData,
-  } = useLeaseAgreementForm(tenantId, apartmentId);
+  const { handleSave, handleWrongFormData, isButtonLoading } =
+    useLeaseAgreementForm();
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
@@ -82,10 +72,10 @@ export const LeaseAgreementFormDialog: React.FC<
 
   const onSubmit = useCallback(
     async (formData: leaseAgreementFormData) => {
-      const isSaved = await handleSave(formData);
+      const isSaved = await handleSave(formData, tenantId, apartmentId);
       if (isSaved) completeSave();
     },
-    [completeSave, handleSave],
+    [apartmentId, completeSave, handleSave, tenantId],
   );
 
   const handleCloseDialog = (event: any, reason: string) => {
@@ -93,27 +83,6 @@ export const LeaseAgreementFormDialog: React.FC<
       return;
     }
   };
-
-  const formDisplayBody: React.ReactNode = useMemo(() => {
-    switch (activeStep) {
-      case 0:
-        return (
-          <CreateLeaseAgreementFormPage1
-            control={control}
-            apartment={apartment}
-            tenantData={tenantData}
-          />
-        );
-      case 1:
-        return <CreateLeaseAgreementFormPage2 control={control} />;
-      case 2:
-        return <CreateLeaseAgreementFormPage3 control={control} />;
-      case 3:
-        return <CreateLeaseAgreementFormPage4 control={control} />;
-      case 4:
-        return <CreateLeaseAgreementFormPage5 control={control} />;
-    }
-  }, [activeStep, apartment, control, tenantData]);
 
   return (
     <Dialog
@@ -132,8 +101,14 @@ export const LeaseAgreementFormDialog: React.FC<
           errors={errors}
           setActiveStep={setActiveStep}
           steps={steps}
-          children={formDisplayBody}
-        />
+        >
+          <LeaseAgreementFormBody
+            activeStep={activeStep}
+            apartmentId={apartmentId}
+            control={control}
+            tenantId={tenantId}
+          />
+        </FormStepper>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={closeDialog}>
