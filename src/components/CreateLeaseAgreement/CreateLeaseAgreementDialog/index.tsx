@@ -18,11 +18,12 @@ interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
+  matchId: string;
 }
 
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
-> = ({ isOpen, handleCancel, completeSave }) => {
+> = ({ isOpen, handleCancel, completeSave, matchId }) => {
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: leaseAgreementDefaultValues,
@@ -45,7 +46,7 @@ export const LeaseAgreementFormDialog: React.FC<
     async (formData: any) => {
       setSubmitting(true);
       try {
-        await postLeaseAgreementForm(formData); // Call your API function to save form data
+        await postLeaseAgreementForm(formData, matchId); // Call your API function to save form data
         console.log('Form data saved:', formData);
         completeSave(); // Notify parent component about successful save
       } catch (err) {
