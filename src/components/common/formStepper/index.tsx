@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { Button, Stack, Step, StepLabel, Stepper } from '@mui/material';
 import { IFormSteps } from '@/models';
@@ -34,23 +34,19 @@ export const FormStepper: React.FC<IFormStepperProps> = ({
     setActiveStep(activeStep + 1);
   }, [activeStep, setActiveStep]);
 
-  const stepsDisplay = useMemo(
-    () =>
-      steps.map((step, index) => (
-        <Step key={step.label}>
-          <StepLabel
-            error={!!errors[step.stepIdentifier]}
-            onClick={handleStep(index)}
-            optional={step.optionalText}
-            sx={{ cursor: 'pointer' }}
-            icon={step.icon ? <step.icon /> : undefined}
-          >
-            {step.label}
-          </StepLabel>
-        </Step>
-      )),
-    [errors, handleStep, steps],
-  );
+  const stepsDisplay = steps.map((step, index) => (
+    <Step key={step.label}>
+      <StepLabel
+        error={!!errors[step.stepIdentifier]}
+        onClick={handleStep(index)}
+        optional={step.optionalText}
+        sx={{ cursor: 'pointer' }}
+        icon={step.icon ? <step.icon /> : undefined}
+      >
+        {step.label}
+      </StepLabel>
+    </Step>
+  ));
 
   return (
     <>
@@ -70,11 +66,14 @@ export const FormStepper: React.FC<IFormStepperProps> = ({
         >
           הקודם
         </Button>
-        {activeStep != steps.length - 1 && (
-          <Button variant="contained" onClick={handleNext}>
-            הבא
-          </Button>
-        )}
+
+        <Button
+          variant="contained"
+          hidden={activeStep === steps.length - 1}
+          onClick={handleNext}
+        >
+          הבא
+        </Button>
       </Stack>
     </>
   );

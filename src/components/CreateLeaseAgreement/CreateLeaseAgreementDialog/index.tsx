@@ -52,6 +52,7 @@ export const LeaseAgreementFormDialog: React.FC<
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: leaseAgreementDefaultValues,
+    reValidateMode: 'onChange',
   });
 
   const { handleSave, handleWrongFormData, isButtonLoading } =
@@ -112,7 +113,7 @@ export const LeaseAgreementFormDialog: React.FC<
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={closeDialog}>
-          Cancel
+          בטל
         </Button>
         <LoadingButton
           type="submit"
@@ -120,7 +121,7 @@ export const LeaseAgreementFormDialog: React.FC<
           color="success"
           loading={isButtonLoading}
         >
-          Save
+          שמור
         </LoadingButton>
       </DialogActions>
     </Dialog>
