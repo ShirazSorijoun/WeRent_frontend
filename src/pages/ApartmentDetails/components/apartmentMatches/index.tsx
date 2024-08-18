@@ -1,6 +1,6 @@
 import { api } from '@/api';
 import { IMatch } from '@/types/types';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ApartmentMatchItem } from '../apartmentMatchItem';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -26,14 +26,14 @@ export const ApartmentMatches: React.FC<IApartmentDataProps> = ({
     setExpanded(!expanded);
   };
 
-  const fetchMatchingList = async () => {
+  const fetchMatchingList = useCallback(async () => {
     const matchingListFromBE = await api.match.getMatchingList(apartmentId);
     setMatchingList(matchingListFromBE);
-  };
+  }, [apartmentId]);
 
   useEffect(() => {
     fetchMatchingList();
-  }, []);
+  }, [fetchMatchingList]);
 
   return (
     <>

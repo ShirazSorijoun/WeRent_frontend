@@ -1,7 +1,16 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { schema, leaseAgreementDefaultValues } from '../formUtils';
+import {
+  schema,
+  FIFTH_STEP_NAME,
+  FIRST_STEP_NAME,
+  FORTH_STEP_NAME,
+  SECOND_STEP_NAME,
+  THIRD_STEP_NAME,
+  leaseAgreementFormData,
+  buildLeaseDataForForm,
+} from '../formUtils';
 import { LoadingButton } from '@mui/lab';
 import {
   Dialog,
@@ -10,80 +19,104 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { FormLeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
-import { postLeaseAgreementForm } from '../../../api/modelsServices/leaseAgreement-service';
-import { toast } from 'react-toastify';
+import { IFormSteps } from '@/models';
+
+import { FormStepper } from '@@/common/formStepper';
+import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
+import { LeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
+import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 
 interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
-  matchId: string;
+  tenantId: string;
+  apartmentId: string;
+  lease?: ILeaseAgreementForm;
 }
+
+const steps: IFormSteps = [
+  { label: '1', stepIdentifier: FIRST_STEP_NAME },
+  { label: '2', stepIdentifier: SECOND_STEP_NAME },
+  { label: '3', stepIdentifier: THIRD_STEP_NAME },
+  { label: '4', stepIdentifier: FORTH_STEP_NAME },
+  { label: '5', stepIdentifier: FIFTH_STEP_NAME },
+];
 
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
-> = ({ isOpen, handleCancel, completeSave, matchId }) => {
-  const { handleSubmit, control, reset } = useForm({
+> = ({ handleCancel, completeSave, apartmentId, tenantId, lease }) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: leaseAgreementDefaultValues,
+    defaultValues: buildLeaseDataForForm(lease),
+    reValidateMode: 'onChange',
   });
 
-  const [submitting, setSubmitting] = React.useState(false);
+  const { handleSave, handleWrongFormData, isButtonLoading } =
+    useLeaseAgreementForm();
 
-  useEffect(() => {
-    if (isOpen) {
-      reset(leaseAgreementDefaultValues);
-    }
-  }, [isOpen, reset]);
-
-  const closeDialog = useCallback(() => {
-    reset();
-    handleCancel();
-  }, [handleCancel, reset]);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const onSubmit = useCallback(
-    async (formData: any) => {
-      setSubmitting(true);
-      try {
-        await postLeaseAgreementForm(formData, matchId); // Call your API function to save form data
-        console.log('Form data saved:', formData);
-        completeSave(); // Notify parent component about successful save
-      } catch (err) {
-        toast.error('Failed to save form data. Please try again.');
-        console.error('Error saving form data:', err);
-      } finally {
-        setSubmitting(false);
-      }
+    async (formData: leaseAgreementFormData) => {
+      const isSaved = await handleSave(
+        formData,
+        tenantId,
+        apartmentId,
+        lease?._id,
+      );
+      if (isSaved) completeSave();
     },
-    [completeSave],
+    [apartmentId, completeSave, handleSave, lease?._id, tenantId],
   );
+
+  const handleCloseDialog = (event: any, reason: string) => {
+    if (reason && reason === 'backdropClick') {
+      return;
+    }
+  };
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={closeDialog}
+      open={true}
+      onClose={handleCloseDialog}
       fullWidth
       PaperProps={{
         component: 'form',
-        onSubmit: handleSubmit(onSubmit),
+        onSubmit: handleSubmit(onSubmit, handleWrongFormData),
       }}
     >
-      <DialogTitle>Lease Agreement Form</DialogTitle>
+      <DialogTitle>חוזה שכירות בלתי מוגנת</DialogTitle>
       <DialogContent>
-        <FormLeaseAgreementFormBody control={control} />
+        <FormStepper
+          activeStep={activeStep}
+          errors={errors}
+          setActiveStep={setActiveStep}
+          steps={steps}
+        >
+          <LeaseAgreementFormBody
+            activeStep={activeStep}
+            apartmentId={apartmentId}
+            control={control}
+            tenantId={tenantId}
+          />
+        </FormStepper>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error" onClick={closeDialog}>
-          Cancel
+        <Button variant="contained" color="error" onClick={handleCancel}>
+          בטל
         </Button>
         <LoadingButton
           type="submit"
           variant="contained"
           color="success"
-          loading={submitting}
+          loading={isButtonLoading}
         >
-          Save
+          שמור
         </LoadingButton>
       </DialogActions>
     </Dialog>

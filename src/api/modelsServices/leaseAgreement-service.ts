@@ -1,14 +1,33 @@
+import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 import { axiosInstance } from '../api';
-import { LeaseAgreementFormProps } from '@/types/types';
 
 const API_KEY = '/leaseAgreement';
 
 export const postLeaseAgreementForm = async (
-  formData: LeaseAgreementFormProps,
-  matchId: string,
-): Promise<LeaseAgreementFormProps> =>
+  formData: ILeaseAgreementForm,
+  tenantId: string,
+  apartmentId: string,
+): Promise<ILeaseAgreementForm> =>
   (console.log('formData', formData),
   await axiosInstance.post(`${API_KEY}/create`, {
     leaseAgreement: formData,
-    matchId,
+    tenantId,
+    apartmentId,
   })).data;
+
+export const updateLeaseAgreement = async (
+  formData: ILeaseAgreementForm,
+  leaseId: string,
+): Promise<ILeaseAgreementForm> =>
+  (
+    await axiosInstance.patch(`${API_KEY}/update`, {
+      updatedLeaseAgreement: formData,
+      leaseId,
+    })
+  ).data;
+
+export const getLeaseAgreementForm = async (
+  tenantId: string,
+  apartmentId: string,
+): Promise<ILeaseAgreementForm> =>
+  (await axiosInstance.get(`${API_KEY}/${tenantId}/${apartmentId}`)).data;
