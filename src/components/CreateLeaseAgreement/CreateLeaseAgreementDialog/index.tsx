@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
   schema,
-  leaseAgreementDefaultValues,
   FIFTH_STEP_NAME,
   FIRST_STEP_NAME,
   FORTH_STEP_NAME,
   SECOND_STEP_NAME,
   THIRD_STEP_NAME,
   leaseAgreementFormData,
+  buildLeaseDataForForm,
 } from '../formUtils';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -24,6 +24,7 @@ import { IFormSteps } from '@/models';
 import { FormStepper } from '@@/common/formStepper';
 import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
 import { LeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
+import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 
 interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ interface ILeaseAgreementFormDialogProps {
   completeSave: () => void;
   tenantId: string;
   apartmentId: string;
+  lease?: ILeaseAgreementForm;
 }
 
 const steps: IFormSteps = [
@@ -43,15 +45,14 @@ const steps: IFormSteps = [
 
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
-> = ({ isOpen, handleCancel, completeSave, apartmentId, tenantId }) => {
+> = ({ handleCancel, completeSave, apartmentId, tenantId, lease }) => {
   const {
     handleSubmit,
     control,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: leaseAgreementDefaultValues,
+    defaultValues: buildLeaseDataForForm(lease),
     reValidateMode: 'onChange',
   });
 
@@ -59,17 +60,6 @@ export const LeaseAgreementFormDialog: React.FC<
     useLeaseAgreementForm();
 
   const [activeStep, setActiveStep] = useState<number>(0);
-
-  useEffect(() => {
-    if (isOpen) {
-      reset(leaseAgreementDefaultValues);
-    }
-  }, [isOpen, reset]);
-
-  const closeDialog = useCallback(() => {
-    reset();
-    handleCancel();
-  }, [handleCancel, reset]);
 
   const onSubmit = useCallback(
     async (formData: leaseAgreementFormData) => {
@@ -87,7 +77,7 @@ export const LeaseAgreementFormDialog: React.FC<
 
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleCloseDialog}
       fullWidth
       PaperProps={{
@@ -112,7 +102,7 @@ export const LeaseAgreementFormDialog: React.FC<
         </FormStepper>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error" onClick={closeDialog}>
+        <Button variant="contained" color="error" onClick={handleCancel}>
           בטל
         </Button>
         <LoadingButton

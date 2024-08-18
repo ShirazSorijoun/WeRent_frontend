@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IControlledSelectArray, IFormField } from '@/models/forms';
 import { zodOfStringSelectValues } from '@/models/forms/controlledSelectArray';
+import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 
 export enum ELeaseAgreementFields {
   DATE = 'date',
@@ -201,5 +202,65 @@ export const leaseAgreementDefaultValues = {
   },
   [FIFTH_STEP_NAME]: { [ELeaseAgreementFields.ANIMAL]: false },
 };
+
+export const buildLeaseDataForForm = (lease?: ILeaseAgreementForm) =>
+  !lease
+    ? leaseAgreementDefaultValues
+    : {
+        [FIRST_STEP_NAME]: {
+          [ELeaseAgreementFields.DATE]: new Date(
+            lease[ELeaseAgreementFields.DATE],
+          ),
+          [ELeaseAgreementFields.START_DATE]: new Date(
+            lease[ELeaseAgreementFields.START_DATE],
+          ),
+          [ELeaseAgreementFields.END_DATE]: new Date(
+            lease[ELeaseAgreementFields.END_DATE],
+          ),
+        },
+        [SECOND_STEP_NAME]: {
+          [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]:
+            lease[ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH],
+          [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]:
+            lease[ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT],
+          [ELeaseAgreementFields.PAYMENT_METHOD]:
+            lease[ELeaseAgreementFields.PAYMENT_METHOD],
+          [ELeaseAgreementFields.NAME_OF_BANK]:
+            lease[ELeaseAgreementFields.NAME_OF_BANK],
+          [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]:
+            lease[ELeaseAgreementFields.BANK_ACCOUNT_NUMBER],
+          [ELeaseAgreementFields.BANK_BRANCH]:
+            lease[ELeaseAgreementFields.BANK_BRANCH],
+          [ELeaseAgreementFields.OPTION_PERIOD]:
+            lease[ELeaseAgreementFields.OPTION_PERIOD],
+          [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]:
+            lease[ELeaseAgreementFields.OPTION_PERIOD_LENGTH],
+        },
+        [THIRD_STEP_NAME]: {
+          [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]:
+            lease[ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE],
+          [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]:
+            lease[ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR],
+        },
+        [FORTH_STEP_NAME]: {
+          [ELeaseAgreementFields.SUBTENANT]:
+            lease[ELeaseAgreementFields.SUBTENANT],
+          [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]:
+            lease[ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY],
+          [ELeaseAgreementFields.PROMISSORY_NOTE]:
+            lease[ELeaseAgreementFields.PROMISSORY_NOTE],
+          [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]:
+            lease[ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT],
+          [ELeaseAgreementFields.LETTER_OF_GUARANTEE]:
+            lease[ELeaseAgreementFields.LETTER_OF_GUARANTEE],
+          [ELeaseAgreementFields.GUARANTEE]:
+            lease[ELeaseAgreementFields.GUARANTEE],
+          [ELeaseAgreementFields.GUARANTEE_AMOUNT]:
+            lease[ELeaseAgreementFields.GUARANTEE_AMOUNT],
+        },
+        [FIFTH_STEP_NAME]: {
+          [ELeaseAgreementFields.ANIMAL]: lease[ELeaseAgreementFields.ANIMAL],
+        },
+      };
 
 export type leaseAgreementFormData = z.infer<typeof schema>;

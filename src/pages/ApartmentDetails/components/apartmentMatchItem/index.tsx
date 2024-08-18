@@ -13,7 +13,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
 import { LoadingButton } from '@mui/lab';
 import { useGetImageUrlFromName } from '@/hooks';
-import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
+import { MatchLeaseDisplay } from '../matchLeaseDisplay';
 
 interface IProps {
   match: IMatch;
@@ -24,16 +24,6 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
   fetchMatchingList,
 }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
-
-  const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
-
-  const openLeaseDialog = (): void => {
-    setLeaseDialogOpen(true);
-  };
-
-  const closeLeaseDialog = (): void => {
-    setLeaseDialogOpen(false);
-  };
 
   const acceptMatch = useCallback(
     async (status: boolean) => {
@@ -58,20 +48,10 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
     switch (match.accepted) {
       case true:
         return (
-          <>
-            <Button variant="contained" onClick={openLeaseDialog}>
-              צור חוזה
-            </Button>
-            {leaseDialogOpen && (
-              <LeaseAgreementFormDialog
-                tenantId={match.user._id!}
-                apartmentId={match.apartment}
-                isOpen={leaseDialogOpen}
-                handleCancel={closeLeaseDialog}
-                completeSave={closeLeaseDialog}
-              />
-            )}
-          </>
+          <MatchLeaseDisplay
+            tenantId={match.user._id!}
+            apartmentId={match.apartment}
+          />
         );
       case false:
         return <Typography variant="body1">סירבת להמשיך את התהליך</Typography>;
@@ -96,7 +76,13 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
           </Stack>
         );
     }
-  }, [acceptMatch, leaseDialogOpen, match.accepted, submitting]);
+  }, [
+    acceptMatch,
+    match.accepted,
+    match.apartment,
+    match.user._id,
+    submitting,
+  ]);
 
   return (
     <Card key={match._id} raised sx={{ padding: '16px' }}>
