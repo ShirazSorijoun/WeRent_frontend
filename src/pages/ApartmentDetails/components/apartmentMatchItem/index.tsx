@@ -61,6 +61,7 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
           <>
             <Button onClick={openLeaseDialog}>צור חוזה</Button>
             <LeaseAgreementFormDialog
+              matchId={match._id}
               isOpen={leaseDialogOpen}
               handleCancel={closeLeaseDialog}
               completeSave={() => {
@@ -92,7 +93,7 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
           </Stack>
         );
     }
-  }, [acceptMatch, match.accepted, submitting]);
+  }, [acceptMatch, leaseDialogOpen, match.accepted, submitting]);
 
   return (
     <Card key={match._id} raised sx={{ padding: '16px' }}>

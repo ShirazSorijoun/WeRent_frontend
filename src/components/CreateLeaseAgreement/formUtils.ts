@@ -271,7 +271,7 @@ export const leaseAgreementDefaultValues = {
   [ELeaseAgreementFields.TENANT_ID_NUMBER]: '',
   [ELeaseAgreementFields.TENANT_STREET]: '',
   [ELeaseAgreementFields.TENANT_CITY]: '',
-  [ELeaseAgreementFields.APARTMENT_NUMBER_OF_ROOMS]: 0,
+  [ELeaseAgreementFields.APARTMENT_NUMBER_OF_ROOMS]: 1,
   [ELeaseAgreementFields.APARTMENT_FLOOR_NUMBER]: 0,
   [ELeaseAgreementFields.APARTMENT_STREET]: '',
   [ELeaseAgreementFields.APARTMENT_CITY]: '',
