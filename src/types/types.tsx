@@ -13,9 +13,8 @@ export type IMatch = {
 
 export type ReviewProps = {
   _id?: string;
-  ownerName: string;
-  ownerImage: string;
-  date: string;
+  user: Pick<IUserData, 'firstName' | 'lastName' | 'profile_image'>;
+  date: Date;
   description: string;
 };
 
