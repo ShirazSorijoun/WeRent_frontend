@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '@mui/material';
 import { IApartment } from '@/models/apartment.model';
 import { IUserData } from '@/models';
+import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
+
 
 interface IApartmentDataProps {
   apartment: IApartment;
@@ -18,6 +20,15 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({
   const [ownerData, setOwnerData] = useState<IUserData>();
   const [matchingList, setMatchingList] = useState<IMatch[]>([]);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
+  const [leaseDialogOpen, setLeaseDialogOpen] = useState(false);
+
+  const openLeaseDialog = () => {
+    setLeaseDialogOpen(true);
+  };
+
+  const closeLeaseDialog = () => {
+    setLeaseDialogOpen(false);
+  };
 
   const fetchOwnerData = useCallback(async (ownerId?: string) => {
     if (ownerId) {
@@ -551,8 +562,18 @@ export const ApartmentData: React.FC<IApartmentDataProps> = ({
                       <Button onClick={() => acceptMatch(matching._id!)}>
                         Continue With Client
                       </Button>
+
                     ) : (
-                      'Accepted'
+                      <div>
+                      <Button onClick={openLeaseDialog}>Create Lease Agreement</Button>
+                      <LeaseAgreementFormDialog
+                      isOpen={leaseDialogOpen}
+                      handleCancel={closeLeaseDialog}
+                      completeSave={() => {
+                        closeLeaseDialog();
+                      }}
+                      />
+                      </div>
                     )}
                   </div>
                 </div>
