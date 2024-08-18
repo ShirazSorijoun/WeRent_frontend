@@ -59,7 +59,9 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
       case true:
         return (
           <>
-            <Button onClick={openLeaseDialog}>צור חוזה</Button>
+            <Button variant="contained" onClick={openLeaseDialog}>
+              צור חוזה
+            </Button>
             <LeaseAgreementFormDialog
               matchId={match._id}
               isOpen={leaseDialogOpen}

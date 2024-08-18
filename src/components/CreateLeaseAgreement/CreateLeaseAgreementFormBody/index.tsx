@@ -156,7 +156,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.multiLineText}
+        type={EBasicFieldType.date}
         fieldData={
           leaseAgreementFormDataObject[ELeaseAgreementFields.START_DATE]
         }
@@ -164,7 +164,7 @@ export const FormLeaseAgreementFormBody: React.FC<
 
       <BasicFieldController
         control={control}
-        type={EBasicFieldType.multiLineText}
+        type={EBasicFieldType.date}
         fieldData={leaseAgreementFormDataObject[ELeaseAgreementFields.END_DATE]}
       />
 
