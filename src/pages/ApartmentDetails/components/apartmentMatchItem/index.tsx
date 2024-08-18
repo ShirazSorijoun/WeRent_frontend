@@ -1,6 +1,6 @@
 import { api } from '@/api';
 import { IMatch } from '@/types/types';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Avatar,
   Button,
@@ -13,6 +13,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
 import { LoadingButton } from '@mui/lab';
 import { useGetImageUrlFromName } from '@/hooks';
+import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
 
 interface IProps {
   match: IMatch;
@@ -22,7 +23,17 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
   match,
   fetchMatchingList,
 }) => {
-  const [submitting, setSubmitting] = React.useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+
+  const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
+
+  const openLeaseDialog = (): void => {
+    setLeaseDialogOpen(true);
+  };
+
+  const closeLeaseDialog = (): void => {
+    setLeaseDialogOpen(false);
+  };
 
   const acceptMatch = useCallback(
     async (status: boolean) => {
@@ -46,7 +57,18 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
   const statusDisplay = useMemo(() => {
     switch (match.accepted) {
       case true:
-        return <Typography variant="body1">אישרת המשך תהליך</Typography>;
+        return (
+          <>
+            <Button onClick={openLeaseDialog}>צור חוזה</Button>
+            <LeaseAgreementFormDialog
+              isOpen={leaseDialogOpen}
+              handleCancel={closeLeaseDialog}
+              completeSave={() => {
+                closeLeaseDialog();
+              }}
+            />
+          </>
+        );
       case false:
         return <Typography variant="body1">סירבת להמשיך את התהליך</Typography>;
       default:
