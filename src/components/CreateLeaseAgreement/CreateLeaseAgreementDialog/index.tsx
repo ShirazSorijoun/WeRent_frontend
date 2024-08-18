@@ -28,7 +28,7 @@ import {
   CreateLeaseAgreementFormPage4,
   CreateLeaseAgreementFormPage5,
 } from '../formPages';
-import { FormStepper, StepperButtons } from '@@/common/stepper';
+import { FormStepper } from '@@/common/formStepper';
 import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
 
 interface ILeaseAgreementFormDialogProps {
@@ -117,13 +117,9 @@ export const LeaseAgreementFormDialog: React.FC<
           errors={errors}
           setActiveStep={setActiveStep}
           steps={steps}
-        />
-        <FormDisplayBody control={control} />
-        <StepperButtons
-          activeStep={activeStep}
-          numOfSteps={steps.length}
-          setActiveStep={setActiveStep}
-        />
+        >
+          <FormDisplayBody control={control} />
+        </FormStepper>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={closeDialog}>
