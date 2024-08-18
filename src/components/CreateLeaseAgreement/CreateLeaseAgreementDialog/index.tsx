@@ -63,10 +63,15 @@ export const LeaseAgreementFormDialog: React.FC<
 
   const onSubmit = useCallback(
     async (formData: leaseAgreementFormData) => {
-      const isSaved = await handleSave(formData, tenantId, apartmentId);
+      const isSaved = await handleSave(
+        formData,
+        tenantId,
+        apartmentId,
+        lease?._id,
+      );
       if (isSaved) completeSave();
     },
-    [apartmentId, completeSave, handleSave, tenantId],
+    [apartmentId, completeSave, handleSave, lease?._id, tenantId],
   );
 
   const handleCloseDialog = (event: any, reason: string) => {

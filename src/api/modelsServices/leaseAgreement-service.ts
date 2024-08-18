@@ -15,6 +15,17 @@ export const postLeaseAgreementForm = async (
     apartmentId,
   })).data;
 
+export const updateLeaseAgreement = async (
+  formData: ILeaseAgreementForm,
+  leaseId: string,
+): Promise<ILeaseAgreementForm> =>
+  (
+    await axiosInstance.patch(`${API_KEY}/update`, {
+      updatedLeaseAgreement: formData,
+      leaseId,
+    })
+  ).data;
+
 export const getLeaseAgreementForm = async (
   tenantId: string,
   apartmentId: string,

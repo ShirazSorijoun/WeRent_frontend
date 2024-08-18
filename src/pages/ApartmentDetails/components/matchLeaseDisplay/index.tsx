@@ -2,7 +2,7 @@ import { api } from '@/api';
 import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
 import { Button } from '@mui/material';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 interface IProps {
   tenantId: string;
@@ -13,22 +13,23 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
   const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
   const [leaseData, setLeaseData] = useState<ILeaseAgreementForm>();
 
-  useEffect(() => {
-    const fetchLeaseData = async (): Promise<void> => {
-      if (apartmentId && tenantId) {
-        try {
-          const res = await api.leaseAgreement.getLeaseAgreementForm(
-            tenantId,
-            apartmentId,
-          );
-          setLeaseData(res);
-        } catch (error) {
-          console.error('Error fetching tenant data for lease form', error);
-        }
+  const fetchLeaseData = useCallback(async (): Promise<void> => {
+    if (apartmentId && tenantId) {
+      try {
+        const res = await api.leaseAgreement.getLeaseAgreementForm(
+          tenantId,
+          apartmentId,
+        );
+        setLeaseData(res);
+      } catch (error) {
+        console.error('Error fetching tenant data for lease form', error);
       }
-    };
-    fetchLeaseData();
+    }
   }, [apartmentId, tenantId]);
+
+  useEffect(() => {
+    fetchLeaseData();
+  }, [fetchLeaseData]);
 
   const openLeaseDialog = (): void => {
     setLeaseDialogOpen(true);
@@ -37,6 +38,11 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
   const closeLeaseDialog = (): void => {
     setLeaseDialogOpen(false);
   };
+
+  const completeSave = useCallback(async () => {
+    setLeaseDialogOpen(false);
+    await fetchLeaseData();
+  }, [fetchLeaseData]);
 
   return (
     <>
@@ -50,7 +56,7 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
           isOpen={leaseDialogOpen}
           lease={leaseData}
           handleCancel={closeLeaseDialog}
-          completeSave={closeLeaseDialog}
+          completeSave={completeSave}
         />
       )}
     </>
