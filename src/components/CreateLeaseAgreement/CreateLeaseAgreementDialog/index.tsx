@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -20,7 +20,6 @@ import {
   Button,
 } from '@mui/material';
 import { IFormSteps } from '@/models';
-import { ControlProps } from '@/models/form';
 import {
   CreateLeaseAgreementFormPage1,
   CreateLeaseAgreementFormPage2,
@@ -47,14 +46,6 @@ const steps: IFormSteps = [
   { label: '5', stepIdentifier: FIFTH_STEP_NAME },
 ];
 
-const StepToComp: React.FC<ControlProps>[] = [
-  CreateLeaseAgreementFormPage1,
-  CreateLeaseAgreementFormPage2,
-  CreateLeaseAgreementFormPage3,
-  CreateLeaseAgreementFormPage4,
-  CreateLeaseAgreementFormPage5,
-];
-
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
 > = ({ isOpen, handleCancel, completeSave, apartmentId, tenantId }) => {
@@ -68,10 +59,15 @@ export const LeaseAgreementFormDialog: React.FC<
     defaultValues: leaseAgreementDefaultValues,
   });
 
-  const { handleSave, handleWrongFormData, isButtonLoading } =
-    useLeaseAgreementForm();
+  const {
+    handleSave,
+    handleWrongFormData,
+    isButtonLoading,
+    apartment,
+    tenantData,
+  } = useLeaseAgreementForm(tenantId, apartmentId);
 
-  const [activeStep, setActiveStep] = React.useState<number>(0);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   useEffect(() => {
     if (isOpen) {
@@ -86,10 +82,10 @@ export const LeaseAgreementFormDialog: React.FC<
 
   const onSubmit = useCallback(
     async (formData: leaseAgreementFormData) => {
-      const isSaved = await handleSave(formData, tenantId, apartmentId);
+      const isSaved = await handleSave(formData);
       if (isSaved) completeSave();
     },
-    [completeSave, handleSave, tenantId, apartmentId],
+    [completeSave, handleSave],
   );
 
   const handleCloseDialog = (event: any, reason: string) => {
@@ -98,7 +94,26 @@ export const LeaseAgreementFormDialog: React.FC<
     }
   };
 
-  const FormDisplayBody = useMemo(() => StepToComp[activeStep], [activeStep]);
+  const formDisplayBody: React.ReactNode = useMemo(() => {
+    switch (activeStep) {
+      case 0:
+        return (
+          <CreateLeaseAgreementFormPage1
+            control={control}
+            apartment={apartment}
+            tenantData={tenantData}
+          />
+        );
+      case 1:
+        return <CreateLeaseAgreementFormPage2 control={control} />;
+      case 2:
+        return <CreateLeaseAgreementFormPage3 control={control} />;
+      case 3:
+        return <CreateLeaseAgreementFormPage4 control={control} />;
+      case 4:
+        return <CreateLeaseAgreementFormPage5 control={control} />;
+    }
+  }, [activeStep, apartment, control, tenantData]);
 
   return (
     <Dialog
@@ -117,9 +132,8 @@ export const LeaseAgreementFormDialog: React.FC<
           errors={errors}
           setActiveStep={setActiveStep}
           steps={steps}
-        >
-          <FormDisplayBody control={control} />
-        </FormStepper>
+          children={formDisplayBody}
+        />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={closeDialog}>

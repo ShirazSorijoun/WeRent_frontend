@@ -62,13 +62,15 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
             <Button variant="contained" onClick={openLeaseDialog}>
               צור חוזה
             </Button>
-            <LeaseAgreementFormDialog
-              tenantId={match.user._id!}
-              apartmentId={match.apartment}
-              isOpen={leaseDialogOpen}
-              handleCancel={closeLeaseDialog}
-              completeSave={closeLeaseDialog}
-            />
+            {leaseDialogOpen && (
+              <LeaseAgreementFormDialog
+                tenantId={match.user._id!}
+                apartmentId={match.apartment}
+                isOpen={leaseDialogOpen}
+                handleCancel={closeLeaseDialog}
+                completeSave={closeLeaseDialog}
+              />
+            )}
           </>
         );
       case false:

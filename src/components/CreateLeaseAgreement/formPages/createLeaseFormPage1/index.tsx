@@ -6,9 +6,18 @@ import {
   leaseAgreementFormDataObject,
 } from '@@/CreateLeaseAgreement/formUtils';
 import { ControlProps } from '@/models/form';
+import { IUserData } from '@/models';
+import { IApartment } from '@/models/apartment.model';
 
-export const CreateLeaseAgreementFormPage1: React.FC<ControlProps> = ({
+interface IProps extends ControlProps {
+  apartment: IApartment;
+  tenantData: IUserData;
+}
+
+export const CreateLeaseAgreementFormPage1: React.FC<IProps> = ({
   control,
+  apartment,
+  tenantData,
 }) => {
   return (
     <>
