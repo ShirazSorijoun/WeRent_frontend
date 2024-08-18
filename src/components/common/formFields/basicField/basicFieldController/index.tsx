@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, SxProps, Theme, Typography } from '@mui/material';
 import { IControlledBasicFieldTypeProps } from '../utils';
 import { EBasicFieldType } from '@/models/forms';
 import { ControlledDateTime } from '../controlledDateTime';
@@ -11,10 +11,12 @@ import { ControlledDate } from '../controlledDate';
 import { ControlledRating } from '../controlledRating';
 import { ControlledBoolean } from '../controlledBoolean';
 import { ControlledSwitch } from '../controlledSwitch';
+import { ControlledImage } from '../controlledImage';
 
 interface IBasicFieldControllerProps extends IControlledBasicFieldTypeProps {
   type?: EBasicFieldType;
   hideTitle?: boolean;
+  gridSx?: SxProps<Theme>;
 }
 
 const extraProps: Partial<Record<EBasicFieldType, any>> = {
@@ -35,6 +37,7 @@ const fieldsMap: Partial<
   [EBasicFieldType.rating]: ControlledRating,
   [EBasicFieldType.boolean]: ControlledBoolean,
   [EBasicFieldType.switch]: ControlledSwitch,
+  [EBasicFieldType.image]: ControlledImage,
 };
 
 const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];
@@ -42,6 +45,7 @@ const typesWithOutLabel: EBasicFieldType[] = [EBasicFieldType.boolean];
 export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   type = EBasicFieldType.text,
   hideTitle = false,
+  gridSx = { direction: 'rtl', paddingBottom: '20px' },
   ...fieldProps
 }) => {
   const componentToUse = useMemo(() => {
@@ -54,8 +58,8 @@ export const BasicFieldController: React.FC<IBasicFieldControllerProps> = ({
   }, [fieldProps, type]);
 
   return (
-    <Grid container direction="column" sx={{ paddingBottom: '20px' }}>
-      {!hideTitle && !typesWithOutLabel.includes(type) && (
+    <Grid container direction="column" sx={gridSx}>
+      {!hideTitle && (
         <Grid item>
           <Typography>{fieldProps.fieldData.label}</Typography>
         </Grid>

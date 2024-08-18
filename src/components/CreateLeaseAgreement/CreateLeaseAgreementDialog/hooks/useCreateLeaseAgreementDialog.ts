@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 
 interface IUseLeaseAgreementForm {
-  handleSave: (formData: leaseAgreementFormData) => Promise<boolean>;
+  handleSave: (
+    formData: leaseAgreementFormData,
+    matchId: string,
+  ) => Promise<boolean>;
   handleWrongFormData: () => void;
   isButtonLoading: boolean;
 }
@@ -14,7 +17,10 @@ export const useLeaseAgreementForm = (): IUseLeaseAgreementForm => {
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const handleSave = useCallback(
-    async (formData: leaseAgreementFormData): Promise<boolean> => {
+    async (
+      formData: leaseAgreementFormData,
+      matchId: string,
+    ): Promise<boolean> => {
       setIsButtonLoading(true);
 
       try {
@@ -25,6 +31,7 @@ export const useLeaseAgreementForm = (): IUseLeaseAgreementForm => {
 
         await api.leaseAgreement.postLeaseAgreementForm(
           dataForSave as ILeaseAgreementForm,
+          matchId,
         );
 
         setIsButtonLoading(false);

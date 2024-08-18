@@ -53,7 +53,7 @@ export const QuarterlyTenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     async (formData: QuarterlyTenantQuestionnaireFormData) => {
       setSubmitting(true);
       try {
-        await api.tenantForm.postTeantFormQuarterly(formData); // Call your API function to save form data
+        await api.tenantForm.postTenantFormQuarterly(formData); // Call your API function to save form data
         console.log('Form data saved:', formData);
         completeSave(formData); // Notify parent component about successful save
       } catch (err) {

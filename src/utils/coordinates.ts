@@ -16,3 +16,11 @@ export const convertITMToUTM = (
   const conversionRes = proj4('EPSG:2039', 'WGS84', [xCoord, yCoord]);
   return { lat: conversionRes[0], lng: conversionRes[1] };
 };
+
+export const convertUTMToITM = (coordinates: ICoordinates): number[] => {
+  const conversionRes = proj4('WGS84', 'EPSG:2039', [
+    coordinates.lat,
+    coordinates.lng,
+  ]);
+  return conversionRes;
+};

@@ -35,6 +35,7 @@ interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
+  matchId: string;
 }
 
 const steps: IFormSteps = [
@@ -55,7 +56,7 @@ const StepToComp: React.FC<ControlProps>[] = [
 
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
-> = ({ isOpen, handleCancel, completeSave }) => {
+> = ({ isOpen, handleCancel, completeSave, matchId }) => {
   const {
     handleSubmit,
     control,

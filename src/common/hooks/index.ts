@@ -1,1 +1,0 @@
-export { useGetImageUrlFromName } from './useGetImageUrlFromName';

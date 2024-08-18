@@ -1,46 +1,29 @@
-import { ApartmentProps, IMatch } from '@/types/types';
 import { axiosInstance } from '../api';
 import { addressCheckRes, ICoordinates } from '@/models/addressCheck';
+import { IApartment } from '@/models/apartment.model';
 import { convertITMToUTM } from '@/utils/coordinates';
 
 const APARTMENT_API_KEY = '/apartment';
 
-export const getAllApartments = async (): Promise<ApartmentProps[]> =>
+export const getAllApartments = async (): Promise<IApartment[]> =>
   (await axiosInstance.get(APARTMENT_API_KEY)).data;
 
 export const postApartment = async (
-  apartmentData: ApartmentProps,
-): Promise<ApartmentProps> =>
+  apartmentData: IApartment,
+): Promise<IApartment> =>
   (
     await axiosInstance.post(`${APARTMENT_API_KEY}/create`, {
       apartment: apartmentData,
     })
   ).data;
 
-export const getApartmentById = async (id: string): Promise<ApartmentProps> =>
+export const getApartmentById = async (id: string): Promise<IApartment> =>
   (await axiosInstance.get(`${APARTMENT_API_KEY}/${id}`)).data;
-
-export const acceptMatch = async (matchId: string): Promise<void> =>
-  axiosInstance.put(`${APARTMENT_API_KEY}/match/accept`, {
-    matchId,
-  });
-
-export const getMatchingList = async (apartmentId: string): Promise<IMatch[]> =>
-  (await axiosInstance.get(`${APARTMENT_API_KEY}/match/${apartmentId}`)).data;
-
-export const matchApartment = async (
-  apartmentId: string,
-  userId: string,
-): Promise<void> =>
-  axiosInstance.post(`${APARTMENT_API_KEY}/match`, {
-    apartmentId,
-    userId,
-  });
 
 export const updateApartment = async (
   id: string,
-  updatedApartment: Partial<ApartmentProps>,
-): Promise<ApartmentProps> =>
+  updatedApartment: Partial<IApartment>,
+): Promise<IApartment> =>
   (
     await axiosInstance.patch(`${APARTMENT_API_KEY}/update`, {
       id,
@@ -80,17 +63,4 @@ export const getAddressCoordinates = async (
     const originCoordinates = resData.data.ADDRESS[0];
     return convertITMToUTM(originCoordinates.X, originCoordinates.Y);
   }
-};
-
-export const apartmentAPI = {
-  getAllApartments,
-  postApartment,
-  getApartmentById,
-  updateApartment,
-  deleteApartment,
-  checkTamaCloseToApartment,
-  getAddressCoordinates,
-  matchApartment,
-  getMatchingList,
-  acceptMatch,
 };

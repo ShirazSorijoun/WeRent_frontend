@@ -4,6 +4,7 @@ import { Footer, Navbar } from './components';
 import { useAppDispatch } from '@/hooks/store';
 import { ACCESS_TOKEN, api } from '@/api/api';
 import { logout, userLogin } from '@/stores/user';
+import { Box, Stack } from '@mui/material';
 
 export const StaticPageContainer: FC = () => {
   const dispatch = useAppDispatch();
@@ -36,10 +37,12 @@ export const StaticPageContainer: FC = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <Stack sx={{ minHeight: '100vh' }}>
       <Navbar />
-      <Outlet />
+      <Box flex={1}>
+        <Outlet />
+      </Box>
       <Footer />
-    </>
+    </Stack>
   );
 };

@@ -1,45 +1,28 @@
-import { EditApartmentDialog } from '@@/editApartment';
 import { ModeEditOutline } from '@mui/icons-material';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 
 interface IApartmentEditButtonProps {
-  refreshApartmentDisplay: () => Promise<void>;
+  apartmentId?: string;
 }
 
 export const ApartmentEditButton: React.FC<IApartmentEditButtonProps> = ({
-  refreshApartmentDisplay,
+  apartmentId,
 }) => {
-  const [showEditModal, setShowEditModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleEditApartment = () => {
-    setShowEditModal(true);
-  };
-
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-  };
-
-  const completeUpdate = async (): Promise<void> => {
-    handleCloseEditModal();
-    await refreshApartmentDisplay();
+    navigate(`/editApartment/${apartmentId}`);
   };
 
   return (
-    <>
-      <Button
-        onClick={handleEditApartment}
-        variant="light"
-        style={{ marginRight: 'auto' }}
-      >
-        <ModeEditOutline />
-      </Button>
-
-      <EditApartmentDialog
-        handleCancel={handleCloseEditModal}
-        isOpen={showEditModal}
-        completeSave={completeUpdate}
-      />
-    </>
+    <Button
+      onClick={handleEditApartment}
+      variant="light"
+      style={{ marginRight: 'auto' }}
+    >
+      <ModeEditOutline />
+    </Button>
   );
 };

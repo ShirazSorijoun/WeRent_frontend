@@ -3,17 +3,17 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ApartmentCard from '../../components/ApartmentCard/ApartmentCard';
-import { ApartmentProps } from '../../types/types';
+import { IApartment } from '@/models/apartment.model';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import './RentPropertiesPage.css';
 import { api } from '@/api';
 
 export const RentPropertiesPage = () => {
-  const [apartments, setApartments] = useState<ApartmentProps[]>([]);
+  const [apartments, setApartments] = useState<IApartment[]>([]);
   const [isSearchPerformed, setIsSearchPerformed] = useState<boolean>(false);
-  const [filteredApartments, setFilteredApartments] = useState<
-    ApartmentProps[]
-  >([]);
+  const [filteredApartments, setFilteredApartments] = useState<IApartment[]>(
+    [],
+  );
   const [noApartmentsFound, setNoApartmentsFound] = useState<boolean>(false);
 
   useEffect(() => {

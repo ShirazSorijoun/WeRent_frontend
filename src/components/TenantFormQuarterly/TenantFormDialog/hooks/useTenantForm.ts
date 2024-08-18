@@ -23,7 +23,7 @@ export const useTenantForm = (): IUseTenantForm => {
           ...formData,
         };
 
-        await api.tenantForm.postTeantFormQuarterly(updatedFormData);
+        await api.tenantForm.postTenantFormQuarterly(updatedFormData);
 
         setIsButtonLoading(false);
         return true;

@@ -1,27 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './ReviewCard.css';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { useGetImageUrlFromName } from '@/common/hooks';
-
-interface ReviewProps {
-  _id?: string;
-  ownerName: string;
-  ownerImage: string;
-  date: string;
-  description: string;
-}
+import { useGetImageUrlFromName } from '@/hooks';
+import { ReviewProps } from '@/types/types';
+import { dateFormatter } from '@/utils/date';
 
 interface ReviewCardProps {
   review: ReviewProps;
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
-  const ownerImage = useGetImageUrlFromName(review.ownerImage);
-
+  const ownerImage = useGetImageUrlFromName(review.user.profile_image);
+  const ownerName = useMemo(
+    () => `${review.user?.firstName ?? ''} ${review.user?.lastName ?? ''}`,
+    [review.user],
+  );
+  const formattedDate = useMemo(
+    () => dateFormatter(review.date),
+    [review.date],
+  );
   return (
     <div className="card-container">
       <div>
@@ -40,10 +41,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                 variant="h6"
                 sx={{ fontSize: '18px', fontWeight: 'bold' }}
               >
-                {review.ownerName}
+                {ownerName}
               </Typography>
             }
-            subheader={review.date}
+            subheader={formattedDate}
           />
           <CardContent>
             <Typography
