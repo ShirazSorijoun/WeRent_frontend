@@ -63,12 +63,11 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
               צור חוזה
             </Button>
             <LeaseAgreementFormDialog
-              matchId={match._id}
+              tenantId={match.user._id!}
+              apartmentId={match.apartment}
               isOpen={leaseDialogOpen}
               handleCancel={closeLeaseDialog}
-              completeSave={() => {
-                closeLeaseDialog();
-              }}
+              completeSave={closeLeaseDialog}
             />
           </>
         );

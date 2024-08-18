@@ -35,7 +35,8 @@ interface ILeaseAgreementFormDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
-  matchId: string;
+  tenantId: string;
+  apartmentId: string;
 }
 
 const steps: IFormSteps = [
@@ -56,7 +57,7 @@ const StepToComp: React.FC<ControlProps>[] = [
 
 export const LeaseAgreementFormDialog: React.FC<
   ILeaseAgreementFormDialogProps
-> = ({ isOpen, handleCancel, completeSave, matchId }) => {
+> = ({ isOpen, handleCancel, completeSave, apartmentId, tenantId }) => {
   const {
     handleSubmit,
     control,
@@ -85,10 +86,10 @@ export const LeaseAgreementFormDialog: React.FC<
 
   const onSubmit = useCallback(
     async (formData: leaseAgreementFormData) => {
-      const isSaved = await handleSave(formData);
+      const isSaved = await handleSave(formData, tenantId, apartmentId);
       if (isSaved) completeSave();
     },
-    [completeSave, handleSave],
+    [completeSave, handleSave, tenantId, apartmentId],
   );
 
   const handleCloseDialog = (event: any, reason: string) => {

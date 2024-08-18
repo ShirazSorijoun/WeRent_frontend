@@ -7,7 +7,8 @@ import { ILeaseAgreementForm } from '@/models/leaseAgreement';
 interface IUseLeaseAgreementForm {
   handleSave: (
     formData: leaseAgreementFormData,
-    matchId: string,
+    tenantId: string,
+    apartmentId: string,
   ) => Promise<boolean>;
   handleWrongFormData: () => void;
   isButtonLoading: boolean;
@@ -19,7 +20,8 @@ export const useLeaseAgreementForm = (): IUseLeaseAgreementForm => {
   const handleSave = useCallback(
     async (
       formData: leaseAgreementFormData,
-      matchId: string,
+      tenantId: string,
+      apartmentId: string,
     ): Promise<boolean> => {
       setIsButtonLoading(true);
 
@@ -31,7 +33,8 @@ export const useLeaseAgreementForm = (): IUseLeaseAgreementForm => {
 
         await api.leaseAgreement.postLeaseAgreementForm(
           dataForSave as ILeaseAgreementForm,
-          matchId,
+          tenantId,
+          apartmentId,
         );
 
         setIsButtonLoading(false);
