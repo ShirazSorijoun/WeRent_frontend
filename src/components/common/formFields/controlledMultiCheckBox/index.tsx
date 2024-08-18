@@ -16,6 +16,7 @@ interface IControlledMultiCheckedBoxProps {
   fieldData: IFormField;
   control: Control<any>;
   options: IControlledMultiCheckBoxOptions;
+  optionsColumns?: number;
   formControlSX?: SxProps<Theme>;
   gridSx?: SxProps<Theme>;
 }
@@ -27,49 +28,47 @@ export const ControlledMultiCheckedBox: React.FC<
   control,
   options,
   formControlSX,
+  optionsColumns = 1,
   gridSx = { direction: 'rtl', paddingBottom: '20px' },
-}) => {
-  return (
-    <Grid container direction="column" sx={gridSx}>
-      <Grid item>
-        <Typography>{fieldData.label}</Typography>
-      </Grid>
-      <Grid item>
-        <Controller
-          control={control}
-          name={fieldData.fieldName}
-          render={({
-            field: { value, ref, onChange },
-            fieldState: { error },
-          }) => (
-            <FormControl sx={formControlSX} margin="none" variant="outlined">
-              {options.map(({ field, display }) => (
-                <FormControlLabel
-                  key={field}
-                  control={
-                    <Checkbox
-                      inputRef={ref}
-                      value={value ? value[field] : false}
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>,
-                      ) => {
-                        const newVal = {
-                          ...value,
-                          [field]: event.target.checked,
-                        };
-                        onChange(newVal);
-                      }}
-                    />
-                  }
-                  label={display}
-                />
-              ))}
-
-              <FormHelperText error={!!error}>{error?.message}</FormHelperText>
-            </FormControl>
-          )}
-        />
-      </Grid>
+}) => (
+  <Grid container direction="column" sx={gridSx}>
+    <Grid item>
+      <Typography>{fieldData.label}</Typography>
     </Grid>
-  );
-};
+    <Grid item>
+      <Controller
+        control={control}
+        name={fieldData.fieldName}
+        render={({ field: { value, onChange }, fieldState: { error } }) => (
+          <FormControl sx={formControlSX} margin="none" variant="outlined">
+            <Grid container columns={optionsColumns}>
+              {options.map(({ field, display }) => (
+                <Grid item key={field} xs={1}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={value?.[field] ?? false}
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>,
+                        ) => {
+                          const newVal = {
+                            ...value,
+                            [field]: event.target.checked,
+                          };
+                          onChange(newVal);
+                        }}
+                      />
+                    }
+                    label={display}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+
+            <FormHelperText error={!!error}>{error?.message}</FormHelperText>
+          </FormControl>
+        )}
+      />
+    </Grid>
+  </Grid>
+);

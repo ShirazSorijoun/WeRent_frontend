@@ -4,23 +4,25 @@ import { IApartment } from '@/models/apartment.model';
 
 const USER_API_KEY = '/user';
 
-const getUserById = async (userId: string): Promise<IUserData> => {
+export const getUserById = async (userId: string): Promise<IUserData> => {
   const response = await axiosInstance.get(`${USER_API_KEY}/id/${userId}`);
 
   return response.data;
 };
 
-const getUserApartments = async (): Promise<IApartment[]> =>
+export const getUserApartments = async (): Promise<IApartment[]> =>
   (await axiosInstance.get(`${USER_API_KEY}/apartments`)).data;
 
-const updateOwnProfile = async (user: UpdateOwnProfileData): Promise<string> =>
+export const updateOwnProfile = async (
+  user: UpdateOwnProfileData,
+): Promise<string> =>
   (
     await axiosInstance.patch(`${USER_API_KEY}/updateOwnProfile`, {
       user,
     })
   ).data;
 
-const updateUserPass = async (
+export const updateUserPass = async (
   oldPassword: string,
   newPassword: string,
 ): Promise<string> =>
@@ -31,18 +33,9 @@ const updateUserPass = async (
     })
   ).data;
 
-const getAllUsers = async (): Promise<IUser[]> =>
+export const getAllUsers = async (): Promise<IUser[]> =>
   (await axiosInstance.get(USER_API_KEY)).data;
 
-const deleteUser = async (userId: string): Promise<void> => {
+export const deleteUser = async (userId: string): Promise<void> => {
   await axiosInstance.get(`${USER_API_KEY}/delete/${userId}`);
-};
-
-export const userAPI = {
-  getUserById,
-  getUserApartments,
-  updateOwnProfile,
-  updateUserPass,
-  getAllUsers,
-  deleteUser,
 };

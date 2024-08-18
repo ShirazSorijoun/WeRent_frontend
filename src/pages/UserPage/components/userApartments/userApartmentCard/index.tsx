@@ -1,7 +1,7 @@
 import { Card } from 'react-bootstrap';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGetImageUrlFromName } from '@/common/hooks';
+import { useGetImageUrlFromName } from '@/hooks';
 import { IApartment } from '@/models/apartment.model';
 
 interface IUserApartmentCardProps {

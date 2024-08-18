@@ -2,7 +2,10 @@ import { axiosInstance } from '../api';
 
 const FILE_API_KEY = 'file';
 
-const uploadImage = async (img: File, imageName?: string): Promise<string> => {
+export const uploadImage = async (
+  img: File,
+  imageName?: string,
+): Promise<string> => {
   const formData = new FormData();
   formData.append('file', img);
 
@@ -18,5 +21,3 @@ const uploadImage = async (img: File, imageName?: string): Promise<string> => {
     )
   ).data;
 };
-
-export const fileAPI = { uploadImage };

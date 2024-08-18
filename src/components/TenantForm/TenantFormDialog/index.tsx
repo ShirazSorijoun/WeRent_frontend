@@ -15,7 +15,7 @@ import {
   Button,
 } from '@mui/material';
 import { FormTenantFormBody } from '../TenantFormBody';
-import { postTeantForm } from '../../../api/modelsServices/form-service';
+import { postTenantForm } from '../../../api/modelsServices/tenant-form-service';
 import { toast } from 'react-toastify';
 
 interface ITenantFormDialogProps {
@@ -53,7 +53,7 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     async (formData: InitialTenantQuestionnaireFormData) => {
       setSubmitting(true);
       try {
-        await postTeantForm(formData); // Call your API function to save form data
+        await postTenantForm(formData); // Call your API function to save form data
         console.log('Form data saved:', formData);
         completeSave(formData); // Notify parent component about successful save
       } catch (err) {

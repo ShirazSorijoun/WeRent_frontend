@@ -15,7 +15,7 @@ import { InitialTenantQuestionnaireFormData } from '@@/TenantForm/formUtils';
 import {
   getTenantFormByOwnerId,
   getTenantFormQuarterlyByOwnerId,
-} from '@/api/modelsServices/form-service';
+} from '@/api/modelsServices/tenant-form-service';
 import { QuarterlyTenantFormDialog } from '@@/TenantFormQuarterly/TenantFormDialog';
 
 export const ApartmentPersonalAreaPage: React.FC = () => {

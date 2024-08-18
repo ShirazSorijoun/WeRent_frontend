@@ -6,6 +6,17 @@ interface IMultiCheckBoxOptionField {
 }
 export type IControlledMultiCheckBoxOptions = IMultiCheckBoxOptionField[];
 
+export const createObjectFromMultiCheckBoxOptions = (
+  valuesArray: IControlledMultiCheckBoxOptions,
+) => {
+  const object: Record<string, string> = {};
+  valuesArray.forEach((value) => {
+    object[value.field] = value.display;
+  });
+
+  return object;
+};
+
 export const createMultiCheckBoxZod = (
   checkBoxOptions: IControlledMultiCheckBoxOptions,
 ) => {
