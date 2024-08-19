@@ -31,3 +31,9 @@ export const getLeaseAgreementForm = async (
   apartmentId: string,
 ): Promise<ILeaseAgreementForm> =>
   (await axiosInstance.get(`${API_KEY}/${tenantId}/${apartmentId}`)).data;
+
+
+
+export const getLeaseAgreementListByUserId = async (
+): Promise<ILeaseAgreementForm> =>
+  (await axiosInstance.get(`${API_KEY}/list`)).data;
