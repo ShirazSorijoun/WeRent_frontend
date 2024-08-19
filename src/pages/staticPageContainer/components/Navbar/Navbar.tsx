@@ -45,6 +45,9 @@ export const Navbar: React.FC = () => {
                 Private Area
               </Link>
             )}
+            <Link to="/documents" className="page">
+              Documents
+            </Link>
             <Link to="/allReviews" className="page">
               Reviews
             </Link>
