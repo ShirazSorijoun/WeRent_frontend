@@ -1,4 +1,4 @@
-import { ILeaseAgreementForm } from '@/models/leaseAgreement';
+import { ILeaseAgreement, ILeaseAgreementForm } from '@/models/leaseAgreement';
 import { axiosInstance } from '../api';
 
 const API_KEY = '/leaseAgreement';
@@ -26,14 +26,11 @@ export const updateLeaseAgreement = async (
     })
   ).data;
 
-export const getLeaseAgreementForm = async (
+export const getLeaseAgreement = async (
   tenantId: string,
   apartmentId: string,
-): Promise<ILeaseAgreementForm> =>
+): Promise<ILeaseAgreement> =>
   (await axiosInstance.get(`${API_KEY}/${tenantId}/${apartmentId}`)).data;
 
-
-
-export const getLeaseAgreementListByUserId = async (
-): Promise<ILeaseAgreementForm> =>
+export const getLeaseAgreementList = async (): Promise<ILeaseAgreement[]> =>
   (await axiosInstance.get(`${API_KEY}/list`)).data;
