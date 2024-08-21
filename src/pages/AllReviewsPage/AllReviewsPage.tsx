@@ -34,12 +34,12 @@ export const AllReviewsPage: React.FC = () => {
         <AddReviewDialog completeSave={insertReviews} />
       </Box>
       <div className="all-reviews-container">
-        <div className="all-reviews-title"> What Our Clients Say About Us </div>
+        <div className="all-reviews-title"> מה המשתמשים שלנו חשבו עלינו </div>
         {isLoading ? (
-          <div>Loading...</div>
+          <div>טוען...</div>
         ) : reviews.length === 0 ? (
           <div className="no-reviews-message">
-            <p>No reviews available.</p>
+            <p>אין ביקורות כרגע.</p>
           </div>
         ) : (
           <div className="review-cards-container">
