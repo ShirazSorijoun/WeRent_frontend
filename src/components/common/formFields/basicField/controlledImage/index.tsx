@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { imageURL } from '@/api';
 import { Box, CardMedia, TextField } from '@mui/material';
 import { FC, useCallback, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { style } from './style';
 import { IControlledBasicFieldTypeProps } from '../utils';
+import { getStringOfUrl } from '@/utils/image';
 
 export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
   control,
@@ -66,7 +66,7 @@ export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
                 src={
                   selectedImageToDisplay
                     ? selectedImageToDisplay
-                    : `${imageURL}/${value}`
+                    : getStringOfUrl(value)
                 }
                 sx={style.img}
               />
