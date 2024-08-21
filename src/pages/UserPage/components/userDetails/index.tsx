@@ -1,9 +1,31 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
 import { useGetImageUrlFromName } from '@/hooks';
-import { UserEditButton } from '../editUser';
 import { useAppSelector } from '@/hooks/store';
 import { selectUser } from '@/stores/user';
+import {
+  CardContent,
+  CardHeader,
+  Card,
+  Typography,
+  Grid,
+  Stack,
+} from '@mui/material';
+import { styleType } from '@/models';
+import { UserEditButton } from '../editUser';
+
+export const style: styleType = {
+  propertyTitle: {
+    fontWeight: 'bold',
+    paddingLeft: '5px',
+  },
+  propertyContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    // flex: 1,
+  },
+  input: { marginTop: '10px', direction: 'rtl' },
+};
 
 export const UserDetails: React.FC = () => {
   const userData = useAppSelector(selectUser);
@@ -12,40 +34,57 @@ export const UserDetails: React.FC = () => {
 
   return (
     <Card
-      style={{
-        width: '500px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        margin: 'auto',
-        marginTop: '30px',
-        marginBottom: '20px',
+      sx={{
+        direction: 'rtl',
+        height: 'max-content',
       }}
+      raised
     >
-      <Card.Header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
+      <CardHeader
+        sx={{
+          backgroundColor: '#f8f8f8',
+          borderBottom: 'solid 1px rgba(0, 0, 0, 0.175)',
         }}
-      >
-        <UserEditButton userData={userData} />
-        <h5 style={{ fontWeight: 'bold', marginLeft: '90px' }}>
-          Account details
-        </h5>
-      </Card.Header>
-
-      <Card.Body style={{ overflow: 'auto' }}>
-        <div
-          className="row g-3"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '50px',
-          }}
-        >
+        title="הפרטים שלי"
+        action={<UserEditButton userData={userData} />}
+      />
+      <CardContent>
+        <Stack direction="row" spacing={4} useFlexGap>
+          <Grid
+            container
+            direction="column"
+            alignContent="center"
+            justifyContent="center"
+          >
+            <Grid item sx={style.propertyContainer}>
+              <Typography variant="h6" sx={style.propertyTitle}>
+                שם:
+              </Typography>
+              <Typography>
+                {`${userData.firstName} ${userData.lastName}`}
+              </Typography>
+            </Grid>
+            <Grid item sx={style.propertyContainer}>
+              <Typography variant="h6" sx={style.propertyTitle}>
+                כתובת:
+              </Typography>
+              <Typography>
+                {`${userData.cityAddress} ${userData.streetAddress}`}
+              </Typography>
+            </Grid>
+            <Grid item sx={style.propertyContainer}>
+              <Typography variant="h6" sx={style.propertyTitle}>
+                טלפון:
+              </Typography>
+              <Typography>{userData.phoneNumber}</Typography>
+            </Grid>
+            <Grid item sx={style.propertyContainer}>
+              <Typography variant="h6" sx={style.propertyTitle}>
+                מייל:
+              </Typography>
+              <Typography>{userData.email}</Typography>
+            </Grid>
+          </Grid>
           <img
             src={profileImage}
             alt="Profile"
@@ -55,41 +94,8 @@ export const UserDetails: React.FC = () => {
               alignItems: 'center',
             }}
           />
-        </div>
-        <div className="col-lg-6">
-          <label className="form-label" htmlFor="AccountInput_Name">
-            First Name
-          </label>
-          <input
-            className="form-control"
-            id="AccountInput_Name"
-            value={userData.firstName}
-            readOnly
-          ></input>
-        </div>
-        <div className="col-lg-6">
-          <label className="form-label" htmlFor="AccountInput_Name">
-            Last Name
-          </label>
-          <input
-            className="form-control"
-            id="AccountInput_Name"
-            value={userData.lastName}
-            readOnly
-          ></input>
-        </div>
-        <div className="col-lg-6">
-          <label className="form-label" htmlFor="AccountInput_Email">
-            Email
-          </label>
-          <input
-            className="form-control"
-            id="AccountInput_Email"
-            value={userData.email}
-            readOnly
-          ></input>
-        </div>
-      </Card.Body>
+        </Stack>
+      </CardContent>
     </Card>
   );
 };
