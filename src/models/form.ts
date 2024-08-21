@@ -14,6 +14,6 @@ export interface IFormFieldInput {
   formData: IFormFieldInputData;
 }
 
-export interface ControlProps {
+export interface IControlProps {
   control: Control<any>;
 }

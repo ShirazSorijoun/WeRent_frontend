@@ -34,6 +34,7 @@ export const UserEditButton: React.FC<IUserEditButtonProps> = ({
         userData={userData}
         handleCancel={handleCloseEditModal}
         isOpen={showEditModal}
+        completeSave={handleCloseEditModal}
       />
     </>
   );

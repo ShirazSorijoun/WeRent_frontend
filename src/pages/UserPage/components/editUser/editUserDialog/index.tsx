@@ -1,152 +1,90 @@
-import { api } from '@/api';
-import { useAppDispatch } from '@/hooks/store';
-import { defaultUserData, IUserData } from '@/models';
-import { updateUser } from '@/stores/user';
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { IUserData } from '@/models';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoadingButton } from '@mui/lab';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from '@mui/material';
+import React, { useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { EditUserFormData, schema } from '../formUtils';
+import { EditUserFormBody } from '../editUserFormBody';
+import { useEditUser } from './hooks/useEditUser';
 
 interface IEditUserDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   userData: IUserData;
+  completeSave: () => void;
 }
 
 export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   handleCancel,
   isOpen,
   userData,
+  completeSave,
 }) => {
-  const [tempUserProfile, setTempUserProfile] =
-    useState<IUserData>(defaultUserData);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const dispatch = useAppDispatch();
+  const { handleSubmit, control, setError, reset } = useForm<EditUserFormData>({
+    resolver: zodResolver(schema),
+  });
 
-  useEffect(() => {
-    setTempUserProfile({ ...userData });
-  }, [userData]);
+  useEffect(() => reset(userData), [userData]);
+  const { handleSave, handleWrongFormData, isButtonLoading } =
+    useEditUser(setError);
 
-  const handleSubmit = async () => {
-    try {
-      const userToSend: IUserData = { ...tempUserProfile };
-      if (selectedFile) {
-        const imageResponse = await api.file.uploadImage(selectedFile);
-        userToSend.profile_image = imageResponse;
-        console.log(imageResponse);
-      }
-
-      await api.user.updateOwnProfile(userToSend);
-
-      dispatch(updateUser(userToSend));
-      handleCancel();
-    } catch (error) {
-      console.error('Error updating profile:', error);
+  const handleCloseDialog = (event: any, reason: string) => {
+    if (reason && reason === 'backdropClick') {
+      return;
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setTempUserProfile({ ...tempUserProfile, [e.target.id]: e.target.value });
-  };
-
-  const imageSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-      console.log(e.target.files[0]);
-    } else {
-      setSelectedFile(null);
-    }
-  };
+  const onSubmit = useCallback(
+    async (formData: EditUserFormData) => {
+      const isSaved = await handleSave(formData);
+      if (isSaved) completeSave();
+    },
+    [completeSave, handleSave],
+  );
 
   return (
-    <Modal show={isOpen} onHide={handleCancel}>
-      <Modal.Header closeButton>
-        <Modal.Title>Edit Profile</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Group controlId="profile_image">
-            <Form.Label>Profile Photo</Form.Label>
-            <Form.Control
-              type="file"
-              accept="image/*"
-              onChange={imageSelected}
-            />
-          </Form.Group>
-          <Form.Group controlId="firstName">
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.firstName}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="lastName">
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.lastName}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="personalId">
-            <Form.Label>Personal Id Number</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.personalId}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.email}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="phoneNumber">
-            <Form.Label>Phone Number</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.phoneNumber}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="streetAddress">
-            <Form.Label>Street Address</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.streetAddress}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="cityAddress">
-            <Form.Label>City Address</Form.Label>
-            <Form.Control
-              type="text"
-              value={tempUserProfile?.cityAddress}
-              onChange={handleChange}
-            />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCancel}>
-          Cancel
+    <Dialog
+      open={isOpen}
+      onClose={handleCloseDialog}
+      fullWidth
+      PaperProps={{
+        component: 'form',
+        onSubmit: handleSubmit(onSubmit, handleWrongFormData),
+      }}
+    >
+      <DialogTitle
+        sx={{
+          direction: 'rtl',
+          borderBottom: 'solid 1px rgba(0, 0, 0, 0.175)',
+          paddingBottom: '5px',
+          marginBottom: '10px',
+        }}
+      >
+        עריכת פרטים אישיים
+      </DialogTitle>
+      <DialogContent sx={{ paddingBottom: 0 }}>
+        <EditUserFormBody control={control} />
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" color="error" onClick={handleCancel}>
+          בטל
         </Button>
-        <Button
-          style={{
-            backgroundColor: '#6C757D',
-            borderColor: '#6C757D',
-            color: '#FFFFFF',
-          }}
-          variant="primary1"
-          onClick={handleSubmit}
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="success"
+          loading={isButtonLoading}
         >
-          Save
-        </Button>
-      </Modal.Footer>
-    </Modal>
+          שמור
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
   );
 };
