@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { styleType } from '@/models';
 import { UserEditButton } from '../editUser';
+import { ChangePassword } from '../changePassword';
 
 export const style: styleType = {
   propertyTitle: {
@@ -46,7 +47,12 @@ export const UserDetails: React.FC = () => {
           borderBottom: 'solid 1px rgba(0, 0, 0, 0.175)',
         }}
         title="הפרטים שלי"
-        action={<UserEditButton userData={userData} />}
+        action={
+          <>
+            {!userData.isWithGoogle && <ChangePassword />}
+            <UserEditButton userData={userData} />
+          </>
+        }
       />
       <CardContent>
         <Stack direction="row" spacing={4} useFlexGap>
