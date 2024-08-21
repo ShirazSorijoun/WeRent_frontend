@@ -9,7 +9,7 @@ import { IControlledBasicFieldTypeProps } from '../utils';
 export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
   control,
   fieldData,
-  sxStyle,
+  sxStyle = { marginTop: 0 },
   isWithLabel = false,
 }) => {
   const [selectedImageToDisplay, setSelectedImageToDisplay] =

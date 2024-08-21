@@ -5,12 +5,12 @@ import {
   ELeaseAgreementFields,
   leaseAgreementFormDataObject,
 } from '@@/CreateLeaseAgreement/formUtils';
-import { ControlProps } from '@/models/form';
+import { IControlProps } from '@/models/form';
 import { api } from '@/api';
 import { IUserData, defaultUserData } from '@/models';
 import { IApartment, defaultApartment } from '@/models/apartment.model';
 
-interface IProps extends ControlProps {
+interface IProps extends IControlProps {
   tenantId: string;
   apartmentId: string;
 }

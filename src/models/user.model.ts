@@ -13,6 +13,16 @@ export interface IUserData {
   isAdmin?: boolean;
 }
 
+export type IEditUser = Pick<
+  IUserData,
+  | '_id'
+  | 'firstName'
+  | 'lastName'
+  | 'phoneNumber'
+  | 'profile_image'
+  | 'cityAddress'
+  | 'streetAddress'
+>;
 export interface StoreUser extends IUserData {
   userId: string;
   isWithGoogle: boolean;

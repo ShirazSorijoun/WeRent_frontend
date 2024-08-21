@@ -6,9 +6,9 @@ import {
   guaranteeFieldValues,
   leaseAgreementFormDataObject,
 } from '@@/CreateLeaseAgreement/formUtils';
-import { ControlProps } from '@/models/form';
+import { IControlProps } from '@/models/form';
 
-export const CreateLeaseAgreementFormPage4: React.FC<ControlProps> = ({
+export const CreateLeaseAgreementFormPage4: React.FC<IControlProps> = ({
   control,
 }) => {
   return (

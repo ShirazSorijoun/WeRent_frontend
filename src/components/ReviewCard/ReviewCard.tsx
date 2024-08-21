@@ -29,7 +29,14 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
         <Card>
           <CardHeader
             avatar={
-              <Avatar sx={{ width: 56, height: 56 }}>
+              <Avatar
+                sx={{
+                  marginRight: 0,
+                  marginLeft: '16px',
+                  width: 56,
+                  height: 56,
+                }}
+              >
                 <img
                   src={ownerImage}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
