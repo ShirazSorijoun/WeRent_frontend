@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z, ZodSchema } from 'zod';
 
 interface IControlledSelectArrayItem<T> {
   value: T;
@@ -20,10 +20,14 @@ export const createObjectFromSelectArray = (
 
 export const zodOfStringSelectValues = (
   valuesArray: IControlledSelectArray<string>,
-): z.ZodEnum<[string, ...string[]]> => {
+): ZodSchema => {
   const arrayForValidation = valuesArray.map(
     (option) => option.value,
   ) as unknown as readonly [string, ...string[]];
 
-  return z.enum(arrayForValidation);
+  return z
+    .string()
+    .refine((value: string) => arrayForValidation.includes(value), {
+      message: 'חובה לבחור ערך',
+    });
 };

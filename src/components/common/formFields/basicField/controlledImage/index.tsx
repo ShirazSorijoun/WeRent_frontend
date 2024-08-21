@@ -17,12 +17,11 @@ export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
 
   const handleImageChange = useCallback(
     (setFormValue: Function, file?: File) => {
-      setFormValue(file);
-
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setSelectedImageToDisplay(reader.result as string);
+          setFormValue(file);
         };
         reader.readAsDataURL(file);
       } else {
