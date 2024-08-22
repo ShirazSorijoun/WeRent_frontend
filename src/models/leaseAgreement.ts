@@ -1,7 +1,8 @@
+import { IApartment } from './apartment.model';
+
 export interface ILeaseAgreementForm {
   _id?: string;
   date: Date;
-  apartmentId: string;
   startDate: Date;
   endDate: Date;
   rentalPricePerMonth: number;
@@ -25,4 +26,9 @@ export interface ILeaseAgreementForm {
   guarantee?: string;
   guaranteeAmount?: number;
   animal: boolean;
+}
+
+export interface ILeaseAgreement extends ILeaseAgreementForm {
+  apartment: Pick<IApartment, 'city' | '_id' | 'address' | 'owner'>;
+  tenantId: string;
 }

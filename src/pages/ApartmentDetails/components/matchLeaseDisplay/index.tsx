@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { ILeaseAgreementForm } from '@/models/leaseAgreement';
+import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
 import { Button } from '@mui/material';
 import React, { FC, useCallback, useEffect, useState } from 'react';
@@ -11,12 +11,12 @@ interface IProps {
 
 export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
   const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
-  const [leaseData, setLeaseData] = useState<ILeaseAgreementForm>();
+  const [leaseData, setLeaseData] = useState<ILeaseAgreement>();
 
   const fetchLeaseData = useCallback(async (): Promise<void> => {
     if (apartmentId && tenantId) {
       try {
-        const res = await api.leaseAgreement.getLeaseAgreementForm(
+        const res = await api.leaseAgreement.getLeaseAgreement(
           tenantId,
           apartmentId,
         );
@@ -49,16 +49,23 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
       <Button variant="contained" onClick={openLeaseDialog}>
         {leaseData ? 'ערוך' : 'צור'} חוזה
       </Button>
-      {leaseDialogOpen && (
-        <LeaseAgreementFormDialog
-          tenantId={tenantId}
-          apartmentId={apartmentId}
-          isOpen={leaseDialogOpen}
-          lease={leaseData}
-          handleCancel={closeLeaseDialog}
-          completeSave={completeSave}
-        />
-      )}
+      {leaseDialogOpen &&
+        (leaseData ? (
+          <LeaseAgreementFormDialog
+            isOpen={leaseDialogOpen}
+            lease={leaseData}
+            handleCancel={closeLeaseDialog}
+            completeSave={completeSave}
+          />
+        ) : (
+          <LeaseAgreementFormDialog
+            tenantId={tenantId}
+            apartmentId={apartmentId}
+            isOpen={leaseDialogOpen}
+            handleCancel={closeLeaseDialog}
+            completeSave={completeSave}
+          />
+        ))}
     </>
   );
 };

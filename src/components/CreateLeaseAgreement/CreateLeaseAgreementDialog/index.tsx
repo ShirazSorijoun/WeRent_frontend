@@ -24,17 +24,25 @@ import { IFormSteps } from '@/models';
 import { FormStepper } from '@@/common/formStepper';
 import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
 import { LeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
-import { ILeaseAgreementForm } from '@/models/leaseAgreement';
+import { ILeaseAgreement } from '@/models/leaseAgreement';
 
-interface ILeaseAgreementFormDialogProps {
+interface IBasicProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
-  tenantId: string;
-  apartmentId: string;
-  lease?: ILeaseAgreementForm;
 }
 
+interface ICreateProps extends IBasicProps {
+  tenantId: string;
+  apartmentId: string;
+  lease?: never;
+}
+
+interface IEditProps extends IBasicProps {
+  lease: ILeaseAgreement;
+  tenantId?: never;
+  apartmentId?: never;
+}
 const steps: IFormSteps = [
   { label: '1', stepIdentifier: FIRST_STEP_NAME },
   { label: '2', stepIdentifier: SECOND_STEP_NAME },
@@ -42,10 +50,15 @@ const steps: IFormSteps = [
   { label: '4', stepIdentifier: FORTH_STEP_NAME },
   { label: '5', stepIdentifier: FIFTH_STEP_NAME },
 ];
+type MyComponentProps = ICreateProps | IEditProps;
 
-export const LeaseAgreementFormDialog: React.FC<
-  ILeaseAgreementFormDialogProps
-> = ({ handleCancel, completeSave, apartmentId, tenantId, lease }) => {
+export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
+  handleCancel,
+  completeSave,
+  apartmentId,
+  tenantId,
+  lease,
+}) => {
   const {
     handleSubmit,
     control,
@@ -65,8 +78,8 @@ export const LeaseAgreementFormDialog: React.FC<
     async (formData: leaseAgreementFormData) => {
       const isSaved = await handleSave(
         formData,
-        tenantId,
-        apartmentId,
+        lease?.apartment._id ?? apartmentId!,
+        lease?.tenantId ?? tenantId!,
         lease?._id,
       );
       if (isSaved) completeSave();
@@ -100,9 +113,9 @@ export const LeaseAgreementFormDialog: React.FC<
         >
           <LeaseAgreementFormBody
             activeStep={activeStep}
-            apartmentId={apartmentId}
+            apartmentId={lease?.apartment._id ?? apartmentId!}
             control={control}
-            tenantId={tenantId}
+            tenantId={lease?.tenantId ?? tenantId!}
           />
         </FormStepper>
       </DialogContent>

@@ -42,6 +42,9 @@ export const Navbar: React.FC = () => {
                 אזור ניהול
               </Link>
             )}
+            <Link to="/documents" className="page">
+              מסמכים
+            </Link>
             <Link to="/allReviews" className="page">
               ביקורות
             </Link>
