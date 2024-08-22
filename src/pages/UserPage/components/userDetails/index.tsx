@@ -38,6 +38,7 @@ export const UserDetails: React.FC = () => {
       sx={{
         direction: 'rtl',
         height: 'max-content',
+        border: 'solid 1px rgba(0, 0, 0, 0.175)',
       }}
       raised
     >

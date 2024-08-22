@@ -52,16 +52,16 @@ export const Navbar: React.FC = () => {
       <div className="auth-buttons">
         {isLoggedIn ? (
           <div className="auth-button" onClick={handleLogout}>
-            Logout
+            התנתק
           </div>
         ) : (
           // If user is not logged in, show login and signup buttons
           <>
             <Link to="/login" className="auth-button">
-              Login
+              התחבר
             </Link>
             <Link to="/signup" className="auth-button">
-              Sign up
+              הרשם
             </Link>
           </>
         )}

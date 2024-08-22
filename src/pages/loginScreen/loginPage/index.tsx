@@ -30,8 +30,14 @@ export const LoginPage: React.FC = () => {
   });
 
   return (
-    <Container maxWidth="sm" sx={{ padding: '30px' }}>
-      <Typography variant="h3">login</Typography>
+    <Container
+      maxWidth="sm"
+      sx={{
+        padding: '30px',
+        direction: 'rtl',
+      }}
+    >
+      <Typography variant="h3">התחברות</Typography>
       <LoginFormBody control={control} />
       <GoogleLogin
         onSuccess={handleGoogleLoginSuccess}
@@ -48,7 +54,7 @@ export const LoginPage: React.FC = () => {
         onClick={handleSubmit(handleValidFormData, handleWrongFormData)}
         style={{ marginTop: '20px' }}
       >
-        <span>login</span>
+        <span>התחבר</span>
       </LoadingButton>
     </Container>
   );
