@@ -1,8 +1,8 @@
-import { Card } from 'react-bootstrap';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGetImageUrlFromName } from '@/hooks';
 import { IApartment } from '@/models/apartment.model';
+import { CardMedia, CardContent, Typography, Card } from '@mui/material';
 
 interface IUserApartmentCardProps {
   apartment: IApartment;
@@ -11,27 +11,44 @@ interface IUserApartmentCardProps {
 export const UserApartmentCard: React.FC<IUserApartmentCardProps> = ({
   apartment,
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/apartment-details/${apartment._id}`);
+  };
   const apartmentImage = useGetImageUrlFromName(apartment.apartment_image);
   return (
     <Card
-      as={Link}
-      to={`/apartment-details/${apartment._id}`}
-      style={{
+      onClick={handleClick}
+      sx={{
         marginRight: '10px',
         height: '180px',
         width: '200px',
         position: 'relative',
         flexShrink: 0,
+        textDecoration: 'none',
+        direction: 'rtl',
       }}
     >
-      <Card.Img
-        variant="top"
-        src={apartmentImage}
-        style={{ width: '100%', height: '80%' }}
+      <CardMedia
+        component="img"
+        image={apartmentImage}
+        alt={apartment.city}
+        sx={{ width: '100%', height: '80%' }}
       />
-      <Card.Body style={{ padding: '4px' }}>
-        <Card.Text style={{ color: '#344050' }}>{apartment.city}</Card.Text>
-      </Card.Body>
+      <CardContent
+        sx={{ padding: '4px', display: 'flex', justifyContent: 'space-around' }}
+      >
+        <Typography variant="body2" color="textSecondary">
+          {apartment.address}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          {apartment.city}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          קומה {apartment.floor}
+        </Typography>
+      </CardContent>
     </Card>
   );
 };
