@@ -5,7 +5,10 @@ import { style } from './style';
 import { Grid } from '@mui/material';
 import React from 'react';
 import { Control } from 'react-hook-form';
-import { apartmentTypeFieldValues } from '@/models/apartment.model';
+import {
+  apartmentFurnitureFieldValues,
+  apartmentTypeFieldValues,
+} from '@/models/apartment.model';
 
 interface IProps {
   control: Control<any>;
@@ -14,14 +17,6 @@ interface IProps {
 export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
   return (
     <Grid container direction="column">
-      <Grid item>
-        <ControlledSelect
-          valuesArray={apartmentTypeFieldValues}
-          control={control}
-          fieldData={apartmentFormDataObject[EApartmentFields.TYPE]}
-          formControlSX={style.selectFormInput}
-        />
-      </Grid>
       <Grid item container direction="row" justifyContent="space-between">
         <Grid item>
           <BasicFieldController
@@ -33,6 +28,14 @@ export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
           <BasicFieldController
             control={control}
             fieldData={apartmentFormDataObject[EApartmentFields.ADDRESS]}
+          />
+        </Grid>
+        <Grid item sx={style.numApartmentDetailsRowItem}>
+          <ControlledSelect
+            valuesArray={apartmentTypeFieldValues}
+            control={control}
+            fieldData={apartmentFormDataObject[EApartmentFields.TYPE]}
+            formControlSX={style.selectFormInput}
           />
         </Grid>
       </Grid>
@@ -82,6 +85,14 @@ export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
           control={control}
           type={EBasicFieldType.date}
           fieldData={apartmentFormDataObject[EApartmentFields.ENTRY_DATE]}
+        />
+      </Grid>
+      <Grid item>
+        <ControlledSelect
+          valuesArray={apartmentFurnitureFieldValues}
+          control={control}
+          fieldData={apartmentFormDataObject[EApartmentFields.FURNITURE]}
+          formControlSX={style.selectFormInput}
         />
       </Grid>
     </Grid>

@@ -3,7 +3,6 @@ import { styleType } from '@/models';
 export const style: styleType = {
   boxContainer: {
     display: 'flex',
-    paddingTop: '10px',
     flexDirection: 'column',
     alignItems: 'center',
   },

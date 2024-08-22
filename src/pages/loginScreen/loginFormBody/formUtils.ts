@@ -9,12 +9,12 @@ export enum ELoginFields {
 export const loginFormDataObject: Record<ELoginFields, IFormField> = {
   [ELoginFields.EMAIL]: {
     fieldName: ELoginFields.EMAIL,
-    label: 'mail',
+    label: 'מייל',
     matchError: 'email is illegal',
   },
   [ELoginFields.PASSWORD]: {
     fieldName: ELoginFields.PASSWORD,
-    label: 'password',
+    label: 'סיסמה',
   },
 };
 

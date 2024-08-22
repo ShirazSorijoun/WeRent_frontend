@@ -6,10 +6,10 @@ import {
   CreateLeaseAgreementFormPage4,
   CreateLeaseAgreementFormPage5,
 } from '../formPages';
-import { ControlProps } from '@/models/form';
+import { IControlProps } from '@/models/form';
 import { Box } from '@mui/material';
 
-interface IProps extends ControlProps {
+interface IProps extends IControlProps {
   tenantId: string;
   apartmentId: string;
   activeStep: number;

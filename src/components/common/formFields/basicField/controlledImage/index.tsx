@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { imageURL } from '@/api';
 import { Box, CardMedia, TextField } from '@mui/material';
 import { FC, useCallback, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { style } from './style';
 import { IControlledBasicFieldTypeProps } from '../utils';
+import { getStringOfUrl } from '@/utils/image';
 
 export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
   control,
   fieldData,
-  sxStyle,
+  sxStyle = { marginTop: 0 },
   isWithLabel = false,
 }) => {
   const [selectedImageToDisplay, setSelectedImageToDisplay] =
@@ -17,12 +17,11 @@ export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
 
   const handleImageChange = useCallback(
     (setFormValue: Function, file?: File) => {
-      setFormValue(file);
-
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setSelectedImageToDisplay(reader.result as string);
+          setFormValue(file);
         };
         reader.readAsDataURL(file);
       } else {
@@ -66,7 +65,7 @@ export const ControlledImage: FC<IControlledBasicFieldTypeProps> = ({
                 src={
                   selectedImageToDisplay
                     ? selectedImageToDisplay
-                    : `${imageURL}/${value}`
+                    : getStringOfUrl(value)
                 }
                 sx={style.img}
               />

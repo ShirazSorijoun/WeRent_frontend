@@ -6,9 +6,9 @@ import {
   leaseAgreementFormDataObject,
   paymentMethodFieldValues,
 } from '@@/CreateLeaseAgreement/formUtils';
-import { ControlProps } from '@/models/form';
+import { IControlProps } from '@/models/form';
 
-export const CreateLeaseAgreementFormPage2: React.FC<ControlProps> = ({
+export const CreateLeaseAgreementFormPage2: React.FC<IControlProps> = ({
   control,
 }) => {
   return (
