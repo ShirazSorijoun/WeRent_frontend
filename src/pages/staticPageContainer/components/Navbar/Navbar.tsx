@@ -43,7 +43,7 @@ export const Navbar: React.FC = () => {
               </Link>
             )}
             <Link to="/documents" className="page">
-              Documents
+              מסמכים
             </Link>
             <Link to="/allReviews" className="page">
               ביקורות
