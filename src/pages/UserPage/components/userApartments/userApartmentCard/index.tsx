@@ -28,6 +28,7 @@ export const UserApartmentCard: React.FC<IUserApartmentCardProps> = ({
         flexShrink: 0,
         textDecoration: 'none',
         direction: 'rtl',
+        cursor: 'pointer',
       }}
     >
       <CardMedia
@@ -39,15 +40,9 @@ export const UserApartmentCard: React.FC<IUserApartmentCardProps> = ({
       <CardContent
         sx={{ padding: '4px', display: 'flex', justifyContent: 'space-around' }}
       >
-        <Typography variant="body2" color="textSecondary">
-          {apartment.address}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {apartment.city}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          קומה {apartment.floor}
-        </Typography>
+        <Typography variant="body2">{apartment.address}</Typography>
+        <Typography variant="body2">{apartment.city}</Typography>
+        <Typography variant="body2">קומה {apartment.floor}</Typography>
       </CardContent>
     </Card>
   );
