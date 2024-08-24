@@ -343,53 +343,36 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
         </ListGroup>
       </Card>
 
-      <div>
-        {rentalInformation && localStorage.getItem('userId') ? (
-          rentalInformation.tenantId === localStorage.getItem('userId') ? (
-            hasEnteredApartment ? (
-              <>
-                {formCompleted ? (
-                  <>
-                    <p style={{ textAlign: 'right' }}>
-                      הטופס למילוי הושלם בהצלחה
-                    </p>
-                    {isWithinEditPeriod ? (
-                      <Button
-                        variant="primary"
-                        style={{ marginLeft: '10px' }}
-                        onClick={openTenantDialog}
-                      >
-                        ערוך את הטופס
-                      </Button>
-                    ) : (
-                      <p style={{ textAlign: 'right' }}>תקופת העריכה הסתיימה</p>
-                    )}
-                  </>
-                ) : (
-                  <Button variant="primary" onClick={openTenantDialog}>
-                    מלא את טופס השוכר
-                  </Button>
-                )}
-              </>
-            ) : (
-              <p style={{ textAlign: 'right' }}>
-                לא ניתן למלא את הטופס עד שתחל כניסת השוכר לדירה
-              </p>
-            )
-          ) : null // Do not display anything if the user is not the tenant
-        ) : (
-          <p style={{ textAlign: 'right' }}>
-            פרטי הדירה או מזהה המשתמש אינם זמינים
-          </p>
-        )}
-
-        <TenantFormDialog
-          isOpen={tenantDialogOpen}
-          handleCancel={closeTenantDialog}
-          completeSave={handleFormSubmit}
-          initialData={tenantFormData || undefined}
-        />
-      </div>
+      {rentalInformation &&
+      localStorage.getItem('userId') &&
+      rentalInformation.tenantId === localStorage.getItem('userId') &&
+      hasEnteredApartment ? (
+        <div>
+          {formCompleted ? (
+            <div
+              className="form-completed-message"
+              style={{ textAlign: 'right' }}
+            >
+              <Card>
+                <Card.Body>
+                  <Card.Title>טופס שוכר ראשוני</Card.Title>
+                  <Card.Text className="success-message">
+                    הטופס מולא בהצלחה.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
+          ) : (
+            <Button onClick={openTenantDialog}>מלא את טופס השוכר</Button>
+          )}
+          <TenantFormDialog
+            isOpen={tenantDialogOpen}
+            handleCancel={closeTenantDialog}
+            completeSave={handleFormSubmit}
+            initialData={tenantFormData || undefined}
+          />
+        </div>
+      ) : null}
 
       {rentalInformation &&
       localStorage.getItem('userId') &&
@@ -398,7 +381,10 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
       isQuarterlyDue(new Date(rentalInformation.startDate)) ? (
         <div>
           {quarterlyFormCompleted ? (
-            <div className="form-completed-message">
+            <div
+              className="form-completed-message"
+              style={{ textAlign: 'right' }}
+            >
               <Card>
                 <Card.Body>
                   <Card.Title>טופס שוכר רבעוני</Card.Title>
