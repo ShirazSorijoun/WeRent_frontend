@@ -43,7 +43,7 @@ const App: React.FC = () => {
           <Route path="/postGoogleRegister" element={<PostGoogleRegister />} />
           <Route path="/googlemap" element={<MapPage />} />
           <Route
-            path="/ApartmentPersonalArea"
+            path="/ApartmentPersonalArea/:apartmentId"
             element={<ApartmentPersonalAreaPage />}
           />
         </Route>

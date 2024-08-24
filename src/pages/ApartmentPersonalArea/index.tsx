@@ -138,8 +138,8 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
 
   const apartmentDetails = {
     address: {
-      street: '123 Main St',
-      city: 'Springfield',
+      street: 'ברק 4',
+      city: 'לוד',
     },
     numOfRooms: 3,
     floorNumber: 4,
@@ -150,12 +150,12 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
     leaseEndDate: '2024-01-01',
     leaseDuration: 12,
     rentalPricePerMonth: 1000,
-    paymentDate: '5th',
-    paymentMethod: 'Bank Transfer',
+    paymentDate: '5',
+    paymentMethod: 'הוראת קבע',
     bankDetails: {
-      name: 'Bank of Springfield',
+      name: 'דיסקונט',
       accountNumber: '1234567890',
-      branch: 'Main Branch',
+      branch: '59',
     },
   };
 
@@ -202,74 +202,87 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
   return (
     <Container className="apartment-personal-area">
       <div className="text-center mb-4">
-        <h1>Apartment Personal Area</h1>
+        <h1>אזור אישי דירה</h1>
       </div>
 
       <Row className="mb-4">
         <Col md={6}>
           <Card>
-            <Card.Header>Apartment Details</Card.Header>
-            <ListGroup className="list-group-flush">
+            <Card.Header style={{ textAlign: 'right' }}>פרטי דירה</Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                Street: {apartmentDetails.address.street}
+                רחוב: {apartmentDetails.address.street}
               </ListGroupItem>
               <ListGroupItem>
-                City: {apartmentDetails.address.city}
+                עיר: {apartmentDetails.address.city}
               </ListGroupItem>
               <ListGroupItem>
-                Number of Rooms: {apartmentDetails.numOfRooms}
+                מספר חדרים: {apartmentDetails.numOfRooms}
               </ListGroupItem>
               <ListGroupItem>
-                Floor Number: {apartmentDetails.floorNumber}
+                קומה: {apartmentDetails.floorNumber}
               </ListGroupItem>
             </ListGroup>
           </Card>
           <Card className="mb-4">
-            <Card.Header>Important Dates</Card.Header>
-            <ListGroup className="list-group-flush">
+            <Card.Header style={{ textAlign: 'right' }}>
+              תאריכים חשובים
+            </Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                Date of Entering: {importantDates.dateOfEntering}
+                תאריך כניסה: {importantDates.dateOfEntering}
               </ListGroupItem>
               <ListGroupItem>
-                Option Period: {importantDates.optionPeriod.startDate} to{' '}
+                אופציה להארכה: {importantDates.optionPeriod.startDate} עד{' '}
                 {importantDates.optionPeriod.endDate}
               </ListGroupItem>
               <ListGroupItem>
-                Repair Dates: {importantDates.repairDates}
+                תאריך תיקון: {importantDates.repairDates}
               </ListGroupItem>
             </ListGroup>
           </Card>
         </Col>
         <Col md={6}>
           <Card>
-            <Card.Header>Rental Information</Card.Header>
-            <ListGroup className="list-group-flush">
+            <Card.Header style={{ textAlign: 'right' }}>
+              מידע על השכירות
+            </Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                Lease Start Date: {rentalInformation.leaseStartDate}
+                תאריך תחילת השכירות: {rentalInformation.leaseStartDate}
               </ListGroupItem>
               <ListGroupItem>
-                Lease End Date: {rentalInformation.leaseEndDate}
+                תאריך סיום השכירות: {rentalInformation.leaseEndDate}
               </ListGroupItem>
               <ListGroupItem>
-                Lease Duration: {rentalInformation.leaseDuration} months
+                תקופת השכרה: {rentalInformation.leaseDuration} חודשים
               </ListGroupItem>
               <ListGroupItem>
-                Rental Price per Month: ${rentalInformation.rentalPricePerMonth}
+                סכום השכירות החודשי: ${rentalInformation.rentalPricePerMonth}
               </ListGroupItem>
               <ListGroupItem>
-                Payment Date: {rentalInformation.paymentDate}
+                תאריך תשלום: {rentalInformation.paymentDate}
               </ListGroupItem>
               <ListGroupItem>
-                Payment Method: {rentalInformation.paymentMethod}
+                שיטת תשלום: {rentalInformation.paymentMethod}
               </ListGroupItem>
               <ListGroupItem>
-                Bank Name: {rentalInformation.bankDetails.name}
+                שם הבנק: {rentalInformation.bankDetails.name}
               </ListGroupItem>
               <ListGroupItem>
-                Account Number: {rentalInformation.bankDetails.accountNumber}
+                מספר חשבון: {rentalInformation.bankDetails.accountNumber}
               </ListGroupItem>
               <ListGroupItem>
-                Branch: {rentalInformation.bankDetails.branch}
+                סניף: {rentalInformation.bankDetails.branch}
               </ListGroupItem>
             </ListGroup>
           </Card>
@@ -278,41 +291,45 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
 
       <Row className="mb-4">
         <Col md={6}>
-          <Card className="mb-4">
-            <Card.Header>Tenant Information</Card.Header>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>Name: {tenantInformation.name}</ListGroupItem>
+          <Card className="mb-4" style={{ textAlign: 'right' }}>
+            <Card.Header>מידע על השוכר</Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
+              <ListGroupItem>{tenantInformation.name} :שם</ListGroupItem>
               <ListGroupItem>
-                ID Number: {tenantInformation.idNumber}
+                {tenantInformation.idNumber} :תעודת זהות
               </ListGroupItem>
-              <ListGroupItem>
-                Address: {tenantInformation.address}
-              </ListGroupItem>
+              <ListGroupItem>{tenantInformation.address} :כתובת</ListGroupItem>
             </ListGroup>
           </Card>
         </Col>
         <Col md={6}>
-          <Card className="mb-4">
-            <Card.Header>Owner Information</Card.Header>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>Name: {ownerInformation.name}</ListGroupItem>
+          <Card className="mb-4" style={{ textAlign: 'right' }}>
+            <Card.Header>מידע על הבעלים</Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
+              <ListGroupItem>{ownerInformation.name} :שם</ListGroupItem>
               <ListGroupItem>
-                ID Number: {ownerInformation.idNumber}
+                {ownerInformation.idNumber} :תעודת זהות
               </ListGroupItem>
-              <ListGroupItem>Address: {ownerInformation.address}</ListGroupItem>
+              <ListGroupItem>{ownerInformation.address} :כתובת</ListGroupItem>
             </ListGroup>
           </Card>
         </Col>
       </Row>
 
       <Card className="mb-4">
-        <Card.Header>Additional Features</Card.Header>
-        <ListGroup className="list-group-flush">
+        <Card.Header style={{ textAlign: 'right' }}>תכונות נוספות</Card.Header>
+        <ListGroup className="list-group-flush" style={{ textAlign: 'right' }}>
           <ListGroupItem>
-            Pets Permissibility: {additionalFeatures.petsPermissibility}
+            {additionalFeatures.petsPermissibility} ?מותרות חיות מחמד
           </ListGroupItem>
           <ListGroupItem>
-            Maintenance Requests:
+            :בקשות תחזוקה
             <ul>
               {additionalFeatures.maintenanceRequests.map((request) => (
                 <li key={request.id}>
@@ -332,9 +349,9 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
           <div className="form-completed-message">
             <Card>
               <Card.Body>
-                <Card.Title>Tenant Form</Card.Title>
+                <Card.Title>טופס שוכר ראשוני</Card.Title>
                 <Card.Text className="success-message">
-                  The form has been filled out successfully.
+                  הטופס מולא בהצלחה.
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -355,9 +372,9 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
           <div className="form-completed-message">
             <Card>
               <Card.Body>
-                <Card.Title>Quarterly Tenant Form</Card.Title>
+                <Card.Title>טופס שוכר רבעוני</Card.Title>
                 <Card.Text className="success-message">
-                  The form has been filled out successfully.
+                  הטופס מולא בהצלחה.
                 </Card.Text>
               </Card.Body>
             </Card>

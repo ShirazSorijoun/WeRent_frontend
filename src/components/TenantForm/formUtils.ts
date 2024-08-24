@@ -25,72 +25,69 @@ export const initialTenantQuestionnaireFormDataObject: Record<
 > = {
   [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT]: {
     fieldName: EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT,
-    label: 'Was the rental agreement clear and easy to understand?',
+    label: 'האם הסכם השכירות היה ברור וקל להבנה?',
   },
   [EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS]: {
     fieldName: EInitialTenantQuestionnaireFields.RENTAL_AGREEMENT_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION]: {
     fieldName: EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION,
-    label:
-      'Did you feel that you received enough information about the property and the rental conditions?',
+    label: 'האם קיבלת מידע מספיק על הנכס ותנאי השכירות?',
   },
   [EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS]: {
     fieldName: EInitialTenantQuestionnaireFields.PROPERTY_INFORMATION_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS]: {
     fieldName: EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS,
-    label: 'Was the process of signing the lease simple?',
+    label: 'האם תהליך חתימת החוזה היה פשוט?',
   },
   [EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS]: {
     fieldName: EInitialTenantQuestionnaireFields.LEASE_SIGNING_PROCESS_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED]: {
     fieldName: EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED,
-    label:
-      'Were all your questions and concerns addressed during the signing of the lease?',
+    label: 'האם כל השאלות והחששות שלך נענו בזמן חתימת החוזה?',
   },
   [EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS]: {
     fieldName: EInitialTenantQuestionnaireFields.QUESTIONS_ADDRESSED_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION]: {
     fieldName: EInitialTenantQuestionnaireFields.PROPERTY_CONDITION,
-    label: 'Was the property clean and ready for moving in?',
+    label: 'האם הנכס היה נקי ומוכן למעבר?',
   },
   [EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS]: {
     fieldName: EInitialTenantQuestionnaireFields.PROPERTY_CONDITION_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION]: {
     fieldName: EInitialTenantQuestionnaireFields.RECEIVED_INFORMATION,
     label:
-      'Have you received all the necessary information, such as emergency contacts, building codes and garbage disposal instructions?',
+      'האם קיבלת את כל המידע הדרוש, כמו אנשי קשר לשעת חירום, קודים לבניין והנחיות לפינוי אשפה?',
   },
   [EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS]: {
     fieldName: EInitialTenantQuestionnaireFields.TRANSITION_PROBLEMS,
-    label:
-      'Did you encounter any problems during the transition process? If so, please describe.',
+    label: 'האם נתקלת בבעיות בתהליך המעבר? אם כן, אנא תאר.',
   },
   [EInitialTenantQuestionnaireFields.SATISFACTION_RATING]: {
     fieldName: EInitialTenantQuestionnaireFields.SATISFACTION_RATING,
-    label: 'How satisfied are you with the condition of the property?',
+    label: 'עד כמה אתה מרוצה ממצב הנכס?',
   },
   [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS]: {
     fieldName: EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS,
     label:
-      'Have you had any initial maintenance or repair requests? If so, were they addressed immediately?',
+      'האם היו בקשות תחזוקה או תיקון ראשוניות? אם כן, האם הן טופלו מיידית?',
   },
   [EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS]: {
     fieldName: EInitialTenantQuestionnaireFields.MAINTENANCE_REQUESTS_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [EInitialTenantQuestionnaireFields.FIRST_IMPRESSION]: {
     fieldName: EInitialTenantQuestionnaireFields.FIRST_IMPRESSION,
-    label: 'What was your first impression of the property?',
+    label: 'מה היה הרושם הראשוני שלך על הנכס?',
   },
 };
 
