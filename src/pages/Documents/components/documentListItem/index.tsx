@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { TableCell, TableRow, Button } from '@mui/material';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { useAppSelector } from '@/hooks';
@@ -14,6 +14,7 @@ interface IProps {
 export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
   const userId = useAppSelector(selectUserId);
   const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
+
   const openLeaseDialog = (): void => {
     setLeaseDialogOpen(true);
   };
@@ -27,6 +28,14 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
     await refreshList();
   }, [refreshList]);
 
+  const isNeedSignature = useMemo(
+    () =>
+      userId === lease.tenantId
+        ? !lease.tenantSignature
+        : !lease.ownerSignature,
+    [lease, userId],
+  );
+
   return (
     <TableRow key={lease._id}>
       <TableCell align="right">
@@ -37,7 +46,7 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
       </TableCell>
       <TableCell align="right">
         <Button variant="contained" color="primary" onClick={openLeaseDialog}>
-          לצפייה בחוזה
+          {isNeedSignature ? 'לחתימה על החוזה' : 'לצפייה בחוזה'}
         </Button>
         {leaseDialogOpen && (
           <LeaseAgreementFormDialog
