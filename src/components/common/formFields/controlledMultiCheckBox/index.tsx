@@ -39,8 +39,16 @@ export const ControlledMultiCheckedBox: React.FC<
       <Controller
         control={control}
         name={fieldData.fieldName}
-        render={({ field: { value, onChange }, fieldState: { error } }) => (
-          <FormControl sx={formControlSX} margin="none" variant="outlined">
+        render={({
+          field: { value, onChange, disabled },
+          fieldState: { error },
+        }) => (
+          <FormControl
+            sx={formControlSX}
+            margin="none"
+            variant="outlined"
+            disabled={disabled}
+          >
             <Grid container columns={optionsColumns}>
               {options.map(({ field, display }) => (
                 <Grid item key={field} xs={1}>

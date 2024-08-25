@@ -24,8 +24,12 @@ export const ControlledBasicTextField: React.FC<
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
+      render={({
+        field: { value, onChange, ref, disabled },
+        fieldState: { error },
+      }) => (
         <TextField
+          disabled={disabled}
           inputRef={ref}
           sx={sxStyle}
           error={!!error}

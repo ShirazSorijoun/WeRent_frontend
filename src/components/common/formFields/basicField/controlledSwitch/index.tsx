@@ -11,9 +11,13 @@ export const ControlledSwitch: React.FC<IControlledBasicFieldTypeProps> = ({
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
+      render={({
+        field: { value, onChange, ref, disabled },
+        fieldState: { error },
+      }) => (
         <>
           <Switch
+            disabled={disabled}
             checked={value ?? false}
             onChange={onChange}
             inputProps={{ 'aria-label': 'controlled' }}

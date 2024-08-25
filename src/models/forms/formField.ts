@@ -15,7 +15,6 @@ export enum EBasicFieldType {
   password = 'password',
   textArray = 'textArray',
   multiLineText = 'multiLineText',
-  coordinate = 'coordinate',
   rating = 'rating',
   boolean = 'boolean',
   switch = 'switch',

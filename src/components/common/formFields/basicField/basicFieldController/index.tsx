@@ -6,7 +6,6 @@ import { ControlledDateTime } from '../controlledDateTime';
 import { ControlledIntField } from '../controlledIntField';
 import { ControlledTextArray } from '../controlledTextArray';
 import { ControlledBasicTextField } from '../controlledBasicTextField';
-import { ControlledCoordinateInput } from '../controlledCoordinateInput';
 import { ControlledDate } from '../controlledDate';
 import { ControlledRating } from '../controlledRating';
 import { ControlledBoolean } from '../controlledBoolean';
@@ -33,7 +32,6 @@ const fieldsMap: Partial<
   [EBasicFieldType.int]: ControlledIntField,
   [EBasicFieldType.textArray]: ControlledTextArray,
   [EBasicFieldType.multiLineText]: ControlledBasicTextField,
-  [EBasicFieldType.coordinate]: ControlledCoordinateInput,
   [EBasicFieldType.rating]: ControlledRating,
   [EBasicFieldType.boolean]: ControlledBoolean,
   [EBasicFieldType.switch]: ControlledSwitch,

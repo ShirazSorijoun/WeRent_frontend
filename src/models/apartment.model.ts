@@ -34,6 +34,7 @@ export type IApartment = {
   features: IApartmentFeatures;
   description?: string;
   coordinate?: ICoordinates;
+  leaseId?: string;
 };
 
 export const apartmentTypeFieldValues: IControlledSelectArray<string> = [
