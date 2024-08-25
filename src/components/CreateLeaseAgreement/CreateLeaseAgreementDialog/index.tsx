@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -30,6 +30,7 @@ interface IBasicProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
+  isForSignature?: boolean;
 }
 
 interface ICreateProps extends IBasicProps {
@@ -58,12 +59,14 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
   apartmentId,
   tenantId,
   lease,
+  isForSignature = false,
 }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({
+    disabled: isForSignature,
     resolver: zodResolver(schema),
     defaultValues: buildLeaseDataForForm(lease),
     reValidateMode: 'onChange',
@@ -74,18 +77,15 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
-  const onSubmit = useCallback(
-    async (formData: leaseAgreementFormData) => {
-      const isSaved = await handleSave(
-        formData,
-        lease?.apartment._id ?? apartmentId!,
-        lease?.tenantId ?? tenantId!,
-        lease?._id,
-      );
-      if (isSaved) completeSave();
-    },
-    [apartmentId, completeSave, handleSave, lease?._id, tenantId],
-  );
+  const onSubmit = async (formData: leaseAgreementFormData) => {
+    const isSaved = await handleSave(
+      formData,
+      lease?.apartment._id ?? apartmentId!,
+      lease?.tenantId ?? tenantId!,
+      lease?._id,
+    );
+    if (isSaved) completeSave();
+  };
 
   const handleCloseDialog = (event: any, reason: string) => {
     if (reason && reason === 'backdropClick') {
@@ -94,15 +94,7 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
   };
 
   return (
-    <Dialog
-      open={true}
-      onClose={handleCloseDialog}
-      fullWidth
-      PaperProps={{
-        component: 'form',
-        onSubmit: handleSubmit(onSubmit, handleWrongFormData),
-      }}
-    >
+    <Dialog open={true} onClose={handleCloseDialog} fullWidth>
       <DialogTitle>חוזה שכירות בלתי מוגנת</DialogTitle>
       <DialogContent>
         <FormStepper
@@ -128,6 +120,7 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
           variant="contained"
           color="success"
           loading={isButtonLoading}
+          onClick={handleSubmit(onSubmit, handleWrongFormData)}
         >
           שמור
         </LoadingButton>
