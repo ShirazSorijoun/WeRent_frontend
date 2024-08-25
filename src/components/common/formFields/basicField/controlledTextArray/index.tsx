@@ -57,9 +57,13 @@ export const ControlledTextArray: React.FC<IControlledBasicFieldTypeProps> = ({
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
+      render={({
+        field: { value, onChange, ref, disabled },
+        fieldState: { error },
+      }) => (
         <Autocomplete
           multiple
+          disabled={disabled}
           options={[]}
           value={value ?? []}
           freeSolo

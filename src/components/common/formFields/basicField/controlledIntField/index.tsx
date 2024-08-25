@@ -26,12 +26,16 @@ export const ControlledIntField: React.FC<ControlledIntFieldProps> = ({
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
+      render={({
+        field: { value, onChange, ref, disabled },
+        fieldState: { error },
+      }) => (
         <TextField
           inputRef={ref}
+          disabled={disabled}
           sx={sxStyle}
           error={!!error}
-          placeholder={`enter ${fieldData.label}`}
+          placeholder={`הכנס ${fieldData.label}`}
           label={isWithLabel ? fieldData.label : ''}
           helperText={error?.message ?? ''}
           value={value ?? 0}

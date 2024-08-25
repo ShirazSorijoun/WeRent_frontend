@@ -17,8 +17,16 @@ export const ControlledBoolean: React.FC<IControlledBasicFieldTypeProps> = ({
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange }, fieldState: { error } }) => (
-        <FormControl sx={sxStyle} margin="none" variant="outlined">
+      render={({
+        field: { value, onChange, disabled },
+        fieldState: { error },
+      }) => (
+        <FormControl
+          sx={sxStyle}
+          margin="none"
+          variant="outlined"
+          disabled={disabled}
+        >
           <RadioGroup
             value={value}
             onChange={(e, selectedVal) => {
@@ -29,13 +37,13 @@ export const ControlledBoolean: React.FC<IControlledBasicFieldTypeProps> = ({
               key="Yes"
               value={true}
               control={<Radio />}
-              label="Yes"
+              label="כן"
             />
             <FormControlLabel
               key="No"
               value={false}
               control={<Radio />}
-              label="No"
+              label="לא"
             />
           </RadioGroup>
           <FormHelperText error={!!error}>{error?.message}</FormHelperText>

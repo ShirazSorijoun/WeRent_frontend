@@ -37,8 +37,9 @@ export const ControlledRating: React.FC<IControlledBasicFieldTypeProps> = ({
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange } }) => (
+      render={({ field: { value, onChange, disabled } }) => (
         <StyledRating
+          disabled={disabled}
           name="highlight-selected-only"
           value={value ?? null}
           sx={sxStyle}

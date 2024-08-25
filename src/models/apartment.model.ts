@@ -34,6 +34,7 @@ export type IApartment = {
   features: IApartmentFeatures;
   description?: string;
   coordinate?: ICoordinates;
+  leaseId?: string;
 };
 
 export type IApartmentForCreate = Omit<IApartment, '_id'>;

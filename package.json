@@ -41,6 +41,7 @@
     "react-redux": "^9.1.2",
     "react-router": "^6.23.1",
     "react-router-dom": "^6.22.0",
+    "react-signature-canvas": "^1.0.6",
     "react-toastify": "^10.0.4",
     "sweetalert": "^2.1.2",
     "zod": "^3.22.4"
@@ -54,6 +55,7 @@
     "@types/proj4": "^2.5.5",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@types/react-signature-canvas": "^1.0.5",
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
     "@vitejs/plugin-react": "^4.3.1",

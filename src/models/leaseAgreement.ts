@@ -31,6 +31,8 @@ export interface ILeaseAgreementForm {
 export interface ILeaseAgreement extends ILeaseAgreementForm {
   apartment: Pick<IApartment, 'city' | '_id' | 'address' | 'owner'>;
   tenantId: string;
+  tenantSignature?: string;
+  ownerSignature?: string;
 }
 
 export type ILeaseAgreementMap = Record<string, ILeaseAgreement>;

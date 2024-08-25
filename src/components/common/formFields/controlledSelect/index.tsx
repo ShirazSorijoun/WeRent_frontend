@@ -56,6 +56,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
     onChange: any,
     ref?: RefCallBack,
     error?: FieldError,
+    disabled?: boolean,
   ) => {
     const isError = !!error;
     const errorText = error?.message;
@@ -66,6 +67,7 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
         variant="outlined"
       >
         <Select
+          disabled={disabled}
           inputRef={ref}
           error={isError}
           value={value ?? ''}
@@ -102,9 +104,9 @@ export const ControlledSelect: React.FC<ControlledSelectProps> = ({
           control={control}
           name={fieldData.fieldName}
           render={({
-            field: { value, onChange, ref },
+            field: { value, onChange, ref, disabled },
             fieldState: { error },
-          }) => renderSelect(value, onChange, ref, error)}
+          }) => renderSelect(value, onChange, ref, error, disabled)}
         />
       </Grid>
     </Grid>

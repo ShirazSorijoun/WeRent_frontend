@@ -18,9 +18,13 @@ export const ControlledDateTime: React.FC<IControlledBasicFieldTypeProps> = ({
     <Controller
       control={control}
       name={fieldData.fieldName}
-      render={({ field: { value, onChange, ref }, fieldState: { error } }) => (
+      render={({
+        field: { value, onChange, ref, disabled },
+        fieldState: { error },
+      }) => (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DateTimePicker
+            disabled={disabled}
             inputRef={ref}
             label={isWithLabel ? fieldData.label : ''}
             sx={{ width: '100%', ...sxStyle }}

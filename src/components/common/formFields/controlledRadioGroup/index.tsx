@@ -37,8 +37,16 @@ export const ControlledRadioGroup: React.FC<IControlledRadioGroupProps> = ({
         <Controller
           control={control}
           name={fieldData.fieldName}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <FormControl sx={formControlSX} margin="none" variant="outlined">
+          render={({
+            field: { value, onChange, disabled },
+            fieldState: { error },
+          }) => (
+            <FormControl
+              sx={formControlSX}
+              margin="none"
+              variant="outlined"
+              disabled={disabled}
+            >
               <RadioGroup value={value} onChange={onChange}>
                 {options.map((option) => (
                   <FormControlLabel
