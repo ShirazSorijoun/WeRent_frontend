@@ -43,6 +43,7 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
           <LeaseAgreementFormDialog
             isOpen={leaseDialogOpen}
             lease={lease}
+            isForSignature
             handleCancel={closeLeaseDialog}
             completeSave={completeSave}
           />

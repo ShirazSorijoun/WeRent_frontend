@@ -8,7 +8,7 @@ interface IProps {
   handleSave: () => void;
 }
 
-export const LeaseAgreementFormButtons: React.FC<IProps> = ({
+export const FormButtons: React.FC<IProps> = ({
   handleCancel,
   handleSave,
   isLoading,

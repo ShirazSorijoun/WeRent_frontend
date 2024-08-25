@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -11,13 +11,11 @@ import {
   leaseAgreementFormData,
   buildLeaseDataForForm,
 } from '../formUtils';
-import { LoadingButton } from '@mui/lab';
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
 } from '@mui/material';
 import { IFormSteps } from '@/models';
 
@@ -25,6 +23,8 @@ import { FormStepper } from '@@/common/formStepper';
 import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
 import { LeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
+import { FormButtons } from '../../formButtons';
+import { LeaseSignatureDialogActions } from '../leaseSignatureDialogActions';
 
 interface IBasicProps {
   isOpen: boolean;
@@ -77,11 +77,20 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
+  const calcApartmentId = useMemo(
+    () => lease?.apartment._id ?? apartmentId!,
+    [apartmentId, lease?.apartment._id],
+  );
+  const calcTenantId = useMemo(
+    () => lease?.tenantId ?? tenantId!,
+    [lease?.tenantId, tenantId],
+  );
+
   const onSubmit = async (formData: leaseAgreementFormData) => {
     const isSaved = await handleSave(
       formData,
-      lease?.apartment._id ?? apartmentId!,
-      lease?.tenantId ?? tenantId!,
+      calcTenantId,
+      calcApartmentId,
       lease?._id,
     );
     if (isSaved) completeSave();
@@ -105,25 +114,25 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
         >
           <LeaseAgreementFormBody
             activeStep={activeStep}
-            apartmentId={lease?.apartment._id ?? apartmentId!}
+            apartmentId={calcApartmentId}
             control={control}
-            tenantId={lease?.tenantId ?? tenantId!}
+            tenantId={calcTenantId}
           />
         </FormStepper>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error" onClick={handleCancel}>
-          בטל
-        </Button>
-        <LoadingButton
-          type="submit"
-          variant="contained"
-          color="success"
-          loading={isButtonLoading}
-          onClick={handleSubmit(onSubmit, handleWrongFormData)}
-        >
-          שמור
-        </LoadingButton>
+        {isForSignature ? (
+          <LeaseSignatureDialogActions
+            handleCancel={handleCancel}
+            lease={lease}
+          />
+        ) : (
+          <FormButtons
+            handleCancel={handleCancel}
+            handleSave={handleSubmit(onSubmit, handleWrongFormData)}
+            isLoading={isButtonLoading}
+          />
+        )}
       </DialogActions>
     </Dialog>
   );
