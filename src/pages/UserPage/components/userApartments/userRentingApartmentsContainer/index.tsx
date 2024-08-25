@@ -7,17 +7,27 @@ import { Card } from 'react-bootstrap';
 
 interface IProps {
   leaseMap: ILeaseAgreementMap;
+  userId: string;
 }
-
-export const UserApartmentsContainer: React.FC<IProps> = ({ leaseMap }) => {
-  const [userApartments, setUserApartments] = useState<IApartment[]>([]);
+export const UserRentingApartmentsContainer: React.FC<IProps> = ({
+  leaseMap,
+  userId,
+}) => {
+  const [apartments, setApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const startEffect = async () => {
       try {
-        const userApartmentsData = await api.user.getUserApartments();
-        setUserApartments(userApartmentsData);
+        const apartmentsIds: string[] = Object.values(leaseMap)
+          .filter((lease) => lease.tenantId === userId)
+          .map((lease) => lease.apartment._id);
+
+        const apartmentsData: IApartment[] = apartmentsIds.length
+          ? await api.apartment.getApartmentsByIds(apartmentsIds)
+          : [];
+
+        setApartments(apartmentsData);
       } catch (error) {
         console.error('Error fetching user apartments:', error);
       } finally {
@@ -26,7 +36,7 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ leaseMap }) => {
     };
 
     startEffect();
-  }, []);
+  }, [leaseMap, userId]);
 
   return (
     <Card
@@ -43,7 +53,7 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ leaseMap }) => {
           justifyContent: 'center',
         }}
       >
-        <h5 style={{ fontWeight: 'bold' }}>My apartments</h5>
+        <h5 style={{ fontWeight: 'bold' }}>הדירות שאני משכיר</h5>
       </Card.Header>
 
       <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
@@ -56,9 +66,9 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ leaseMap }) => {
           }}
         >
           {!isLoading ? (
-            userApartments?.length > 0 ? (
+            apartments?.length > 0 ? (
               <>
-                {userApartments.map((apartment) => (
+                {apartments.map((apartment) => (
                   <UserApartmentCard
                     apartment={apartment}
                     key={apartment._id}

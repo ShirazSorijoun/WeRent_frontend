@@ -78,13 +78,13 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
     async (formData: leaseAgreementFormData) => {
       const isSaved = await handleSave(
         formData,
-        lease?.apartment._id ?? apartmentId!,
         lease?.tenantId ?? tenantId!,
+        lease?.apartment._id ?? apartmentId!,
         lease?._id,
       );
       if (isSaved) completeSave();
     },
-    [apartmentId, completeSave, handleSave, lease?._id, tenantId],
+    [apartmentId, completeSave, handleSave, lease, tenantId],
   );
 
   const handleCloseDialog = (event: any, reason: string) => {

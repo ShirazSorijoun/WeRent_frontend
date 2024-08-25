@@ -1,6 +1,6 @@
 import { axiosInstance } from '../api';
 import { addressCheckRes, ICoordinates } from '@/models/addressCheck';
-import { IApartment } from '@/models/apartment.model';
+import { IApartment, IApartmentForCreate } from '@/models/apartment.model';
 import { convertITMToUTM } from '@/utils/coordinates';
 
 const APARTMENT_API_KEY = '/apartment';
@@ -9,7 +9,7 @@ export const getAllApartments = async (): Promise<IApartment[]> =>
   (await axiosInstance.get(APARTMENT_API_KEY)).data;
 
 export const postApartment = async (
-  apartmentData: IApartment,
+  apartmentData: IApartmentForCreate,
 ): Promise<IApartment> =>
   (
     await axiosInstance.post(`${APARTMENT_API_KEY}/create`, {
@@ -17,8 +17,14 @@ export const postApartment = async (
     })
   ).data;
 
+export const getApartmentsByIds = async (
+  ids: string[],
+): Promise<IApartment[]> =>
+  (await axiosInstance.get(`${APARTMENT_API_KEY}/ids/`, { params: { ids } }))
+    .data;
+
 export const getApartmentById = async (id: string): Promise<IApartment> =>
-  (await axiosInstance.get(`${APARTMENT_API_KEY}/${id}`)).data;
+  (await axiosInstance.get(`${APARTMENT_API_KEY}/id/${id}`)).data;
 
 export const updateApartment = async (
   id: string,
