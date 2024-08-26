@@ -1,14 +1,15 @@
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
-import { UserApartmentCard } from '@@/userApartmentCard';
+import { IMatchMap } from '@/models/match.model';
+import { OwnerApartmentCard } from '@/pages/UserPage/components/userApartments/ownerCard/ownerApartmentCard';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 
 interface IProps {
-  // leaseMap: ILeaseAgreementMap;
+  matchesMap: IMatchMap;
 }
 
-export const UserApartmentsContainer: React.FC<IProps> = () => {
+export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
   const [userApartments, setUserApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -58,7 +59,8 @@ export const UserApartmentsContainer: React.FC<IProps> = () => {
             userApartments?.length > 0 ? (
               <>
                 {userApartments.map((apartment) => (
-                  <UserApartmentCard
+                  <OwnerApartmentCard
+                    matchesList={matchesMap[apartment._id] ?? []}
                     apartment={apartment}
                     key={apartment._id}
                   />

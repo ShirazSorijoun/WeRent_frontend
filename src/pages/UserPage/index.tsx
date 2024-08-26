@@ -56,7 +56,7 @@ export const UserPage: React.FC = () => {
           <UserDetails userData={userData} />
         </Grid>
         <Grid item xs={1}>
-          <UserApartmentsContainer />
+          <UserApartmentsContainer matchesMap={matchesMap} />
         </Grid>
         <Grid item xs={1}>
           <UserRentingApartmentsContainer

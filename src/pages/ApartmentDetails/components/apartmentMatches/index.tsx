@@ -1,6 +1,5 @@
 import { api } from '@/api';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ApartmentMatchItem } from '../apartmentMatchItem';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import {
@@ -13,6 +12,7 @@ import {
   Stack,
 } from '@mui/material';
 import { IMatch } from '@/models/match.model';
+import { ApartmentMatchItem } from '@@/apartmentMatchItem';
 interface IApartmentDataProps {
   apartmentId: string;
 }

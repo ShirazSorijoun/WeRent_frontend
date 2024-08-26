@@ -96,7 +96,11 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
     if (isSaved) completeSave();
   };
 
-  const handleCloseDialog = (event: any, reason: string) => {
+  const handleCloseDialog = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    reason: string,
+  ) => {
+    event.stopPropagation();
     if (reason && reason === 'backdropClick') {
       return;
     }

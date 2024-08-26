@@ -1,9 +1,9 @@
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
 import { IMatchMap } from '@/models/match.model';
-import { UserApartmentCard } from '@@/userApartmentCard';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { TenantApartmentCard } from '../tenantApartmentCard';
 
 interface IProps {
   matchesMap: IMatchMap;
@@ -73,7 +73,7 @@ export const UserRentingApartmentsContainer: React.FC<IProps> = ({
             apartments?.length > 0 ? (
               <>
                 {apartments.map((apartment) => (
-                  <UserApartmentCard
+                  <TenantApartmentCard
                     apartment={apartment}
                     key={apartment._id}
                   />
