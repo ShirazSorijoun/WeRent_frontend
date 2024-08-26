@@ -81,6 +81,7 @@ export const UserInterestedApartmentsContainer: React.FC<IProps> = ({
                   <TenantApartmentCard
                     apartment={apartment}
                     key={apartment._id}
+                    userId={userId}
                   />
                 ))}
               </>

@@ -28,7 +28,7 @@ export const useHandleLogin = (): IUseHandleLogin => {
 
   const onLoginSuccess = async (data: ILoginResponse) => {
     await dispatch(userLogin(data.userId));
-    toast.success('successfully login');
+    toast.success('התחברת בהצלחה');
     setIsButtonLoading(false);
     navigate('/');
   };
