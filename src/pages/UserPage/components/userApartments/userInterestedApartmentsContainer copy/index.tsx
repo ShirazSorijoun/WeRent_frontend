@@ -1,22 +1,42 @@
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
+import { IMatchMap } from '@/models/match.model';
 import { UserApartmentCard } from '@@/userApartmentCard';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 
 interface IProps {
-  // leaseMap: ILeaseAgreementMap;
+  matchesMap: IMatchMap;
+  userId: string;
 }
-
-export const UserApartmentsContainer: React.FC<IProps> = () => {
-  const [userApartments, setUserApartments] = useState<IApartment[]>([]);
+export const UserInterestedApartmentsContainer: React.FC<IProps> = ({
+  matchesMap,
+  userId,
+}) => {
+  const [apartments, setApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const startEffect = async () => {
       try {
-        const userApartmentsData = await api.user.getUserApartments();
-        setUserApartments(userApartmentsData);
+        const apartmentsIds: string[] = Object.entries(matchesMap)
+          .filter(([apartmentId, matches]) => {
+            const isRented = matches.some(
+              (match) => match.apartment.leaseId && match.user._id === userId,
+            );
+            if (isRented) return false;
+            else
+              return matches.some(
+                (match) => match.user._id === userId && match.accepted,
+              );
+          })
+          .map(([apartmentId, matches]) => apartmentId);
+
+        const apartmentsData: IApartment[] = apartmentsIds.length
+          ? await api.apartment.getApartmentsByIds(apartmentsIds)
+          : [];
+
+        setApartments(apartmentsData);
       } catch (error) {
         console.error('Error fetching user apartments:', error);
       } finally {
@@ -25,7 +45,7 @@ export const UserApartmentsContainer: React.FC<IProps> = () => {
     };
 
     startEffect();
-  }, []);
+  }, [matchesMap, userId]);
 
   return (
     <Card
@@ -42,7 +62,7 @@ export const UserApartmentsContainer: React.FC<IProps> = () => {
           justifyContent: 'center',
         }}
       >
-        <h5 style={{ fontWeight: 'bold' }}>הדירות שלי</h5>
+        <h5 style={{ fontWeight: 'bold' }}>הדירות שבהם היה התאמה</h5>
       </Card.Header>
 
       <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
@@ -55,9 +75,9 @@ export const UserApartmentsContainer: React.FC<IProps> = () => {
           }}
         >
           {!isLoading ? (
-            userApartments?.length > 0 ? (
+            apartments?.length > 0 ? (
               <>
-                {userApartments.map((apartment) => (
+                {apartments.map((apartment) => (
                   <UserApartmentCard
                     apartment={apartment}
                     key={apartment._id}

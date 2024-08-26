@@ -1,16 +1,16 @@
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
-import { ILeaseAgreementMap } from '@/models/leaseAgreement';
+import { IMatchMap } from '@/models/match.model';
 import { UserApartmentCard } from '@@/userApartmentCard';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 
 interface IProps {
-  leaseMap: ILeaseAgreementMap;
+  matchesMap: IMatchMap;
   userId: string;
 }
 export const UserRentingApartmentsContainer: React.FC<IProps> = ({
-  leaseMap,
+  matchesMap,
   userId,
 }) => {
   const [apartments, setApartments] = useState<IApartment[]>([]);
@@ -19,9 +19,13 @@ export const UserRentingApartmentsContainer: React.FC<IProps> = ({
   useEffect(() => {
     const startEffect = async () => {
       try {
-        const apartmentsIds: string[] = Object.values(leaseMap)
-          .filter((lease) => lease.tenantId === userId)
-          .map((lease) => lease.apartment._id);
+        const apartmentsIds: string[] = Object.entries(matchesMap)
+          .filter(([apartmentId, matches]) =>
+            matches.some(
+              (match) => match.apartment.leaseId && match.user._id === userId,
+            ),
+          )
+          .map(([apartmentId, matches]) => apartmentId);
 
         const apartmentsData: IApartment[] = apartmentsIds.length
           ? await api.apartment.getApartmentsByIds(apartmentsIds)
@@ -36,7 +40,7 @@ export const UserRentingApartmentsContainer: React.FC<IProps> = ({
     };
 
     startEffect();
-  }, [leaseMap, userId]);
+  }, [matchesMap, userId]);
 
   return (
     <Card

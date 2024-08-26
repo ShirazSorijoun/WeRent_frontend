@@ -1,5 +1,5 @@
+import { IMatch } from '@/models/match.model';
 import { axiosInstance } from '../api';
-import { IMatch } from '@/types/types';
 
 const MATCH_API_KEY = '/match';
 
@@ -12,8 +12,15 @@ export const acceptMatch = async (
     status,
   });
 
-export const getMatchingList = async (apartmentId: string): Promise<IMatch[]> =>
-  (await axiosInstance.get(`${MATCH_API_KEY}/${apartmentId}`)).data;
+export const getMatchingListByApartment = async (
+  apartmentId: string,
+): Promise<IMatch[]> =>
+  (await axiosInstance.get(`${MATCH_API_KEY}/byApartment/${apartmentId}`)).data;
+
+export const getMatchingListByUser = async (
+  userId: string,
+): Promise<IMatch[]> =>
+  (await axiosInstance.get(`${MATCH_API_KEY}/byUser/${userId}`)).data;
 
 export const getMatchStatus = async (
   apartmentId: string,

@@ -4,13 +4,16 @@ import './userProfile.css';
 import { UserApartmentsContainer, UserDetails } from './components';
 import { Container, Grid } from '@mui/material';
 import { api } from '@/api';
-import { ILeaseAgreement, ILeaseAgreementMap } from '@/models/leaseAgreement';
 import { useAppSelector } from '@/hooks';
 import { selectUser } from '@/stores/user';
-import { UserRentingApartmentsContainer } from './components/userApartments';
+import {
+  UserInterestedApartmentsContainer,
+  UserRentingApartmentsContainer,
+} from './components/userApartments';
+import { IMatch, IMatchMap } from '@/models/match.model';
 
 export const UserPage: React.FC = () => {
-  const [leasesMap, setLeasesMap] = useState<ILeaseAgreementMap>({});
+  const [matchesMap, setMatchesMap] = useState<IMatchMap>({});
 
   const userData = useAppSelector(selectUser);
 
@@ -18,16 +21,19 @@ export const UserPage: React.FC = () => {
     if (!userData.userId) return;
 
     try {
-      const res: ILeaseAgreement[] =
-        await api.leaseAgreement.getLeaseAgreementList();
+      const res: IMatch[] = await api.match.getMatchingListByUser(
+        userData.userId,
+      );
 
-      const leasesFromBE: ILeaseAgreementMap = {};
+      const matchesFromBE: IMatchMap = {};
 
-      res.forEach((lease) => {
-        leasesFromBE[userData.userId] = lease;
+      res.forEach((match) => {
+        const apartmentId: string = match.apartment._id;
+        const prevVal: IMatch[] = matchesFromBE[apartmentId];
+        matchesFromBE[apartmentId] = prevVal ? [...prevVal, match] : [match];
       });
 
-      setLeasesMap(leasesFromBE);
+      setMatchesMap(matchesFromBE);
     } catch (error) {
       console.error('Error fetching tenant data for lease form', error);
     }
@@ -50,11 +56,17 @@ export const UserPage: React.FC = () => {
           <UserDetails userData={userData} />
         </Grid>
         <Grid item xs={1}>
-          <UserApartmentsContainer leaseMap={leasesMap} />
+          <UserApartmentsContainer />
         </Grid>
         <Grid item xs={1}>
           <UserRentingApartmentsContainer
-            leaseMap={leasesMap}
+            matchesMap={matchesMap}
+            userId={userData.userId}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <UserInterestedApartmentsContainer
+            matchesMap={matchesMap}
             userId={userData.userId}
           />
         </Grid>

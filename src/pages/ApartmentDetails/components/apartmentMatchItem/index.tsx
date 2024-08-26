@@ -1,5 +1,4 @@
 import { api } from '@/api';
-import { IMatch } from '@/types/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   Avatar,
@@ -14,6 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { LoadingButton } from '@mui/lab';
 import { useGetImageUrlFromName } from '@/hooks';
 import { MatchLeaseDisplay } from '../matchLeaseDisplay';
+import { IMatch } from '@/models/match.model';
 
 interface IProps {
   match: IMatch;
@@ -50,7 +50,7 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
         return (
           <MatchLeaseDisplay
             tenantId={match.user._id!}
-            apartmentId={match.apartment}
+            apartmentId={match.apartment._id}
           />
         );
       case false:
