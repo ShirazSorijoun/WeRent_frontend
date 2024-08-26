@@ -31,7 +31,6 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
     await refreshList();
   }, [refreshList]);
 
-<<<<<<< HEAD
   const isNeedSignature = useMemo(
     () =>
       userId === lease.tenantId
@@ -39,12 +38,10 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
         : !lease.ownerSignature,
     [lease, userId],
   );
-=======
   // Navigate to the personal area page when the button is clicked
   const goToPersonalArea = (): void => {
     navigate(`/ApartmentPersonalArea/${lease.apartment._id}`);
   };
->>>>>>> 8829f9ff04420374725de24d93421c1c2282bf1d
 
   return (
     <TableRow key={lease._id}>
