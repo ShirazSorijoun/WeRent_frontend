@@ -21,62 +21,55 @@ export const quarterlyTenantQuestionnaireFormDataObject: Record<
 > = {
   [ETenantQuestionnaireFields.PROPERTY_CONDITION_RATING]: {
     fieldName: ETenantQuestionnaireFields.PROPERTY_CONDITION_RATING,
-    label:
-      'How satisfied are you with the condition of the property so far? (rating 1-5)',
+    label: 'עד כמה אתה מרוצה ממצב הנכס עד כה? (דירוג 1-5)',
   },
   [ETenantQuestionnaireFields.MAINTENANCE_ISSUES]: {
     fieldName: ETenantQuestionnaireFields.MAINTENANCE_ISSUES,
     label:
-      'Did you encounter any maintenance issues during this quarter? If so, what were they and how were they treated?',
+      'האם נתקלת בבעיות תחזוקה במהלך הרבעון הזה? אם כן, מה היו הבעיות וכיצד הן טופלו?',
   },
   [ETenantQuestionnaireFields.RESPONSE_TIME_SATISFACTION]: {
     fieldName: ETenantQuestionnaireFields.RESPONSE_TIME_SATISFACTION,
-    label:
-      'How satisfied are you with the response time for maintenance and repair? (rating 1-5)',
+    label: 'עד כמה אתה מרוצה מזמן התגובה לתחזוקה ותיקונים? (דירוג 1-5)',
   },
   [ETenantQuestionnaireFields.OWNER_RESPONSIVENESS]: {
     fieldName: ETenantQuestionnaireFields.OWNER_RESPONSIVENESS,
-    label:
-      'How responsive is the owner/landlord to your concerns? (rating 1-5)',
+    label: 'עד כמה הבעלים/המשכיר מגיב לדאגות שלך? (דירוג 1-5)',
   },
   [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS]: {
     fieldName: ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS,
-    label:
-      'Did you feel comfortable raising problems or concerns with the owner/landlord? (yes/no)',
+    label: 'האם הרגשת בנוח להעלות בעיות או חששות מול הבעלים/המשכיר? (כן/לא)',
   },
   [ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS_COMMENTS]: {
     fieldName: ETenantQuestionnaireFields.COMFORTABLE_RAISING_CONCERNS_COMMENTS,
-    label: 'Comments',
+    label: 'הערות',
   },
   [ETenantQuestionnaireFields.RENEWAL_CONSIDERATION]: {
     fieldName: ETenantQuestionnaireFields.RENEWAL_CONSIDERATION,
-    label:
-      'Are you considering renewing your lease when it expires? (yes/no/undecided)',
+    label: 'האם אתה שוקל לחדש את חוזה השכירות כשיפוג? (כן/לא/מתלבט)',
   },
   [ETenantQuestionnaireFields.RESPONSE_TIME_TO_REQUESTS]: {
     fieldName: ETenantQuestionnaireFields.RESPONSE_TIME_TO_REQUESTS,
     label:
-      'How long did the owner/landlord usually take to respond to your requests or complaints? (within 24 hours, 1-3 days, 4-7 days, more than a week)',
+      'כמה זמן לוקח בדרך כלל לבעלים/המשכיר להגיב לבקשות או תלונות שלך? (תוך 24 שעות, 1-3 ימים, 4-7 ימים, יותר משבוע)',
   },
   [ETenantQuestionnaireFields.RESOLUTION_TIME]: {
     fieldName: ETenantQuestionnaireFields.RESOLUTION_TIME,
     label:
-      'How long did it take to resolve maintenance or repair issues? (within 24 hours, 1-3 days, 4-7 days, more than a week)',
+      'כמה זמן לקח לפתור בעיות תחזוקה או תיקון? (תוך 24 שעות, 1-3 ימים, 4-7 ימים, יותר משבוע)',
   },
   [ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION]: {
     fieldName: ETenantQuestionnaireFields.ISSUES_RESOLVED_TO_SATISFACTION,
-    label:
-      'Have the repair or maintenance issues been resolved to your satisfaction? (yes/no)',
+    label: 'האם בעיות התחזוקה או התיקון נפתרו לשביעות רצונך? (כן/לא)',
   },
   [ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD]: {
     fieldName: ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD,
     label:
-      'What was your preferred method of communication with the owner/landlord? (phone, email, text, personal)',
+      'מה הייתה שיטת התקשורת המועדפת עליך עם הבעלים/המשכיר? (טלפון, אימייל, הודעה, אישית)',
   },
   [ETenantQuestionnaireFields.COMMUNICATION_SKILLS_RATING]: {
     fieldName: ETenantQuestionnaireFields.COMMUNICATION_SKILLS_RATING,
-    label:
-      'How would you rate the communication skills of the owner/landlord? (rating 1-5)',
+    label: 'כיצד היית מדרג את כישורי התקשורת של הבעלים/המשכיר? (דירוג 1-5)',
   },
 };
 

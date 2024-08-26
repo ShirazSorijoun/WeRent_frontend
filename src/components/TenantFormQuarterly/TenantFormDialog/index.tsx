@@ -76,13 +76,13 @@ export const QuarterlyTenantFormDialog: React.FC<ITenantFormDialogProps> = ({
         onSubmit: handleSubmit(onSubmit),
       }}
     >
-      <DialogTitle>Quarterly Tenant Form</DialogTitle>
+      <DialogTitle>טופס שוכר רבעוני</DialogTitle>
       <DialogContent>
         <FormTenantFormBody control={control} />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={closeDialog}>
-          Cancel
+          לבטל
         </Button>
         <LoadingButton
           type="submit"
@@ -90,7 +90,7 @@ export const QuarterlyTenantFormDialog: React.FC<ITenantFormDialogProps> = ({
           color="success"
           loading={submitting}
         >
-          Save
+          לשמור
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -17,8 +17,14 @@ import {
   getTenantFormQuarterlyByOwnerId,
 } from '@/api/modelsServices/tenant-form-service';
 import { QuarterlyTenantFormDialog } from '@@/TenantFormQuarterly/TenantFormDialog';
+import { useParams } from 'react-router';
+import { getApartmentById } from '@/api/modelsServices/apartments-service';
+import { getLeaseAgreementByApartmentId } from '@/api/modelsServices/leaseAgreement-service';
+import { getUserById } from '@/api/modelsServices/user-service';
 
 export const ApartmentPersonalAreaPage: React.FC = () => {
+  const { apartmentId } = useParams<{ apartmentId: string }>();
+
   const [tenantDialogOpen, setTenantDialogOpen] = useState(false);
   const [tenantFormData, setTenantFormData] =
     useState<InitialTenantQuestionnaireFormData | null>(null);
@@ -31,7 +37,57 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
   const [quarterlyFormCompleted, setQuarterlyFormCompleted] =
     useState<boolean>(false);
 
+  const [hasEnteredApartment, setHasEnteredApartment] =
+    useState<boolean>(false);
+  const [isWithinEditPeriod, setIsWithinEditPeriod] = useState<boolean>(false);
+
+  const [apartmentDetails, setApartmentDetails] = useState<any>(null);
+  const [rentalInformation, setRentalInformation] = useState<any>(null);
+  const [tenantInformation, setTenantInformation] = useState<any>(null);
+  const [ownerInformation, setOwnerInformation] = useState<any>(null);
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  // Helper function to format date
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return 'מידע לא זמין';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('he-IL'); // Format the date for Hebrew locale
+  };
+
   useEffect(() => {
+    const fetchLeaseData = async () => {
+      if (apartmentId) {
+        const apartmentData = await getApartmentById(apartmentId);
+        setApartmentDetails(apartmentData);
+
+        console.log('apartmentId', apartmentId);
+        const rentalData = await getLeaseAgreementByApartmentId(apartmentId);
+        setRentalInformation(rentalData);
+
+        const tenantData = await getUserById(
+          rentalData.tenantId.toString() ?? '',
+        );
+        const ownerData = await getUserById(
+          apartmentData.owner?.toString() ?? '',
+        );
+
+        setTenantInformation(tenantData);
+        setOwnerInformation(ownerData);
+
+        // Check if the current date is past the entry date and within one month for editing
+        if (rentalData?.startDate) {
+          const today = new Date();
+          const entryDate = new Date(rentalData.startDate);
+          const oneMonthLater = new Date(entryDate);
+          oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+          setHasEnteredApartment(today >= entryDate);
+          setIsWithinEditPeriod(today <= oneMonthLater);
+        }
+      }
+    };
+
     const fetchFormData = async () => {
       try {
         const ownerId = localStorage.getItem('userId');
@@ -98,9 +154,10 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
       }
     };
 
+    fetchLeaseData();
     fetchFormData();
     fetchFormDataQuarterly();
-  }, []);
+  }, [apartmentId]);
 
   const openTenantDialog = useCallback(() => {
     setTenantDialogOpen(true);
@@ -136,140 +193,94 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
     [closeQuarterlyTenantDialog],
   );
 
-  const apartmentDetails = {
-    address: {
-      street: '123 Main St',
-      city: 'Springfield',
-    },
-    numOfRooms: 3,
-    floorNumber: 4,
-  };
+  // Function to check if the current date is within the quarter period
+  const isQuarterlyDue = (entryDate: Date) => {
+    const today = currentDate;
+    const monthsDifference =
+      (today.getFullYear() - entryDate.getFullYear()) * 12 +
+      (today.getMonth() - entryDate.getMonth());
 
-  const rentalInformation = {
-    leaseStartDate: '2023-01-01',
-    leaseEndDate: '2024-01-01',
-    leaseDuration: 12,
-    rentalPricePerMonth: 1000,
-    paymentDate: '5th',
-    paymentMethod: 'Bank Transfer',
-    bankDetails: {
-      name: 'Bank of Springfield',
-      accountNumber: '1234567890',
-      branch: 'Main Branch',
-    },
-  };
-
-  const tenantInformation = {
-    name: 'Jane Smith',
-    idNumber: 'T123456',
-    address: '456 Elm St, Springfield',
-  };
-
-  const ownerInformation = {
-    name: 'John Doe',
-    idNumber: 'O123456',
-    address: '789 Oak St, Springfield',
-  };
-
-  const importantDates = {
-    dateOfEntering: '2023-01-01',
-    optionPeriod: {
-      startDate: '2024-01-01',
-      endDate: '2025-01-01',
-    },
-    repairDates: '2023-06-01',
-  };
-
-  const additionalFeatures = {
-    petsPermissibility: 'Yes',
-    maintenanceRequests: [
-      {
-        id: 1,
-        date: '2023-06-01',
-        description: 'Leaky faucet',
-        status: 'Completed',
-      },
-      {
-        id: 2,
-        date: '2023-07-15',
-        description: 'Broken window',
-        status: 'Pending',
-      },
-    ],
-    renewalConsideration: 'Undecided',
+    // Show the form if the difference is a multiple of 3 (every quarter)
+    return monthsDifference % 3 === 0 && monthsDifference > 0;
   };
 
   return (
     <Container className="apartment-personal-area">
       <div className="text-center mb-4">
-        <h1>Apartment Personal Area</h1>
+        <h1>אזור אישי דירה</h1>
       </div>
 
       <Row className="mb-4">
         <Col md={6}>
           <Card>
-            <Card.Header>Apartment Details</Card.Header>
-            <ListGroup className="list-group-flush">
+            <Card.Header style={{ textAlign: 'right' }}>פרטי דירה</Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                Street: {apartmentDetails.address.street}
+                רחוב: {apartmentDetails?.address ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                City: {apartmentDetails.address.city}
+                עיר: {apartmentDetails?.city ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Number of Rooms: {apartmentDetails.numOfRooms}
+                מספר חדרים: {apartmentDetails?.numberOfFloors ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Floor Number: {apartmentDetails.floorNumber}
-              </ListGroupItem>
-            </ListGroup>
-          </Card>
-          <Card className="mb-4">
-            <Card.Header>Important Dates</Card.Header>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>
-                Date of Entering: {importantDates.dateOfEntering}
+                קומה: {apartmentDetails?.floor ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Option Period: {importantDates.optionPeriod.startDate} to{' '}
-                {importantDates.optionPeriod.endDate}
+                גודל הדירה: {apartmentDetails?.sizeInSqMeters ?? 'מידע לא זמין'}{' '}
+                מטר
               </ListGroupItem>
               <ListGroupItem>
-                Repair Dates: {importantDates.repairDates}
+                ריהוט: {apartmentDetails?.furniture ?? 'מידע לא זמין'}
               </ListGroupItem>
             </ListGroup>
           </Card>
         </Col>
         <Col md={6}>
           <Card>
-            <Card.Header>Rental Information</Card.Header>
-            <ListGroup className="list-group-flush">
+            <Card.Header style={{ textAlign: 'right' }}>
+              מידע על השכירות
+            </Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                Lease Start Date: {rentalInformation.leaseStartDate}
+                תאריך תחילת השכירות:{' '}
+                {formatDate(rentalInformation?.startDate ?? null)}
               </ListGroupItem>
               <ListGroupItem>
-                Lease End Date: {rentalInformation.leaseEndDate}
+                תאריך סיום השכירות:{' '}
+                {formatDate(rentalInformation?.endDate ?? null)}
               </ListGroupItem>
               <ListGroupItem>
-                Lease Duration: {rentalInformation.leaseDuration} months
+                תקופת השכרה:{' '}
+                {rentalInformation?.numOfDaysForRepair ?? 'מידע לא זמין'} חודשים
               </ListGroupItem>
               <ListGroupItem>
-                Rental Price per Month: ${rentalInformation.rentalPricePerMonth}
+                סכום השכירות החודשי: ₪
+                {rentalInformation?.rentalPricePerMonth ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Payment Date: {rentalInformation.paymentDate}
+                תאריך תשלום:{' '}
+                {rentalInformation?.dayOfTheMonthForPayment ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Payment Method: {rentalInformation.paymentMethod}
+                שיטת תשלום: {rentalInformation?.paymentMethod ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Bank Name: {rentalInformation.bankDetails.name}
+                שם הבנק: {rentalInformation?.nameOfBank ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Account Number: {rentalInformation.bankDetails.accountNumber}
+                מספר חשבון:{' '}
+                {rentalInformation?.bankAccountNumber ?? 'מידע לא זמין'}
               </ListGroupItem>
               <ListGroupItem>
-                Branch: {rentalInformation.bankDetails.branch}
+                סניף: {rentalInformation?.bankBranch ?? 'מידע לא זמין'}
               </ListGroupItem>
             </ListGroup>
           </Card>
@@ -278,102 +289,124 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
 
       <Row className="mb-4">
         <Col md={6}>
-          <Card className="mb-4">
-            <Card.Header>Tenant Information</Card.Header>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>Name: {tenantInformation.name}</ListGroupItem>
+          <Card className="mb-4" style={{ textAlign: 'right' }}>
+            <Card.Header>מידע על השוכר</Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                ID Number: {tenantInformation.idNumber}
+                {tenantInformation?.firstName ?? 'מידע לא זמין'}{' '}
+                {tenantInformation?.lastName ?? 'מידע לא זמין'} :שם
               </ListGroupItem>
               <ListGroupItem>
-                Address: {tenantInformation.address}
+                {tenantInformation?.personalId ?? 'מידע לא זמין'} :תעודת זהות
+              </ListGroupItem>
+              <ListGroupItem>
+                {tenantInformation?.streetAddress ?? 'מידע לא זמין'} ,{' '}
+                {tenantInformation?.cityAddress ?? 'מידע לא זמין'} :כתובת
               </ListGroupItem>
             </ListGroup>
           </Card>
         </Col>
         <Col md={6}>
-          <Card className="mb-4">
-            <Card.Header>Owner Information</Card.Header>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>Name: {ownerInformation.name}</ListGroupItem>
+          <Card className="mb-4" style={{ textAlign: 'right' }}>
+            <Card.Header>מידע על הבעלים</Card.Header>
+            <ListGroup
+              className="list-group-flush"
+              style={{ textAlign: 'right' }}
+            >
               <ListGroupItem>
-                ID Number: {ownerInformation.idNumber}
+                {ownerInformation?.firstName ?? 'מידע לא זמין'}{' '}
+                {ownerInformation?.lastName ?? 'מידע לא זמין'} :שם
               </ListGroupItem>
-              <ListGroupItem>Address: {ownerInformation.address}</ListGroupItem>
+              <ListGroupItem>
+                {ownerInformation?.personalId ?? 'מידע לא זמין'} :תעודת זהות
+              </ListGroupItem>
+              <ListGroupItem>
+                {ownerInformation?.streetAddress ?? 'מידע לא זמין'},{' '}
+                {ownerInformation?.cityAddress ?? 'מידע לא זמין'} :כתובת
+              </ListGroupItem>
             </ListGroup>
           </Card>
         </Col>
       </Row>
 
       <Card className="mb-4">
-        <Card.Header>Additional Features</Card.Header>
-        <ListGroup className="list-group-flush">
+        <Card.Header style={{ textAlign: 'right' }}>תכונות נוספות</Card.Header>
+        <ListGroup className="list-group-flush" style={{ textAlign: 'right' }}>
           <ListGroupItem>
-            Pets Permissibility: {additionalFeatures.petsPermissibility}
+            {rentalInformation?.animal.toString() ?? 'מידע לא זמין'} ?מותרות
+            חיות מחמד
           </ListGroupItem>
-          <ListGroupItem>
-            Maintenance Requests:
-            <ul>
-              {additionalFeatures.maintenanceRequests.map((request) => (
-                <li key={request.id}>
-                  {request.date} - {request.description} ({request.status})
-                </li>
-              ))}
-            </ul>
-          </ListGroupItem>
-          <ListGroupItem>
-            Renewal Consideration: {additionalFeatures.renewalConsideration}
-          </ListGroupItem>
+          <ListGroupItem>:בקשות תחזוקה</ListGroupItem>
         </ListGroup>
       </Card>
 
-      <div>
-        {formCompleted ? (
-          <div className="form-completed-message">
-            <Card>
-              <Card.Body>
-                <Card.Title>Tenant Form</Card.Title>
-                <Card.Text className="success-message">
-                  The form has been filled out successfully.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </div>
-        ) : (
-          <Button onClick={openTenantDialog}>Open Tenant Form</Button>
-        )}
-        <TenantFormDialog
-          isOpen={tenantDialogOpen}
-          handleCancel={closeTenantDialog}
-          completeSave={handleFormSubmit}
-          initialData={tenantFormData || undefined}
-        />
-      </div>
+      {rentalInformation &&
+      localStorage.getItem('userId') &&
+      rentalInformation.tenantId === localStorage.getItem('userId') &&
+      hasEnteredApartment ? (
+        <div>
+          {formCompleted ? (
+            <div
+              className="form-completed-message"
+              style={{ textAlign: 'right' }}
+            >
+              <Card>
+                <Card.Body>
+                  <Card.Title>טופס שוכר ראשוני</Card.Title>
+                  <Card.Text className="success-message">
+                    הטופס מולא בהצלחה.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
+          ) : (
+            <Button onClick={openTenantDialog}>מלא את טופס השוכר</Button>
+          )}
+          <TenantFormDialog
+            isOpen={tenantDialogOpen}
+            handleCancel={closeTenantDialog}
+            completeSave={handleFormSubmit}
+            initialData={tenantFormData || undefined}
+          />
+        </div>
+      ) : null}
 
-      <div>
-        {quarterlyFormCompleted ? (
-          <div className="form-completed-message">
-            <Card>
-              <Card.Body>
-                <Card.Title>Quarterly Tenant Form</Card.Title>
-                <Card.Text className="success-message">
-                  The form has been filled out successfully.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </div>
-        ) : (
-          <Button onClick={openQuarterlyTenantDialog}>
-            Open Quarterly Tenant Form
-          </Button>
-        )}
-        <QuarterlyTenantFormDialog
-          isOpen={quarterlyTenantDialogOpen}
-          handleCancel={closeQuarterlyTenantDialog}
-          completeSave={handleQuarterlyFormSubmit}
-          initialData={quarterlyTenantFormData || undefined}
-        />
-      </div>
+      {rentalInformation &&
+      localStorage.getItem('userId') &&
+      rentalInformation.tenantId === localStorage.getItem('userId') &&
+      hasEnteredApartment &&
+      isQuarterlyDue(new Date(rentalInformation.startDate)) ? (
+        <div>
+          {quarterlyFormCompleted ? (
+            <div
+              className="form-completed-message"
+              style={{ textAlign: 'right' }}
+            >
+              <Card>
+                <Card.Body>
+                  <Card.Title>טופס שוכר רבעוני</Card.Title>
+                  <Card.Text className="success-message">
+                    הטופס מולא בהצלחה.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
+          ) : (
+            <Button onClick={openQuarterlyTenantDialog}>
+              מלא את טופס השוכר הרבעוני
+            </Button>
+          )}
+          <QuarterlyTenantFormDialog
+            isOpen={quarterlyTenantDialogOpen}
+            handleCancel={closeQuarterlyTenantDialog}
+            completeSave={handleQuarterlyFormSubmit}
+            initialData={quarterlyTenantFormData || undefined}
+          />
+        </div>
+      ) : null}
     </Container>
   );
 };

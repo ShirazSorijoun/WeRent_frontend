@@ -5,6 +5,7 @@ import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { useAppSelector } from '@/hooks';
 import { selectUserId } from '@/stores/user';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
+import { useNavigate } from 'react-router';
 
 interface IProps {
   lease: ILeaseAgreement;
@@ -12,6 +13,8 @@ interface IProps {
 }
 
 export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
+  const navigate = useNavigate();
+
   const userId = useAppSelector(selectUserId);
   const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
 
@@ -28,6 +31,7 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
     await refreshList();
   }, [refreshList]);
 
+<<<<<<< HEAD
   const isNeedSignature = useMemo(
     () =>
       userId === lease.tenantId
@@ -35,6 +39,12 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
         : !lease.ownerSignature,
     [lease, userId],
   );
+=======
+  // Navigate to the personal area page when the button is clicked
+  const goToPersonalArea = (): void => {
+    navigate(`/ApartmentPersonalArea/${lease.apartment._id}`);
+  };
+>>>>>>> 8829f9ff04420374725de24d93421c1c2282bf1d
 
   return (
     <TableRow key={lease._id}>
@@ -47,6 +57,14 @@ export const DocumentsListItem: React.FC<IProps> = ({ lease, refreshList }) => {
       <TableCell align="right">
         <Button variant="contained" color="primary" onClick={openLeaseDialog}>
           {isNeedSignature ? 'לחתימה על החוזה' : 'לצפייה בחוזה'}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={goToPersonalArea}
+          style={{ marginLeft: '20px' }}
+        >
+          לאזור האישי
         </Button>
         {leaseDialogOpen && (
           <LeaseAgreementFormDialog
