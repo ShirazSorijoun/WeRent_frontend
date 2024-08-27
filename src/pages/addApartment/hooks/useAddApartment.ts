@@ -1,6 +1,10 @@
 import { api } from '@/api';
 import { ICoordinates } from '@/models/addressCheck';
-import { defaultApartment, IApartment } from '@/models/apartment.model';
+import {
+  defaultApartment,
+  IApartment,
+  IApartmentForCreate,
+} from '@/models/apartment.model';
 import { useCallback, useMemo, useState } from 'react';
 import { UseFormSetError } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -87,7 +91,7 @@ export const useAddApartment = (
         ...apartmentData,
         apartment_image: imageUrl,
         coordinate: coordinatesRes,
-      } as IApartment;
+      } as IApartmentForCreate;
 
       try {
         const updatedApartment = isEdit

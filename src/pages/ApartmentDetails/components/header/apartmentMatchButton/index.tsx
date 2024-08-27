@@ -33,7 +33,7 @@ export const ApartmentMatchButton: FC<props> = ({ apartmentId }) => {
   const getMatchDisplayText = useMemo(() => {
     switch (matchStatus) {
       case true:
-        return 'הבעלים אישר את ההתאמה ומעוניין להמשיך את התהליך';
+        return 'הבעלים אישר את ההתאמה ניתן לחתום באזור אישי';
       case false:
         return 'הבעלים דחה את ההתאמה, מוזמן להמשיך בחיפושי הדירה';
       default:

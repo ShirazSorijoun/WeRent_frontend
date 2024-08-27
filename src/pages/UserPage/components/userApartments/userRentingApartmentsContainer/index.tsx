@@ -1,23 +1,37 @@
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
 import { IMatchMap } from '@/models/match.model';
-import { OwnerApartmentCard } from '@/pages/UserPage/components/userApartments/ownerCard/ownerApartmentCard';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { TenantApartmentCard } from '../tenantApartmentCard';
 
 interface IProps {
   matchesMap: IMatchMap;
+  userId: string;
 }
-
-export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
-  const [userApartments, setUserApartments] = useState<IApartment[]>([]);
+export const UserRentingApartmentsContainer: React.FC<IProps> = ({
+  matchesMap,
+  userId,
+}) => {
+  const [apartments, setApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const startEffect = async () => {
       try {
-        const userApartmentsData = await api.user.getUserApartments();
-        setUserApartments(userApartmentsData);
+        const apartmentsIds: string[] = Object.entries(matchesMap)
+          .filter(([apartmentId, matches]) =>
+            matches.some(
+              (match) => match.apartment.leaseId && match.user._id === userId,
+            ),
+          )
+          .map(([apartmentId, matches]) => apartmentId);
+
+        const apartmentsData: IApartment[] = apartmentsIds.length
+          ? await api.apartment.getApartmentsByIds(apartmentsIds)
+          : [];
+
+        setApartments(apartmentsData);
       } catch (error) {
         console.error('Error fetching user apartments:', error);
       } finally {
@@ -26,7 +40,7 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
     };
 
     startEffect();
-  }, []);
+  }, [matchesMap, userId]);
 
   return (
     <Card
@@ -43,7 +57,7 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
           justifyContent: 'center',
         }}
       >
-        <h5 style={{ fontWeight: 'bold' }}>הדירות שלי</h5>
+        <h5 style={{ fontWeight: 'bold' }}>הדירות שאני משכיר</h5>
       </Card.Header>
 
       <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
@@ -56,11 +70,10 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
           }}
         >
           {!isLoading ? (
-            userApartments?.length > 0 ? (
+            apartments?.length > 0 ? (
               <>
-                {userApartments.map((apartment) => (
-                  <OwnerApartmentCard
-                    matchesList={matchesMap[apartment._id] ?? []}
+                {apartments.map((apartment) => (
+                  <TenantApartmentCard
                     apartment={apartment}
                     key={apartment._id}
                   />

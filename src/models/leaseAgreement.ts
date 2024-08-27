@@ -34,3 +34,5 @@ export interface ILeaseAgreement extends ILeaseAgreementForm {
   tenantSignature?: string;
   ownerSignature?: string;
 }
+
+export type ILeaseAgreementMap = Record<string, ILeaseAgreement>;

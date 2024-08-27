@@ -1,7 +1,5 @@
 import React from 'react';
 import { useGetImageUrlFromName } from '@/hooks';
-import { useAppSelector } from '@/hooks/store';
-import { selectUser } from '@/stores/user';
 import {
   CardContent,
   CardHeader,
@@ -10,11 +8,11 @@ import {
   Grid,
   Stack,
 } from '@mui/material';
-import { styleType } from '@/models';
+import { StoreUser, styleType } from '@/models';
 import { UserEditButton } from '../editUser';
 import { ChangePassword } from '../changePassword';
 
-export const style: styleType = {
+const style: styleType = {
   propertyTitle: {
     fontWeight: 'bold',
     paddingLeft: '5px',
@@ -25,12 +23,13 @@ export const style: styleType = {
     alignItems: 'center',
     // flex: 1,
   },
-  input: { marginTop: '10px', direction: 'rtl' },
 };
 
-export const UserDetails: React.FC = () => {
-  const userData = useAppSelector(selectUser);
+interface IProps {
+  userData: StoreUser;
+}
 
+export const UserDetails: React.FC<IProps> = ({ userData }) => {
   const profileImage = useGetImageUrlFromName(userData?.profile_image);
 
   return (
@@ -39,6 +38,7 @@ export const UserDetails: React.FC = () => {
         direction: 'rtl',
         height: 'max-content',
         border: 'solid 1px rgba(0, 0, 0, 0.175)',
+        width: '550px',
       }}
       raised
     >
@@ -60,7 +60,7 @@ export const UserDetails: React.FC = () => {
           <Grid
             container
             direction="column"
-            alignContent="center"
+            alignContent="flex-start"
             justifyContent="center"
           >
             <Grid item sx={style.propertyContainer}>
@@ -96,8 +96,8 @@ export const UserDetails: React.FC = () => {
             src={profileImage}
             alt="Profile"
             style={{
-              maxWidth: '300px',
-              maxHeight: '300px',
+              width: '200px',
+              height: '200px',
               alignItems: 'center',
             }}
           />

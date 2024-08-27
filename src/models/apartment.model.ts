@@ -18,7 +18,7 @@ export interface IApartmentFeatures {
 }
 
 export type IApartment = {
-  _id?: string;
+  _id: string;
   city: string;
   address: string;
   type: string;
@@ -36,6 +36,8 @@ export type IApartment = {
   coordinate?: ICoordinates;
   leaseId?: string;
 };
+
+export type IApartmentForCreate = Omit<IApartment, '_id'>;
 
 export const apartmentTypeFieldValues: IControlledSelectArray<string> = [
   { display: 'דירה', value: 'Apartment' },
