@@ -19,7 +19,7 @@ export const RentPropertiesPage = () => {
   useEffect(() => {
     const insertAllApartments = async () => {
       try {
-        const res = await api.apartment.getAllApartments();
+        const res = await api.apartment.getAllApartmentsWithoutLease();
         setApartments(res);
       } catch (error) {
         console.error('Error fetching apartments:', error);
