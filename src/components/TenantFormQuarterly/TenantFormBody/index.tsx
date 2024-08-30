@@ -4,12 +4,33 @@ import {
   quarterlyTenantQuestionnaireFormDataObject,
   ETenantQuestionnaireFields,
 } from '../formUtils';
-import { EBasicFieldType } from '@/models/forms';
-import { BasicFieldController } from '@@/common/formFields';
+import { EBasicFieldType, IControlledSelectArray } from '@/models/forms';
+import { BasicFieldController, ControlledSelect } from '@@/common/formFields';
+import { style } from './style';
 
 interface IFormTenantFormBodyProps {
   control: Control<any>;
 }
+
+const Responsetimetorequests: IControlledSelectArray<string> = [
+  { display: 'תוך 24 שעות', value: 'Within 24 hours' },
+  { display: '1-3 ימים', value: '1-3 days' },
+  { display: '4-7 ימים', value: '4-7 days' },
+  { display: 'יותר משבוע', value: 'More than a week' },
+];
+
+const renewalConsideration: IControlledSelectArray<string> = [
+  { display: 'כן', value: 'Yes' },
+  { display: 'לא', value: 'No' },
+  { display: 'מתלבט', value: 'Undecided' },
+];
+
+const methodCommunication: IControlledSelectArray<string> = [
+  { display: 'טלפון', value: 'Phone' },
+  { display: 'אימייל', value: 'Email' },
+  { display: 'הודעות', value: 'Text' },
+  { display: 'אישי', value: 'Personal' },
+];
 
 export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
   control,
@@ -70,32 +91,35 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={renewalConsideration}
         control={control}
-        type={EBasicFieldType.enum}
         fieldData={
           quarterlyTenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RENEWAL_CONSIDERATION
           ]
         }
+        formControlSX={style.selectFormInput}
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={Responsetimetorequests}
         control={control}
-        type={EBasicFieldType.enum}
         fieldData={
           quarterlyTenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RESPONSE_TIME_TO_REQUESTS
           ]
         }
+        formControlSX={style.selectFormInput}
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={Responsetimetorequests}
         control={control}
-        type={EBasicFieldType.enum}
         fieldData={
           quarterlyTenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.RESOLUTION_TIME
           ]
         }
+        formControlSX={style.selectFormInput}
       />
       <BasicFieldController
         control={control}
@@ -106,14 +130,15 @@ export const FormTenantFormBody: React.FC<IFormTenantFormBodyProps> = ({
           ]
         }
       />
-      <BasicFieldController
+      <ControlledSelect
+        valuesArray={methodCommunication}
         control={control}
-        type={EBasicFieldType.enum}
         fieldData={
           quarterlyTenantQuestionnaireFormDataObject[
             ETenantQuestionnaireFields.PREFERRED_COMMUNICATION_METHOD
           ]
         }
+        formControlSX={style.selectFormInput}
       />
       <BasicFieldController
         control={control}

@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { api } from '@/api';
 import { QuarterlyTenantQuestionnaireFormData } from '../../formUtils';
 import axios from 'axios';
+import { useParams } from 'react-router';
 
 interface IUseTenantForm {
   saveTenantForm: (
@@ -12,6 +13,7 @@ interface IUseTenantForm {
 
 export const useTenantForm = (): IUseTenantForm => {
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
+  const { apartmentId } = useParams<{ apartmentId: string }>();
 
   const saveTenantForm = useCallback(
     async (
@@ -23,7 +25,10 @@ export const useTenantForm = (): IUseTenantForm => {
           ...formData,
         };
 
-        await api.tenantForm.postTenantFormQuarterly(updatedFormData);
+        await api.tenantForm.postTenantFormQuarterly(
+          updatedFormData,
+          apartmentId!,
+        );
 
         setIsButtonLoading(false);
         return true;

@@ -17,6 +17,7 @@ import {
 import { FormTenantFormBody } from '../TenantFormBody';
 import { api } from '@/api';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 interface ITenantFormDialogProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ export const QuarterlyTenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     });
 
   const [submitting, setSubmitting] = React.useState(false);
+  const { apartmentId } = useParams<{ apartmentId: string }>();
 
   useEffect(() => {
     if (isOpen) {
@@ -53,7 +55,7 @@ export const QuarterlyTenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     async (formData: QuarterlyTenantQuestionnaireFormData) => {
       setSubmitting(true);
       try {
-        await api.tenantForm.postTenantFormQuarterly(formData); // Call your API function to save form data
+        await api.tenantForm.postTenantFormQuarterly(formData, apartmentId!); // Call your API function to save form data
         console.log('Form data saved:', formData);
         completeSave(formData); // Notify parent component about successful save
       } catch (err) {

@@ -93,7 +93,10 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
         const ownerId = localStorage.getItem('userId');
         if (ownerId) {
           try {
-            const response = await getTenantFormByOwnerId(ownerId);
+            const response = await getTenantFormByOwnerId(
+              ownerId,
+              apartmentId!,
+            );
 
             if (response) {
               setFormCompleted(true);
@@ -124,8 +127,10 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
         const ownerId = localStorage.getItem('userId');
         if (ownerId) {
           try {
-            const responseQuarterly =
-              await getTenantFormQuarterlyByOwnerId(ownerId);
+            const responseQuarterly = await getTenantFormQuarterlyByOwnerId(
+              ownerId,
+              apartmentId!,
+            );
 
             if (responseQuarterly) {
               setQuarterlyFormCompleted(true);
@@ -336,10 +341,8 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
         <Card.Header style={{ textAlign: 'right' }}>תכונות נוספות</Card.Header>
         <ListGroup className="list-group-flush" style={{ textAlign: 'right' }}>
           <ListGroupItem>
-            {rentalInformation?.animal.toString() ?? 'מידע לא זמין'} ?מותרות
-            חיות מחמד
+            {rentalInformation?.animal ? '✔' : '✖'} ?מותרות חיות מחמד
           </ListGroupItem>
-          <ListGroupItem>:בקשות תחזוקה</ListGroupItem>
         </ListGroup>
       </Card>
 
