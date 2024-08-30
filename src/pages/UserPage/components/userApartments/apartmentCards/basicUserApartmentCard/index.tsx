@@ -9,24 +9,24 @@ import {
   Card,
   CardActions,
 } from '@mui/material';
-import { OwnerApartmentMatches } from '../ownerApartmentMatches';
-import { IMatch } from '@/models/match.model';
 
-interface IUserApartmentCardProps {
+interface IProps {
   apartment: IApartment;
-  matchesList: IMatch[];
+  cardActions: React.ReactNode;
 }
 
-export const OwnerApartmentCard: React.FC<IUserApartmentCardProps> = ({
+export const BasicUserApartmentCard: React.FC<IProps> = ({
   apartment,
-  matchesList,
+  cardActions,
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/apartment-details/${apartment._id}`);
   };
+
   const apartmentImage = useGetImageUrlFromName(apartment.apartment_image);
+
   return (
     <Card
       sx={{
@@ -55,9 +55,7 @@ export const OwnerApartmentCard: React.FC<IUserApartmentCardProps> = ({
         <Typography variant="body2">{apartment.city}</Typography>
         <Typography variant="body2">קומה {apartment.floor}</Typography>
       </CardContent>
-      <CardActions>
-        <OwnerApartmentMatches matchesList={matchesList} />
-      </CardActions>
+      <CardActions>{cardActions}</CardActions>
     </Card>
   );
 };
