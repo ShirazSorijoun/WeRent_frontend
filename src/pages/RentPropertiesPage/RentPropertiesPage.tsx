@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ApartmentCard from '../../components/ApartmentCard/ApartmentCard';
 import { IApartment } from '@/models/apartment.model';
-import SearchBar from '../../components/SearchBar/SearchBar';
 import './RentPropertiesPage.css';
 import { api } from '@/api';
+import { SearchBar, ApartmentCard } from './components';
 
 export const RentPropertiesPage = () => {
   const [apartments, setApartments] = useState<IApartment[]>([]);

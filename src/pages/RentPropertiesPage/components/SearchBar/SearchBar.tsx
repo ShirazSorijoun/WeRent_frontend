@@ -15,7 +15,7 @@ interface SearchBarProps {
   onClear: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
+export const SearchBar: React.FC<SearchBarProps> = ({
   apartments,
   onSearch,
   onClear,
@@ -312,5 +312,3 @@ const SearchBar: React.FC<SearchBarProps> = ({
     </div>
   );
 };
-
-export default SearchBar;
