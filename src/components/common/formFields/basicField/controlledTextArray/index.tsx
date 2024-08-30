@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
   Autocomplete,
   AutocompleteGetTagProps,
@@ -9,50 +9,42 @@ import {
 import { Controller } from 'react-hook-form';
 import { IControlledBasicFieldTypeProps } from '../utils';
 
+const renderTags = (values: any[], getTagProps: AutocompleteGetTagProps) =>
+  values.map((option, index) => (
+    <Chip
+      variant="outlined"
+      title={option}
+      label={option}
+      style={{
+        maxWidth: 100,
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        backgroundColor: '#ebebeb',
+        border: 'none',
+        margin: '0px 5px',
+      }}
+      {...getTagProps({ index })}
+      sx={{
+        maxWidth: 100,
+        display: 'flex',
+        flexDirection: 'row-reverse',
+      }}
+    />
+  ));
+
+const onBlur = (textToInsert: string, values: any[], setValue: Function) => {
+  if (textToInsert && !values?.includes(textToInsert)) {
+    const newValuesArray = values ? [...values, textToInsert] : [textToInsert];
+    setValue(newValuesArray);
+  }
+};
+
 export const ControlledTextArray: React.FC<IControlledBasicFieldTypeProps> = ({
   fieldData,
   control,
   sxStyle,
   isWithLabel = false,
 }) => {
-  const renderTags = useCallback(
-    (values: any[], getTagProps: AutocompleteGetTagProps) =>
-      values.map((option, index) => (
-        <Chip
-          variant="outlined"
-          title={option}
-          label={option}
-          style={{
-            maxWidth: 100,
-            display: 'flex',
-            flexDirection: 'row-reverse',
-            backgroundColor: '#ebebeb',
-            border: 'none',
-            margin: '0px 5px',
-          }}
-          {...getTagProps({ index })}
-          sx={{
-            maxWidth: 100,
-            display: 'flex',
-            flexDirection: 'row-reverse',
-          }}
-        />
-      )),
-    [],
-  );
-
-  const onBlur = useCallback(
-    (textToInsert: string, values: any[], setValue: Function) => {
-      if (textToInsert && !values?.includes(textToInsert)) {
-        const newValuesArray = values
-          ? [...values, textToInsert]
-          : [textToInsert];
-        setValue(newValuesArray);
-      }
-    },
-    [],
-  );
-
   return (
     <Controller
       control={control}
