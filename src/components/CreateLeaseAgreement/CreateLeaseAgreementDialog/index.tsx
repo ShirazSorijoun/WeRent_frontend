@@ -78,8 +78,8 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const calcApartmentId = useMemo(
-    () => lease?.apartment._id ?? apartmentId!,
-    [apartmentId, lease?.apartment._id],
+    () => lease?.apartment?._id ?? apartmentId!,
+    [apartmentId, lease?.apartment?._id],
   );
   const calcTenantId = useMemo(
     () => lease?.tenantId ?? tenantId!,

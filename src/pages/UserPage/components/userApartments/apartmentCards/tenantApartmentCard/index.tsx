@@ -21,10 +21,11 @@ export const TenantApartmentCard: React.FC<IUserApartmentCardProps> = ({
   const fetchLeaseData = useCallback(async (): Promise<void> => {
     if (apartment._id && userId) {
       try {
-        const res = await api.leaseAgreement.getLeaseAgreement(
-          userId,
-          apartment._id,
-        );
+        const res =
+          await api.leaseAgreement.getLeaseAgreementByApartmentAndTenant(
+            userId,
+            apartment._id,
+          );
         setLeaseData(res);
       } catch (error) {
         console.error('Error fetching tenant data for lease form', error);

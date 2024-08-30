@@ -16,10 +16,11 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
   const fetchLeaseData = useCallback(async (): Promise<void> => {
     if (apartmentId && tenantId) {
       try {
-        const res = await api.leaseAgreement.getLeaseAgreement(
-          tenantId,
-          apartmentId,
-        );
+        const res =
+          await api.leaseAgreement.getLeaseAgreementByApartmentAndTenant(
+            tenantId,
+            apartmentId,
+          );
         setLeaseData(res);
       } catch (error) {
         console.error('Error fetching tenant data for lease form', error);
