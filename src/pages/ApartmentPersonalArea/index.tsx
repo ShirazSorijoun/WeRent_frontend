@@ -341,10 +341,8 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
         <Card.Header style={{ textAlign: 'right' }}>תכונות נוספות</Card.Header>
         <ListGroup className="list-group-flush" style={{ textAlign: 'right' }}>
           <ListGroupItem>
-            {rentalInformation?.animal.toString() ?? 'מידע לא זמין'} ?מותרות
-            חיות מחמד
+            {rentalInformation?.animal ? '✔' : '✖'} ?מותרות חיות מחמד
           </ListGroupItem>
-          <ListGroupItem>:בקשות תחזוקה</ListGroupItem>
         </ListGroup>
       </Card>
 
