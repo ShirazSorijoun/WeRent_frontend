@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 import { IApartment } from '@/models/apartment.model';
 import './RentPropertiesPage.css';
 import { api } from '@/api';
 import { SearchBar, ApartmentCard } from './components';
 import { ISearchObject } from './types';
+import { Container, Grid, Stack } from '@mui/material';
 
 export const RentPropertiesPage = () => {
   const [apartments, setApartments] = useState<IApartment[]>([]);
@@ -60,36 +59,33 @@ export const RentPropertiesPage = () => {
   };
 
   return (
-    <Container fluid className="rent-properties-container">
-      <Row style={{ margin: '20px 0px 30px 0px' }}>
-        <Col style={{ justifyContent: 'center' }}>
-          <SearchBar
-            searchObject={searchObject}
-            apartments={apartments}
-            onSearch={handleSearch}
-            onClear={handleClearSearch}
-          />
-        </Col>
-      </Row>
-
-      {filteredApartments.length ? (
-        <Row>
-          {filteredApartments.map((apartment) => (
-            <Col key={apartment._id}>
-              <ApartmentCard apartment={apartment} />
-            </Col>
-          ))}
-        </Row>
-      ) : (
-        <Row>
-          <Col>
-            <div className="no-apartments-message">
-              {' '}
-              לא נמצאו דירות התואמות את החיפוש
-            </div>
-          </Col>
-        </Row>
-      )}
+    <Container fixed maxWidth="xl">
+      <Stack spacing={4}>
+        <SearchBar
+          searchObject={searchObject}
+          apartments={apartments}
+          onSearch={handleSearch}
+          onClear={handleClearSearch}
+        />
+        <Grid container spacing={2} justifyContent="center">
+          {filteredApartments.length ? (
+            <>
+              {filteredApartments.map((apartment) => (
+                <Grid item key={apartment._id}>
+                  <ApartmentCard apartment={apartment} />
+                </Grid>
+              ))}
+            </>
+          ) : (
+            <Grid item>
+              <div className="no-apartments-message">
+                {' '}
+                לא נמצאו דירות התואמות את החיפוש
+              </div>
+            </Grid>
+          )}
+        </Grid>
+      </Stack>
     </Container>
   );
 };
