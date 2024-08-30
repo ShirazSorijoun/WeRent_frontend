@@ -1,1 +1,1 @@
-export { ApartmentDetailsHeader } from './apartmentDetailsHeader';
+export { ApartmentHeaderContainer } from './apartmentHeaderContainer';

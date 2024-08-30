@@ -5,26 +5,26 @@ import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { api } from '@/api';
 import {
-  ApartmentDetailsHeader,
+  ApartmentHeaderContainer,
   ApartmentDetailsBody,
   ApartmentMatches,
 } from './components';
-import { selectIsUserAdmin, selectUserId } from '@/stores/user';
+import { selectUserId } from '@/stores/user';
 import { useAppSelector } from '@/hooks';
-import { ApartmentMatchButton } from './components/header/apartmentMatchButton';
 
 export const ApartmentDetailsPage: React.FC = () => {
   const apartmentId: string = useParams().apartmentId ?? '';
   const [apartment, setApartment] = useState<IApartment>(defaultApartment);
   const [loading, setLoading] = useState(true);
   const [loadingError, setLoadingError] = useState(false);
-  const loggedUser = useAppSelector(selectUserId);
-  const isAdmin = useAppSelector(selectIsUserAdmin);
+  const loggedUserId = useAppSelector(selectUserId);
 
   const isCreatedByUser = useMemo(
-    () => apartment.owner === loggedUser,
-    [apartment.owner, loggedUser],
+    () => apartment.owner === loggedUserId,
+    [apartment.owner, loggedUserId],
   );
+
+  const isHasLease: boolean = !!apartment.leaseId;
 
   const fetchApartmentData = useCallback(async (): Promise<void> => {
     if (!apartmentId) return;
@@ -45,19 +45,19 @@ export const ApartmentDetailsPage: React.FC = () => {
   }, [apartmentId, fetchApartmentData]);
 
   if (loading) {
-    return <p className="text-center mt-5">Loading...</p>;
+    return <p className="text-center mt-5">טוען...</p>;
   }
 
   if (loadingError) {
     return (
       <p className="text-center mt-5 text-danger">
-        Error fetching apartment details
+        הייתה שגיאה בטעינת המידע על הדירה
       </p>
     );
   }
 
   if (!apartment) {
-    return <p className="text-center mt-5">Apartment not found</p>;
+    return <p className="text-center mt-5">הדירה אינה קיימת</p>;
   }
 
   return (
@@ -72,28 +72,21 @@ export const ApartmentDetailsPage: React.FC = () => {
           marginBottom: '100px',
         }}
       >
-        <Card.Header
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            height: '55px',
-          }}
-        >
-          {(isCreatedByUser || isAdmin) && (
-            <ApartmentDetailsHeader apartmentId={apartmentId} />
-          )}
-          {!isCreatedByUser && (
-            <ApartmentMatchButton apartmentId={apartmentId} />
-          )}
-        </Card.Header>
+        <ApartmentHeaderContainer
+          apartmentId={apartmentId}
+          isCreatedByUser={isCreatedByUser}
+          isHasLease={isHasLease}
+        />
+
         <ApartmentDetailsBody
           apartmentId={apartmentId}
           isCreatedByUser={isCreatedByUser}
           apartment={apartment}
         />
 
-        {isCreatedByUser && <ApartmentMatches apartmentId={apartmentId} />}
+        {isCreatedByUser && !isHasLease && (
+          <ApartmentMatches apartmentId={apartmentId} />
+        )}
       </Card>
     </div>
   );
