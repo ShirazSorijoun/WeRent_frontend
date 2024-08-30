@@ -3,7 +3,6 @@ export { LandingPage } from './LandingPage/LandingPage';
 export { RegistrationPage } from './Registration/Registration';
 export { RentPropertiesPage } from './RentPropertiesPage/RentPropertiesPage';
 export { UserPage } from './UserPage';
-export { DocumentsPage } from './Documents';
 export { LoginPage } from './loginScreen/loginPage';
 export { PostGoogleRegister } from './postGoogleRegister';
 export { AllUsersAdminPage } from './AdminPrivate';
