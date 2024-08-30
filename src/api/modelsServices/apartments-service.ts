@@ -8,6 +8,9 @@ const APARTMENT_API_KEY = '/apartment';
 export const getAllApartments = async (): Promise<IApartment[]> =>
   (await axiosInstance.get(APARTMENT_API_KEY)).data;
 
+export const getAllApartmentsWithoutLease = async (): Promise<IApartment[]> =>
+  (await axiosInstance.get(`${APARTMENT_API_KEY}/withoutLease`)).data;
+
 export const postApartment = async (
   apartmentData: IApartmentForCreate,
 ): Promise<IApartment> =>

@@ -1,3 +1,3 @@
-export { UserApartmentsContainer } from './userApartmentsContainer';
-export { UserRentingApartmentsContainer } from './userRentingApartmentsContainer';
-export { UserInterestedApartmentsContainer } from './userInterestedApartmentsContainer';
+export { UserApartmentsContainer } from './apartmentsContainers/userApartmentsContainer';
+export { UserRentingApartmentsContainer } from './apartmentsContainers/userRentingApartmentsContainer';
+export { UserInterestedApartmentsContainer } from './apartmentsContainers/userInterestedApartmentsContainer';

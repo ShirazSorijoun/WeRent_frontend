@@ -14,7 +14,6 @@ import {
   ApartmentPersonalAreaPage,
   PostGoogleRegister,
   AddApartment,
-  DocumentsPage,
 } from './pages';
 
 const App: React.FC = () => {
@@ -31,8 +30,6 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegistrationPage />} />
           <Route path="/profile" element={<UserPage />} />
-          <Route path="/documents" element={<DocumentsPage />} />
-
           <Route path="/addApartment" element={<AddApartment />} />
           <Route
             path="/editApartment/:apartmentId"

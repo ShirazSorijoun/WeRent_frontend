@@ -26,11 +26,15 @@ export const updateLeaseAgreement = async (
     })
   ).data;
 
-export const getLeaseAgreement = async (
+export const getLeaseAgreementByApartmentAndTenant = async (
   tenantId: string,
   apartmentId: string,
 ): Promise<ILeaseAgreement> =>
-  (await axiosInstance.get(`${API_KEY}/${tenantId}/${apartmentId}`)).data;
+  (
+    await axiosInstance.get(`${API_KEY}/byApartmentAndTenant`, {
+      params: { tenantId, apartmentId },
+    })
+  ).data;
 
 export const getLeaseAgreementByApartmentId = async (
   apartment: string,
@@ -39,7 +43,9 @@ export const getLeaseAgreementByApartmentId = async (
   console.log('Fetching lease agreement for apartmentId:', apartment);
 
   try {
-    const response = await axiosInstance.get(`${API_KEY}/${apartment}`);
+    const response = await axiosInstance.get(
+      `${API_KEY}/byApartment/${apartment}`,
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching lease agreement:', error);

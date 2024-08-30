@@ -1,3 +1,3 @@
 export { ApartmentDetailsBody } from './body';
-export { ApartmentDetailsHeader } from './header';
+export { ApartmentHeaderContainer } from './header';
 export { ApartmentMatches } from './apartmentMatches';

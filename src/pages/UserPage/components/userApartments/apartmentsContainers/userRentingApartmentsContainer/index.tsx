@@ -2,8 +2,8 @@ import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
 import { IMatchMap } from '@/models/match.model';
 import React, { useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap';
-import { TenantApartmentCard } from '../tenantApartmentCard';
+import { TenantApartmentCard } from '../../apartmentCards';
+import { BasicUserApartmentsContainer } from '../basicUserApartmentsContainer';
 
 interface IProps {
   matchesMap: IMatchMap;
@@ -43,50 +43,23 @@ export const UserRentingApartmentsContainer: React.FC<IProps> = ({
   }, [matchesMap, userId]);
 
   return (
-    <Card
-      style={{
-        width: '700px',
-        display: 'flex',
-        margin: 'auto',
-      }}
+    <BasicUserApartmentsContainer
+      title="הדירות שאני משכיר"
+      isLoading={isLoading}
     >
-      <Card.Header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <h5 style={{ fontWeight: 'bold' }}>הדירות שאני משכיר</h5>
-      </Card.Header>
-
-      <Card.Body style={{ overflowX: 'auto', display: 'flex' }}>
-        <div
-          className="card-body"
-          style={{
-            overflow: 'auto',
-            display: 'flex',
-            marginRight: '10px',
-          }}
-        >
-          {!isLoading ? (
-            apartments?.length > 0 ? (
-              <>
-                {apartments.map((apartment) => (
-                  <TenantApartmentCard
-                    apartment={apartment}
-                    key={apartment._id}
-                  />
-                ))}
-              </>
-            ) : (
-              <h3>No posts found</h3>
-            )
-          ) : (
-            <h3>Loading...</h3>
-          )}
-        </div>
-      </Card.Body>
-    </Card>
+      {apartments?.length > 0 ? (
+        <>
+          {apartments.map((apartment) => (
+            <TenantApartmentCard
+              apartment={apartment}
+              key={apartment._id}
+              userId={userId}
+            />
+          ))}
+        </>
+      ) : (
+        <h3>אינך שוכר דירה כרגע</h3>
+      )}
+    </BasicUserApartmentsContainer>
   );
 };
