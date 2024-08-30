@@ -1,6 +1,6 @@
 import { z, ZodSchema } from 'zod';
 
-interface IControlledSelectArrayItem<T> {
+export interface IControlledSelectArrayItem<T> {
   value: T;
   display: any;
 }
