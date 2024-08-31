@@ -1,7 +1,8 @@
 import { api } from '@/api';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
-import { Button } from '@mui/material';
+import { SignOrDisplayLease } from '@@/signOrDisplayLease';
+import { Button, Stack } from '@mui/material';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 interface IProps {
@@ -46,7 +47,7 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
   }, [fetchLeaseData]);
 
   return (
-    <>
+    <Stack direction="row" spacing={3} useFlexGap>
       <Button variant="contained" onClick={openLeaseDialog}>
         {leaseData ? 'ערוך' : 'צור'} חוזה
       </Button>
@@ -67,6 +68,10 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
             completeSave={completeSave}
           />
         ))}
-    </>
+
+      {leaseData && (
+        <SignOrDisplayLease lease={leaseData} refreshList={fetchLeaseData} />
+      )}
+    </Stack>
   );
 };

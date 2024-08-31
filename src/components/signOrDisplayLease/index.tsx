@@ -41,7 +41,7 @@ export const SignOrDisplayLease: React.FC<IProps> = ({
 
   return (
     <>
-      <Button variant="contained" color="primary" onClick={openLeaseDialog}>
+      <Button variant="contained" color="warning" onClick={openLeaseDialog}>
         {isNeedSignature ? 'לחתימה על החוזה' : 'לצפייה בחוזה'}
       </Button>
       {leaseDialogOpen && (
