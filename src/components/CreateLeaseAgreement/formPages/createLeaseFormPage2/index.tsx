@@ -200,7 +200,7 @@ export const CreateLeaseAgreementFormPage2: React.FC<IControlProps> = ({
 
     <p style={{ textAlign: 'right', paddingRight: '40px', position: 'relative', direction: 'rtl'}}>
       <span style={{ position: 'absolute', right: '0', top: '0'}}>7.2.</span>
-      7.2.	השוכר יודיע לבעל הדירה בכתב לא יאוחר מ-45 (ארבעים וחמישה) ימים לפני תום תקופת האופציה, אם מומשה, האם בכוונתו לקבל את הצעת בעל הדירה כאמור בסעיף 7.1 לעיל.
+      השוכר יודיע לבעל הדירה בכתב לא יאוחר מ-45 (ארבעים וחמישה) ימים לפני תום תקופת האופציה, אם מומשה, האם בכוונתו לקבל את הצעת בעל הדירה כאמור בסעיף 7.1 לעיל.
     </p>
 
     </>
