@@ -95,7 +95,7 @@ export const CreateLeaseAgreementFormPage1: React.FC<IProps> = ({
       <br/> "להלן "השוכר
     </p>
 
-    <p style={{ textAlign: 'left'}}>
+    <p style={{ textAlign: 'left', marginBottom: '60px'}}>
       מצד שני
     </p>
 
@@ -151,7 +151,7 @@ export const CreateLeaseAgreementFormPage1: React.FC<IProps> = ({
 </p>
 
 
-<p style={{ textAlign: 'right', paddingRight: '45px', position: 'relative', direction: 'rtl' ,  textIndent: '20px'}}>
+<p style={{ textAlign: 'right', paddingRight: '45px', position: 'relative', direction: 'rtl' ,  textIndent: '20px', marginBottom: '60px'}}>
   <span style={{ position: 'absolute', right: '0', top: '0' }}>2.2.1.</span>
   <span style={{ paddingLeft: '40px' }}>
   כי קרא והבין את הוראות חוזה זה וכי ראה ובדק את מצבה הפיזי של הדירה ומצא אותה במצבה כפי שהיא (As-Is) מתאימה למטרותיו ובמצב תקין וראוי לשימוש, בכפוף לפגמים המפורטים בפרוטוקול המצורף כנספח ב' לחוזה זה (להלן: "פרוטוקול מצב הדירה") והוא מוותר על כל טענה בקשר לכך.
@@ -163,7 +163,7 @@ export const CreateLeaseAgreementFormPage1: React.FC<IProps> = ({
       <strong>מטרת השכירות</strong>&nbsp;<strong>.3</strong>
    </p>
 
-   <p style={{ textAlign: 'right', paddingRight: '20px', direction: 'rtl' }}>
+   <p style={{ textAlign: 'right', paddingRight: '20px', direction: 'rtl' , marginBottom: '60px'}}>
   השוכר מתחייב כי בכל תקופת השכירות, השימוש אשר ייעשה בדירה (על כל חלקיה) יהיה למטרת מגורים בלבד.
 </p>
 
