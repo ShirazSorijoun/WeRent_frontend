@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
-import { selectUserId } from '@/stores/user';
-import { useAppSelector } from '@/hooks';
 import { DigitalSignatureButton } from '@@/digitalSignatureDialog';
 import { Button, Grid, Stack } from '@mui/material';
+import { api } from '@/api';
 
 interface IProps {
   handleCancel: () => void;
-  lease?: ILeaseAgreement;
+  lease: ILeaseAgreement;
 }
 
 export const LeaseAgreementAddSignature: React.FC<IProps> = ({
@@ -15,9 +14,18 @@ export const LeaseAgreementAddSignature: React.FC<IProps> = ({
   lease,
 }) => {
   const [signature, setSignature] = useState<string>('');
-  const userId = useAppSelector(selectUserId);
 
-  const handleSaveSignature = () => {
+  const handleSaveSignature = async () => {
+    const signatureBlob: Promise<Blob> = (await fetch(signature)).blob();
+
+    const signatureBlobValue = await signatureBlob;
+
+    const signatureAsFile = new File([signatureBlobValue], 'signature.png', {
+      type: 'image/png',
+    });
+
+    const signatureUrl = await api.file.uploadImage(signatureAsFile);
+    await api.leaseAgreement.addSignatureToLease(signatureUrl, lease._id);
     handleCancel();
   };
 

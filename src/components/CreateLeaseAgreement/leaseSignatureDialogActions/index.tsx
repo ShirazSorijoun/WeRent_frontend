@@ -17,18 +17,22 @@ export const LeaseSignatureDialogActions: React.FC<IProps> = ({
 }) => {
   const userId = useAppSelector(selectUserId);
 
-  const isNeedSignature = useMemo(
+  const isNeedSignature: boolean = useMemo(
     () =>
-      userId === lease?.tenantId
-        ? !lease?.tenantSignature
-        : !lease?.ownerSignature,
+      !!lease &&
+      (userId === lease.tenantId
+        ? !lease.tenantSignature
+        : !lease.ownerSignature),
     [lease, userId],
   );
 
   return (
     <>
       {isNeedSignature ? (
-        <LeaseAgreementAddSignature handleCancel={handleCancel} lease={lease} />
+        <LeaseAgreementAddSignature
+          handleCancel={handleCancel}
+          lease={lease!}
+        />
       ) : (
         <Button variant="contained" color="inherit" onClick={handleCancel}>
           סגור חוזה

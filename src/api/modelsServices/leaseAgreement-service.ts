@@ -60,3 +60,14 @@ export const getLeaseAgreementById = async (
   leaseId: string,
 ): Promise<ILeaseAgreement> =>
   (await axiosInstance.get(`${API_KEY}/id/${leaseId}`)).data;
+
+export const addSignatureToLease = async (
+  signatureUrl: string,
+  leaseId: string,
+): Promise<ILeaseAgreement> =>
+  (
+    await axiosInstance.post(`${API_KEY}/addSignature`, {
+      signatureUrl,
+      leaseId,
+    })
+  ).data;
