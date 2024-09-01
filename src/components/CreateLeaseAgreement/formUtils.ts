@@ -59,7 +59,7 @@ export const leaseAgreementFormDataObject: Record<
   },
   [ELeaseAgreementFields.PAYMENT_METHOD]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.PAYMENT_METHOD}`,
-    label: 'Payment Method',
+    label: 'חלופת תשלום',
   },
   [ELeaseAgreementFields.NAME_OF_BANK]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.NAME_OF_BANK}`,
