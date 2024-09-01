@@ -55,7 +55,7 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
     async (formData: InitialTenantQuestionnaireFormData) => {
       setSubmitting(true);
       try {
-        await postTenantForm(formData , apartmentId!); // Call your API function to save form data
+        await postTenantForm(formData, apartmentId!); // Call your API function to save form data
         console.log('Form data saved:', formData);
         completeSave(formData); // Notify parent component about successful save
       } catch (err) {
@@ -65,7 +65,7 @@ export const TenantFormDialog: React.FC<ITenantFormDialogProps> = ({
         setSubmitting(false);
       }
     },
-    [completeSave],
+    [apartmentId, completeSave],
   );
 
   return (

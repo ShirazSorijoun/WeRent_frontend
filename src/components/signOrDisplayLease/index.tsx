@@ -8,7 +8,7 @@ import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
 
 interface IProps {
   lease: ILeaseAgreement;
-  refreshList: () => void;
+  refreshList?: () => void;
 }
 
 export const SignOrDisplayLease: React.FC<IProps> = ({
@@ -28,7 +28,7 @@ export const SignOrDisplayLease: React.FC<IProps> = ({
 
   const completeSave = useCallback(async () => {
     setLeaseDialogOpen(false);
-    await refreshList();
+    if (refreshList) await refreshList();
   }, [refreshList]);
 
   const isNeedSignature = useMemo(
