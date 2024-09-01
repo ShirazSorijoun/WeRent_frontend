@@ -16,7 +16,7 @@ export const postTenantForm = async (
 export const getTenantFormByOwnerId = async (
   ownerId: string,
   apartmentId: string,
-): Promise<TenantFormProps | string> => {
+): Promise<TenantFormProps> => {
   console.log('apartment', apartmentId);
   const response = await axiosInstance.get(
     `${TENANT_FORM_API_KEY}/initial/${ownerId}`,
@@ -42,7 +42,7 @@ export const postTenantFormQuarterly = async (
 export const getTenantFormQuarterlyByOwnerId = async (
   ownerId: string,
   apartmentId: string,
-): Promise<TenantFormProps | string> => {
+): Promise<QuarterlyTenantFormProps> => {
   console.log('ownerId', ownerId);
   const response = await axiosInstance.get(
     `${TENANT_FORM_API_KEY}/quarterly/${ownerId}`,
