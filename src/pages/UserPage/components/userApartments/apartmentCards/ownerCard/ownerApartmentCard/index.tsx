@@ -9,20 +9,25 @@ import { SendToApartmentPersonalArea } from '@@/sendToApartmentPersonalArea';
 interface IUserApartmentCardProps {
   apartment: IApartment;
   matchesList: IMatch[];
+  refreshData?: () => void;
 }
 
 export const OwnerApartmentCard: React.FC<IUserApartmentCardProps> = ({
   apartment,
   matchesList,
+  refreshData,
 }) => {
   const cardActions = useMemo(
     () =>
       apartment.leaseId ? (
         <SendToApartmentPersonalArea apartmentId={apartment._id} />
       ) : (
-        <OwnerApartmentMatches matchesList={matchesList} />
+        <OwnerApartmentMatches
+          matchesList={matchesList}
+          refreshData={refreshData}
+        />
       ),
-    [apartment._id, apartment.leaseId, matchesList],
+    [apartment, matchesList, refreshData],
   );
 
   return (

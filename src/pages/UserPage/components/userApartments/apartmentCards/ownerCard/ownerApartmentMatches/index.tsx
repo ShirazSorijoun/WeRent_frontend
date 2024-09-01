@@ -12,9 +12,11 @@ import { toast } from 'react-toastify';
 import { ApartmentMatchItem } from '@@/apartmentMatchItem';
 interface IApartmentDataProps {
   matchesList: IMatch[];
+  refreshData?: () => void;
 }
 export const OwnerApartmentMatches: React.FC<IApartmentDataProps> = ({
   matchesList,
+  refreshData,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -51,7 +53,7 @@ export const OwnerApartmentMatches: React.FC<IApartmentDataProps> = ({
               <ApartmentMatchItem
                 key={match._id}
                 match={match}
-                fetchMatchingList={() => {}}
+                refreshData={refreshData}
               />
             ))}
           </Stack>
