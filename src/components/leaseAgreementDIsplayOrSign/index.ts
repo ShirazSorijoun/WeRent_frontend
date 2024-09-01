@@ -1,1 +1,1 @@
-export { LeaseAgreementDIsplayOrSignDialog } from './leaseAgreementDIsplayOrSignDialog';
+export { SignOrDisplayLease } from './signOrDisplayLease';

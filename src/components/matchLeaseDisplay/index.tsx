@@ -1,7 +1,7 @@
 import { api } from '@/api';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
-import { SignOrDisplayLease } from '@@/signOrDisplayLease';
+import { SignOrDisplayLease } from '@@/leaseAgreementDIsplayOrSign';
 import { Button, Stack } from '@mui/material';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 

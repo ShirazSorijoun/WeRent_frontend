@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { useAppSelector } from '@/hooks';
 import { selectUserId } from '@/stores/user';
-import { LeaseAgreementDIsplayOrSignDialog } from '@@/leaseAgreementDIsplayOrSign';
+import { LeaseAgreementDIsplayOrSignDialog } from '../leaseAgreementDIsplayOrSignDialog';
 
 interface IProps {
   lease: ILeaseAgreement;
