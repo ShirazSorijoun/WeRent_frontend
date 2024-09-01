@@ -3,7 +3,7 @@ import { IApartment } from '@/models/apartment.model';
 import { Typography } from '@mui/material';
 import { api } from '@/api';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
-import { SignOrDisplayLease } from '@@/signOrDisplayLease';
+import { SignOrDisplayLease } from '@@/leaseAgreementDIsplayOrSign/signOrDisplayLease';
 import { SendToApartmentPersonalArea } from '@@/sendToApartmentPersonalArea';
 import { BasicUserApartmentCard } from '../basicUserApartmentCard';
 

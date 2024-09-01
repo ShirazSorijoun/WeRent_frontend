@@ -17,11 +17,11 @@ import { IMatch } from '@/models/match.model';
 
 interface IProps {
   match: IMatch;
-  fetchMatchingList: () => void;
+  refreshData?: () => void;
 }
 export const ApartmentMatchItem: React.FC<IProps> = ({
   match,
-  fetchMatchingList,
+  refreshData,
 }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
@@ -30,11 +30,11 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
       setSubmitting(true);
 
       await api.match.acceptMatch(match._id, status);
-      await fetchMatchingList();
+      if (refreshData) await refreshData();
 
       setSubmitting(false);
     },
-    [fetchMatchingList, match._id],
+    [refreshData, match._id],
   );
 
   const userImage = useGetImageUrlFromName(match.user.profile_image);
@@ -51,6 +51,7 @@ export const ApartmentMatchItem: React.FC<IProps> = ({
           <MatchLeaseDisplay
             tenantId={match.user._id!}
             apartmentId={match.apartment._id}
+            refreshData={refreshData}
           />
         );
       case false:

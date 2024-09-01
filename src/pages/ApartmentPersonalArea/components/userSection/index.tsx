@@ -1,5 +1,6 @@
 import { api } from '@/api';
-import React, { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 interface IProps {
@@ -21,25 +22,43 @@ export const UserSection: React.FC<IProps> = ({ userId, isOwner = false }) => {
     fetchOwnerData();
   }, [userId]);
 
-  const ownerName: string =
-    !ownerInformation?.firstName || ownerInformation?.lastName
-      ? 'מידע לא זמין'
-      : `${ownerInformation.firstName} ${ownerInformation.lastName}`;
+  const ownerName: string = useMemo(() => {
+    if (!ownerInformation?.firstName || !ownerInformation?.lastName)
+      return 'מידע לא זמין';
+    else return `${ownerInformation.firstName} ${ownerInformation.lastName}`;
+  }, [ownerInformation]);
 
-  const ownerAddress: string =
-    !ownerInformation?.streetAddress || ownerInformation?.cityAddress
-      ? 'מידע לא זמין'
-      : `${ownerInformation.cityAddress} ${ownerInformation.streetAddress}`;
+  const ownerAddress: string = useMemo(() => {
+    if (!ownerInformation?.cityAddress || !ownerInformation?.streetAddress)
+      return 'מידע לא זמין';
+    else
+      return `${ownerInformation.cityAddress} ${ownerInformation.streetAddress}`;
+  }, [ownerInformation]);
 
   return (
-    <Card className="mb-4" style={{ textAlign: 'right' }}>
+    <Card className="mb-4" style={{ textAlign: 'right', direction: 'rtl' }}>
       <Card.Header>מידע על {isOwner ? 'הבעלים' : 'השוכר'}</Card.Header>
       <ListGroup className="list-group-flush" style={{ textAlign: 'right' }}>
-        <ListGroupItem>שם: {ownerName}</ListGroupItem>
         <ListGroupItem>
-          תעודת זהות: {ownerInformation?.personalId ?? 'מידע לא זמין'}
+          <Box display="flex">
+            <Typography sx={{ marginLeft: '5px' }}> שם:</Typography>
+            <Typography> {ownerName}</Typography>
+          </Box>
         </ListGroupItem>
-        <ListGroupItem>כתובת: {ownerAddress}</ListGroupItem>
+        <ListGroupItem>
+          <Box display="flex">
+            <Typography sx={{ marginLeft: '5px' }}> תעודת זהות: </Typography>
+            <Typography>
+              {ownerInformation?.personalId ?? 'מידע לא זמין'}
+            </Typography>
+          </Box>
+        </ListGroupItem>
+        <ListGroupItem>
+          <Box display="flex">
+            <Typography sx={{ marginLeft: '5px' }}> כתובת: </Typography>
+            <Typography>{ownerAddress}</Typography>
+          </Box>
+        </ListGroupItem>
       </ListGroup>
     </Card>
   );

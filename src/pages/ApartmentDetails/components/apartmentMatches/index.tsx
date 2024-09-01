@@ -70,7 +70,7 @@ export const ApartmentMatches: React.FC<IApartmentDataProps> = ({
                 <ApartmentMatchItem
                   key={match._id}
                   match={match}
-                  fetchMatchingList={fetchMatchingList}
+                  refreshData={fetchMatchingList}
                 />
               ))}
             </Stack>

@@ -24,13 +24,11 @@ import { useLeaseAgreementForm } from './hooks/useCreateLeaseAgreementDialog';
 import { LeaseAgreementFormBody } from '../CreateLeaseAgreementFormBody';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { FormButtons } from '../../formButtons';
-import { LeaseSignatureDialogActions } from '../leaseSignatureDialogActions';
 
 interface IBasicProps {
   isOpen: boolean;
   handleCancel: () => void;
   completeSave: () => void;
-  isForSignature?: boolean;
 }
 
 interface ICreateProps extends IBasicProps {
@@ -59,14 +57,12 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
   apartmentId,
   tenantId,
   lease,
-  isForSignature = false,
 }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({
-    disabled: isForSignature,
     resolver: zodResolver(schema),
     defaultValues: buildLeaseDataForForm(lease),
     reValidateMode: 'onChange',
@@ -125,18 +121,11 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
         </FormStepper>
       </DialogContent>
       <DialogActions>
-        {isForSignature ? (
-          <LeaseSignatureDialogActions
-            handleCancel={handleCancel}
-            lease={lease}
-          />
-        ) : (
-          <FormButtons
-            handleCancel={handleCancel}
-            handleSave={handleSubmit(onSubmit, handleWrongFormData)}
-            isLoading={isButtonLoading}
-          />
-        )}
+        <FormButtons
+          handleCancel={handleCancel}
+          handleSave={handleSubmit(onSubmit, handleWrongFormData)}
+          isLoading={isButtonLoading}
+        />
       </DialogActions>
     </Dialog>
   );

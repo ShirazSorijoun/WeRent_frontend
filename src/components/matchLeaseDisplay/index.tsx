@@ -1,16 +1,21 @@
 import { api } from '@/api';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
-import { SignOrDisplayLease } from '@@/signOrDisplayLease';
+import { SignOrDisplayLease } from '@@/leaseAgreementDIsplayOrSign';
 import { Button, Stack } from '@mui/material';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 interface IProps {
   tenantId: string;
   apartmentId: string;
+  refreshData?: () => void;
 }
 
-export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
+export const MatchLeaseDisplay: FC<IProps> = ({
+  apartmentId,
+  tenantId,
+  refreshData,
+}) => {
   const [leaseDialogOpen, setLeaseDialogOpen] = useState<boolean>(false);
   const [leaseData, setLeaseData] = useState<ILeaseAgreement>();
 
@@ -33,6 +38,12 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
     fetchLeaseData();
   }, [fetchLeaseData]);
 
+  const refreshAllData = useCallback(async () => {
+    await fetchLeaseData();
+
+    if (refreshData) await refreshData();
+  }, [fetchLeaseData, refreshData]);
+
   const openLeaseDialog = (): void => {
     setLeaseDialogOpen(true);
   };
@@ -43,8 +54,8 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
 
   const completeSave = useCallback(async () => {
     setLeaseDialogOpen(false);
-    await fetchLeaseData();
-  }, [fetchLeaseData]);
+    await refreshAllData();
+  }, [refreshAllData]);
 
   return (
     <Stack direction="row" spacing={3} useFlexGap>
@@ -70,7 +81,7 @@ export const MatchLeaseDisplay: FC<IProps> = ({ apartmentId, tenantId }) => {
         ))}
 
       {leaseData && (
-        <SignOrDisplayLease lease={leaseData} refreshList={fetchLeaseData} />
+        <SignOrDisplayLease lease={leaseData} refreshList={refreshAllData} />
       )}
     </Stack>
   );

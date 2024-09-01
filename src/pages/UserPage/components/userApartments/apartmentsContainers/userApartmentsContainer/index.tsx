@@ -13,19 +13,19 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
   const [userApartments, setUserApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const startEffect = async () => {
-      try {
-        const userApartmentsData = await api.user.getUserApartments();
-        setUserApartments(userApartmentsData);
-      } catch (error) {
-        console.error('Error fetching user apartments:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const getUserApartment = async () => {
+    try {
+      const userApartmentsData = await api.user.getUserApartments();
+      setUserApartments(userApartmentsData);
+    } catch (error) {
+      console.error('Error fetching user apartments:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    startEffect();
+  useEffect(() => {
+    getUserApartment();
   }, []);
 
   return (
@@ -36,6 +36,7 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
             <OwnerApartmentCard
               matchesList={matchesMap[apartment._id] ?? []}
               apartment={apartment}
+              refreshData={getUserApartment}
               key={apartment._id}
             />
           ))}
