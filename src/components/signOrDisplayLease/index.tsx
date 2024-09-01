@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { useAppSelector } from '@/hooks';
 import { selectUserId } from '@/stores/user';
-import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
+import { LeaseAgreementDIsplayOrSignDialog } from '@@/leaseAgreementDIsplayOrSign';
 
 interface IProps {
   lease: ILeaseAgreement;
@@ -45,10 +45,9 @@ export const SignOrDisplayLease: React.FC<IProps> = ({
         {isNeedSignature ? 'לחתימה על החוזה' : 'לצפייה בחוזה'}
       </Button>
       {leaseDialogOpen && (
-        <LeaseAgreementFormDialog
+        <LeaseAgreementDIsplayOrSignDialog
           isOpen={leaseDialogOpen}
           lease={lease}
-          isForSignature
           handleCancel={closeLeaseDialog}
           completeSave={completeSave}
         />
