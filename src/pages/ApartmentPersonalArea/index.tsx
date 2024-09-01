@@ -8,7 +8,7 @@ import {
   ListGroupItem,
   Container,
 } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import {
   ApartmentSection,
@@ -21,13 +21,14 @@ import { useAppSelector } from '@/hooks';
 import { selectUserId } from '@/stores/user';
 import { api } from '@/api';
 import { IApartment } from '@/models/apartment.model';
-import { Stack } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 
 export const ApartmentPersonalAreaPage: React.FC = () => {
   const { apartmentId } = useParams<{ apartmentId: string }>();
   const [leaseData, setLeaseData] = useState<ILeaseAgreement>();
   const [apartmentDetails, setApartmentDetails] = useState<IApartment>();
   const userId = useAppSelector(selectUserId);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,8 +55,25 @@ export const ApartmentPersonalAreaPage: React.FC = () => {
     [leaseData, userId],
   );
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Container className="apartment-personal-area">
+      <Box sx={{ right: '60px', marginTop: '17px', position: 'absolute' }}>
+        <Button
+          sx={{
+            padding: '5px 30px',
+            fontSize: '18px',
+          }}
+          variant="contained"
+          color="inherit"
+          onClick={goBack}
+        >
+          <Typography>חזור לעמוד הקודם</Typography>
+        </Button>
+      </Box>
       <div className="text-center mb-4">
         <h1>אזור אישי דירה</h1>
       </div>
