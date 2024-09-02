@@ -26,6 +26,19 @@ export const CreateLeaseAgreementFormPage2: React.FC<IControlProps> = ({
       .fieldName,
   });
 
+  const paymentMethod = useWatch({
+    control,
+    name: leaseAgreementFormDataObject[ELeaseAgreementFields.PAYMENT_METHOD]
+      .fieldName,
+  });
+
+  const isOptionPeriod = useWatch({
+    control,
+    name: leaseAgreementFormDataObject[ELeaseAgreementFields.OPTION_PERIOD]
+      .fieldName,
+  });
+
+  const isCheck = paymentMethod === 'Checks';
   const monthDifference = useMemo(
     () =>
       endDate && startDate
@@ -77,7 +90,10 @@ export const CreateLeaseAgreementFormPage2: React.FC<IControlProps> = ({
         }
       />
 
-      <Stack direction="row" sx={{ marginBottom: '30px' }}>
+      <Stack
+        direction="row"
+        sx={{ marginBottom: '30px', display: isCheck ? 'none' : 'inherit' }}
+      >
         <Typography>***</Typography>
         <Box sx={{ paddingRight: '10px' }}>
           דמי השכירות ישולמו בהעברה בנקאית שתבוצע לחשבון בנק
@@ -120,7 +136,10 @@ export const CreateLeaseAgreementFormPage2: React.FC<IControlProps> = ({
         </Box>
       </Stack>
 
-      <Stack direction="row" sx={{ marginBottom: '30px' }}>
+      <Stack
+        direction="row"
+        sx={{ marginBottom: '30px', display: isCheck ? 'inherit' : 'none' }}
+      >
         <Typography>***</Typography>
         <Typography sx={{ paddingRight: '10px' }}>
           השוכר יפקיד בידי בעל הדירה במעמד מסירת החזקה במושכר בהתאם להוראות הסכם
@@ -139,105 +158,116 @@ export const CreateLeaseAgreementFormPage2: React.FC<IControlProps> = ({
         }
       />
 
-      <Typography fontWeight="bold">6. תקופת האופציה</Typography>
+      <Box sx={{ display: isOptionPeriod ? 'inherit' : 'none' }}>
+        <Typography fontWeight="bold">6. תקופת האופציה</Typography>
+        <p
+          style={{
+            textAlign: 'right',
+            paddingRight: '40px',
+            position: 'relative',
+            direction: 'rtl',
+          }}
+        >
+          <span style={{ position: 'absolute', right: '0', top: '0' }}>
+            6.1.
+          </span>
+          ניתנת בזאת לשוכר זכות ברירה (אופציה) להאריך את תקופת השכירות לתקופה
+          נוספת אחת בלבד
+          <BasicFieldController
+            control={control}
+            type={EBasicFieldType.int}
+            fieldData={
+              leaseAgreementFormDataObject[
+                ELeaseAgreementFields.OPTION_PERIOD_LENGTH
+              ]
+            }
+            sxStyle={{ width: '200px', height: '50px' }}
+          />
+          חודשים שתחל מיד עם תום תקופת השכירות (לעיל ולהלן: "תקופת האופציה").
+        </p>
 
-      <p
-        style={{
-          textAlign: 'right',
-          paddingRight: '40px',
-          position: 'relative',
-          direction: 'rtl',
-        }}
-      >
-        <span style={{ position: 'absolute', right: '0', top: '0' }}>6.1.</span>
-        ניתנת בזאת לשוכר זכות ברירה (אופציה) להאריך את תקופת השכירות לתקופה
-        נוספת אחת בלבד
-        <BasicFieldController
-          control={control}
-          type={EBasicFieldType.int}
-          fieldData={
-            leaseAgreementFormDataObject[
-              ELeaseAgreementFields.OPTION_PERIOD_LENGTH
-            ]
-          }
-          sxStyle={{ width: '200px', height: '50px' }}
-        />
-        חודשים שתחל מיד עם תום תקופת השכירות (לעיל ולהלן: "תקופת האופציה").
-      </p>
+        <p
+          style={{
+            textAlign: 'right',
+            paddingRight: '40px',
+            position: 'relative',
+            direction: 'rtl',
+          }}
+        >
+          <span style={{ position: 'absolute', right: '0', top: '0' }}>
+            6.4.
+          </span>
+          מימש השוכר את תקופת האופציה, יחולו כל הוראות חוזה זה כלשונן ובהתאמות
+          המתחייבות גם בתקופת האופציה ובכל מקום בו נכתב תקופת השכירות בחוזה זה,
+          הכוונה תהיה גם לתקופת האופציה. מובהר בזאת שבכל מקרה תקופת השכירות לפי
+          חוזה זה, לרבות תקופת האופציה, לא תעלה על
+          <BasicFieldController
+            control={control}
+            type={EBasicFieldType.int}
+            fieldData={
+              leaseAgreementFormDataObject[
+                ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE
+              ]
+            }
+            sxStyle={{ width: '200px', height: '50px' }}
+          />
+          חודשים.
+        </p>
 
-      <p
-        style={{
-          textAlign: 'right',
-          paddingRight: '40px',
-          position: 'relative',
-          direction: 'rtl',
-        }}
-      >
-        <span style={{ position: 'absolute', right: '0', top: '0' }}>6.4.</span>
-        מימש השוכר את תקופת האופציה, יחולו כל הוראות חוזה זה כלשונן ובהתאמות
-        המתחייבות גם בתקופת האופציה ובכל מקום בו נכתב תקופת השכירות בחוזה זה,
-        הכוונה תהיה גם לתקופת האופציה. מובהר בזאת שבכל מקרה תקופת השכירות לפי
-        חוזה זה, לרבות תקופת האופציה, לא תעלה על
-        <BasicFieldController
-          control={control}
-          type={EBasicFieldType.int}
-          fieldData={
-            leaseAgreementFormDataObject[
-              ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE
-            ]
-          }
-          sxStyle={{ width: '200px', height: '50px' }}
-        />
-        חודשים.
-      </p>
+        <p
+          style={{
+            textAlign: 'right',
+            paddingRight: '40px',
+            position: 'relative',
+            direction: 'rtl',
+            marginBottom: '60px',
+          }}
+        >
+          <span style={{ position: 'absolute', right: '0', top: '0' }}>
+            6.5.
+          </span>
+          מוסכם על הצדדים כי במידה שהשוכר לא מסר הודעה על מימוש תקופת האופציה
+          במועד כאמור בסעיף 6.3.1, תסתיים תקופת השכירות במועד שנקבע בסעיף 4.1
+          ויחולו כל הוראות החוזה לגבי סיום חוזה זה, לרבות פינוי הדירה והחזרת
+          החזקה לידי בעל הדירה.
+        </p>
 
-      <p
-        style={{
-          textAlign: 'right',
-          paddingRight: '40px',
-          position: 'relative',
-          direction: 'rtl',
-          marginBottom: '60px',
-        }}
-      >
-        <span style={{ position: 'absolute', right: '0', top: '0' }}>6.5.</span>
-        מוסכם על הצדדים כי במידה שהשוכר לא מסר הודעה על מימוש תקופת האופציה
-        במועד כאמור בסעיף 6.3.1, תסתיים תקופת השכירות במועד שנקבע בסעיף 4.1
-        ויחולו כל הוראות החוזה לגבי סיום חוזה זה, לרבות פינוי הדירה והחזרת החזקה
-        לידי בעל הדירה.
-      </p>
+        <Typography fontWeight="bold">
+          7. יידוע לקראת סוף תקופת האופציה
+        </Typography>
 
-      <Typography fontWeight="bold">
-        7. יידוע לקראת סוף תקופת האופציה
-      </Typography>
+        <p
+          style={{
+            textAlign: 'right',
+            paddingRight: '40px',
+            position: 'relative',
+            direction: 'rtl',
+          }}
+        >
+          <span style={{ position: 'absolute', right: '0', top: '0' }}>
+            7.1.
+          </span>
+          בעל הדירה יודיע לשוכר בכתב 60 (שישים) ימים לפני תום תקופת האופציה, אם
+          מומשה, האם בכוונתו להציע לשוכר את הדירה לתקופת שכירות נוספת ובאיזה
+          תנאים.
+        </p>
 
-      <p
-        style={{
-          textAlign: 'right',
-          paddingRight: '40px',
-          position: 'relative',
-          direction: 'rtl',
-        }}
-      >
-        <span style={{ position: 'absolute', right: '0', top: '0' }}>7.1.</span>
-        בעל הדירה יודיע לשוכר בכתב 60 (שישים) ימים לפני תום תקופת האופציה, אם
-        מומשה, האם בכוונתו להציע לשוכר את הדירה לתקופת שכירות נוספת ובאיזה
-        תנאים.
-      </p>
-
-      <p
-        style={{
-          textAlign: 'right',
-          paddingRight: '40px',
-          position: 'relative',
-          direction: 'rtl',
-        }}
-      >
-        <span style={{ position: 'absolute', right: '0', top: '0' }}>7.2.</span>
-        השוכר יודיע לבעל הדירה בכתב לא יאוחר מ-45 (ארבעים וחמישה) ימים לפני תום
-        תקופת האופציה, אם מומשה, האם בכוונתו לקבל את הצעת בעל הדירה כאמור בסעיף
-        7.1 לעיל.
-      </p>
+        <p
+          style={{
+            textAlign: 'right',
+            paddingRight: '40px',
+            position: 'relative',
+            direction: 'rtl',
+          }}
+        >
+          <span style={{ position: 'absolute', right: '0', top: '0' }}>
+            7.2.
+          </span>
+          השוכר יודיע לבעל הדירה בכתב לא יאוחר מ-45 (ארבעים וחמישה) ימים לפני
+          תום תקופת האופציה, אם מומשה, האם בכוונתו לקבל את הצעת בעל הדירה כאמור
+          בסעיף 7.1 לעיל.
+        </p>
+      </Box>
     </Box>
   );
 };

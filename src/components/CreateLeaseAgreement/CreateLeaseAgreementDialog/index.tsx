@@ -104,7 +104,9 @@ export const LeaseAgreementFormDialog: React.FC<MyComponentProps> = ({
 
   return (
     <Dialog open={true} onClose={handleCloseDialog} fullWidth>
-      <DialogTitle>חוזה שכירות בלתי מוגנת</DialogTitle>
+      <DialogTitle sx={{ direction: 'rtl' }}>
+        חוזה שכירות בלתי מוגנת
+      </DialogTitle>
       <DialogContent>
         <FormStepper
           activeStep={activeStep}

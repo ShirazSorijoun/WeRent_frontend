@@ -193,6 +193,12 @@ export const ApartmentDetailsBody: React.FC<IApartmentDataProps> = ({
                   {apartmentFurnitureObject[apartment.furniture]}
                 </Typography>
               </Stack>
+              {apartment.description && (
+                <Stack direction="row" spacing={1} useFlexGap>
+                  <Typography sx={{ fontWeight: 600 }}>תיאור: </Typography>
+                  <Typography>{apartment.description}</Typography>
+                </Stack>
+              )}
             </Grid>
             <Grid item>
               <Card>
