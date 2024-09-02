@@ -200,7 +200,7 @@ export const CreateLeaseAgreementFormPage1: React.FC<IProps> = ({
           paddingRight: '30px',
         }}
       >
-        4.1. מוסכם על הצדדים כי תקופת השכירות בדירה תהיה בת {monthDifference},
+        1.4. מוסכם על הצדדים כי תקופת השכירות בדירה תהיה בת {monthDifference},
       </Typography>
       <BasicFieldController
         control={control}
