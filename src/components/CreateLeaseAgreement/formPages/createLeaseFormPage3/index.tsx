@@ -6,10 +6,17 @@ import {
   leaseAgreementFormDataObject,
 } from '@@/CreateLeaseAgreement/formUtils';
 import { IControlProps } from '@/models/form';
+import { useWatch } from 'react-hook-form';
 
 export const CreateLeaseAgreementFormPage3: React.FC<IControlProps> = ({
   control,
 }) => {
+  const isSubTenant = useWatch({
+    control,
+    name: leaseAgreementFormDataObject[ELeaseAgreementFields.SUBTENANT]
+      .fieldName,
+  });
+
   return (
     <>
       <p
@@ -342,6 +349,7 @@ export const CreateLeaseAgreementFormPage3: React.FC<IControlProps> = ({
           paddingRight: '40px',
           position: 'relative',
           direction: 'rtl',
+          display: isSubTenant ? 'inherit' : 'none',
         }}
       >
         <span style={{ position: 'absolute', right: '0', top: '0' }}>
