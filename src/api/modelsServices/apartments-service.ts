@@ -53,7 +53,7 @@ export const checkTamaCloseToApartment = async (
     )
   ).data;
 
-  return !!res.length || true;
+  return !!res.length;
 };
 
 export const getAddressCoordinates = async (
