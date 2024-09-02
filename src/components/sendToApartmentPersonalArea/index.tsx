@@ -18,7 +18,7 @@ export const SendToApartmentPersonalArea: React.FC<IProps> = ({
   return (
     <Button
       variant="contained"
-      color="primary"
+      color="secondary"
       onClick={goToPersonalArea}
       style={{ marginLeft: '20px' }}
     >

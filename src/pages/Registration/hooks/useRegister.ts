@@ -74,9 +74,6 @@ export const useRegister = (
         typeof imageToUpload === 'string' ? imageToUpload : undefined;
 
       if (imageToUpload && !imageUrl) {
-        const formData = new FormData();
-        formData.append('file', imageToUpload);
-
         imageUrl = await api.file.uploadImage(imageToUpload as File);
       }
 

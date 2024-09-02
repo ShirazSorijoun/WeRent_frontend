@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { IControlledSelectArray, IFormField } from '@/models/forms';
 import { zodOfStringSelectValues } from '@/models/forms/controlledSelectArray';
-import { ILeaseAgreementForm } from '@/models/leaseAgreement';
+import { ILeaseAgreement } from '@/models/leaseAgreement';
 
 export enum ELeaseAgreementFields {
   DATE = 'date',
@@ -203,7 +203,7 @@ export const leaseAgreementDefaultValues = {
   [FIFTH_STEP_NAME]: { [ELeaseAgreementFields.ANIMAL]: false },
 };
 
-export const buildLeaseDataForForm = (lease?: ILeaseAgreementForm) =>
+export const buildLeaseDataForForm = (lease?: ILeaseAgreement) =>
   !lease
     ? leaseAgreementDefaultValues
     : {

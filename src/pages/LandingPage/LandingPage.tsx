@@ -34,34 +34,33 @@ export const LandingPage: React.FC = () => {
           loading="lazy"
           src={landingPageImg}
           className="header-img"
-          alt="Home listing image"
+          alt="תמונת נכס"
         />
         <img
           loading="lazy"
           src={unsplash}
           className="header-img"
-          alt="Unsplash Home listing image"
+          alt="תמונת נכס מאתר Unsplash"
         />
-        <div className="header-title">Beautiful homes made for you</div>
+        <div className="header-title">בתים יפים בשבילך</div>
         <div className="header-description">
-          The WeRent website, which is updated daily, provides a variety of real
-          estate ads from all over the country and of all types. The site also
-          offers you fast legal services. Enter now all the information about
-          the comparable properties!
+          האתר WeRent, שמתעדכן על בסיס יומי, מספק מגוון רחב של מודעות נדל"ן מכל
+          רחבי הארץ ולכל סוגי הנכסים. האתר מציע גם שירותים משפטיים מהירים.
+          היכנסו עכשיו וקבלו את כל המידע על הנכסים המשווים!
         </div>
       </header>
 
       <div className="listings-container">
         <span className="link1">
           <Link to="/googlemap" className="button">
-            Look where there is a National Outline Plan
+            בדוק איפה יש תוכנית תמ"א ארצית
           </Link>
           <div className="img-container">
             <img
               loading="lazy"
               src={tellow}
               className="img-3"
-              alt="Listing image"
+              alt="תמונת נכס"
             />
           </div>
         </span>
@@ -70,7 +69,7 @@ export const LandingPage: React.FC = () => {
       <div className="Secondary-container">
         <div className="image-wrapper">
           <div className="column">
-            <img loading="lazy" src={goodHands} alt="In Good Hands" />
+            <img loading="lazy" src={goodHands} alt="בידיים טובות" />
           </div>
           <div className="column-2">
             <span className="caption">
@@ -78,40 +77,40 @@ export const LandingPage: React.FC = () => {
                 loading="lazy"
                 src={rectangle}
                 className="img-2"
-                alt="Rectangle"
+                alt="מלבן"
               />
-              <div className="description">You're in good hands</div>
+              <div className="description">אתם בידיים טובות</div>
               <div className="text">
                 <p>
-                  Welcome to our real estate platform, where dreams find their
-                  perfect home.
+                  ברוכים הבאים לפלטפורמת הנדל"ן שלנו, שם חלומות מוצאים את ביתם
+                  המושלם.
                 </p>
                 <p>
-                  At WeRent, we understand that finding the ideal property is
-                  more than just a transaction;
+                  ב-WeRent, אנו מבינים כי מציאת הנכס האידיאלי היא יותר מאשר
+                  עסקה.{' '}
                 </p>
-                it's about finding the place where memories are made, where
-                families grow, and where individuals thrive.
+                זהו תהליך של מציאת מקום שבו נוצרים זיכרונות, שבו משפחות גדלות,
+                ושבו אנשים פורחים.
                 <p>
-                  With a commitment to excellence and personalized service, we
-                  strive to connect buyers and sellers to their ideal properties
-                  seamlessly.
+                  עם מחויבות למצוינות ושירות אישי, אנו שואפים לחבר בין קונים
+                  ומוכרים לנכסים האידיאליים שלהם בצורה חלקה.
                 </p>
-                Our team of experienced professionals is dedicated to guiding
-                you through every step of the real estate journey, ensuring that
-                each transaction is smooth, transparent, and tailored to your
-                unique needs. Whether you're searching for your dream home or
-                looking to list your property, trust us to be your partner in
-                realizing your real estate aspirations.
+                הצוות שלנו מורכב מאנשי מקצוע מנוסים, שמסורים להדרכתכם בכל שלב
+                בתהליך הנדל"ן, ולהבטיח שכל עסקה תתנהל בצורה חלקה, שקופה ומותאמת
+                לצרכים הייחודיים שלכם.
+                <p>
+                  בין אם אתם מחפשים את בית החלומות שלכם או מעוניינים לפרסם נכס,
+                  סמכו עלינו כשותפים שלכם בהגשמת שאיפות הנדל"ן שלכם.
+                </p>
               </div>
               <span className="link2">
-                <div className="button">Learn more</div>
+                <div className="button">למידע נוסף</div>
                 <div className="img-container">
                   <img
                     loading="lazy"
                     src={tellow}
                     className="img-3"
-                    alt="Listing image"
+                    alt="תמונת נכס"
                   />
                 </div>
               </span>
@@ -121,11 +120,11 @@ export const LandingPage: React.FC = () => {
       </div>
 
       <div className="Box">
-        <img loading="lazy" src={rectangle} className="img-2" alt="Rectangle" />
+        <img loading="lazy" src={rectangle} className="img-2" alt="מלבן" />
       </div>
 
       <div className="Quote">
-        "The secret to succeeding at something is to just start doing it."
+        "הסוד להצלחה במשהו הוא פשוט להתחיל לעשות אותו."
       </div>
 
       <div className="Reviews">

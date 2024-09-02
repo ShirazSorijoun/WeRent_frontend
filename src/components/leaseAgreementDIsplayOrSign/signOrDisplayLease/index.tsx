@@ -4,11 +4,11 @@ import { Button } from '@mui/material';
 import { ILeaseAgreement } from '@/models/leaseAgreement';
 import { useAppSelector } from '@/hooks';
 import { selectUserId } from '@/stores/user';
-import { LeaseAgreementFormDialog } from '@@/CreateLeaseAgreement';
+import { LeaseAgreementDIsplayOrSignDialog } from '../leaseAgreementDIsplayOrSignDialog';
 
 interface IProps {
   lease: ILeaseAgreement;
-  refreshList: () => void;
+  refreshList?: () => void;
 }
 
 export const SignOrDisplayLease: React.FC<IProps> = ({
@@ -28,7 +28,7 @@ export const SignOrDisplayLease: React.FC<IProps> = ({
 
   const completeSave = useCallback(async () => {
     setLeaseDialogOpen(false);
-    await refreshList();
+    if (refreshList) await refreshList();
   }, [refreshList]);
 
   const isNeedSignature = useMemo(
@@ -45,10 +45,9 @@ export const SignOrDisplayLease: React.FC<IProps> = ({
         {isNeedSignature ? 'לחתימה על החוזה' : 'לצפייה בחוזה'}
       </Button>
       {leaseDialogOpen && (
-        <LeaseAgreementFormDialog
+        <LeaseAgreementDIsplayOrSignDialog
           isOpen={leaseDialogOpen}
           lease={lease}
-          isForSignature
           handleCancel={closeLeaseDialog}
           completeSave={completeSave}
         />

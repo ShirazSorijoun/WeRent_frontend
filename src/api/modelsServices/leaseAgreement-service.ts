@@ -1,7 +1,7 @@
 import { ILeaseAgreement, ILeaseAgreementForm } from '@/models/leaseAgreement';
 import { axiosInstance } from '../api';
 
-const API_KEY = '/leaseAgreement';
+export const LEASE_API_KEY = '/leaseAgreement';
 
 export const postLeaseAgreementForm = async (
   formData: ILeaseAgreementForm,
@@ -9,7 +9,7 @@ export const postLeaseAgreementForm = async (
   apartmentId: string,
 ): Promise<ILeaseAgreementForm> =>
   (console.log('formData', formData),
-  await axiosInstance.post(`${API_KEY}/create`, {
+  await axiosInstance.post(`${LEASE_API_KEY}/create`, {
     leaseAgreement: formData,
     tenantId,
     apartmentId,
@@ -20,7 +20,7 @@ export const updateLeaseAgreement = async (
   leaseId: string,
 ): Promise<ILeaseAgreementForm> =>
   (
-    await axiosInstance.patch(`${API_KEY}/update`, {
+    await axiosInstance.patch(`${LEASE_API_KEY}/update`, {
       updatedLeaseAgreement: formData,
       leaseId,
     })
@@ -31,7 +31,7 @@ export const getLeaseAgreementByApartmentAndTenant = async (
   apartmentId: string,
 ): Promise<ILeaseAgreement> =>
   (
-    await axiosInstance.get(`${API_KEY}/byApartmentAndTenant`, {
+    await axiosInstance.get(`${LEASE_API_KEY}/byApartmentAndTenant`, {
       params: { tenantId, apartmentId },
     })
   ).data;
@@ -44,7 +44,7 @@ export const getLeaseAgreementByApartmentId = async (
 
   try {
     const response = await axiosInstance.get(
-      `${API_KEY}/byApartment/${apartment}`,
+      `${LEASE_API_KEY}/byApartment/${apartment}`,
     );
     return response.data;
   } catch (error) {
@@ -54,4 +54,20 @@ export const getLeaseAgreementByApartmentId = async (
 };
 
 export const getLeaseAgreementList = async (): Promise<ILeaseAgreement[]> =>
-  (await axiosInstance.get(`${API_KEY}/list`)).data;
+  (await axiosInstance.get(`${LEASE_API_KEY}/list`)).data;
+
+export const getLeaseAgreementById = async (
+  leaseId: string,
+): Promise<ILeaseAgreement> =>
+  (await axiosInstance.get(`${LEASE_API_KEY}/id/${leaseId}`)).data;
+
+export const addSignatureToLease = async (
+  signatureUrl: string,
+  leaseId: string,
+): Promise<ILeaseAgreement> =>
+  (
+    await axiosInstance.post(`${LEASE_API_KEY}/addSignature`, {
+      signatureUrl,
+      leaseId,
+    })
+  ).data;

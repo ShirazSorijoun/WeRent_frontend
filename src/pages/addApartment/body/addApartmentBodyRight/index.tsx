@@ -18,13 +18,13 @@ export const AddApartmentBodyRight: React.FC<IProps> = ({ control }) => {
   return (
     <Grid container direction="column">
       <Grid item container direction="row" justifyContent="space-between">
-        <Grid item>
+        <Grid item sx={style.numApartmentDetailsRowItem}>
           <BasicFieldController
             control={control}
             fieldData={apartmentFormDataObject[EApartmentFields.CITY]}
           />
         </Grid>
-        <Grid item>
+        <Grid item sx={style.numApartmentDetailsRowItem}>
           <BasicFieldController
             control={control}
             fieldData={apartmentFormDataObject[EApartmentFields.ADDRESS]}
