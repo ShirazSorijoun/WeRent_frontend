@@ -51,11 +51,12 @@ export const leaseAgreementFormDataObject: Record<
   },
   [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH}`,
-    label: 'דמי השכירות לחודש',
+    label:
+      'עבור שכירת הדירה במהלך תקופת השכירות ישלם השוכר לבעל הדירה דמי שכירות כל חודש בש"ח עבור הסכום (להלן: "דמי השכירות"):',
   },
   [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT}`,
-    label: 'מספר יום קבוע בחודש בו משולמים דמי השכירות',
+    label: 'דמי השכירות ישלומו כל חודש ביום לחודש אשר במספר:',
   },
   [ELeaseAgreementFields.PAYMENT_METHOD]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.PAYMENT_METHOD}`,
@@ -67,7 +68,7 @@ export const leaseAgreementFormDataObject: Record<
   },
   [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.BANK_ACCOUNT_NUMBER}`,
-    label: 'מספר חשבון הבנק',
+    label: 'מספר החשבון ',
   },
   [ELeaseAgreementFields.BANK_BRANCH]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.BANK_BRANCH}`,
@@ -124,13 +125,13 @@ export const leaseAgreementFormDataObject: Record<
 };
 
 export const paymentMethodFieldValues: IControlledSelectArray<string> = [
-  { display: 'Bank Transfer', value: 'Bank Transfer' },
-  { display: 'Checks', value: 'Checks' },
+  { display: 'העברה בנקאית', value: 'Bank Transfer' },
+  { display: "צ'קים", value: 'Checks' },
 ];
 
 export const guaranteeFieldValues: IControlledSelectArray<string> = [
-  { display: 'Financial deposit', value: 'Financial deposit' },
-  { display: 'Autonomous bank guarantee', value: 'Autonomous bank guarantee' },
+  { display: 'פיקדון כספי', value: 'Financial deposit' },
+  { display: 'ערבות בנקאית אוטונומית', value: 'Autonomous bank guarantee' },
 ];
 
 export const schema = z.object({
