@@ -108,7 +108,7 @@ export const leaseAgreementFormDataObject: Record<
   },
   [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.LETTER_OF_GUARANTEE}`,
-    label: 'כתה ערבות',
+    label: 'כתב ערבות',
   },
   [ELeaseAgreementFields.GUARANTEE]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.GUARANTEE}`,
