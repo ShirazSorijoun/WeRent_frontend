@@ -39,98 +39,99 @@ export const leaseAgreementFormDataObject: Record<
 > = {
   [ELeaseAgreementFields.DATE]: {
     fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.DATE}`,
-    label: 'תאריך חתימה',
+    label: 'שנערך ונחתם בתאריך',
   },
   [ELeaseAgreementFields.START_DATE]: {
     fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.START_DATE}`,
-    label: 'Start Date',
+    label: 'כך שתחל ביום',
   },
   [ELeaseAgreementFields.END_DATE]: {
     fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.END_DATE}`,
-    label: 'End Date',
+    label: 'ותסתיים ביום',
   },
   [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH}`,
-    label: 'Rental Price per Month',
+    label:
+      'עבור שכירת הדירה במהלך תקופת השכירות ישלם השוכר לבעל הדירה דמי שכירות כל חודש בש"ח עבור הסכום (להלן: "דמי השכירות"):',
   },
   [ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.DAY_OF_THE_MONTH_FOR_PAYMENT}`,
-    label: 'Day of the Month for Payment',
+    label: 'דמי השכירות ישלומו כל חודש ביום לחודש אשר במספר:',
   },
   [ELeaseAgreementFields.PAYMENT_METHOD]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.PAYMENT_METHOD}`,
-    label: 'Payment Method',
+    label: 'חלופת תשלום',
   },
   [ELeaseAgreementFields.NAME_OF_BANK]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.NAME_OF_BANK}`,
-    label: 'Name of Bank',
+    label: 'שם הבנק',
   },
   [ELeaseAgreementFields.BANK_ACCOUNT_NUMBER]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.BANK_ACCOUNT_NUMBER}`,
-    label: 'Bank Account Number',
+    label: 'מספר החשבון ',
   },
   [ELeaseAgreementFields.BANK_BRANCH]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.BANK_BRANCH}`,
-    label: 'Bank Branch',
+    label: 'סניף הבנק',
   },
   [ELeaseAgreementFields.OPTION_PERIOD]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.OPTION_PERIOD}`,
-    label: 'Option Period',
+    label: 'תקופת אופציה',
   },
   [ELeaseAgreementFields.OPTION_PERIOD_LENGTH]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.OPTION_PERIOD_LENGTH}`,
-    label: 'Option Period Length',
+    label: 'כמות חודשי הארכה',
   },
   [ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.MAX_PERCENTAGE_INCREASE}`,
-    label: 'Maximum Percentage Increase',
+    label: 'מקסימום התייקרות באחוזים',
   },
   [ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR]: {
     fieldName: `${THIRD_STEP_NAME}.${ELeaseAgreementFields.NUM_OF_DAYS_FOR_REPAIR}`,
-    label: 'Number of Days for Repair',
+    label: 'מספר ימים לתיקון תקלה/פגם',
   },
   [ELeaseAgreementFields.SUBTENANT]: {
     fieldName: `${THIRD_STEP_NAME}.${ELeaseAgreementFields.SUBTENANT}`,
-    label: 'Subtenant Allowed',
+    label: 'הסכמה לשוכר חלופי',
   },
   [ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY]: {
     fieldName: `${THIRD_STEP_NAME}.${ELeaseAgreementFields.NUM_OF_DAYS_PAYMENT_DELAY}`,
-    label: 'Number of Days Payment Delay',
+    label: 'מספר ימי עיכוב בתשלום דמי השכירות',
   },
   [ELeaseAgreementFields.PROMISSORY_NOTE]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.PROMISSORY_NOTE}`,
-    label: 'Promissory Note',
+    label: 'שטר חוב',
   },
   [ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.PROMISSORY_NOTE_AMOUNT}`,
-    label: 'Promissory Note Amount',
+    label: 'סך שטר החוב',
   },
   [ELeaseAgreementFields.LETTER_OF_GUARANTEE]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.LETTER_OF_GUARANTEE}`,
-    label: 'Letter of Guarantee',
+    label: 'כתה ערבות',
   },
   [ELeaseAgreementFields.GUARANTEE]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.GUARANTEE}`,
-    label: 'Guarantee',
+    label: 'סוג ביטחון',
   },
   [ELeaseAgreementFields.GUARANTEE_AMOUNT]: {
     fieldName: `${FORTH_STEP_NAME}.${ELeaseAgreementFields.GUARANTEE_AMOUNT}`,
-    label: 'Guarantee Amount',
+    label: 'סך הביטחון',
   },
   [ELeaseAgreementFields.ANIMAL]: {
     fieldName: `${FIFTH_STEP_NAME}.${ELeaseAgreementFields.ANIMAL}`,
-    label: 'Animal Allowed',
+    label: 'אי הסכמה לבעלי חיים',
   },
 };
 
 export const paymentMethodFieldValues: IControlledSelectArray<string> = [
-  { display: 'Bank Transfer', value: 'Bank Transfer' },
-  { display: 'Checks', value: 'Checks' },
+  { display: 'העברה בנקאית', value: 'Bank Transfer' },
+  { display: "צ'קים", value: 'Checks' },
 ];
 
 export const guaranteeFieldValues: IControlledSelectArray<string> = [
-  { display: 'Financial deposit', value: 'Financial deposit' },
-  { display: 'Autonomous bank guarantee', value: 'Autonomous bank guarantee' },
+  { display: 'פיקדון כספי', value: 'Financial deposit' },
+  { display: 'ערבות בנקאית אוטונומית', value: 'Autonomous bank guarantee' },
 ];
 
 export const schema = z.object({
