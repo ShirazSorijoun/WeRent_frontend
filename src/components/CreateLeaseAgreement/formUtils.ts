@@ -39,15 +39,15 @@ export const leaseAgreementFormDataObject: Record<
 > = {
   [ELeaseAgreementFields.DATE]: {
     fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.DATE}`,
-    label: 'תאריך חתימה',
+    label: 'שנערך ונחתם בתאריך',
   },
   [ELeaseAgreementFields.START_DATE]: {
     fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.START_DATE}`,
-    label: 'תאריך תחילת החוזה',
+    label: 'כך שתחל ביום',
   },
   [ELeaseAgreementFields.END_DATE]: {
     fieldName: `${FIRST_STEP_NAME}.${ELeaseAgreementFields.END_DATE}`,
-    label: 'תאריך סיום החוזה',
+    label: 'ותסתיים ביום',
   },
   [ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH]: {
     fieldName: `${SECOND_STEP_NAME}.${ELeaseAgreementFields.RENTAL_PRICE_PER_MONTH}`,
