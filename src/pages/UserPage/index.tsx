@@ -17,7 +17,7 @@ export const UserPage: React.FC = () => {
 
   const userData = useAppSelector(selectUser);
 
-  const fetchLeaseData = useCallback(async (): Promise<void> => {
+  const fetchMatchData = useCallback(async (): Promise<void> => {
     if (!userData.userId) return;
 
     try {
@@ -40,8 +40,8 @@ export const UserPage: React.FC = () => {
   }, [userData.userId]);
 
   useEffect(() => {
-    fetchLeaseData();
-  }, [fetchLeaseData]);
+    fetchMatchData();
+  }, [fetchMatchData]);
 
   return (
     <Container maxWidth="xl">
@@ -56,7 +56,10 @@ export const UserPage: React.FC = () => {
           <UserDetails userData={userData} />
         </Grid>
         <Grid item xs={1}>
-          <UserApartmentsContainer matchesMap={matchesMap} />
+          <UserApartmentsContainer
+            matchesMap={matchesMap}
+            refreshData={fetchMatchData}
+          />
         </Grid>
         <Grid item xs={1}>
           <UserRentingApartmentsContainer

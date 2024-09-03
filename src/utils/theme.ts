@@ -3,6 +3,11 @@ import { createTheme } from '@mui/material';
 export const defaultTheme = createTheme({
   direction: 'rtl',
   components: {
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: { direction: 'rtl' },
+      },
+    },
     MuiListItem: {
       styleOverrides: {
         root: { padding: '8px 0px' },

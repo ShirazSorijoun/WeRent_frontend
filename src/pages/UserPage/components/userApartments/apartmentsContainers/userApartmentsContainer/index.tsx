@@ -7,9 +7,13 @@ import { BasicUserApartmentsContainer } from '../basicUserApartmentsContainer';
 
 interface IProps {
   matchesMap: IMatchMap;
+  refreshData?: () => void;
 }
 
-export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
+export const UserApartmentsContainer: React.FC<IProps> = ({
+  matchesMap,
+  refreshData,
+}) => {
   const [userApartments, setUserApartments] = useState<IApartment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,6 +32,11 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
     getUserApartment();
   }, []);
 
+  const refreshAllData = async (): Promise<void> => {
+    await getUserApartment();
+    if (refreshData) await refreshData();
+  };
+
   return (
     <BasicUserApartmentsContainer title="הדירות שלי" isLoading={isLoading}>
       {userApartments?.length > 0 ? (
@@ -36,7 +45,7 @@ export const UserApartmentsContainer: React.FC<IProps> = ({ matchesMap }) => {
             <OwnerApartmentCard
               matchesList={matchesMap[apartment._id] ?? []}
               apartment={apartment}
-              refreshData={getUserApartment}
+              refreshData={refreshAllData}
               key={apartment._id}
             />
           ))}
